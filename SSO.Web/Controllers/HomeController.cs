@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using SSO.Web.Models;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
     public class HomeController : Controller
     {
+        [AllowAnonymous]
         public ActionResult Index()
         {
-            
+
             return View();
         }
-       
-        public ActionResult GetData()
+        public ActionResult IsLogin()
         {
-            return Content("data");
+            bool b = User.Identity.IsAuthenticated;
+            return new ResponseModel<string>(ErrorCode.success, User.Identity.Name);
         }
-        
+
     }
 }

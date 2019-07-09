@@ -3,89 +3,38 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SSO.Util
 {
     public class JwtManager
     {
         private static string secretKey = ConfigurationManager.AppSettings["secretKey"];
-        public static string GenerateToken(string username, int expireMinutes = 20)
+        private static string issuer = ConfigurationManager.AppSettings["issuer"];
+        public static string GenerateToken(string userId, string userName, IEnumerable<string> roles, string ip)
         {
             var symmetricKey = Convert.FromBase64String(secretKey);
             var tokenHandler = new JwtSecurityTokenHandler();
-
-            var now = DateTime.UtcNow;
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, userId),
+                new Claim("StaffName",userName)
+            };
+            foreach (string role in roles) claims.Add(new Claim("Role", role));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, username)
-                }),
-
-                Expires = now.AddMinutes(Convert.ToInt32(expireMinutes)),
-
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(symmetricKey),
-                    SecurityAlgorithms.HmacSha256Signature)
+                Subject = new ClaimsIdentity(claims),  //token数据
+                Issuer = issuer,                       //颁发者
+                IssuedAt = DateTime.Now,               //颁发时间
+                Audience = ip,                         //颁发给
+                Expires = DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59), //过期时间
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(symmetricKey), SecurityAlgorithms.HmacSha256Signature)   //签名
             };
 
             var stoken = tokenHandler.CreateToken(tokenDescriptor);
             var token = tokenHandler.WriteToken(stoken);
 
             return token;
-        }
-        public static bool ValidateToken(string token, out string username)
-        {
-            username = null;
-
-            var simplePrinciple = JwtManager.GetPrincipal(token);
-            if (simplePrinciple == null) return false;
-            var identity = simplePrinciple.Identity as ClaimsIdentity;
-
-            if (identity == null) return false;
-
-            if (!identity.IsAuthenticated) return false;
-
-            var usernameClaim = identity.FindFirst(ClaimTypes.Name);
-            username = usernameClaim?.Value;
-
-            if (string.IsNullOrEmpty(username)) return false;
-
-            return true;
-        }
-        public static ClaimsPrincipal GetPrincipal(string token)
-        {
-            try
-            {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
-
-                if (jwtToken == null) return null;
-
-                var symmetricKey = Convert.FromBase64String(secretKey);
-
-                var validationParameters = new TokenValidationParameters()
-                {
-                    RequireExpirationTime = true,
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(symmetricKey)
-                };
-
-                SecurityToken securityToken;
-                var principal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
-
-                return principal;
-            }
-            catch (Exception ex)
-            {
-                Log4Net.ErrorLog(ex);
-                return null;
-            }
         }
     }
 }

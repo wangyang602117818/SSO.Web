@@ -5,13 +5,12 @@
         /// <summary>
         /// 成功
         /// </summary>
-
         success = 0,
         /// <summary>
         /// 重定向
         /// </summary>
         redirect = 1,
-        
+
         authcode_is_null = 101,
         app_not_exist = 102,
         app_blocked = 103,
@@ -42,9 +41,8 @@
         /// 权限不足
         /// </summary>
         authorize_fault = 401,
-
         invalid_token = 402,
-     
+        token_expired = 403,
         /// <summary>
         /// 任务未完成
         /// </summary>
@@ -52,7 +50,6 @@
         /// <summary>
         /// 未知错误
         /// </summary>
-        server_exception = -1000,
-        unknow_error = -1001,
+        server_exception = -1000
     }
 }
