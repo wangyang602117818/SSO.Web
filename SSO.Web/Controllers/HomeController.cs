@@ -1,4 +1,5 @@
-﻿using SSO.Web.Models;
+﻿using SSO.Web.Filters;
+using SSO.Web.Models;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
@@ -16,6 +17,9 @@ namespace SSO.Web.Controllers
             bool b = User.Identity.IsAuthenticated;
             return new ResponseModel<string>(ErrorCode.success, User.Identity.Name);
         }
-
+        public ActionResult CheckAdmin()
+        {
+            return new ResponseModel<string>(ErrorCode.success, User.Identity.Name);
+        }
     }
 }

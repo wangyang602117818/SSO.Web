@@ -12,12 +12,13 @@ namespace SSO.Web.Controllers
         {
             //if (userModel.UserName == "wang" && userModel.PassWord == "123")
             //{
-                return new ResponseModel<string>(ErrorCode.success, JwtManager.GenerateToken("123", "wang", new string[] { "admin", "read" }, Request.UserHostAddress));
+                return new ResponseModel<string>(ErrorCode.success, JwtManager.GenerateToken("123", "wang", new string[] { "read","edit" }, Request.UserHostAddress));
             //}
             //else
             //{
             //    return new ResponseModel<string>(ErrorCode.authorize_fault, "");
             //}
+            
         }
 
 

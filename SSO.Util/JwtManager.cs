@@ -20,7 +20,7 @@ namespace SSO.Util
                 new Claim(ClaimTypes.Name, userId),
                 new Claim("StaffName",userName)
             };
-            foreach (string role in roles) claims.Add(new Claim("Role", role));
+            foreach (string role in roles) claims.Add(new Claim(ClaimTypes.Role, role));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),  //token数据
@@ -30,10 +30,8 @@ namespace SSO.Util
                 Expires = DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59), //过期时间
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(symmetricKey), SecurityAlgorithms.HmacSha256Signature)   //签名
             };
-
             var stoken = tokenHandler.CreateToken(tokenDescriptor);
             var token = tokenHandler.WriteToken(stoken);
-
             return token;
         }
     }

@@ -9,7 +9,7 @@ namespace SSO.Web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new JwtAuthorize());
+            filters.Add(new JwtAuthorizeAttribute());
             filters.Add(new MyHandleErrorAttribute());
             filters.Add(new ValidateModelStateAttribute());
         }
