@@ -27,7 +27,7 @@ namespace SSO.Util
                 Issuer = issuer,                       //颁发者
                 IssuedAt = DateTime.Now,               //颁发时间
                 Audience = ip,                         //颁发给
-                Expires = DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59), //过期时间
+                Expires = DateTime.Now.AddDays(1), //过期时间
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(symmetricKey), SecurityAlgorithms.HmacSha256Signature)   //签名
             };
             var stoken = tokenHandler.CreateToken(tokenDescriptor);

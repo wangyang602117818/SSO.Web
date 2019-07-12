@@ -14,7 +14,7 @@ namespace SSO.Web.Filters
 {
     public class JwtAuthorizeAttribute : AuthorizeAttribute
     {
-        private static string secretKey = ConfigurationManager.AppSettings["secretKey"];
+        private static string secretKey = "4BjYRfucszV9YjqAjnSUbmyxNv1FyAeVeUkBTi1VTWc=";
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             IEnumerable<CustomAttributeData> customAttributes = ((ReflectedActionDescriptor)filterContext.ActionDescriptor).MethodInfo.CustomAttributes;
