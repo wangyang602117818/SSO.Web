@@ -9,30 +9,43 @@ namespace SSO.Util
 {
     public class JwtManager
     {
-        private static string secretKey = ConfigurationManager.AppSettings["secretKey"];
-        private static string issuer = ConfigurationManager.AppSettings["issuer"];
-        public static string GenerateToken(string userId, string userName, IEnumerable<string> roles, string ip)
+        public static string secretKey = ConfigurationManager.AppSettings["secretKey"];
+        public static string issuer = ConfigurationManager.AppSettings["issuer"];
+        public static string GenerateToken(string userId, string userName, IEnumerable<string> roles, string ip, int minutes)
         {
             var symmetricKey = Convert.FromBase64String(secretKey);
             var tokenHandler = new JwtSecurityTokenHandler();
-            var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, userId),
-                new Claim("StaffName",userName)
-            };
-            foreach (string role in roles) claims.Add(new Claim(ClaimTypes.Role, role));
+            var claims = new List<Claim>() { new Claim(ClaimTypes.Name, userId) };
+            if (!string.IsNullOrEmpty(userName)) claims.Add(new Claim("StaffName", userName));
+            if (roles != null)
+                foreach (string role in roles) claims.Add(new Claim(ClaimTypes.Role, role));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),  //token数据
                 Issuer = issuer,                       //颁发者
                 IssuedAt = DateTime.Now,               //颁发时间
                 Audience = ip,                         //颁发给
-                Expires = DateTime.Now.AddDays(1), //过期时间
+                Expires = DateTime.Now.AddMinutes(minutes), //过期时间
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(symmetricKey), SecurityAlgorithms.HmacSha256Signature)   //签名
             };
             var stoken = tokenHandler.CreateToken(tokenDescriptor);
             var token = tokenHandler.WriteToken(stoken);
             return token;
+        }
+        public static string GenerateTicket(string userId)
+        {
+            string sourceString = DateTime.Now.ToString("yyyy-MM-dd") + userId + DateTime.Now.ToString("HH:mm:ss");
+            string ticket = SymmetricEncryptHelper.AesEncode(sourceString, secretKey);
+            return Base64SecureURL.Encode(ticket);
+        }
+        public static string DecodeTicket(string ticket)
+        {
+            string sourceString = SymmetricEncryptHelper.AesDecode(Base64SecureURL.Decode(ticket), secretKey);
+            string userId = sourceString.Substring(10, sourceString.Length - 18);
+            DateTime ticketTime = DateTime.Parse(sourceString.Substring(0, 10) + " " + sourceString.Substring(10 + userId.Length));
+            var diff = DateTime.Now - ticketTime;
+            if (diff.TotalSeconds > 30) return "";
+            return userId;
         }
     }
 }

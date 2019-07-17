@@ -1,10 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using SSO.Util;
 using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Web;
@@ -14,7 +13,6 @@ namespace SSO.Web.Filters
 {
     public class JwtAuthorizeAttribute : AuthorizeAttribute
     {
-        private static string secretKey = "4BjYRfucszV9YjqAjnSUbmyxNv1FyAeVeUkBTi1VTWc=";
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             IEnumerable<CustomAttributeData> customAttributes = ((ReflectedActionDescriptor)filterContext.ActionDescriptor).MethodInfo.CustomAttributes;
@@ -23,13 +21,7 @@ namespace SSO.Web.Filters
                 if (c.AttributeType.Name == "AllowAnonymousAttribute") return;
             }
             HttpRequestBase request = filterContext.HttpContext.Request;
-            string authorization = "";
-            string authHeader = request.Headers["Authorization"];
-            string authQuery = request["Authorization"];
-            string authCookie = request.Cookies["Authorization"] == null ? "" : request.Cookies["Authorization"].Value;
-            if (!string.IsNullOrEmpty(authHeader)) authorization = authHeader;
-            if (!string.IsNullOrEmpty(authQuery)) authorization = authQuery;
-            if (!string.IsNullOrEmpty(authCookie)) authorization = authCookie;
+            string authorization = request.Cookies[request.Url.Host + ".auth"] == null ? "" : request.Cookies[request.Url.Host + ".auth"].Value;
             if (string.IsNullOrEmpty(authorization))
             {
                 filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
@@ -38,20 +30,7 @@ namespace SSO.Web.Filters
             {
                 try
                 {
-                    var tokenHandler = new JwtSecurityTokenHandler();
-                    var symmetricKey = Convert.FromBase64String(secretKey);
-                    var validationParameters = new TokenValidationParameters()
-                    {
-                        RequireExpirationTime = true,
-                        ValidateIssuer = false,
-                        ValidAudience = HttpContext.Current.Request.UserHostAddress,
-                        ValidateAudience = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(symmetricKey)
-                    };
-                    SecurityToken securityToken;
-                    var principal = tokenHandler.ValidateToken(authorization, validationParameters, out securityToken);
-                    filterContext.HttpContext.User = principal;
-
+                    filterContext.HttpContext.User = ParseToken(authorization);
                     if (!CheckRole(filterContext)) filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
                 }
                 catch (SecurityTokenInvalidAudienceException ex) //Audience Error 
@@ -67,6 +46,21 @@ namespace SSO.Web.Filters
                     filterContext.Result = new ResponseModel<string>(ErrorCode.invalid_token, "");
                 }
             }
+        }
+        public static ClaimsPrincipal ParseToken(string authorization)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var symmetricKey = Convert.FromBase64String(JwtManager.secretKey);
+            var validationParameters = new TokenValidationParameters()
+            {
+                RequireExpirationTime = true,
+                ValidateIssuer = false,
+                ValidAudience = HttpContext.Current.Request.UserHostAddress,
+                ValidateAudience = true,
+                IssuerSigningKey = new SymmetricSecurityKey(symmetricKey)
+            };
+            SecurityToken securityToken;
+            return tokenHandler.ValidateToken(authorization, validationParameters, out securityToken);
         }
         private bool CheckRole(AuthorizationContext filterContext)
         {
