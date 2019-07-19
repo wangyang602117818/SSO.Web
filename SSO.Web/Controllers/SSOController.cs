@@ -2,6 +2,7 @@
 using SSO.Web.Filters;
 using SSO.Web.Models;
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
@@ -48,7 +49,7 @@ namespace SSO.Web.Controllers
                 string userId = "CN445379";
                 string ticket = JwtManager.GenerateTicket(userId);
                 returnUrl = AppendTicket(returnUrl, ticket);
-                string token = JwtManager.GenerateToken(userId, "", null, Request.UserHostAddress, 60 * 24);
+                string token = JwtManager.GenerateToken(userId, "", null, Request.UserHostAddress, 24 * 60);
                 Response.Cookies.Add(new System.Web.HttpCookie(Request.Url.Host + ".auth", token));
                 return Redirect(returnUrl);
             }
@@ -56,6 +57,10 @@ namespace SSO.Web.Controllers
             {
                 return new ResponseModel<string>(ErrorCode.login_fault, "");
             }
+        }
+        public ActionResult LogOut()
+        {
+
         }
         private string AppendTicket(string url, string ticket)
         {

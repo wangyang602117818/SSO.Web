@@ -54,6 +54,7 @@ namespace SSO.Web.Filters
             var validationParameters = new TokenValidationParameters()
             {
                 RequireExpirationTime = true,
+                ValidateLifetime = false,
                 ValidateIssuer = false,
                 ValidAudience = HttpContext.Current.Request.UserHostAddress,
                 ValidateAudience = true,

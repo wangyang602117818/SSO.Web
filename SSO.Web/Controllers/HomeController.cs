@@ -23,6 +23,12 @@ namespace SSO.Web.Controllers
         {
             return Content(JwtManager.DecodeTicket(ticket));
         }
+        [AllowAnonymous]
+        public ActionResult DecodeToken(string token)
+        {
+            var result = JwtAuthorizeAttribute.ParseToken(token);
+            return Content(result.Identity.Name);
+        }
         public ActionResult IsLogin()
         {
             return new ResponseModel<string>(ErrorCode.success, User.Identity.Name);
