@@ -83,6 +83,25 @@ namespace SSO.Util
             return Encoding.UTF8.GetString(bytes);
         }
         /// <summary>
+        /// string 转成 url 安全的base64 编码
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string StrToBase64(this string str)
+        {
+            string base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(str));
+            return Base64SecureURL.Encode(base64);
+        }
+        /// <summary>
+        /// url 安全的base64 编码 转 string
+        /// </summary>
+        /// <returns></returns>
+        public static string Base64ToStr(this string base64)
+        {
+            base64 = Base64SecureURL.Decode(base64);
+            return Encoding.UTF8.GetString(Convert.FromBase64String(base64));
+        }
+        /// <summary>
         /// base64字符串转UTF8字节数组
         /// </summary>
         /// <param name="base64Str"></param>

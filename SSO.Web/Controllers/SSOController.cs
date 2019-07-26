@@ -1,40 +1,51 @@
-﻿using SSO.Util;
+﻿using Newtonsoft.Json;
+using SSO.Util;
 using SSO.Web.Filters;
 using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
     public class SSOController : Controller
     {
+        public static int cookieTime = int.Parse(ConfigurationManager.AppSettings["cookieTime"]);
+        [AllowAnonymous]
+        public ActionResult Index()
+        {
+            List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(Request.Cookies["ssourls"].Value.Base64ToStr());
+            ViewBag.ssoUrls = ssoUrls;
+            return View();
+        }
         [AllowAnonymous]
         public ActionResult GetToken(string ticket)
         {
             string userId = JwtManager.DecodeTicket(ticket);
-            if (userId == "") return new ResponseModel<string>(ErrorCode.success, "");
-            string token = JwtManager.GenerateToken(userId, "", new string[] { "read", "edit" }, Request.UserHostAddress, 60);
+            string token = userId == "" ? "" : JwtManager.GenerateToken(userId, "", new string[] { "read", "edit" }, Request.UserHostAddress, 20);
             return new ResponseModel<string>(ErrorCode.success, token);
         }
-        [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             var authorization = Request.Cookies[Request.Url.Host + ".auth"];
-            //其他系统登录
-            if (authorization != null)
+            if (authorization != null)  //sso login
             {
                 try
                 {
                     var userId = JwtAuthorizeAttribute.ParseToken(authorization.Value).Identity.Name;
                     string ticket = JwtManager.GenerateTicket(userId);
-                    returnUrl = AppendTicket(returnUrl, ticket);
+                    returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
+                    authorization.Expires = DateTime.Now.AddMinutes(cookieTime);
+                    Response.Cookies.Add(authorization);
+                    JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl, cookieTime);  //sso退出用
                     return Redirect(returnUrl);
                 }
                 catch (Exception ex)
                 {
-
+                    Log4Net.InfoLog(ex);
                 }
             }
             ViewBag.returnUrl = returnUrl;
@@ -48,9 +59,12 @@ namespace SSO.Web.Controllers
             {
                 string userId = "CN445379";
                 string ticket = JwtManager.GenerateTicket(userId);
-                returnUrl = AppendTicket(returnUrl, ticket);
+                returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
                 string token = JwtManager.GenerateToken(userId, "", null, Request.UserHostAddress, 24 * 60);
-                Response.Cookies.Add(new System.Web.HttpCookie(Request.Url.Host + ".auth", token));
+                HttpCookie httpCookie = new HttpCookie(Request.Url.Host + ".auth", token);
+                httpCookie.Expires = DateTime.Now.AddMinutes(cookieTime);
+                Response.Cookies.Add(httpCookie);
+                JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl, cookieTime);  //sso退出用
                 return Redirect(returnUrl);
             }
             else
@@ -60,25 +74,17 @@ namespace SSO.Web.Controllers
         }
         public ActionResult LogOut()
         {
+            var authorization = Request.Cookies[Request.Url.Host + ".auth"];
+            if (authorization != null)
+            {
+                authorization.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(authorization);
+            }
+            var ssoUrl = Request.Cookies["ssourls"];
+            List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrl.Value.Base64ToStr());
+            return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrl.Value);
+        }
 
-        }
-        private string AppendTicket(string url, string ticket)
-        {
-            if (url.Contains("ticket"))
-            {
-                var index = url.IndexOf("ticket");
-                url = url.Substring(0, index - 1);
-            }
-            if (url.Contains("?"))
-            {
-                url += "&ticket=" + ticket;
-            }
-            else
-            {
-                url += "?ticket=" + ticket;
-            }
-            return url;
-        }
 
     }
 }

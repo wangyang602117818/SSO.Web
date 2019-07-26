@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using SSO.Util;
 using SSO.Web.Models;
 using System;
@@ -62,6 +63,43 @@ namespace SSO.Web.Filters
             };
             SecurityToken securityToken;
             return tokenHandler.ValidateToken(authorization, validationParameters, out securityToken);
+        }
+        public static string AppendTicket(string url, string ticket)
+        {
+            if (url.Contains("ticket"))
+            {
+                var index = url.IndexOf("ticket");
+                url = url.Substring(0, index - 1);
+            }
+            if (url.Contains("?"))
+            {
+                url += "&ticket=" + ticket;
+            }
+            else
+            {
+                url += "?ticket=" + ticket;
+            }
+            return url;
+        }
+        public static void AddUrlToCookie(HttpContextBase httpContext, string returnUrl, int cookieTime)
+        {
+            HttpCookie ssoUrlCookie = httpContext.Request.Cookies["ssourls"];
+            Uri uri = new Uri(returnUrl);
+            returnUrl = returnUrl.Replace(uri.Query, "");
+            if (ssoUrlCookie == null)
+            {
+                string returnUrls = JsonConvert.SerializeObject(new List<string>() { returnUrl });
+                HttpCookie cookie = new HttpCookie("ssourls", returnUrls.StrToBase64());
+                httpContext.Response.Cookies.Add(cookie);
+            }
+            else
+            {
+                List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlCookie.Value.Base64ToStr());
+                if (!ssoUrls.Contains(returnUrl)) ssoUrls.Add(returnUrl);
+                string returnUrls = JsonConvert.SerializeObject(ssoUrls);
+                HttpCookie cookie = new HttpCookie("ssourls", returnUrls.StrToBase64());
+                httpContext.Response.Cookies.Add(cookie);
+            }
         }
         private bool CheckRole(AuthorizationContext filterContext)
         {
