@@ -29,10 +29,6 @@ namespace SSO.Web.Controllers
             var result = JwtAuthorizeAttribute.ParseToken(token);
             return Content(result.Identity.Name);
         }
-        public ActionResult IsLogin()
-        {
-            return new ResponseModel<string>(ErrorCode.success, User.Identity.Name);
-        }
         
     }
 }
