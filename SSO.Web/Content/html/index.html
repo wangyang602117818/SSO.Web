@@ -19,18 +19,27 @@
         <div class="main">
             <div class="left_menu">
                 <ul>
-                    <li>概况预览</li>
-                    <li class="active">用户管理</li>
-                    <li>角色管理</li>
-                    <li>部门管理</li>
-                    <li>日志列表</li>
-                    <li>系统设置</li>
+                    <li>
+                        <a href="##">概况预览</a>
+                    </li>
+                    <li>
+                        <a href="#" class="nested">用户管理</a>
+                        <ul>
+                            <li class="active"><a href="#" >基本信息</a></li>
+                            <li><a href="#">登录信息</a></li>
+                            <li><a href="#">角色信息</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">角色管理</a></li>
+                    <li><a href="#">部门管理</a></li>
+                    <li><a href="#">日志列表</a></li>
+                    <li><a href="#">系统设置</a></li>
                 </ul>
             </div>
             <div class="right_menu_data">
                 <div class="menu_top">用户列表</div>
                 <div class="menu_search">
-                    <input type="text" name="search" class="input"/>
+                    <input type="text" name="search" class="input" />
                     <input type="button" name="btn" value=" 搜 索 " class="search" />
                 </div>
                 <div class="menu_content">
@@ -84,7 +93,7 @@
                     </table>
                 </div>
                 <div class="pagination">
-                   第 1/12 页 ,共 120 个 &nbsp;
+                    第 1/12 页 ,共 120 个 &nbsp;
                     <ul>
                         <li>首页</li>
                         <li>上一页</li>
