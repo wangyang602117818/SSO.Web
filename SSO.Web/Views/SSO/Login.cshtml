@@ -11,7 +11,7 @@
     <title>Login</title>
 </head>
 <body>
-    <form name="frm" action="~/home/login?returnUrl=@ViewBag.returnUrl" method="post">
+    <form name="frm" action="~/sso/login?returnUrl=@ViewBag.returnUrl" method="post">
         name:<input type="text" name="UserName" value="" /><br />
         password:<input type="text" name="PassWord" value="" /><br />
         <input type="submit" value="submit" />

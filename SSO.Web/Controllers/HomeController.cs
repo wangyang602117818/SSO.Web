@@ -1,48 +1,34 @@
 ﻿using SSO.Util;
+using SSO.Web.Filters;
 using SSO.Web.Models;
+using System;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
     public class HomeController : Controller
     {
-        [AllowAnonymous]
         public ActionResult Index()
         {
-
+            return Content(User.Identity.Name);
             return View();
         }
-        [HttpGet]
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Ticket()
         {
-            ViewBag.returnUrl = returnUrl;
-            return View();
+            return Content(JwtManager.GenerateTicket("CN445379"));
         }
-        [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(UserModel userModel, string returnUrl)
+        public ActionResult Decode(string ticket)
         {
-            if (userModel.UserName == "wang" && userModel.PassWord == "123")
-            {
-                string token = JwtManager.GenerateToken("cn445379", userModel.UserName, new string[] { "read", "edit" }, Request.UserHostAddress);
-               
-                return Redirect(returnUrl);
-                return new ResponseModel<string>(ErrorCode.success, token);
-            }
-            else
-            {
-                return new ResponseModel<string>(ErrorCode.login_fault, "");
-            }
+            return Content(JwtManager.DecodeTicket(ticket));
         }
-        public ActionResult IsLogin()
+        [AllowAnonymous]
+        public ActionResult DecodeToken(string token)
         {
-            bool b = User.Identity.IsAuthenticated;
-            return new ResponseModel<string>(ErrorCode.success, User.Identity.Name);
+            var result = JwtAuthorizeAttribute.ParseToken(token);
+            return Content(result.Identity.Name);
         }
-        public ActionResult CheckAdmin()
-        {
-            return new ResponseModel<string>(ErrorCode.success, User.Identity.Name);
-        }
+        
     }
 }
