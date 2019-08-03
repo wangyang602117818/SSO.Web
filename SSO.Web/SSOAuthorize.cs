@@ -63,7 +63,7 @@ namespace A.Web.Filters
                 }
                 else
                 {
-                    authorization = GetTokenByTicket(ticket);
+                    authorization = GetTokenByTicket(ticket, request.UserHostAddress);
                     if (!string.IsNullOrEmpty(authorization))
                     {
                         filterContext.HttpContext.Response.Cookies.Add(new HttpCookie(cookieName, authorization));
@@ -122,9 +122,9 @@ namespace A.Web.Filters
             }
             return access;
         }
-        private string GetTokenByTicket(string ticket)
+        private string GetTokenByTicket(string ticket, string audience)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(getTokenUrl + "?ticket=" + ticket);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(getTokenUrl + "?ticket=" + ticket + "&ip=" + audience);
             request.Method = "get";
             using (WebResponse response = request.GetResponse())
             {

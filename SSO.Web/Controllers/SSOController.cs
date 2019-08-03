@@ -21,10 +21,10 @@ namespace SSO.Web.Controllers
             return View();
         }
         [AllowAnonymous]
-        public ActionResult GetToken(string ticket)
+        public ActionResult GetToken(string ticket, string ip)
         {
             string userId = JwtManager.DecodeTicket(ticket);
-            string token = userId == "" ? "" : JwtManager.GenerateToken(userId, "", new string[] { "read", "edit" }, Request.UserHostAddress, 20);
+            string token = userId == "" ? "" : JwtManager.GenerateToken(userId, "", new string[] { "read", "edit" }, ip, 20);
             return new ResponseModel<string>(ErrorCode.success, token);
         }
         [AllowAnonymous]
