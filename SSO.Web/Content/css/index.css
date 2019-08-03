@@ -90,23 +90,35 @@ ul, li {
         .left_menu li a {
             font-size: 14px;
             cursor: pointer;
-            padding: 10px 0px;
-            text-align: center;
+            height: 40px;
+            justify-content:center;
+            align-items: center;
             border: 1px solid transparent;
-            display: inline-block;
+            display: inline-flex;
             width: 100%;
-            text-decoration:none;
-            color:#000;
+            text-decoration: none;
+            color: #000;
+            border-left: 2px solid transparent;
+            position:relative;
         }
 
             .left_menu li a:hover {
                 background-color: #e2e2e2;
                 border-left: 2px solid #eb8c00;
             }
+        .left_menu li.active a:hover {
+            /*background-color: #e2e2e2;*/
+            border-left: 2px solid transparent;
+        }
 
-    .left_menu .active {
-        background-color: #e2e2e2;
-        border-left: 2px solid #eb8c00;
+        .left_menu .active {
+            background-color: #e2e2e2;
+            border-left: 2px solid #eb8c00;
+        }
+
+    .left_menu .menu_nested_down {
+        position: absolute;
+        right:6px;
     }
 
 .right_menu_data {
