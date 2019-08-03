@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="../css/index.css" rel="stylesheet" />
+    <link href="../iconfont/iconfont.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="container">
+        <div class="top_back">
+            <div class="top">
+                <div class="logo">用户中心</div>
+                <div class="user">
+                    <span class="username">Yang X Wang</span>
+                    <span class="logout">Logout</span>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="left_menu">
+                <ul>
+                    <li>
+                        <a href="##"><i class="iconfont iconbar"></i> &nbsp; 概况统计</a>
+                    </li>
+                    <li>
+                        <a href="#" nested="usermanagement">
+                            <i class="iconfont iconuser"></i> &nbsp; 用户管理
+                            <span class="menu_nested_down">
+                                <i class="iconfont icondown"></i>
+                            </span>
+                        </a>
+                        <ul id="usermanagement">
+                            <li class="active">
+                                <a href="#">
+                                    <i class="iconfont icondot"></i>&nbsp; 基本信息
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="iconfont icondot"></i>&nbsp; 权限信息
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="iconfont iconkey"></i>&nbsp; 角色管理
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="iconfont icondepartment"></i>&nbsp; 部门管理
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="iconfont iconlog"></i>&nbsp; 日志列表
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="iconfont iconsetting"></i>&nbsp; 系统设置
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="right_menu_data">
+                <div class="menu_top">用户列表 -> 用户基本信息</div>
+                <div class="menu_search">
+                    <input type="text" name="search" class="input" />
+                    <input type="button" name="btn" value=" 搜 索 " class="search" />
+                </div>
+                <div class="menu_content">
+                    <table class="table_data">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>用户id</th>
+                                <th>用户名</th>
+                                <th>手机号</th>
+                                <th>邮箱</th>
+                                <th>身份证号</th>
+                                <th>照片</th>
+                                <th>创建时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>001</td>
+                                <td>CN445379</td>
+                                <td>Yang X Wang</td>
+                                <td>18518317472</td>
+                                <td>602117818@qq.com</td>
+                                <td>4209831556566555</td>
+                                <td>...</td>
+                                <td>2019-05-03 12:00:02</td>
+                            </tr>
+                            <tr>
+                                <td>001</td>
+                                <td>CN445379</td>
+                                <td>Yang X Wang</td>
+                                <td>18518317472</td>
+                                <td>602117818@qq.com</td>
+                                <td>4209831556566555</td>
+                                <td>...</td>
+                                <td>2019-05-03 12:00:02</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    第 1/12 页 ,共 120 个 &nbsp;
+                    <ul>
+                        <li>首页</li>
+                        <li>上一页</li>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>下一页</li>
+                        <li>尾页</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer"></div>
+    </div>
+</body>
+</html>

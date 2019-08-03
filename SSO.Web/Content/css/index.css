@@ -91,7 +91,7 @@ ul, li {
             font-size: 14px;
             cursor: pointer;
             height: 40px;
-            justify-content:center;
+            justify-content: center;
             align-items: center;
             border: 1px solid transparent;
             display: inline-flex;
@@ -99,26 +99,27 @@ ul, li {
             text-decoration: none;
             color: #000;
             border-left: 2px solid transparent;
-            position:relative;
+            position: relative;
         }
 
             .left_menu li a:hover {
                 background-color: #e2e2e2;
                 border-left: 2px solid #eb8c00;
             }
+
         .left_menu li.active a:hover {
             /*background-color: #e2e2e2;*/
             border-left: 2px solid transparent;
         }
 
-        .left_menu .active {
-            background-color: #e2e2e2;
-            border-left: 2px solid #eb8c00;
-        }
+    .left_menu .active {
+        background-color: #e2e2e2;
+        border-left: 2px solid #eb8c00;
+    }
 
     .left_menu .menu_nested_down {
         position: absolute;
-        right:6px;
+        right: 6px;
     }
 
 .right_menu_data {
