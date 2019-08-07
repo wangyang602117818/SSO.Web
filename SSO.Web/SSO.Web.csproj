@@ -142,12 +142,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\index.css" />
+    <Content Include="Content\css\login.css" />
+    <Content Include="Content\css\modal.css" />
     <Content Include="Content\html\department.html" />
+    <Content Include="Content\html\log.html" />
+    <Content Include="Content\html\login.html" />
     <Content Include="Content\html\role.html" />
     <Content Include="Content\html\user_basic.html" />
     <Content Include="Content\html\user_authority.html" />
     <Content Include="Content\iconfont\iconfont.css" />
     <Content Include="Content\iconfont\iconfont.svg" />
+    <Content Include="Content\js\jquery-ui.min.js" />
+    <Content Include="Content\js\nestedsortable.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Content\iconfont\iconfont.ttf" />
     <Content Include="Content\iconfont\iconfont.woff" />
