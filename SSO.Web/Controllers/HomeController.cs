@@ -1,7 +1,5 @@
 ﻿using SSO.Util;
 using SSO.Web.Filters;
-using SSO.Web.Models;
-using System;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
@@ -29,6 +27,18 @@ namespace SSO.Web.Controllers
             var result = JwtAuthorizeAttribute.ParseToken(token);
             return Content(result.Identity.Name);
         }
-        
+        [AllowAnonymous]
+        public string M()
+        {
+            Response.Cookies.Add(new System.Web.HttpCookie("name", "wang"));
+            return "ok";
+        }
+        [AllowAnonymous]
+        public string M2()
+        {
+            string str = "none";
+            if (Request.Cookies["name"] != null) str = Request.Cookies["name"].Value;
+            return str;
+        }
     }
 }
