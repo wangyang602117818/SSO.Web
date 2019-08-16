@@ -4,23 +4,39 @@
       <a-layout-sider :trigger="null" collapsible v-model="collapsed">
         <div class="logo" theme="light" />
         <a-menu theme="dark" mode="inline" :inlineCollapsed="collapsed">
-          <a-menu-item title="mmm">
+          <a-menu-item>
             <a-icon type="pie-chart" />
-            <span>菜单项</span>
+            <span>概况统计</span>
           </a-menu-item>
-          <a-sub-menu key="sub1">
+          <a-sub-menu>
             <span slot="title">
-              <a-icon type="appstore" />
-              <span>Navigation Three</span>
+              <a-icon type="user" />
+              <span>用户管理</span>
             </span>
             <a-menu-item>
-              <a-icon type="pie-chart" />
-              <span>子菜单项</span>
+              <a-icon type="info-circle" />
+              <span>基本信息</span>
+            </a-menu-item>
+            <a-menu-item>
+              <a-icon type="info-circle" />
+              <span>权限信息</span>
             </a-menu-item>
           </a-sub-menu>
           <a-menu-item>
-            <a-icon type="pie-chart" />
-            <span>菜单项</span>
+            <a-icon type="lock" />
+            <span>角色管理</span>
+          </a-menu-item>
+          <a-menu-item>
+            <a-icon type="gold" />
+            <span>部门管理</span>
+          </a-menu-item>
+          <a-menu-item>
+            <a-icon type="align-left" />
+            <span>日志列表</span>
+          </a-menu-item>
+          <a-menu-item>
+            <a-icon type="setting" />
+            <span>系统设置</span>
           </a-menu-item>
         </a-menu>
       </a-layout-sider>
@@ -30,7 +46,9 @@
             <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
           </a-button>
         </a-layout-header>
-        <a-layout-content>Content</a-layout-content>
+        <a-layout-content>
+          <router-view></router-view>
+        </a-layout-content>
       </a-layout>
     </a-layout>
   </div>

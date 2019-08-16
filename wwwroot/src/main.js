@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import App from './App.vue'
 import About from './components/about'
 import Home from './components/home'
 
@@ -16,17 +15,20 @@ Vue.use(VueRouter)
 Vue.config.productionTip = false
 
 const router = new VueRouter({
-  routes:[
-    { path: '/', component: Home },
+  routes: [
+    {
+      path: '/', 
+      component: Home
+      
+    },
     { path: '/about', component: About }
-    
+
   ]
 })
 
 new Vue({
-  el:"#app",
-  router: router,
-  render: c => c(App)
+  el: "#app",
+  router: router
 })
 
 // new Vue({
