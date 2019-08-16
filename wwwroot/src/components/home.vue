@@ -1,0 +1,92 @@
+<template>
+  <div class="top_layout">
+    <a-layout>
+      <a-layout-sider :trigger="null" collapsible v-model="collapsed">
+        <div class="logo" theme="light" />
+        <a-menu theme="dark" mode="inline" :inlineCollapsed="collapsed">
+          <a-menu-item title="mmm">
+            <a-icon type="pie-chart" />
+            <span>菜单项</span>
+          </a-menu-item>
+          <a-sub-menu key="sub1">
+            <span slot="title">
+              <a-icon type="appstore" />
+              <span>Navigation Three</span>
+            </span>
+            <a-menu-item>
+              <a-icon type="pie-chart" />
+              <span>子菜单项</span>
+            </a-menu-item>
+          </a-sub-menu>
+          <a-menu-item>
+            <a-icon type="pie-chart" />
+            <span>菜单项</span>
+          </a-menu-item>
+        </a-menu>
+      </a-layout-sider>
+      <a-layout>
+        <a-layout-header>
+          <a-button type="link" @click="toggleCollapsed">
+            <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
+          </a-button>
+        </a-layout-header>
+        <a-layout-content>Content</a-layout-content>
+      </a-layout>
+    </a-layout>
+  </div>
+</template>
+
+<script>
+import Layout from "ant-design-vue/lib/layout";
+import Menu from "ant-design-vue/lib/menu";
+
+export default {
+  name: "home",
+  components: {
+    "a-layout": Layout,
+    "a-layout-header": Layout.Header,
+    "a-layout-sider": Layout.Sider,
+    "a-layout-content": Layout.Content,
+    "a-menu": Menu,
+    "a-menu-item": Menu.Item,
+    "a-sub-menu": Menu.SubMenu
+  },
+  data() {
+    return {
+      collapsed: false
+    };
+  },
+  methods: {
+    toggleCollapsed() {
+      this.collapsed = !this.collapsed;
+    }
+  }
+};
+</script>
+
+<style>
+.top_layout {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.top_layout .ant-layout-header {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  padding-left: 2px;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+}
+
+.logo {
+  height: 50px;
+  background: #002140;
+}
+</style>
