@@ -1,8 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import About from './components/about'
-import Home from './components/home'
+import About from '@/components/about'
+import Home from '@/components/home'
+import OverView from '@/components/overview';
+import UserBasic from '@/components/user_basic';
+import UserAuthority from '@/components/user_authority';
+import Role from '@/components/role';
+import Department from '@/components/department';
+import Log from '@/components/log';
+import Settings from '@/components/settings';
 
 import { Button, Icon } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
@@ -15,13 +22,59 @@ Vue.use(VueRouter)
 Vue.config.productionTip = false
 
 const router = new VueRouter({
+  mode: 'history',
   routes: [
     {
-      path: '/', 
-      component: Home
-      
+      path: '/',
+      component: Home,
+      name: "home",
+      children: [
+        {
+          path:'',
+          component: OverView
+        },
+        {
+          path: 'overview',
+          name: "overview",
+          component: OverView
+        },
+        {
+          path: 'userbasic',
+          name: "userbasic",
+          component: UserBasic
+        },
+        {
+          path: 'userauthority',
+          name: "userauthority",
+          component: UserAuthority
+        },
+        {
+          path: 'role',
+          name: "role",
+          component: Role
+        },
+        {
+          path: 'department',
+          name: "department",
+          component: Department
+        },
+        {
+          path: 'log',
+          name: "log",
+          component: Log
+        },
+        {
+          path: 'settings',
+          name: "settings",
+          component: Settings
+        },
+      ]
     },
-    { path: '/about', component: About }
+    {
+      path: '/about',
+      name: "about",
+      component: About
+    }
 
   ]
 })

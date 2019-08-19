@@ -3,40 +3,60 @@
     <a-layout>
       <a-layout-sider :trigger="null" collapsible v-model="collapsed">
         <div class="logo" theme="light" />
-        <a-menu theme="dark" mode="inline" :inlineCollapsed="collapsed">
-          <a-menu-item>
-            <a-icon type="pie-chart" />
-            <span>概况统计</span>
+        <a-menu
+          theme="dark"
+          mode="inline"
+          :inlineCollapsed="collapsed"
+          :defaultSelectedKeys="[routename]"
+          :defaultOpenKeys="openKeys"
+        >
+          <a-menu-item key="overview">
+            <router-link to="/overview">
+              <a-icon type="pie-chart" />
+              <span>概况统计</span>
+            </router-link>
           </a-menu-item>
-          <a-sub-menu>
+          <a-sub-menu key="user">
             <span slot="title">
               <a-icon type="user" />
               <span>用户管理</span>
             </span>
-            <a-menu-item>
-              <a-icon type="info-circle" />
-              <span>基本信息</span>
+            <a-menu-item key="userbasic">
+              <router-link to="/userbasic">
+                <a-icon type="info-circle" />
+                <span>基本信息</span>
+              </router-link>
             </a-menu-item>
-            <a-menu-item>
-              <a-icon type="info-circle" />
-              <span>权限信息</span>
+            <a-menu-item key="userauthority">
+              <router-link to="/userauthority">
+                <a-icon type="info-circle" />
+                <span>权限信息</span>
+              </router-link>
             </a-menu-item>
           </a-sub-menu>
-          <a-menu-item>
-            <a-icon type="lock" />
-            <span>角色管理</span>
+          <a-menu-item key="role">
+            <router-link to="/role">
+              <a-icon type="lock" />
+              <span>角色管理</span>
+            </router-link>
           </a-menu-item>
-          <a-menu-item>
-            <a-icon type="gold" />
-            <span>部门管理</span>
+          <a-menu-item key="department">
+            <router-link to="/department">
+              <a-icon type="gold" />
+              <span>部门管理</span>
+            </router-link>
           </a-menu-item>
-          <a-menu-item>
-            <a-icon type="align-left" />
-            <span>日志列表</span>
+          <a-menu-item key="log">
+            <router-link to="/log">
+              <a-icon type="align-left" />
+              <span>日志列表</span>
+            </router-link>
           </a-menu-item>
-          <a-menu-item>
-            <a-icon type="setting" />
-            <span>系统设置</span>
+          <a-menu-item key="settings">
+            <router-link to="/settings">
+              <a-icon type="setting" />
+              <span>系统设置</span>
+            </router-link>
           </a-menu-item>
         </a-menu>
       </a-layout-sider>
@@ -71,9 +91,15 @@ export default {
   },
   data() {
     return {
-      collapsed: false
+      collapsed: false,
+      routename: this.$route.name || "overview",
+      openKeys:
+        this.$route.name == "userbasic" || this.$route.name == "userauthority"
+          ? ["user"]
+          : []
     };
   },
+  created() {},
   methods: {
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
