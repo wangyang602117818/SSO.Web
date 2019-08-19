@@ -11,11 +11,19 @@ import Department from '@/components/department';
 import Log from '@/components/log';
 import Settings from '@/components/settings';
 
-import { Button, Icon } from 'ant-design-vue'
+import { Button, Icon,Layout,Menu,Table,Input,Drawer,Form ,Row,Col} from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 Vue.use(Button)
 Vue.use(Icon)
+Vue.use(Layout)
+Vue.use(Menu)
+Vue.use(Table)
+Vue.use(Input)
+Vue.use(Drawer)
+Vue.use(Form)
+Vue.use(Row)
+Vue.use(Col)
 
 Vue.use(VueRouter)
 

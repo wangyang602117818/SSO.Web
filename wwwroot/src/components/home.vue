@@ -75,20 +75,9 @@
 </template>
 
 <script>
-import Layout from "ant-design-vue/lib/layout";
-import Menu from "ant-design-vue/lib/menu";
-
 export default {
   name: "home",
-  components: {
-    "a-layout": Layout,
-    "a-layout-header": Layout.Header,
-    "a-layout-sider": Layout.Sider,
-    "a-layout-content": Layout.Content,
-    "a-menu": Menu,
-    "a-menu-item": Menu.Item,
-    "a-sub-menu": Menu.SubMenu
-  },
+  components: {},
   data() {
     return {
       collapsed: false,
@@ -132,5 +121,20 @@ export default {
 .logo {
   height: 50px;
   background: #002140;
+}
+.top_layout .ant-layout-content {
+  padding: 0px 15px;
+}
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td {
+  padding: 8px 8px !important;
+  border: 1px solid #e8e8e8;
+}
+.ant-input-search {
+  margin: 10px 0 !important;
+}
+.ant-btn-primary,
+.ant-btn-danger {
+  margin-left: 10px !important;
 }
 </style>
