@@ -1,4 +1,5 @@
-﻿using SSO.Util;
+﻿using SSO.Business;
+using SSO.Util;
 using SSO.Web.Filters;
 using System.Web.Mvc;
 
@@ -6,9 +7,10 @@ namespace SSO.Web.Controllers
 {
     public class HomeController : Controller
     {
+        [AllowAnonymous]
         public ActionResult Index()
         {
-            return Content(User.Identity.Name);
+            new Role().Insert("dd", "sss");
             return View();
         }
         [AllowAnonymous]
