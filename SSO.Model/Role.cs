@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SSO.Data
+namespace SSO.Model
 {
     public class Role
     {

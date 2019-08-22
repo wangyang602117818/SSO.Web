@@ -133,6 +133,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SSOController.cs" />
     <Compile Include="Filters\JwtAuthorize.cs" />
     <Compile Include="Filters\MyHandleErrorAttribute.cs" />
@@ -142,6 +143,7 @@
     </Compile>
     <Compile Include="Models\ErrorCode.cs" />
     <Compile Include="Models\ResponseModel.cs" />
+    <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SSOAuthorize.cs" />
@@ -190,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Role\" />
     <Folder Include="Views\Token\" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +204,10 @@
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
       <Project>{ffe0f7bb-ff1f-4eb1-addb-a630101e1909}</Project>
       <Name>SSO.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SSO.Model\SSO.Model.csproj">
+      <Project>{2ba1ea6d-de41-495b-89cc-2d8597022df8}</Project>
+      <Name>SSO.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\SSO.Util\SSO.Util.csproj">
       <Project>{211cffa2-3346-4e6f-acd6-014f0a64c9b0}</Project>

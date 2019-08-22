@@ -10,7 +10,6 @@ namespace SSO.Web.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            new Role().Insert("dd", "sss");
             return View();
         }
         [AllowAnonymous]
