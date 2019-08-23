@@ -1,5 +1,8 @@
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import VueResource from 'vue-resource'
+import babelPolyfill from 'babel-polyfill'
 
 import About from '@/components/about'
 import Home from '@/components/home'
@@ -14,6 +17,7 @@ import Settings from '@/components/settings';
 import { Button, Icon,Layout,Menu,Table,Input,Drawer,Form ,Row,Col} from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
+
 Vue.use(Button)
 Vue.use(Icon)
 Vue.use(Layout)
@@ -26,11 +30,15 @@ Vue.use(Row)
 Vue.use(Col)
 
 Vue.use(VueRouter)
+Vue.use(VueResource)
+Vue.use(babelPolyfill)
+
+Vue.http.options.root = 'http://www.sso.com:8030/';
 
 Vue.config.productionTip = false
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
       path: '/',
@@ -86,6 +94,7 @@ const router = new VueRouter({
 
   ]
 })
+
 
 new Vue({
   el: "#app",

@@ -205,6 +205,10 @@
       <Project>{ffe0f7bb-ff1f-4eb1-addb-a630101e1909}</Project>
       <Name>SSO.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SSO.Data\SSO.Data.csproj">
+      <Project>{ACCB2FE5-7DDB-4FFA-8E0A-C4B750A607BD}</Project>
+      <Name>SSO.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SSO.Model\SSO.Model.csproj">
       <Project>{2ba1ea6d-de41-495b-89cc-2d8597022df8}</Project>
       <Name>SSO.Model</Name>

@@ -8,7 +8,7 @@ namespace SSO.Business
     {
         public int Insert(string name, string description)
         {
-            userCenterContext.Roles.Add(new Model.Role()
+            userCenterContext.Roles.Add(new Data.Models.Role()
             {
                 Name = name,
                 Description = description,
@@ -17,11 +17,12 @@ namespace SSO.Business
             });
             return userCenterContext.SaveChanges();
         }
-        public IEnumerable<Model.Role> GetList(string keyword = "", int pageIndex = 1, int pageSize = 15)
+        public IEnumerable<Data.Models.Role> GetList(ref int count, string keyword = "", int pageIndex = 1, int pageSize = 15)
         {
-            var filter = userCenterContext.Roles;
-            if (!string.IsNullOrEmpty(keyword)) return userCenterContext.Roles.Skip(pageIndex * pageSize).Take(pageSize);
-            return userCenterContext.Roles.Where(w => w.Name.Contains(keyword) || w.Description.Contains(keyword)).Skip(pageIndex * pageSize).Take(pageSize).ToList();
+            var query = from role in userCenterContext.Roles select role;
+            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.Name.Contains(keyword) || w.Description.Contains(keyword));
+            count = query.Count();
+            return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }
     }
 }

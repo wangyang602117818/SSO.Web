@@ -1,5 +1,4 @@
-﻿
-using SSO.Model;
+﻿using SSO.Data.Models;
 using System.Data.Entity;
 
 namespace SSO.Data

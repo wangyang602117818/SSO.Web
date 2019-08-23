@@ -134,6 +134,7 @@ export default {
   margin: 10px 0 !important;
 }
 .ant-btn-primary,
+.ant-btn-default,
 .ant-btn-danger {
   margin-left: 10px !important;
 }

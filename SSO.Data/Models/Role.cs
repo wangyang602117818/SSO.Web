@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SSO.Model
+namespace SSO.Data.Models
 {
     public class Role
     {
@@ -13,5 +14,7 @@ namespace SSO.Model
         public string Description { get; set; }
         public DateTime? UpdateTime { get; set; }
         public DateTime? CreateTime { get; set; }
+
+
     }
 }
