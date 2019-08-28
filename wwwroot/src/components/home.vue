@@ -40,6 +40,12 @@
               <span>角色管理</span>
             </router-link>
           </a-menu-item>
+          <a-menu-item key="company">
+            <router-link to="/company">
+              <a-icon type="lock" />
+              <span>公司管理</span>
+            </router-link>
+          </a-menu-item>
           <a-menu-item key="department">
             <router-link to="/department">
               <a-icon type="gold" />

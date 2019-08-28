@@ -7,5 +7,6 @@ namespace SSO.Data
     {
         public UserCenterContext() : base("UserCenter") { }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Company> Companys { get; set; }
     }
 }

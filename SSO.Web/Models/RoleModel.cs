@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SSO.Web.Models
 {
@@ -12,5 +8,10 @@ namespace SSO.Web.Models
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
+    }
+    public class UpdateRoleModel : RoleModel
+    {
+        [Required]
+        public int Id { get; set; }
     }
 }

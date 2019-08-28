@@ -1,4 +1,3 @@
-
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
@@ -6,15 +5,17 @@ import babelPolyfill from 'babel-polyfill'
 
 import About from '@/components/about'
 import Home from '@/components/home'
-import OverView from '@/components/overview';
-import UserBasic from '@/components/user_basic';
-import UserAuthority from '@/components/user_authority';
-import Role from '@/components/role';
-import Department from '@/components/department';
-import Log from '@/components/log';
-import Settings from '@/components/settings';
+import OverView from '@/components/overview'
+import UserBasic from '@/components/user_basic'
+import UserAuthority from '@/components/user_authority'
+import Role from '@/components/role'
+import Company from '@/components/company'
+import Department from '@/components/department'
+import Log from '@/components/log'
+import Settings from '@/components/settings'
+import common from './common.js'
 
-import { Button, Icon,Layout,Menu,Table,Input,Drawer,Form ,Row,Col} from 'ant-design-vue'
+import { Button, Icon, Layout, Menu, Table, Input, Drawer, Form, Row, Col, message, Modal,Tree } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 
@@ -28,13 +29,27 @@ Vue.use(Drawer)
 Vue.use(Form)
 Vue.use(Row)
 Vue.use(Col)
+Vue.use(Tree)
+
+Vue.prototype.$message = message
+Vue.prototype.$confirm = Modal.confirm
+Vue.prototype.$common = common
 
 Vue.use(VueRouter)
 Vue.use(VueResource)
 Vue.use(babelPolyfill)
 
-Vue.http.options.root = 'http://www.sso.com:8030/';
-
+Vue.http.options.root = 'http://www.sso.com:8030/'
+var urls = {
+  role: {
+    add: "role/add",
+    update: "role/update",
+    delete: "role/delete",
+    getlist: "role/getlist",
+    getById: "role/getbyid"
+  }
+}
+Vue.prototype.$urls = urls
 Vue.config.productionTip = false
 
 const router = new VueRouter({
@@ -46,7 +61,7 @@ const router = new VueRouter({
       name: "home",
       children: [
         {
-          path:'',
+          path: '',
           component: OverView
         },
         {
@@ -68,6 +83,11 @@ const router = new VueRouter({
           path: 'role',
           name: "role",
           component: Role
+        },
+        {
+          path: 'company',
+          name: "company",
+          component: Company
         },
         {
           path: 'department',
@@ -94,7 +114,6 @@ const router = new VueRouter({
 
   ]
 })
-
 
 new Vue({
   el: "#app",

@@ -16,11 +16,21 @@ namespace SSO.Web.Filters
     {
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
-            IEnumerable<CustomAttributeData> customAttributes = ((ReflectedActionDescriptor)filterContext.ActionDescriptor).MethodInfo.CustomAttributes;
-            foreach (CustomAttributeData c in customAttributes)
+            var reflectedActionDescriptor = (ReflectedActionDescriptor)filterContext.ActionDescriptor;
+            IEnumerable<CustomAttributeData> methodAttributes = reflectedActionDescriptor.MethodInfo.CustomAttributes;
+            var controllerAttributes = reflectedActionDescriptor.ControllerDescriptor.GetCustomAttributes(true);
+            bool isAuthorization = true;
+            foreach (var item in controllerAttributes)
             {
-                if (c.AttributeType.Name == "AllowAnonymousAttribute") return;
+                if (item.GetType().Name == "AllowAnonymousAttribute") isAuthorization = false;
+                if (item.GetType().Name == "JwtAuthorizeAttribute") isAuthorization = true;
             }
+            foreach (CustomAttributeData c in methodAttributes)
+            {
+                if (c.AttributeType.Name == "AllowAnonymousAttribute") isAuthorization = false;
+                if (c.AttributeType.Name == "JwtAuthorizeAttribute") isAuthorization = true;
+            }
+            if (!isAuthorization) return;
             HttpRequestBase request = filterContext.HttpContext.Request;
             string authorization = request.Cookies[request.Url.Host + ".auth"] == null ? "" : request.Cookies[request.Url.Host + ".auth"].Value;
             if (string.IsNullOrEmpty(authorization))

@@ -132,6 +132,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SSOController.cs" />
@@ -192,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Company\" />
     <Folder Include="Views\Role\" />
     <Folder Include="Views\Token\" />
   </ItemGroup>
