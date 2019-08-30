@@ -15,7 +15,7 @@ import Log from '@/components/log'
 import Settings from '@/components/settings'
 import common from './common.js'
 
-import { Button, Icon, Layout, Menu, Table, Input, Drawer, Form, Row, Col, message, Modal,Tree } from 'ant-design-vue'
+import { Button, Icon, Layout, Menu, Table, Input, Drawer, Form, Row, Col, message, Popconfirm,Tabs, Tree } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 
@@ -30,9 +30,10 @@ Vue.use(Form)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Tree)
+Vue.use(Tabs)
+Vue.use(Popconfirm)
 
 Vue.prototype.$message = message
-Vue.prototype.$confirm = Modal.confirm
 Vue.prototype.$common = common
 
 Vue.use(VueRouter)
@@ -47,6 +48,13 @@ var urls = {
     delete: "role/delete",
     getlist: "role/getlist",
     getById: "role/getbyid"
+  },
+  company: {
+    add: "company/add",
+    update: "company/update",
+    delete: "company/delete",
+    getlist: "company/getlist",
+    getById: "company/getbyid"
   }
 }
 Vue.prototype.$urls = urls

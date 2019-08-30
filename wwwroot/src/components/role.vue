@@ -9,8 +9,14 @@
     <a-button type="primary" icon="plus" @click="drawerVisible=true;isUpdate=false"></a-button>
     <a-button type="default" icon="redo" @click="reload"></a-button>
     <a-button type="default" icon="edit" @click="eidtRole" :disabled="selectedRowKeys.length!=1"></a-button>
-    <a-button type="danger" icon="delete" @click="deleteRole" :disabled="selectedRowKeys.length==0"></a-button>
-
+    <a-popconfirm
+      title="Are you sure delete this role?"
+      @confirm="deleteRole"
+      okText="Yes"
+      cancelText="No"
+    >
+      <a-button type="danger" icon="delete" :disabled="selectedRowKeys.length==0"></a-button>
+    </a-popconfirm>
     <a-table
       :columns="columns"
       :rowKey="record => record._id"
@@ -23,6 +29,7 @@
     <a-drawer
       :title="isUpdate?'更新角色':'添加角色'"
       :width="360"
+      handle="slot"
       @close="drawerVisible=false"
       :visible="drawerVisible"
     >
@@ -67,7 +74,7 @@ export default {
       searchValue: "",
       columns: [
         {
-          title: "编号",
+          title: "自编号",
           dataIndex: "_id",
           width: "7%"
         },
@@ -148,26 +155,16 @@ export default {
         });
     },
     deleteRole() {
-      var that = this;
-      that.$confirm({
-        title: "确定删除角色?",
-        content: this.selectedRowKeys.join(","),
-        okText: "Yes",
-        okType: "danger",
-        cancelText: "No",
-        onOk() {
-          that.loading = true;
-          that.$http
-            .post(that.$urls.role.delete, { ids: that.selectedRowKeys })
-            .then(response => {
-              if (response.body.code == 0) {
-                that.loading = false;
-                that.selectedRowKeys = [];
-                that.getData();
-              }
-            });
-        }
-      });
+      this.loading = true;
+      this.$http
+        .post(this.$urls.role.delete, { ids: this.selectedRowKeys })
+        .then(response => {
+          if (response.body.code == 0) {
+            this.selectedRowKeys = [];
+            this.getData();
+          }
+        });
+        this.loading = false;
     },
     reload() {
       this.selectedRowKeys = [];

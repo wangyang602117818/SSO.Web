@@ -23,7 +23,7 @@ namespace SSO.Business
         public IEnumerable<Data.Models.Company> GetList(ref int count, string keyword = "", int pageIndex = 1, int pageSize = 15)
         {
             var query = from company in userCenterContext.Companys select company;
-            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.Name.Contains(keyword) || w.Description.Contains(keyword));
+            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.Code.Contains(keyword) || w.Name.Contains(keyword) || w.Description.Contains(keyword));
             count = query.Count();
             return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }
