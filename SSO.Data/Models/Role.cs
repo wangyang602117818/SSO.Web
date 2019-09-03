@@ -4,18 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SSO.Data.Models
 {
-    public class Role
+    public class Role:BaseModel
     {
-        [Key]
-        public int Id { get; set; }
         [Index(IsUnique = true)]
         [StringLength(50)]
+        [Required]
         public string Name { get; set; }
         [StringLength(512)]
         public string Description { get; set; }
-        public DateTime? UpdateTime { get; set; }
-        public DateTime? CreateTime { get; set; }
-
 
     }
 }

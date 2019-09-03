@@ -48,20 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201908220822112_InitialCreate.cs" />
-    <Compile Include="Migrations\201908220822112_InitialCreate.Designer.cs">
-      <DependentUpon>201908220822112_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908270908541_AddRoleName.cs" />
-    <Compile Include="Migrations\201908270908541_AddRoleName.Designer.cs">
-      <DependentUpon>201908270908541_AddRoleName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908280825231_AddCompany.cs" />
-    <Compile Include="Migrations\201908280825231_AddCompany.Designer.cs">
-      <DependentUpon>201908280825231_AddCompany.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserCenterContext.cs" />
@@ -75,16 +64,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201908220822112_InitialCreate.resx">
-      <DependentUpon>201908220822112_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908270908541_AddRoleName.resx">
-      <DependentUpon>201908270908541_AddRoleName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908280825231_AddCompany.resx">
-      <DependentUpon>201908280825231_AddCompany.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,18 +1,24 @@
 <template>
   <a-layout>
     <a-layout-sider theme="light">
-      <a-input-search placeholder="search company" />
-      <a-menu mode="inline" :defaultSelectedKeys="['1']">
-        <a-menu-item key="1">option1</a-menu-item>
-        <a-menu-item key="2">option2</a-menu-item>
-        <a-menu-item key="3">option3</a-menu-item>
-        <a-menu-item key="4">option4</a-menu-item>
+      <a-input-search placeholder="search company" v-model="companySearchValue" />
+      <a-menu mode="inline" :defaultSelectedKeys="defaultSelectedCompany" @select="selectCompany">
+        <a-menu-item
+          v-for="item in company"
+          v-bind:key="item.Code"
+          v-bind:code="item.Code"
+        >{{item.Name}}</a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout-content>
       <a-input-search placeholder="search department" style="width:50%" />
       <a-button type="default" icon="plus" @click="addTopDept" title="添加顶层部门"></a-button>
-      <a-tree :defaultExpandedKeys="expandedKeys" draggable @drop="onDrop" :treeData="gData">
+      <a-tree
+        :defaultExpandedKeys="expandedKeys"
+        draggable
+        @drop="onDrop"
+        :treeData="departmentData"
+      >
         <template slot="custom" slot-scope="item">
           <span>{{ item.title }}</span>
           <span class="tree_action_wrap">
@@ -24,6 +30,55 @@
       </a-tree>
     </a-layout-content>
     <a-layout-content></a-layout-content>
+    <a-drawer
+      :title="isUpdate?'更新部门':'添加部门'"
+      :width="360"
+      handle="slot"
+      @close="drawerVisible=false"
+      :visible="drawerVisible"
+    >
+      <a-form :form="form" layout="vertical" @submit.prevent="handleSubmit">
+        <a-row :gutter="16">
+          <a-col :span="24">
+            <a-form-item label="Code">
+              <a-input
+                placeholder="部门编号"
+                v-decorator="['code',{rules: [{ required: true, message: 'Code is required!' }]}]"
+              >
+                <a-icon slot="addonAfter" type="reload" @click="getRandomCode" />
+              </a-input>
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="24">
+            <a-form-item label="Name">
+              <a-input
+                placeholder="部门名称"
+                v-decorator="['name',{rules: [{ required: true, message: 'Name is required!' }]}]"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="24">
+            <a-form-item label="Description">
+              <a-textarea
+                placeholder="部门描述"
+                :autosize="{ minRows: 4, maxRows: 6 }"
+                v-decorator="['description',{rules: [{ required: false, message: 'Description is required!' }]}]"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="24">
+            <a-button @click="form.resetFields();">取 消</a-button>
+            <a-button type="primary" html-type="submit">确 定</a-button>
+          </a-col>
+        </a-row>
+      </a-form>
+    </a-drawer>
   </a-layout>
 </template>
 <script>
@@ -44,7 +99,6 @@ const gData = [
     scopedSlots: { title: "custom" },
     children: [
       { key: 201, title: "02-01", scopedSlots: { title: "custom" } },
-      ,
       { key: 202, title: "02-02", scopedSlots: { title: "custom" } }
     ]
   },
@@ -71,19 +125,92 @@ const gData = [
 export default {
   data() {
     return {
-      gData,
-      searchCompanyValue: "",
-      searchDepartmentValue: "04-01",
-      showTools: false,
+      company: [],
+      companyPageIndex: 1,
+      companySearchValue: "",
+      selectedCompany: "",
+      defaultSelectedCompany: [],
+      form: this.$form.createForm(this),
+      layer: 0,
+      parentId: 0,
+      departmentData: gData,
+      departmentSearchValue: "",
+      isUpdate: false,
+      drawerVisible: false,
+      loading: false,
       expandedKeys: []
     };
   },
+  created() {
+    this.getCompanyData();
+  },
   methods: {
+    getCompanyData() {
+      this.loading = true;
+      this.$http
+        .get(
+          this.$urls.company.getlist +
+            "?pageIndex=" +
+            this.companyPageIndex +
+            "&filter=" +
+            this.companySearchValue
+        )
+        .then(response => {
+          this.loading = false;
+          if (response.body.code == 0) {
+            if (response.body.count > 0) {
+              this.selectedCompany = response.body.result[0].Code;
+              this.defaultSelectedCompany.push(response.body.result[0].Code);
+            }
+            this.company = response.body.result;
+          }
+        });
+    },
+    getDepartmentData(companyCode) {
+      window.console.log(companyCode);
+    },
+    getRandomCode() {
+      this.form.setFieldsValue({ code: this.$common.randomWord(12, 12) });
+    },
+    selectCompany(item) {
+      this.selectedCompany = item.key;
+      this.getDepartmentData(this.selectedCompany);
+    },
     onDragEnter() {},
-    addTopDept() {},
+    addTopDept() {
+      this.drawerVisible = true;
+      this.isUpdate = false;
+      this.layer = 0;
+      this.parentId = 0;
+      this.form.setFieldsValue({ code: this.$common.randomWord(12, 12) });
+    },
+    addDepartment(dept) {
+      dept.CompanyCode = this.selectedCompany;
+      this.$http.post(this.$urls.department.add, dept).then(response => {
+        if (response.body.code == 400) {
+          this.$message.warning("记录已存在!");
+        }
+        if (response.body.code == 0) {
+          this.form.resetFields();
+          this.getDepartmentData(this.selectedCompany);
+        }
+      });
+    },
     addDept() {},
     editDept() {},
+    updateDepartment(dept) {
+      window.console.log(dept);
+    },
     delDept() {},
+    handleSubmit() {
+      var that = this;
+      that.form.validateFields((err, values) => {
+        if (!err) {
+          if (that.isUpdate) that.updateDepartment(values);
+          if (!that.isUpdate) that.addDepartment(values);
+        }
+      });
+    },
     onDrop(info) {
       //放的位置的key
       const dropKey = info.node.eventKey;
@@ -109,7 +236,7 @@ export default {
           }
         });
       };
-      const data = [...this.gData];
+      const data = [...this.departmentData];
 
       // 查找被拖动的项
       let dragObj;
@@ -150,7 +277,7 @@ export default {
           ar.splice(i + 1, 0, dragObj);
         }
       }
-      this.gData = data;
+      this.departmentData = data;
     }
   }
 };
@@ -179,5 +306,11 @@ export default {
 }
 .tree_action:hover {
   color: red;
+}
+.anticon-reload {
+  cursor: pointer;
+}
+.anticon-reload:hover {
+  color: #000;
 }
 </style>

@@ -59,7 +59,8 @@
         <a-row :gutter="16">
           <a-col :span="24">
             <a-form-item label="Description">
-              <a-textarea placeholder="公司描述" :autosize="{ minRows: 4, maxRows: 6 }" />
+              <a-textarea placeholder="公司描述" :autosize="{ minRows: 4, maxRows: 6 }"
+              v-decorator="['description',{rules: [{ required: false, message: 'Description is required!' }]}]"/>
             </a-form-item>
           </a-col>
         </a-row>

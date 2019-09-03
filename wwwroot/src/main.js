@@ -55,6 +55,10 @@ var urls = {
     delete: "company/delete",
     getlist: "company/getlist",
     getById: "company/getbyid"
+  },
+  department:{
+    add:"department/add",
+    
   }
 }
 Vue.prototype.$urls = urls

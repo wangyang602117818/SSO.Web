@@ -6,18 +6,18 @@ using System.Web;
 
 namespace SSO.Web.Models
 {
-    public class CompanyModel
+    public class DepartmentModel
     {
         [Required]
         public string Code { get; set; }
         [Required]
         public string Name { get; set; }
+        [Required]
+        public string CompanyCode { get; set; }
         public string Description { get; set; }
         public int Order { get; set; }
-    }
-    public class UpdateCompanyModel: CompanyModel
-    {
-        [Required]
-        public int Id { get; set; }
+        public int Layer { get; set; }
+        public int ParentCode { get; set; }
+        
     }
 }

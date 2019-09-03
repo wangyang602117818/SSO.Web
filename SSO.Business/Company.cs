@@ -8,13 +8,14 @@ namespace SSO.Business
 {
     public class Company : ModelBase
     {
-        public int Insert(string code, string name, string description)
+        public int Insert(string code, string name, string description, int order)
         {
             userCenterContext.Companys.Add(new Data.Models.Company()
             {
                 Code = code,
                 Name = name,
                 Description = description,
+                Order = order,
                 UpdateTime = DateTime.Now,
                 CreateTime = DateTime.Now
             });
@@ -53,7 +54,7 @@ namespace SSO.Business
         /// <param name="name"></param>
         /// <param name="description"></param>
         /// <returns></returns>
-        public int Update(int id, string code, string name, string description)
+        public int Update(int id, string code, string name, string description, int order)
         {
             Data.Models.Company company = GetById(id);
             if (company == null) return 0;
@@ -61,6 +62,7 @@ namespace SSO.Business
             company.Code = code;
             company.Name = name;
             company.Description = description;
+            company.Order = order;
             company.UpdateTime = DateTime.Now;
             return userCenterContext.SaveChanges();
         }

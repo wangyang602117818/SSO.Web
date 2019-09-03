@@ -11,7 +11,7 @@ namespace SSO.Web.Controllers
         public ActionResult Add(CompanyModel companyModel)
         {
             if (company.GetByCode(companyModel.Code) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
-            if (company.Insert(companyModel.Code, companyModel.Name, companyModel.Description) > 0)
+            if (company.Insert(companyModel.Code, companyModel.Name, companyModel.Description, companyModel.Order) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
@@ -22,7 +22,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Update(UpdateCompanyModel updateCompanyModel)
         {
-            if (company.Update(updateCompanyModel.Id, updateCompanyModel.Code, updateCompanyModel.Name, updateCompanyModel.Description) > 0)
+            if (company.Update(updateCompanyModel.Id, updateCompanyModel.Code, updateCompanyModel.Name, updateCompanyModel.Description, updateCompanyModel.Order) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
