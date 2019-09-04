@@ -5,7 +5,7 @@ namespace SSO.Business
 {
     public class Department : ModelBase
     {
-        public int Insert(string code, string name, string description, string companyCode, int order, int layer, int parentCode)
+        public int Insert(string code, string name, string description, string companyCode, int order, int layer, string parentCode)
         {
             userCenterContext.Departments.Add(new Data.Models.Department()
             {
@@ -24,6 +24,10 @@ namespace SSO.Business
         public Data.Models.Department GetByCode(string code)
         {
             return userCenterContext.Departments.Where(c => c.Code == code).FirstOrDefault();
+        }
+        public Data.Models.Department[] GetDepartment(string companyCode)
+        {
+            return userCenterContext.Departments.Where(c => c.CompanyCode == companyCode).ToArray();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace SSO.Web.Controllers
         public ActionResult Add(DepartmentModel departmentModel)
         {
             if (department.GetByCode(departmentModel.Code) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
-            if (department.Insert(departmentModel.Code, departmentModel.Name, departmentModel.Description, departmentModel.CompanyCode, departmentModel.Order, departmentModel.Layer, departmentModel.ParentCode) > 0)
+            if (department.Insert(departmentModel.Code, departmentModel.Name, departmentModel.Description, departmentModel.CompanyCode, departmentModel.Order, departmentModel.Layer, departmentModel.ParentCode ?? "") > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
@@ -18,6 +18,10 @@ namespace SSO.Web.Controllers
             {
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
+        }
+        public ActionResult GetDepartment(string companyCode)
+        {
+            return new ResponseModel<Data.Models.Department[]>(ErrorCode.success, department.GetDepartment(companyCode));
         }
     }
 }

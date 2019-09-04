@@ -48,6 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201909031008204_InitialCreate.cs" />
+    <Compile Include="Migrations\201909031008204_InitialCreate.Designer.cs">
+      <DependentUpon>201909031008204_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909040221428_AddOrder.cs" />
+    <Compile Include="Migrations\201909040221428_AddOrder.Designer.cs">
+      <DependentUpon>201909040221428_AddOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Department.cs" />
@@ -64,6 +73,13 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201909031008204_InitialCreate.resx">
+      <DependentUpon>201909031008204_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909040221428_AddOrder.resx">
+      <DependentUpon>201909040221428_AddOrder.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

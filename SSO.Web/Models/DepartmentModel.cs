@@ -17,7 +17,6 @@ namespace SSO.Web.Models
         public string Description { get; set; }
         public int Order { get; set; }
         public int Layer { get; set; }
-        public int ParentCode { get; set; }
-        
+        public string ParentCode { get; set; }
     }
 }

@@ -132,7 +132,7 @@ export default {
       defaultSelectedCompany: [],
       form: this.$form.createForm(this),
       layer: 0,
-      parentId: 0,
+      parentCode: "",
       departmentData: gData,
       departmentSearchValue: "",
       isUpdate: false,
@@ -181,11 +181,13 @@ export default {
       this.drawerVisible = true;
       this.isUpdate = false;
       this.layer = 0;
-      this.parentId = 0;
+      this.parentCode = "";
       this.form.setFieldsValue({ code: this.$common.randomWord(12, 12) });
     },
     addDepartment(dept) {
-      dept.CompanyCode = this.selectedCompany;
+      dept.companyCode = this.selectedCompany;
+      dept.layer = this.layer;
+      dept.parentCode = this.parentCode;
       this.$http.post(this.$urls.department.add, dept).then(response => {
         if (response.body.code == 400) {
           this.$message.warning("记录已存在!");
@@ -196,7 +198,10 @@ export default {
         }
       });
     },
-    addDept() {},
+    addDept() {
+       dept.companyCode = this.selectedCompany;
+       
+    },
     editDept() {},
     updateDepartment(dept) {
       window.console.log(dept);
