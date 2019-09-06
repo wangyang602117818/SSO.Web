@@ -1,4 +1,6 @@
-﻿using SSO.Web.Models;
+﻿using SSO.Model;
+using SSO.Web.Models;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
@@ -21,7 +23,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult GetDepartment(string companyCode)
         {
-            return new ResponseModel<Data.Models.Department[]>(ErrorCode.success, department.GetDepartment(companyCode));
+            return new ResponseModel<List<DepartmentData>>(ErrorCode.success, department.GetDepartment(companyCode));
         }
     }
 }

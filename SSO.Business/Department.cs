@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SSO.Model;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SSO.Business
@@ -25,9 +27,26 @@ namespace SSO.Business
         {
             return userCenterContext.Departments.Where(c => c.Code == code).FirstOrDefault();
         }
-        public Data.Models.Department[] GetDepartment(string companyCode)
+        public List<DepartmentData> GetDepartment(string companyCode)
         {
-            return userCenterContext.Departments.Where(c => c.CompanyCode == companyCode).ToArray();
+            List<Data.Models.Department> list = userCenterContext.Departments.Where(c => c.CompanyCode == companyCode).ToList();
+            return GetDepartmentInner(list, "");
+        }
+        private List<DepartmentData> GetDepartmentInner(List<Data.Models.Department> list, string parentCode)
+        {
+            List<Data.Models.Department> depts = list.Where(w => w.ParentCode == parentCode).ToList();
+            if (depts.Count == 0) return new List<DepartmentData>();
+            List<DepartmentData> result = depts.Select(s => new DepartmentData()
+            {
+                Id = s.Id,
+                Code = s.Code,
+                Name = s.Name,
+                Description = s.Description,
+                Order = s.Order,
+                Layer = s.Layer,
+                Departments = GetDepartmentInner(list, s.Code)
+            }).OrderBy(o => o.Order).ToList();
+            return result;
         }
     }
 }
