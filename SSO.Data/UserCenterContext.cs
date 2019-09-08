@@ -5,7 +5,7 @@ namespace SSO.Data
 {
     public class UserCenterContext : DbContext
     {
-        public UserCenterContext() : base("UserCenter") { }
+        public UserCenterContext() : base("name=pgsql") { }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Company> Companys { get; set; }
         public DbSet<Department> Departments { get; set; }
