@@ -19,4 +19,9 @@ namespace SSO.Web.Models
         public int Layer { get; set; }
         public string ParentCode { get; set; }
     }
+    public class UpdateDepartmentModel: DepartmentModel
+    {
+        [Required]
+        public int Id { get; set; }
+    }
 }

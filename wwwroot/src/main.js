@@ -15,7 +15,7 @@ import Log from '@/components/log'
 import Settings from '@/components/settings'
 import common from './common.js'
 
-import { Button, Icon, Layout, Menu, Table, Input, Drawer, Form, Row, Col, message, Popconfirm,Tabs, Tree } from 'ant-design-vue'
+import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, Popconfirm, Tabs, Tree, Card } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 
@@ -25,13 +25,17 @@ Vue.use(Layout)
 Vue.use(Menu)
 Vue.use(Table)
 Vue.use(Input)
+Vue.use(InputNumber)
+Vue.use(Select)
 Vue.use(Drawer)
 Vue.use(Form)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Tree)
+Vue.use(TreeSelect)
 Vue.use(Tabs)
 Vue.use(Popconfirm)
+Vue.use(Card)
 
 Vue.prototype.$message = message
 Vue.prototype.$common = common
@@ -56,9 +60,12 @@ var urls = {
     getlist: "company/getlist",
     getById: "company/getbyid"
   },
-  department:{
-    add:"department/add",
-    
+  department: {
+    add: "department/add",
+    getdepartments: "department/getdepartments",
+    get: "department/get",
+    update:"department/update",
+    delete:"department/delete"
   }
 }
 Vue.prototype.$urls = urls
