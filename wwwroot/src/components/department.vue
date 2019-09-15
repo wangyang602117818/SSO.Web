@@ -29,8 +29,8 @@
         </template>
       </a-tree>
     </a-layout-content>
-    <a-layout-sider theme="light" :width="450">
-      <a-tabs defaultActiveKey="1" @change="changeTab">
+    <a-layout-sider theme="light" :width="450" :collapsed="collapsedLeft" :collapsedWidth="0">
+      <a-tabs defaultActiveKey="1" @change="changeTab" >
         <a-tab-pane tab="添加子部门" key="1" forceRender>
           <a-form :form="addform" @submit.prevent="addSubDept">
             <a-form-item label="Code" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
@@ -53,7 +53,7 @@
             <a-form-item label="Description" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
               <a-textarea
                 placeholder="部门描述"
-                :autosize="{ minRows: 4, maxRows: 6 }"
+                :autosize="{ minRows: 4, maxRows: 5 }"
                 v-decorator="['description',{rules: [{ required: false, message: 'Description is required!' }]}]"
               />
             </a-form-item>
@@ -106,7 +106,7 @@
             <a-form-item label="description" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
               <a-textarea
                 placeholder="部门描述"
-                :autosize="{ minRows: 4, maxRows: 6 }"
+                :autosize="{ minRows: 4, maxRows: 5 }"
                 v-decorator="['description',{rules: [{ required: false, message: 'Description is required!' }]}]"
               />
             </a-form-item>
@@ -249,6 +249,7 @@ export default {
       drawerVisible: false,
       loading: false,
       expandedAll: false,
+      collapsedLeft: true,
       expandedKeys: []
     };
   },
@@ -317,7 +318,7 @@ export default {
     },
     onExpand(expandedKeys, obj) {
       var key = obj.node.value;
-      if (this.expandedKeys.indexOf(key)) {
+      if (this.expandedKeys.indexOf(key) == -1) {
         this.expandedKeys.push(key);
       } else {
         this.$common.removeArrayItem(this.expandedKeys, key);
@@ -340,6 +341,7 @@ export default {
       if (selectedKeys.length > 0) {
         this.getRandomCodeSub();
         this.addform.setFieldsValue({ description: "" });
+        this.collapsedLeft=false;
         this.$http
           .get(this.$urls.department.get + "?code=" + selectedKeys[0])
           .then(response => {
@@ -358,6 +360,7 @@ export default {
             }
           });
       } else {
+        this.collapsedLeft=true;
         this.id = "";
         this.selectedDepartment = "";
         this.selectedDepartmentLayer = 0;
