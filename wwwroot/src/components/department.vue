@@ -29,7 +29,7 @@
         </template>
       </a-tree>
     </a-layout-content>
-    <a-layout-sider theme="light" :width="450" :collapsed="collapsedLeft" :collapsedWidth="0">
+    <a-layout-sider theme="light" :width="400" :collapsed="collapsedLeft" :collapsedWidth="0">
       <a-tabs defaultActiveKey="1" @change="changeTab" >
         <a-tab-pane tab="添加子部门" key="1" forceRender>
           <a-form :form="addform" @submit.prevent="addSubDept">
@@ -53,7 +53,7 @@
             <a-form-item label="Description" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
               <a-textarea
                 placeholder="部门描述"
-                :autosize="{ minRows: 4, maxRows: 5 }"
+                :autosize="{ minRows: 3, maxRows: 5 }"
                 v-decorator="['description',{rules: [{ required: false, message: 'Description is required!' }]}]"
               />
             </a-form-item>
@@ -106,7 +106,7 @@
             <a-form-item label="description" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
               <a-textarea
                 placeholder="部门描述"
-                :autosize="{ minRows: 4, maxRows: 5 }"
+                :autosize="{ minRows: 3, maxRows: 5 }"
                 v-decorator="['description',{rules: [{ required: false, message: 'Description is required!' }]}]"
               />
             </a-form-item>
@@ -500,9 +500,12 @@ export default {
   background-color: #fff;
   margin-top: 10px;
   padding-bottom: 20px;
-  overflow: hidden;
 }
-.ant-card {
-  margin-top: 10px;
+.ant-row{
+  margin-bottom: 12px;
 }
+.ant-drawer-body .ant-row{
+   margin-bottom: 6px;
+}
+
 </style>
