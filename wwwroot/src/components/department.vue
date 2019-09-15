@@ -13,10 +13,14 @@
     <a-layout-content>
       <a-input-search placeholder="search department" style="width:50%" />
       <a-button type="default" icon="plus" @click="showDrawer" title="添加顶层部门"></a-button>
+      <a-button
+        type="default"
+        :icon="expandedAll?'fullscreen-exit':'fullscreen'"
+        @click="expandAll"
+      ></a-button>
       <a-tree
-        :defaultExpandAll="true"
-        :autoExpandParent="true"
-        :defaultExpandedKeys="expandedKeys"
+        :expandedKeys="expandedKeys"
+        @expand="onExpand"
         :treeData="departmentData"
         @select="selectDepartment"
       >
@@ -244,6 +248,7 @@ export default {
       departmentSearchValue: "",
       drawerVisible: false,
       loading: false,
+      expandedAll: false,
       expandedKeys: []
     };
   },
@@ -289,6 +294,34 @@ export default {
             }
           }
         });
+    },
+    deepTraversa(datas, list = []) {
+      datas.forEach(item => {
+        if (item.children.length > 0) {
+          list.push(item.key);
+          for (let i = 0; i < item.children.length; i++) {
+            this.deepTraversa(item.children, list);
+          }
+        }
+      });
+      return list;
+    },
+    expandAll() {
+      var keys = this.deepTraversa(this.departmentData);
+      this.expandedAll = !this.expandedAll;
+      if (this.expandedAll) {
+        this.expandedKeys = keys;
+      } else {
+        this.expandedKeys = [];
+      }
+    },
+    onExpand(expandedKeys, obj) {
+      var key = obj.node.value;
+      if (this.expandedKeys.indexOf(key)) {
+        this.expandedKeys.push(key);
+      } else {
+        this.$common.removeArrayItem(this.expandedKeys, key);
+      }
     },
     getRandomCode() {
       this.form.setFieldsValue({ code: this.$common.randomWord(12, 12) });
@@ -353,6 +386,8 @@ export default {
             this.loading = false;
             if (response.body.code == 0) {
               this.getDepartmentData(this.selectedCompany);
+            } else {
+              this.$message.warning("记录已存在!");
             }
           });
         }
@@ -371,6 +406,8 @@ export default {
               this.loading = false;
               if (response.body.code == 0) {
                 this.getDepartmentData(this.selectedCompany);
+              } else {
+                this.$message.warning("记录已存在!");
               }
             });
         }

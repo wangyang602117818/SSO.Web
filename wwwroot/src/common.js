@@ -18,7 +18,14 @@ function randomWord(min, max) {
     }
     return str;
 }
+function removeArrayItem(array, val) {
+    var index = array.indexOf(val);
+    if (index > -1) {
+        array.splice(index, 1);
+    }
+};
 export default {
     parseBsonTime: parseBsonTime,
+    removeArrayItem:removeArrayItem,
     randomWord: randomWord
 }
