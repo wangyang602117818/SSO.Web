@@ -46,7 +46,7 @@ export default {
   },
   watch: {
     value (value) {
-      console.log(value)
+      window.console.log(value)
     },
   },
 };

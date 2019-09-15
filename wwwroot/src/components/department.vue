@@ -186,46 +186,6 @@
   </a-layout>
 </template>
 <script>
-const gData = [
-  {
-    key: 100,
-    title: "01",
-    scopedSlots: { title: "custom" },
-    children: [
-      { key: 101, title: "01-01", scopedSlots: { title: "custom" } },
-      { key: 102, title: "01-02", scopedSlots: { title: "custom" } },
-      { key: 103, title: "01-03", scopedSlots: { title: "custom" } }
-    ]
-  },
-  {
-    key: 200,
-    title: "02",
-    scopedSlots: { title: "custom" },
-    children: [
-      { key: 201, title: "02-01", scopedSlots: { title: "custom" } },
-      { key: 202, title: "02-02", scopedSlots: { title: "custom" } }
-    ]
-  },
-  {
-    key: 300,
-    title: "03",
-    scopedSlots: { title: "custom" },
-    children: [
-      { key: 301, title: "03-01", scopedSlots: { title: "custom" } },
-      { key: 302, title: "03-02", scopedSlots: { title: "custom" } }
-    ]
-  },
-  {
-    key: 4,
-    title: "04",
-    scopedSlots: { title: "custom" },
-    children: [
-      { key: 400, title: "04-01", scopedSlots: { title: "custom" } },
-      { key: 402, title: "04-02", scopedSlots: { title: "custom" } }
-    ]
-  }
-];
-
 export default {
   data() {
     return {
@@ -378,7 +338,7 @@ export default {
       this.drawerVisible = true;
       this.getRandomCode();
     },
-    addSubDept(event) {
+    addSubDept() {
       this.addform.validateFields((error, values) => {
         if (!error) {
           this.loading = true;
@@ -430,7 +390,6 @@ export default {
       }
     },
     handleTopSubmit() {
-      var that = this;
       this.form.validateFields((err, values) => {
         if (!err) {
           values.companyCode = this.selectedCompany;

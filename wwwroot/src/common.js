@@ -23,7 +23,7 @@ function removeArrayItem(array, val) {
     if (index > -1) {
         array.splice(index, 1);
     }
-};
+}
 export default {
     parseBsonTime: parseBsonTime,
     removeArrayItem:removeArrayItem,
