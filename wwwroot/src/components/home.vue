@@ -42,7 +42,7 @@
           </a-menu-item>
           <a-menu-item key="company">
             <router-link to="/company">
-              <a-icon type="lock" />
+              <a-icon type="home" />
               <span>公司管理</span>
             </router-link>
           </a-menu-item>

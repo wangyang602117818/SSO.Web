@@ -28,6 +28,12 @@ namespace SSO.Business
             count = query.Count();
             return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }
+        public IEnumerable<Data.Models.Company> GetAll(string filter)
+        {
+            var query = from company in userCenterContext.Companys select company;
+            if (!string.IsNullOrEmpty(filter)) query = query.Where(w => w.Name.Contains(filter));
+            return query.OrderBy(o=>o.Name).ToList();
+        }
         public Data.Models.Company GetById(int id)
         {
             return userCenterContext.Companys.Where(r => r.Id == id).FirstOrDefault();

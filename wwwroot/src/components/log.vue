@@ -1,55 +1,111 @@
 <template>
-  <a-tree-select
-    style="width: 300px"
-    :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }"
-    :treeData="treeData"
-    placeholder="Please select"
-    treeDefaultExpandAll
-    v-model="value"
-  >
-    <span
-      style="color: #08c"
-      slot="title"
-      slot-scope="{key, value}"
-      v-if="key='0-0-1'"
-    >Child Node1 {{value}}</span>
-  </a-tree-select>
+  <div>
+    <a-input-search style="margin-bottom: 8px" placeholder="Search" @change="onChange" />
+    <a-tree
+      @expand="onExpand"
+      :expandedKeys="expandedKeys"
+      :autoExpandParent="autoExpandParent"
+      :treeData="gData"
+    >
+      <template slot="title" slot-scope="{title}">
+        <span v-if="title.indexOf(searchValue) > -1" tag='0'>
+          {{title.substr(0, title.indexOf(searchValue))}}
+          <span style="color: #f50" tag='3'>{{searchValue}}</span>
+          {{title.substr(title.indexOf(searchValue) + searchValue.length)}}
+        </span>
+        <span v-else tag='1'>{{title}}</span>
+      </template>
+    </a-tree>
+  </div>
 </template>
 <script>
-const treeData = [{
-  title: 'Node1',
-  value: '0-0',
-  key: '0-0',
-  children: [{
-    value: '0-0-1',
-    key: '0-0-1',
-    scopedSlots: { // custom title
-      title: 'title',
-    },
-  }, {
-    title: 'Child Node2',
-    value: '0-0-2',
-    key: '0-0-2',
-  }],
-}, {
-  title: 'Node2',
-  value: '0-1',
-  key: '0-1',
-}]
+const x = 3
+const y = 2
+const z = 1
+const gData = []
+
+const generateData = (_level, _preKey, _tns) => {
+  const preKey = _preKey || '0'
+  const tns = _tns || gData
+
+  const children = []
+  for (let i = 0; i < x; i++) {
+    const key = `${preKey}-${i}`
+    tns.push({ title: key, key, scopedSlots: { title: 'title' }})
+    if (i < y) {
+      children.push(key)
+    }
+  }
+  if (_level < 0) {
+    return tns
+  }
+  const level = _level - 1
+  children.forEach((key, index) => {
+    tns[index].children = []
+    return generateData(level, key, tns[index].children)
+  })
+}
+generateData(z)
+
+const dataList = []
+const generateList = (data) => {
+  for (let i = 0; i < data.length; i++) {
+    const node = data[i]
+    const key = node.key
+    dataList.push({ key, title: key })
+    if (node.children) {
+      generateList(node.children, node.key)
+    }
+  }
+}
+generateList(gData)
+
+
+const getParentKey = (key, tree) => {
+  let parentKey
+  for (let i = 0; i < tree.length; i++) {
+    const node = tree[i]
+    if (node.children) {
+      if (node.children.some(item => item.key === key)) {
+        parentKey = node.key
+      } else if (getParentKey(key, node.children)) {
+        parentKey = getParentKey(key, node.children)
+      }
+    }
+  }
+  return parentKey
+}
 export default {
-  name: "user_basic",
   data () {
     return {
-      value: undefined,
-      treeData,
+      expandedKeys: [],
+      searchValue: '',
+      autoExpandParent: true,
+      gData,
     }
   },
-  watch: {
-    value (value) {
-      window.console.log(value)
+  methods: {
+    onExpand  (expandedKeys) {
+      this.expandedKeys = expandedKeys
+      this.autoExpandParent = false
+    },
+    onChange (e) {
+      const value = e.target.value
+      const expandedKeys = dataList.map((item) => {
+        if (item.key.indexOf(value) > -1) {
+          return getParentKey(item.key, gData)
+        }
+        return null
+      }).filter((item, i, self) => item && self.indexOf(item) === i)
+      
+      Object.assign(this, {
+        expandedKeys,
+        searchValue: value,
+        autoExpandParent: true,
+      })
     },
   },
-};
+}
 </script>
 <style scoped>
 h1 {

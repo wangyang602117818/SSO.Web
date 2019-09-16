@@ -14,6 +14,7 @@ import Department from '@/components/department'
 import Log from '@/components/log'
 import Settings from '@/components/settings'
 import common from './common.js'
+import "@/css/index.css"
 
 import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, Popconfirm, Tabs, Tree, Card } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
@@ -58,6 +59,7 @@ var urls = {
     update: "company/update",
     delete: "company/delete",
     getlist: "company/getlist",
+    getall:"company/getall",
     getById: "company/getbyid"
   },
   department: {

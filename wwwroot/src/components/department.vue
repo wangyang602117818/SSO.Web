@@ -1,7 +1,11 @@
 <template>
   <a-layout>
     <a-layout-sider theme="light">
-      <a-input-search placeholder="search company" v-model="companySearchValue" />
+      <a-input-search
+        placeholder="search company"
+        v-model="companySearchValue"
+        @search="onSearchCompany"
+      />
       <a-menu mode="inline" :defaultSelectedKeys="defaultSelectedCompany" @select="selectCompany">
         <a-menu-item
           v-for="item in company"
@@ -11,7 +15,11 @@
       </a-menu>
     </a-layout-sider>
     <a-layout-content>
-      <a-input-search placeholder="search department" style="width:50%" />
+      <a-input-search
+        placeholder="search department"
+        style="width:50%"
+        @change="onSearchDepartment"
+      />
       <a-button type="default" icon="plus" @click="showDrawer" title="添加顶层部门"></a-button>
       <a-button
         type="default"
@@ -20,17 +28,25 @@
       ></a-button>
       <a-tree
         :expandedKeys="expandedKeys"
+        :autoExpandParent="autoExpandParent"
         @expand="onExpand"
         :treeData="departmentData"
         @select="selectDepartment"
       >
-        <template slot="custom" slot-scope="item">
-          <span :layer="item.Layer">{{ item.title }}</span>
+        <template slot="custom" slot-scope="{title}">
+          <span v-if="title.indexOf(departmentSearchValue) > -1">
+            {{title.substr(0, title.indexOf(departmentSearchValue))}}
+            <span
+              style="color: #f50"
+            >{{departmentSearchValue}}</span>
+            {{title.substr(title.indexOf(departmentSearchValue) + departmentSearchValue.length)}}
+          </span>
+          <span v-else>{{title}}</span>
         </template>
       </a-tree>
     </a-layout-content>
     <a-layout-sider theme="light" :width="400" :collapsed="collapsedLeft" :collapsedWidth="0">
-      <a-tabs defaultActiveKey="1" @change="changeTab" >
+      <a-tabs defaultActiveKey="1" @change="changeTab">
         <a-tab-pane tab="添加子部门" key="1" forceRender>
           <a-form :form="addform" @submit.prevent="addSubDept">
             <a-form-item label="Code" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
@@ -186,6 +202,31 @@
   </a-layout>
 </template>
 <script>
+var getParentKey = (key, tree) => {
+  let parentKey;
+  for (let i = 0; i < tree.length; i++) {
+    const node = tree[i];
+    if (node.children) {
+      if (node.children.some(item => item.key === key)) {
+        parentKey = node.key;
+      } else if (getParentKey(key, node.children)) {
+        parentKey = getParentKey(key, node.children);
+      }
+    }
+  }
+  return parentKey;
+};
+var dataList = [];
+var generateList = data => {
+  for (let i = 0; i < data.length; i++) {
+    const node = data[i];
+    const key = node.key;
+    dataList.push({ key, title: node.title });
+    if (node.children) {
+      generateList(node.children, node.key);
+    }
+  }
+};
 export default {
   data() {
     return {
@@ -209,6 +250,7 @@ export default {
       drawerVisible: false,
       loading: false,
       expandedAll: false,
+      autoExpandParent: false,
       collapsedLeft: true,
       expandedKeys: []
     };
@@ -220,27 +262,41 @@ export default {
     getCompanyData() {
       this.loading = true;
       this.$http
-        .get(
-          this.$urls.company.getlist +
-            "?pageIndex=" +
-            this.companyPageIndex +
-            "&filter=" +
-            this.companySearchValue
-        )
+        .get(this.$urls.company.getall + "?filter=" + this.companySearchValue)
         .then(response => {
           this.loading = false;
           if (response.body.code == 0) {
             this.company = response.body.result;
             if (response.body.count > 0) {
               this.selectedCompany = response.body.result[0].Code;
-              this.defaultSelectedCompany.push(this.selectedCompany);
+              this.defaultSelectedCompany.splice(0, 1, this.selectedCompany);
               this.getDepartmentData(this.selectedCompany);
             }
           }
         });
     },
+    onSearchCompany() {
+      this.getCompanyData();
+    },
+    onSearchDepartment(e) {
+      const value = e.target.value;
+      const expandedKeys = dataList
+        .map(item => {
+          if (item.title.toLowerCase().indexOf(value.toLowerCase()) > -1) {
+            return getParentKey(item.key, this.departmentData);
+          }
+          return null;
+        })
+        .filter((item, i, self) => item && self.indexOf(item) === i);
+      Object.assign(this, {
+        expandedKeys,
+        departmentSearchValue: value,
+        autoExpandParent: true
+      });
+    },
     getDepartmentData(companyCode) {
       this.loading = true;
+      dataList = [];
       this.$http
         .get(
           this.$urls.department.getdepartments + "?companyCode=" + companyCode
@@ -250,6 +306,7 @@ export default {
           if (response.body.code == 0) {
             if (response.body.result.length > 0) {
               this.departmentData = response.body.result;
+              generateList(this.departmentData);
             } else {
               this.departmentData = [];
             }
@@ -301,7 +358,7 @@ export default {
       if (selectedKeys.length > 0) {
         this.getRandomCodeSub();
         this.addform.setFieldsValue({ description: "" });
-        this.collapsedLeft=false;
+        this.collapsedLeft = false;
         this.$http
           .get(this.$urls.department.get + "?code=" + selectedKeys[0])
           .then(response => {
@@ -320,7 +377,7 @@ export default {
             }
           });
       } else {
-        this.collapsedLeft=true;
+        this.collapsedLeft = true;
         this.id = "";
         this.selectedDepartment = "";
         this.selectedDepartmentLayer = 0;
@@ -333,7 +390,6 @@ export default {
       }
     },
     changeTab() {},
-    onDragEnter() {},
     showDrawer() {
       this.drawerVisible = true;
       this.getRandomCode();
@@ -406,74 +462,6 @@ export default {
           });
         }
       });
-    },
-    onDrop(info) {
-      //放的位置的key
-      const dropKey = info.node.eventKey;
-      window.console.log("dropKey:" + dropKey);
-      //拖动的项的key
-      const dragKey = info.dragNode.eventKey;
-      window.console.log("dragKey:" + dragKey);
-
-      const dropPos = info.node.pos.split("-");
-      window.console.log("dropPos:" + dropPos);
-
-      const dropPosition =
-        info.dropPosition - Number(dropPos[dropPos.length - 1]);
-      window.console.log("dropPosition:" + dropPosition);
-
-      const loop = (data, key, callback) => {
-        data.forEach((item, index, arr) => {
-          if (item.key === key) {
-            return callback(item, index, arr);
-          }
-          if (item.children) {
-            return loop(item.children, key, callback);
-          }
-        });
-      };
-      const data = [...this.departmentData];
-
-      // 查找被拖动的项
-      let dragObj;
-      loop(data, dragKey, (item, index, arr) => {
-        arr.splice(index, 1);
-        dragObj = item;
-      });
-      window.console.log("dragObj:" + JSON.stringify(dragObj));
-
-      if (!info.dropToGap) {
-        //放在了正文上
-        // Drop on the content
-        loop(data, dropKey, item => {
-          item.children = item.children || [];
-          // where to insert 示例添加到尾部，可以是随意位置
-          item.children.push(dragObj);
-        });
-      } else if (
-        (info.node.children || []).length > 0 && // Has children
-        info.node.expanded && // Is expanded
-        dropPosition === 1 // On the bottom gap
-      ) {
-        loop(data, dropKey, item => {
-          item.children = item.children || [];
-          // where to insert 示例添加到尾部，可以是随意位置
-          item.children.unshift(dragObj);
-        });
-      } else {
-        let ar;
-        let i;
-        loop(data, dropKey, (item, index, arr) => {
-          ar = arr;
-          i = index;
-        });
-        if (dropPosition === -1) {
-          ar.splice(i, 0, dragObj);
-        } else {
-          ar.splice(i + 1, 0, dragObj);
-        }
-      }
-      this.departmentData = data;
     }
   }
 };
@@ -486,10 +474,6 @@ export default {
   border: 1px solid #e8e8e8;
   background-color: #fff;
 }
-.ant-layout-content {
-  overflow: hidden;
-}
-
 .anticon-reload {
   cursor: pointer;
 }
@@ -501,11 +485,4 @@ export default {
   margin-top: 10px;
   padding-bottom: 20px;
 }
-.ant-row{
-  margin-bottom: 12px;
-}
-.ant-drawer-body .ant-row{
-   margin-bottom: 6px;
-}
-
 </style>

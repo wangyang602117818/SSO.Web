@@ -8,7 +8,8 @@ namespace SSO.Model
 {
     public class DepartmentData
     {
-        public ScopedSlots scopedSlots { get { return new ScopedSlots(); } }
+        [BsonElement("scopedSlots")]
+        public ScopedSlots ScopedSlots { get { return new ScopedSlots(); } }
         [BsonElement("value")]
         public string Value { get { return Code; } }
 

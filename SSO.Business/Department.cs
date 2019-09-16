@@ -1,8 +1,6 @@
 ﻿using SSO.Model;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 
 namespace SSO.Business
@@ -55,7 +53,7 @@ namespace SSO.Business
             List<int> ids = new List<int>() { id };
             Data.Models.Department dept = userCenterContext.Departments.Where(w => w.Id == id).FirstOrDefault();
             GetSubDepartmentIds(dept.Code, ref ids);
-            foreach(var item in ids)
+            foreach (var item in ids)
             {
                 var deptList = from it in userCenterContext.Departments where ids.Contains(it.Id) select it;
                 if (deptList.Count() > 0)
