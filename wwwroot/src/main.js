@@ -16,7 +16,7 @@ import Settings from '@/components/settings'
 import common from './common.js'
 import "@/css/index.css"
 
-import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, Popconfirm, Tabs, Tree, Card } from 'ant-design-vue'
+import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, Popconfirm, Tabs, Tree, Divider } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 
@@ -36,7 +36,7 @@ Vue.use(Tree)
 Vue.use(TreeSelect)
 Vue.use(Tabs)
 Vue.use(Popconfirm)
-Vue.use(Card)
+Vue.use(Divider)
 
 Vue.prototype.$message = message
 Vue.prototype.$common = common

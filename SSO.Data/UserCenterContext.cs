@@ -8,8 +8,11 @@ namespace SSO.Data
         public static string databaseKey = System.Configuration.ConfigurationManager.AppSettings["databaseKey"];
         public UserCenterContext() : base("name=" + databaseKey) { }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Company> Companys { get; set; }
+        public DbSet<Company> Companies { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<UserBasic> UserBasics { get; set; }
+        public DbSet<UserAuthority> UserAuthorities { get; set; }
+
 
     }
 }

@@ -18,6 +18,5 @@ namespace SSO.Data.Models
         public string Description { get; set; }
         public int Order { get; set; }
 
-        public virtual ICollection<Department> Departments { get; set; }
     }
 }

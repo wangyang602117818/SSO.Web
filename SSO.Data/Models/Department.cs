@@ -22,7 +22,5 @@ namespace SSO.Data.Models
         [StringLength(30)]
         [Required]
         public string CompanyCode { get; set; }
-
-        public virtual Company Company { get; set; }
     }
 }
