@@ -52,7 +52,11 @@ namespace SSO.Business
             count = query.Count();
             return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }
-
+        public IEnumerable<Data.Models.Role> GetAll()
+        {
+            var query = from role in userCenterContext.Roles select role;
+            return query.OrderBy(o => o.Name).ToList();
+        }
         public int Delete(IEnumerable<int> ids)
         {
             foreach (int id in ids)

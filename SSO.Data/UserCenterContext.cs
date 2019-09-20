@@ -11,7 +11,8 @@ namespace SSO.Data
         public DbSet<Company> Companies { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<UserBasic> UserBasics { get; set; }
-        public DbSet<UserAuthority> UserAuthorities { get; set; }
+        public DbSet<UserDepartmentMapping> UserDepartmentMappings { get; set; }
+        public DbSet<UserRoleMapping> UserRoleMappings { get; set; }
 
 
     }

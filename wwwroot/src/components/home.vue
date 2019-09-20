@@ -27,12 +27,6 @@
                 <span>基本信息</span>
               </router-link>
             </a-menu-item>
-            <a-menu-item key="userauthority">
-              <router-link to="/userauthority">
-                <a-icon type="info-circle" />
-                <span>权限信息</span>
-              </router-link>
-            </a-menu-item>
           </a-sub-menu>
           <a-menu-item key="role">
             <router-link to="/role">

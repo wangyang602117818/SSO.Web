@@ -7,7 +7,6 @@ import About from '@/components/about'
 import Home from '@/components/home'
 import OverView from '@/components/overview'
 import UserBasic from '@/components/user_basic'
-import UserAuthority from '@/components/user_authority'
 import Role from '@/components/role'
 import Company from '@/components/company'
 import Department from '@/components/department'
@@ -52,6 +51,7 @@ var urls = {
     update: "role/update",
     delete: "role/delete",
     getlist: "role/getlist",
+    getall:"role/getall",
     getById: "role/getbyid"
   },
   company: {
@@ -59,15 +59,19 @@ var urls = {
     update: "company/update",
     delete: "company/delete",
     getlist: "company/getlist",
-    getall:"company/getall",
+    getall: "company/getall",
     getById: "company/getbyid"
   },
   department: {
     add: "department/add",
     getdepartments: "department/getdepartments",
     get: "department/get",
-    update:"department/update",
-    delete:"department/delete"
+    update: "department/update",
+    delete: "department/delete"
+  },
+  user: {
+    add: "user/add",
+    getbasic:"user/getbasic",
   }
 }
 Vue.prototype.$urls = urls
@@ -94,11 +98,6 @@ const router = new VueRouter({
           path: 'userbasic',
           name: "userbasic",
           component: UserBasic
-        },
-        {
-          path: 'userauthority',
-          name: "userauthority",
-          component: UserAuthority
         },
         {
           path: 'role',

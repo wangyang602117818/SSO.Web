@@ -75,11 +75,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\BaseModel.cs" />
-    <Compile Include="Models\UserAuthority.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\UserBasic.cs" />
+    <Compile Include="Models\UserDepartmentMapping.cs" />
+    <Compile Include="Models\UserRoleMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserCenterContext.cs" />
   </ItemGroup>

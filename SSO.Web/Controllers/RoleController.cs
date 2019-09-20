@@ -1,6 +1,7 @@
 ﻿using SSO.Web.Filters;
 using SSO.Web.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
@@ -41,6 +42,11 @@ namespace SSO.Web.Controllers
             int count = 0;
             var result = role.GetList(ref count, filter, pageIndex, pageSize);
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, count);
+        }
+        public ActionResult GetAll()
+        {
+            var result = role.GetAll();
+            return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, result.Count());
         }
         public ActionResult Delete(IEnumerable<int> ids)
         {

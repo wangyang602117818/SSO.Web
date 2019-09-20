@@ -53,9 +53,9 @@ namespace SSO.Web.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(UserModel userModel, string returnUrl)
+        public ActionResult Login(LoginModel loginModel, string returnUrl)
         {
-            if (userModel.UserName == "wang" && userModel.PassWord == "123")
+            if (loginModel.UserName == "wang" && loginModel.PassWord == "123")
             {
                 string userId = "CN445379";
                 string ticket = JwtManager.GenerateTicket(userId);

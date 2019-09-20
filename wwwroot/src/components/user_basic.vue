@@ -28,120 +28,99 @@
     />
     <a-drawer
       :title="isUpdate?'更新用户':'添加用户'"
-      :width="360"
+      :width="400"
       handle="slot"
       @close="drawerVisible=false"
       :visible="drawerVisible"
     >
-      <a-form :form="form" layout="vertical" @submit.prevent="handleSubmit">
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="UserId">
-              <a-input
-                placeholder="用户编号"
-                v-decorator="['userId',{rules: [{ required: true, message: 'UserId is required!' }]}]"
-              >
-              </a-input>
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="UserName">
-              <a-input
-                placeholder="用户名称"
-                v-decorator="['userName',{rules: [{ required: true, message: 'UserName is required!' }]}]"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="Mobile">
-              <a-input
-                placeholder="手机号"
-                v-decorator="['mobile',{rules: [{ required: false, message: 'Mobile is required!' }]}]"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="Email">
-              <a-input
-                placeholder="邮箱"
-                v-decorator="['email',{rules: [{ required: false, message: 'Email is required!' }]}]"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="IdCard">
-              <a-input
-                placeholder="身份证号"
-                v-decorator="['idCard',{rules: [{ required: false, message: 'IdCard is required!' }]}]"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
+      <a-form :form="form" @submit.prevent="handleSubmit">
+        <a-form-item label="UserId" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
+          <a-input
+            placeholder="用户编号/登录名"
+            v-decorator="['userId',{rules: [{ required: true, message: 'UserId is required!' }]}]"
+          />
+        </a-form-item>
+        <a-form-item label="UserName" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+          <a-input
+            placeholder="用户名称"
+            v-decorator="['userName',{rules: [{ required: true, message: 'UserName is required!' }]}]"
+          />
+        </a-form-item>
+        <a-form-item label="Sex" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+          <a-select
+            placeholder="性别"
+            v-decorator="['sex',{rules: [{ required: true, message: 'Sex is required!' }]}]"
+          >
+            <a-select-option value="M">男</a-select-option>
+            <a-select-option value="F">女</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item label="Password" :label-col="{ span: 6 }" :wrapper-col="{ span: 10 }">
+          <a-input
+            placeholder="登录密码"
+            v-decorator="['password',{rules: [{ required: true, message: 'Password is required!' }]}]"
+          />
+        </a-form-item>
+        <a-form-item label="Mobile" :label-col="{ span: 6 }" :wrapper-col="{ span: 11 }">
+          <a-input
+            placeholder="手机号"
+            v-decorator="['mobile',{rules: [{ required: false, message: 'Mobile is required!' }]}]"
+          />
+        </a-form-item>
+        <a-form-item label="Email" :label-col="{ span: 6 }" :wrapper-col="{ span: 13 }">
+          <a-input
+            placeholder="邮箱"
+            v-decorator="['email',{rules: [{ required: false, message: 'Email is required!' }]}]"
+          />
+        </a-form-item>
+        <a-form-item label="IdCard" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+          <a-input
+            placeholder="证件号"
+            v-decorator="['idCard',{rules: [{ required: false, message: 'IdCard is required!' }]}]"
+          />
+        </a-form-item>
+        <a-form-item label="Company" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+          <a-select
+            allowClear
+            v-decorator="[ 'companyCode', {rules: [{ required: true, message: 'Please select company!' }]}]"
+            placeholder="所属公司"
+            @change="changeCompany"
+          >
+            <a-select-option
+              :value="item.Code"
+              v-for="item in companyData"
+              v-bind:key="item._id"
+            >{{item.Name}}</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item label="Department" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+          <a-tree-select
+            :treeData="departmentData"
+            multiple
+            v-decorator="[ 'departments', {rules: [{ required: false }]}]"
+            placeholder="所属部门"
+            treeDefaultExpandAll
+            allowClear
+          ></a-tree-select>
+        </a-form-item>
+        <a-form-item label="Role" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+          <a-select
+            allowClear
+            mode="multiple"
+            v-decorator="[ 'roles', {rules: [{ required: false, message: 'Please select role!' }]}]"
+            placeholder="角色"
+          >
+            <a-select-option
+              :value="item.Name"
+              v-for="item in roleData"
+              v-bind:key="item._id"
+            >{{item.Name}}</a-select-option>
+          </a-select>
+        </a-form-item>
         <a-divider />
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="loginId">
-              <a-input
-                placeholder="登录名称"
-                v-decorator="['LoginId',{rules: [{ required: false, message: 'LoginId is required!' }]}]"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="password">
-              <a-input
-                placeholder="登录密码"
-                v-decorator="['Password',{rules: [{ required: false, message: 'Password is required!' }]}]"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="company">
-              <a-input
-                placeholder="所属公司"
-                v-decorator="['Company',{rules: [{ required: false, message: 'Company is required!' }]}]"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="department">
-              <a-input
-                placeholder="所属部门"
-                v-decorator="['Department',{rules: [{ required: false, message: 'Department is required!' }]}]"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="role">
-              <a-input
-                placeholder="角色"
-                v-decorator="['Role',{rules: [{ required: false, message: 'role is required!' }]}]"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-button @click="form.resetFields();">取 消</a-button>
-            <a-button type="primary" html-type="submit">确 定</a-button>
-          </a-col>
-        </a-row>
+
+        <a-button @click="form.resetFields();">取 消</a-button>
+        <a-button type="primary" html-type="submit">确 定</a-button>
       </a-form>
     </a-drawer>
   </div>
@@ -154,31 +133,71 @@ export default {
       data: [],
       searchValue: "",
       selectedRowKeys: [],
+      companyData: [],
+      departmentData: [],
+      roleData: [],
       form: this.$form.createForm(this),
       columns: [
         {
-          title: "用户编号",
-          dataIndex: "id"
+          title: "编号",
+          dataIndex: "_id",
+          width: "5%"
         },
         {
-          title: "用户名称",
-          dataIndex: "name"
+          title: "用户编号",
+          dataIndex: "UserId",
+          width: "7%"
+        },
+        {
+          title: "用户名",
+          dataIndex: "UserName",
+          width: "10%"
         },
         {
           title: "手机号",
-          dataIndex: "mobile"
+          dataIndex: "Mobile",
+          width: "10%"
         },
         {
           title: "邮箱",
-          dataIndex: "email"
+          dataIndex: "Email",
+          width: "13%"
         },
         {
-          title: "照片",
-          dataIndex: "pic"
+          title: "证件号",
+          dataIndex: "IdCard",
+          width: "13%"
+        },
+        {
+          title: "性别",
+          dataIndex: "Sex",
+          width: "5%",
+          customRender: val => {
+            return val == "F" ? "女" : "男";
+          }
+        },
+        {
+          title: "公司",
+          dataIndex: "CompanyCode",
+          width: "5%"
+        },
+        {
+          title: "部门",
+          dataIndex: "",
+          width: "10%"
+        },
+        {
+          title: "角色",
+          dataIndex: "",
+          width: "10%"
         },
         {
           title: "创建时间",
-          dataIndex: "createTime"
+          dataIndex: "CreateTime.$date",
+          width: "12%",
+          customRender: val => {
+            return this.$common.parseBsonTime(val);
+          }
         }
       ],
       rowSelection: {
@@ -215,12 +234,75 @@ export default {
       this.selectedRowKeys = [];
       this.getData();
     },
-    handleSubmit(){
-
+    changeCompany(value) {
+      this.form.setFieldsValue({ departments: "" });
+      this.getDepartmentData(value);
+    },
+    handleSubmit() {
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          this.$http.post(this.$urls.user.add, values).then(response => {
+            if (response.body.code == 400) {
+              this.$message.warning("记录已存在!");
+            }
+            if (response.body.code == 0) {
+              this.getData();
+            }
+          });
+        }
+      });
     },
     eidtUser() {},
     deleteUser() {},
-    getData() {},
+    getData() {
+      this.loading = true;
+      this.$http
+        .get(
+          this.$urls.user.getbasic +
+            "?pageIndex=" +
+            this.pagination.current +
+            "&filter=" +
+            this.searchValue
+        )
+        .then(response => {
+          this.loading = false;
+          const pagination = { ...this.pagination };
+          pagination.total = response.body.count;
+          this.pagination = pagination;
+          if (response.body.code == 0) this.data = response.body.result;
+        });
+    },
+    getCompanyData() {
+      this.$http.get(this.$urls.company.getall).then(response => {
+        if (response.body.code == 0) {
+          this.companyData = response.body.result;
+        }
+      });
+    },
+    getDepartmentData(companyCode) {
+      this.$http
+        .get(
+          this.$urls.department.getdepartments + "?companyCode=" + companyCode
+        )
+        .then(response => {
+          if (response.body.code == 0) {
+            if (response.body.result.length > 0) {
+              this.departmentData = response.body.result;
+            } else {
+              this.departmentData = [];
+            }
+          }
+        });
+    },
+    getRoleData() {
+      this.$http.get(this.$urls.role.getall).then(response => {
+        if (response.body.code == 0) {
+          this.roleData = response.body.result;
+        } else {
+          this.roleData = [];
+        }
+      });
+    },
     onSelectChange(selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys;
     },
@@ -229,6 +311,8 @@ export default {
       this.getData();
     },
     showDrawer() {
+      this.getCompanyData();
+      this.getRoleData();
       this.drawerVisible = true;
     },
     onClose() {
@@ -238,4 +322,7 @@ export default {
 };
 </script>
 <style scope>
+.ant-drawer-body .ant-row {
+  margin-bottom: 20px !important;
+}
 </style>

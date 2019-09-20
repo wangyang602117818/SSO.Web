@@ -83,7 +83,7 @@ export default {
       searchValue: "",
       columns: [
         {
-          title: "自编号",
+          title: "编号",
           dataIndex: "_id",
           width: "7%"
         },
