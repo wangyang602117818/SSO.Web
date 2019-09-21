@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SSO.Data.Models
@@ -26,5 +27,18 @@ namespace SSO.Data.Models
         public string Sex { get; set; }
         public bool IsModified { get; set; }
         public bool Delete { get; set; }
+        public DateTime? DeleteTime { get; set; }
+        /// <summary>
+        /// 额外字段,方便显示
+        /// </summary>
+        public string CompanyName { get; set; }
+        /// <summary>
+        /// 额外字段,方便显示
+        /// </summary>
+        public string DepartmentName { get; set; }
+        /// <summary>
+        /// 额外字段,方便显示
+        /// </summary>
+        public string RoleName { get; set; }
     }
 }

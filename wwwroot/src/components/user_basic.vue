@@ -19,13 +19,17 @@
     </a-popconfirm>
     <a-table
       :columns="columns"
-      :rowKey="record => record._id"
+      :rowKey="record => record.UserId"
       :dataSource="data"
       :rowSelection="{selectedRowKeys:selectedRowKeys,onChange:onSelectChange}"
       :loading="loading"
       :pagination="pagination"
       @change="handleTableChange"
-    />
+    >
+    <span slot="tags" slot-scope="tags">
+      <a-tag>{{tag}}</a-tag>
+    </span>
+    </a-table>
     <a-drawer
       :title="isUpdate?'更新用户':'添加用户'"
       :width="400"
@@ -118,7 +122,6 @@
           </a-select>
         </a-form-item>
         <a-divider />
-
         <a-button @click="form.resetFields();">取 消</a-button>
         <a-button type="primary" html-type="submit">确 定</a-button>
       </a-form>
@@ -178,8 +181,9 @@ export default {
         },
         {
           title: "公司",
-          dataIndex: "CompanyCode",
-          width: "5%"
+          dataIndex: "CompanyName",
+          width: "5%",
+          scopedSlots: { customRender: 'tags' }
         },
         {
           title: "部门",
@@ -252,8 +256,21 @@ export default {
         }
       });
     },
-    eidtUser() {},
-    deleteUser() {},
+    eidtUser() {
+      window.console.log(this.selectedRowKeys);
+    },
+    deleteUser() {
+      this.loading = true;
+      this.$http
+        .post(this.$urls.user.delete, { userIds: this.selectedRowKeys })
+        .then(response => {
+          if (response.body.code == 0) {
+            this.selectedRowKeys = [];
+            this.getData();
+          }
+          this.loading = false;
+        });
+    },
     getData() {
       this.loading = true;
       this.$http

@@ -26,5 +26,9 @@ namespace SSO.Web.Controllers
             var result = user.GetBasic(ref count, filter, pageIndex, pageSize);
             return new ResponseModel<IEnumerable<Data.Models.UserBasic>>(ErrorCode.success, result, count);
         }
+        public ActionResult Delete(IEnumerable<string> userIds)
+        {
+            return new ResponseModel<int>(ErrorCode.success, user.DeleteUser(userIds));
+        }
     }
 }

@@ -74,6 +74,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201909211008287_InitialCreate.cs" />
+    <Compile Include="Migrations\201909211008287_InitialCreate.Designer.cs">
+      <DependentUpon>201909211008287_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909211222324_AddModel.cs" />
+    <Compile Include="Migrations\201909211222324_AddModel.Designer.cs">
+      <DependentUpon>201909211222324_AddModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909211256301_AddModel1.cs" />
+    <Compile Include="Migrations\201909211256301_AddModel1.Designer.cs">
+      <DependentUpon>201909211256301_AddModel1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Department.cs" />
@@ -92,6 +105,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201909211008287_InitialCreate.resx">
+      <DependentUpon>201909211008287_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909211222324_AddModel.resx">
+      <DependentUpon>201909211222324_AddModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909211256301_AddModel1.resx">
+      <DependentUpon>201909211256301_AddModel1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

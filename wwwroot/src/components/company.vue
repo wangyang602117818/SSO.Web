@@ -186,8 +186,8 @@ export default {
             this.selectedRowKeys = [];
             this.getData();
           }
+           this.loading = false;
         });
-        this.loading = false;
     },
     reload() {
       this.selectedRowKeys = [];
