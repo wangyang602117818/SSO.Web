@@ -26,8 +26,11 @@
       :pagination="pagination"
       @change="handleTableChange"
     >
-    <span slot="tags" slot-scope="tags">
-      <a-tag>{{tag}}</a-tag>
+    <span slot="tags" slot-scope="CompanyName">
+      <a-tag v-for="tag in CompanyName.split(',')" :key="tag">{{tag}}</a-tag>
+    </span>
+    <span slot="tags" slot-scope="DepartmentName">
+      <a-tag v-for="tag in DepartmentName.split(',')" :key="tag">{{tag}}</a-tag>
     </span>
     </a-table>
     <a-drawer
@@ -167,11 +170,6 @@ export default {
           width: "13%"
         },
         {
-          title: "证件号",
-          dataIndex: "IdCard",
-          width: "13%"
-        },
-        {
           title: "性别",
           dataIndex: "Sex",
           width: "5%",
@@ -183,22 +181,32 @@ export default {
           title: "公司",
           dataIndex: "CompanyName",
           width: "5%",
-          scopedSlots: { customRender: 'tags' }
+          scopedSlots: { customRender: 'CompanyName' }
         },
         {
           title: "部门",
-          dataIndex: "",
-          width: "10%"
+          dataIndex: "DepartmentName",
+          width: "10%",
+          scopedSlots: { customRender: 'DepartmentName' }
         },
         {
           title: "角色",
-          dataIndex: "",
-          width: "10%"
+          dataIndex: "RoleName",
+          width: "12%",
+          scopedSlots: { customRender: 'RoleName' }
+        },
+         {
+          title: "已修改",
+          dataIndex: "IsModified",
+          width: "8%",
+          customRender: val => {
+            return val.toString();
+          }
         },
         {
           title: "创建时间",
           dataIndex: "CreateTime.$date",
-          width: "12%",
+          width: "15%",
           customRender: val => {
             return this.$common.parseBsonTime(val);
           }
