@@ -6,9 +6,9 @@
       @search="onSearch"
       v-model="searchValue"
     />
-    <a-button type="primary" icon="plus" @click="showDrawer"></a-button>
+    <a-button type="primary" icon="plus" @click="showDrawer()"></a-button>
     <a-button type="default" icon="redo" @click="reload"></a-button>
-    <a-button type="default" icon="edit" @click="eidtUser" :disabled="selectedRowKeys.length!=1"></a-button>
+    <a-button type="default" icon="edit" @click="editUser" :disabled="selectedRowKeys.length!=1"></a-button>
     <a-popconfirm
       title="Are you sure delete this user?"
       @confirm="deleteUser"
@@ -26,12 +26,12 @@
       :pagination="pagination"
       @change="handleTableChange"
     >
-    <span slot="tags" slot-scope="CompanyName">
-      <a-tag v-for="tag in CompanyName.split(',')" :key="tag">{{tag}}</a-tag>
-    </span>
-    <span slot="tags" slot-scope="DepartmentName">
-      <a-tag v-for="tag in DepartmentName.split(',')" :key="tag">{{tag}}</a-tag>
-    </span>
+      <span slot="tags" slot-scope="CompanyName">
+        <a-tag v-for="tag in CompanyName.split(',')" :key="tag">{{tag}}</a-tag>
+      </span>
+      <span slot="tags" slot-scope="DepartmentName">
+        <a-tag v-for="tag in DepartmentName.split(',')" :key="tag">{{tag}}</a-tag>
+      </span>
     </a-table>
     <a-drawer
       :title="isUpdate?'更新用户':'添加用户'"
@@ -125,7 +125,7 @@
           </a-select>
         </a-form-item>
         <a-divider />
-        <a-button @click="form.resetFields();">取 消</a-button>
+        <a-button @click="form.resetFields();">重 置</a-button>
         <a-button type="primary" html-type="submit">确 定</a-button>
       </a-form>
     </a-drawer>
@@ -139,6 +139,7 @@ export default {
       data: [],
       searchValue: "",
       selectedRowKeys: [],
+      selectedRows: [],
       companyData: [],
       departmentData: [],
       roleData: [],
@@ -181,21 +182,21 @@ export default {
           title: "公司",
           dataIndex: "CompanyName",
           width: "5%",
-          scopedSlots: { customRender: 'CompanyName' }
+          scopedSlots: { customRender: "CompanyName" }
         },
         {
           title: "部门",
           dataIndex: "DepartmentName",
           width: "10%",
-          scopedSlots: { customRender: 'DepartmentName' }
+          scopedSlots: { customRender: "DepartmentName" }
         },
         {
           title: "角色",
           dataIndex: "RoleName",
           width: "12%",
-          scopedSlots: { customRender: 'RoleName' }
+          scopedSlots: { customRender: "RoleName" }
         },
-         {
+        {
           title: "已修改",
           dataIndex: "IsModified",
           width: "8%",
@@ -212,23 +213,8 @@ export default {
           }
         }
       ],
-      rowSelection: {
-        onChange: (selectedRowKeys, selectedRows) => {
-          window.console.log(
-            `selectedRowKeys: ${selectedRowKeys}`,
-            "selectedRows: ",
-            selectedRows
-          );
-        },
-        onSelect: (record, selected, selectedRows) => {
-          window.console.log(record, selected, selectedRows);
-        },
-        onSelectAll: (selected, selectedRows, changeRows) => {
-          window.console.log(selected, selectedRows, changeRows);
-        }
-      },
       drawerVisible: false,
-      pagination: { current: 1 },
+      pagination: { current: 1,pageSize:10 },
       loading: false,
       isUpdate: false
     };
@@ -240,10 +226,12 @@ export default {
     onSearch() {
       this.pagination.current = 1;
       this.selectedRowKeys = [];
+      this.selectedRows = [];
       this.getData();
     },
     reload() {
       this.selectedRowKeys = [];
+      this.selectedRows = [];
       this.getData();
     },
     changeCompany(value) {
@@ -252,20 +240,50 @@ export default {
     },
     handleSubmit() {
       this.form.validateFields((err, values) => {
+        window.console.log(values);
         if (!err) {
-          this.$http.post(this.$urls.user.add, values).then(response => {
-            if (response.body.code == 400) {
-              this.$message.warning("记录已存在!");
-            }
-            if (response.body.code == 0) {
-              this.getData();
-            }
-          });
+          if (this.isUpdate) this.updateUser(values);
+          if (!this.isUpdate) this.addUser(values);
         }
       });
     },
-    eidtUser() {
-      window.console.log(this.selectedRowKeys);
+    addUser(user) {
+      this.$http.post(this.$urls.user.add, user).then(response => {
+        if (response.body.code == 400) {
+          this.$message.warning("记录已存在!");
+        }
+        if (response.body.code == 0) {
+          this.getData();
+        }
+      });
+    },
+    updateUser(user) {
+      user.id = this.selectedRows[0]._id;
+      this.$http.post(this.$urls.user.update, user).then(response => {
+        if (response.body.code == 0) {
+          this.getData();
+        }
+      });
+    },
+    editUser() {
+      this.$http
+        .get(this.$urls.user.getbyuserid + "?userid=" + this.selectedRowKeys[0])
+        .then(response => {
+          if (response.body.code == 0) {
+            this.showDrawer(response.body.result.CompanyCode);
+            this.form.setFieldsValue({
+              userId: response.body.result.UserId,
+              userName: response.body.result.UserName,
+              sex: response.body.result.Sex,
+              mobile: response.body.result.Mobile,
+              email: response.body.result.Email,
+              idCard: response.body.result.IdCard,
+              companyCode: response.body.result.CompanyCode,
+              departments: response.body.result.DepartmentCode,
+              roles: response.body.result.Role
+            });
+          }
+        });
     },
     deleteUser() {
       this.loading = true;
@@ -274,6 +292,7 @@ export default {
         .then(response => {
           if (response.body.code == 0) {
             this.selectedRowKeys = [];
+            this.selectedRows = [];
             this.getData();
           }
           this.loading = false;
@@ -286,6 +305,8 @@ export default {
           this.$urls.user.getbasic +
             "?pageIndex=" +
             this.pagination.current +
+            "&pageSize=" +
+            this.pagination.pageSize +
             "&filter=" +
             this.searchValue
         )
@@ -328,16 +349,23 @@ export default {
         }
       });
     },
-    onSelectChange(selectedRowKeys) {
+    onSelectChange(selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys;
+      this.selectedRows = selectedRows;
     },
     handleTableChange(pagination) {
       this.pagination.current = pagination.current;
       this.getData();
     },
-    showDrawer() {
+    showDrawer(companyCode) {
       this.getCompanyData();
       this.getRoleData();
+      if (companyCode) {
+        this.getDepartmentData(companyCode);
+        this.isUpdate = true;
+      } else {
+        this.isUpdate = false;
+      }
       this.drawerVisible = true;
     },
     onClose() {

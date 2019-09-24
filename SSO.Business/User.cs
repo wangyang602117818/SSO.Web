@@ -1,7 +1,7 @@
 ﻿using SSO.Data.Models;
+using SSO.Util;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 
 namespace SSO.Business
@@ -38,7 +38,7 @@ namespace SSO.Business
             {
                 UserId = userId,
                 UserName = userName,
-                PassWord = password,
+                PassWord = password.GetSha256(),
                 CompanyCode = companyCode,
                 Mobile = mobile,
                 Email = email,
@@ -54,18 +54,104 @@ namespace SSO.Business
             });
             return userCenterContext.SaveChanges();
         }
+        public int Update(int id, string userId, string userName, string password, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
+        {
+            //获取原始 user 信息
+            UserBasic userBasic = userCenterContext.UserBasics.Where(r => r.Id == id).FirstOrDefault();
+            //删除原始 role 信息
+            var userRoleMappings = userCenterContext.UserRoleMappings.Where(w => w.UserId == userBasic.UserId);
+            foreach (UserRoleMapping urm in userRoleMappings)
+            {
+                userCenterContext.UserRoleMappings.Attach(urm);
+                userCenterContext.UserRoleMappings.Remove(urm);
+            }
+            //删除原始 department 信息
+            var userDepartmentMappings = userCenterContext.UserDepartmentMappings.Where(w => w.UserId == userBasic.UserId);
+            foreach (UserDepartmentMapping udm in userDepartmentMappings)
+            {
+                userCenterContext.UserDepartmentMappings.Attach(udm);
+                userCenterContext.UserDepartmentMappings.Remove(udm);
+            }
+            string companyName = "", departmentName = "", roleName = "";
+            //获取新公司名称
+            companyName = userCenterContext.Companies.Where(w => w.Code == companyCode).FirstOrDefault().Name;
+            //添加新 department
+            foreach (string department in departments)
+            {
+                departmentName += userCenterContext.Departments.Where(w => w.Code == department).FirstOrDefault().Name + ",";
+                userCenterContext.UserDepartmentMappings.Add(new Data.Models.UserDepartmentMapping()
+                {
+                    UserId = userId,
+                    DepartmentCode = department,
+                    UpdateTime = DateTime.Now,
+                    CreateTime = DateTime.Now
+                });
+            }
+            //添加新 role
+            foreach (string role in roles)
+            {
+                roleName += role + ",";
+                userCenterContext.UserRoleMappings.Add(new Data.Models.UserRoleMapping()
+                {
+                    UserId = userId,
+                    Role = role,
+                    UpdateTime = DateTime.Now,
+                    CreateTime = DateTime.Now
+                });
+            }
+            //修改 user
+            if (userBasic.UserId != userId && GetUser(userId) != null) return 0;
+            userBasic.UserId = userId;
+            userBasic.UserName = userName;
+            userBasic.PassWord = password.GetSha256();
+            userBasic.Mobile = mobile;
+            userBasic.Email = email;
+            userBasic.CompanyCode = companyCode;
+            userBasic.IdCard = idCard;
+            userBasic.Sex = sex.ToString();
+            userBasic.CompanyName = companyName;
+            userBasic.DepartmentName = departmentName.TrimEnd(',');
+            userBasic.RoleName = roleName.TrimEnd(',');
+            userBasic.IsModified = true;
+            userBasic.UpdateTime = DateTime.Now;
+            return userCenterContext.SaveChanges();
+        }
         public Data.Models.UserBasic GetUser(string userId)
         {
             return userCenterContext.UserBasics.Where(r => r.UserId == userId).FirstOrDefault();
         }
+        public SSO.Model.UserBasicData GetUserUpdate(string userId)
+        {
+            UserBasic userBasic = userCenterContext.UserBasics.Where(r => r.UserId == userId).FirstOrDefault();
+            IQueryable<string> departments = userCenterContext.UserDepartmentMappings.Where(w => w.UserId == userId).Select(s => s.DepartmentCode);
+            IQueryable<string> roles = userCenterContext.UserRoleMappings.Where(w => w.UserId == userId).Select(s => s.Role);
+            return new Model.UserBasicData()
+            {
+                Id = userBasic.Id,
+                UserId = userBasic.UserId,
+                UserName = userBasic.UserName,
+                CompanyCode = userBasic.CompanyCode,
+                Mobile = userBasic.Mobile,
+                Email = userBasic.Email,
+                IdCard = userBasic.IdCard,
+                Sex = userBasic.Sex,
+                IsModified = userBasic.IsModified,
+                Delete = userBasic.Delete,
+                DepartmentCode = departments.ToList(),
+                Role = roles.ToList(),
+                CreateTime = userBasic.CreateTime
+            };
+        }
         public int DeleteUser(IEnumerable<string> userIds)
         {
+            //删除 role 信息
             var userRoleMappings = userCenterContext.UserRoleMappings.Where(w => userIds.Contains(w.UserId));
             foreach (UserRoleMapping urm in userRoleMappings)
             {
                 userCenterContext.UserRoleMappings.Attach(urm);
                 userCenterContext.UserRoleMappings.Remove(urm);
             }
+            //删除 department 信息
             var userDepartmentMappings = userCenterContext.UserDepartmentMappings.Where(w => userIds.Contains(w.UserId));
             foreach (UserDepartmentMapping udm in userDepartmentMappings)
             {
@@ -83,7 +169,7 @@ namespace SSO.Business
         public List<Data.Models.UserBasic> GetBasic(ref int count, string keyword = "", int pageIndex = 1, int pageSize = 15)
         {
             var query = from userBasic in userCenterContext.UserBasics where userBasic.Delete == false select userBasic;
-            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.UserName.Contains(keyword));
+            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.UserName.Contains(keyword) || w.UserId.Contains(keyword));
             count = query.Count();
             return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }

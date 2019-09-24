@@ -1,4 +1,5 @@
-﻿using SSO.Web.Models;
+﻿using SSO.Model;
+using SSO.Web.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -20,6 +21,14 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
+        public ActionResult Update(UpdateUserModel updateUserModel)
+        {
+            if (updateUserModel.Departments == null) updateUserModel.Departments = new List<string>();
+            if (updateUserModel.Roles == null) updateUserModel.Roles = new List<string>();
+            int count = user.Update(updateUserModel.Id, updateUserModel.UserId, updateUserModel.UserName, updateUserModel.Password, updateUserModel.Mobile, updateUserModel.Email, updateUserModel.CompanyCode, updateUserModel.IdCard, updateUserModel.Sex, updateUserModel.Departments, updateUserModel.Roles);
+            if (count == 0) return new ResponseModel<string>(ErrorCode.record_exist, "");
+            return new ResponseModel<string>(ErrorCode.success, "");
+        }
         public ActionResult GetBasic(string filter, int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
@@ -29,6 +38,10 @@ namespace SSO.Web.Controllers
         public ActionResult Delete(IEnumerable<string> userIds)
         {
             return new ResponseModel<int>(ErrorCode.success, user.DeleteUser(userIds));
+        }
+        public ActionResult GetByUserId(string userId)
+        {
+            return new ResponseModel<UserBasicData>(ErrorCode.success, user.GetUserUpdate(userId));
         }
     }
 }

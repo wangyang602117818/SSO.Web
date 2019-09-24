@@ -108,7 +108,7 @@ export default {
       selectedRowKeys: [],
       form: this.$form.createForm(this),
       drawerVisible: false,
-      pagination: { current: 1 },
+      pagination: { current: 1, pageSize: 10 },
       loading: false,
       isUpdate: false
     };
@@ -129,6 +129,8 @@ export default {
           this.$urls.role.getlist +
             "?pageIndex=" +
             this.pagination.current +
+            "&pageSize=" +
+            this.pagination.pageSize +
             "&filter=" +
             this.searchValue
         )
@@ -164,7 +166,7 @@ export default {
             this.getData();
           }
         });
-        this.loading = false;
+      this.loading = false;
     },
     reload() {
       this.selectedRowKeys = [];

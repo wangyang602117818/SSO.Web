@@ -28,4 +28,9 @@ namespace SSO.Web.Models
         public List<string> Departments { get; set; }
         public List<string> Roles { get; set; }
     }
+    public class UpdateUserModel:AddUserModel
+    {
+        [Required]
+        public int Id { get; set; }
+    }
 }

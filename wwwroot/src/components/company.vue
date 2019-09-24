@@ -59,8 +59,11 @@
         <a-row :gutter="16">
           <a-col :span="24">
             <a-form-item label="Description">
-              <a-textarea placeholder="公司描述" :autosize="{ minRows: 4, maxRows: 6 }"
-              v-decorator="['description',{rules: [{ required: false, message: 'Description is required!' }]}]"/>
+              <a-textarea
+                placeholder="公司描述"
+                :autosize="{ minRows: 4, maxRows: 6 }"
+                v-decorator="['description',{rules: [{ required: false, message: 'Description is required!' }]}]"
+              />
             </a-form-item>
           </a-col>
         </a-row>
@@ -122,7 +125,7 @@ export default {
       selectedRowKeys: [],
       form: this.$form.createForm(this),
       drawerVisible: false,
-      pagination: { current: 1 },
+      pagination: { current: 1, pageSize: 10 },
       loading: false,
       isUpdate: false
     };
@@ -151,6 +154,8 @@ export default {
           this.$urls.company.getlist +
             "?pageIndex=" +
             this.pagination.current +
+            "&pageSize=" +
+            this.pagination.pageSize +
             "&filter=" +
             this.searchValue
         )
@@ -186,7 +191,7 @@ export default {
             this.selectedRowKeys = [];
             this.getData();
           }
-           this.loading = false;
+          this.loading = false;
         });
     },
     reload() {

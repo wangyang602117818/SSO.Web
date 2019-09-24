@@ -13,7 +13,7 @@ namespace SSO.Data.Models
         [StringLength(50)]
         [Required]
         public string UserName { get; set; }
-        [StringLength(50)]
+        [StringLength(64)]
         public string PassWord { get; set; }
         [StringLength(30)]
         public string CompanyCode { get; set; }

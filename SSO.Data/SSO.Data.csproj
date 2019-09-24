@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SSO.Data</RootNamespace>
     <AssemblyName>SSO.Data</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -86,6 +87,18 @@
     <Compile Include="Migrations\201909211256301_AddModel1.Designer.cs">
       <DependentUpon>201909211256301_AddModel1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909240100305_AddModel2.cs" />
+    <Compile Include="Migrations\201909240100305_AddModel2.Designer.cs">
+      <DependentUpon>201909240100305_AddModel2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909240645262_AddModel3.cs" />
+    <Compile Include="Migrations\201909240645262_AddModel3.Designer.cs">
+      <DependentUpon>201909240645262_AddModel3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909240646131_AddModel4.cs" />
+    <Compile Include="Migrations\201909240646131_AddModel4.Designer.cs">
+      <DependentUpon>201909240646131_AddModel4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Company.cs" />
@@ -115,6 +128,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909211256301_AddModel1.resx">
       <DependentUpon>201909211256301_AddModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909240100305_AddModel2.resx">
+      <DependentUpon>201909240100305_AddModel2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909240645262_AddModel3.resx">
+      <DependentUpon>201909240645262_AddModel3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909240646131_AddModel4.resx">
+      <DependentUpon>201909240646131_AddModel4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

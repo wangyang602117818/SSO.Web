@@ -73,7 +73,9 @@ var urls = {
   user: {
     add: "user/add",
     getbasic:"user/getbasic",
-    delete:"user/delete"
+    delete:"user/delete",
+    update:"user/update",
+    getbyuserid:"user/getbyuserid"
   }
 }
 Vue.prototype.$urls = urls
