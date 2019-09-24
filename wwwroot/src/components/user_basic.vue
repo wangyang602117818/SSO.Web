@@ -65,16 +65,30 @@
         <a-form-item label="Password" :label-col="{ span: 6 }" :wrapper-col="{ span: 10 }">
           <a-input
             placeholder="登录密码"
-            v-decorator="['password',{rules: [{ required: true, message: 'Password is required!' }]}]"
+            v-decorator="['password',{rules: [
+            {required: true, message: 'Password is required!' },
+            {validator: validateToNextPassword}
+            ]}]"
+            type="password"
           />
         </a-form-item>
-        <a-form-item label="Mobile" :label-col="{ span: 6 }" :wrapper-col="{ span: 11 }">
+        <a-form-item label="Confirm" :label-col="{ span: 6 }" :wrapper-col="{ span: 10 }">
+          <a-input
+            placeholder="确认密码"
+            v-decorator="['confirmPassword',{rules: [
+            {required: true, message: 'Password is required!' },
+            {validator: compareToFirstPassword}]}]"
+            type="password"
+            @blur="handleConfirmBlur"
+          />
+        </a-form-item>
+        <a-form-item label="Mobile" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
           <a-input
             placeholder="手机号"
             v-decorator="['mobile',{rules: [{ required: false, message: 'Mobile is required!' }]}]"
           />
         </a-form-item>
-        <a-form-item label="Email" :label-col="{ span: 6 }" :wrapper-col="{ span: 13 }">
+        <a-form-item label="Email" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
           <a-input
             placeholder="邮箱"
             v-decorator="['email',{rules: [{ required: false, message: 'Email is required!' }]}]"
@@ -144,6 +158,7 @@ export default {
       departmentData: [],
       roleData: [],
       form: this.$form.createForm(this),
+      confirmDirty: false,
       columns: [
         {
           title: "编号",
@@ -214,7 +229,7 @@ export default {
         }
       ],
       drawerVisible: false,
-      pagination: { current: 1,pageSize:10 },
+      pagination: { current: 1, pageSize: 10 },
       loading: false,
       isUpdate: false
     };
@@ -233,6 +248,25 @@ export default {
       this.selectedRowKeys = [];
       this.selectedRows = [];
       this.getData();
+    },
+    handleConfirmBlur(e) {
+      const value = e.target.value;
+      this.confirmDirty = this.confirmDirty || !!value;
+    },
+    compareToFirstPassword(rule, value, callback) {
+      const form = this.form;
+      if (value && value !== form.getFieldValue("password")) {
+        callback("Two passwords that you enter is inconsistent!");
+      } else {
+        callback();
+      }
+    },
+    validateToNextPassword  (rule, value, callback) {
+      const form = this.form;
+      if (value && this.confirmDirty) {
+        form.validateFields(['confirm'], { force: true });
+      }
+      callback();
     },
     changeCompany(value) {
       this.form.setFieldsValue({ departments: "" });
