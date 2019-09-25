@@ -15,7 +15,7 @@ import Settings from '@/components/settings'
 import common from './common.js'
 import "@/css/index.css"
 
-import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, Popconfirm, Tabs, Tree, Divider ,Tag} from 'ant-design-vue'
+import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 
@@ -37,6 +37,8 @@ Vue.use(Tabs)
 Vue.use(Popconfirm)
 Vue.use(Divider)
 Vue.use(Tag)
+Vue.use(Switch)
+Vue.use(Tooltip)
 
 Vue.prototype.$message = message
 Vue.prototype.$common = common
@@ -52,7 +54,7 @@ var urls = {
     update: "role/update",
     delete: "role/delete",
     getlist: "role/getlist",
-    getall:"role/getall",
+    getall: "role/getall",
     getById: "role/getbyid"
   },
   company: {
@@ -72,10 +74,11 @@ var urls = {
   },
   user: {
     add: "user/add",
-    getbasic:"user/getbasic",
-    delete:"user/delete",
-    update:"user/update",
-    getbyuserid:"user/getbyuserid"
+    getbasic: "user/getbasic",
+    delete: "user/delete",
+    update: "user/update",
+    restore: "user/restore",
+    getbyuserid: "user/getbyuserid"
   }
 }
 Vue.prototype.$urls = urls

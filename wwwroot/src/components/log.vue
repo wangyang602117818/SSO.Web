@@ -1,110 +1,73 @@
 <template>
-  <div>
-    <a-input-search style="margin-bottom: 8px" placeholder="Search" @change="onChange" />
-    <a-tree
-      @expand="onExpand"
-      :expandedKeys="expandedKeys"
-      :autoExpandParent="autoExpandParent"
-      :treeData="gData"
-    >
-      <template slot="title" slot-scope="{title}">
-        <span v-if="title.indexOf(searchValue) > -1" tag='0'>
-          {{title.substr(0, title.indexOf(searchValue))}}
-          <span style="color: #f50" tag='3'>{{searchValue}}</span>
-          {{title.substr(title.indexOf(searchValue) + searchValue.length)}}
-        </span>
-        <span v-else tag='1'>{{title}}</span>
-      </template>
-    </a-tree>
-  </div>
+  <a-table :columns="columns" :dataSource="data">
+    <a slot="name" slot-scope="text" href="javascript:;">{{text}}</a>
+    <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
+    <span slot="tags" slot-scope="tags">
+      <a-tag v-for="tag in tags" color="blue" :key="tag">{{tag}}</a-tag>
+    </span>
+    <span slot="action" slot-scope="text, record">
+      <a href="javascript:;">Invite 一 {{record.name}}</a>
+      <a-divider type="vertical" />
+      <a href="javascript:;">Delete</a>
+      <a-divider type="vertical" />
+      <a href="javascript:;" class="ant-dropdown-link">
+        More actions <a-icon type="down" />
+      </a>
+    </span>
+  </a-table>
 </template>
 <script>
-const x = 3
-const y = 2
-const z = 1
-const gData = []
+const columns = [{
+  dataIndex: 'name',
+  key: 'name',
+  slots: { title: 'customTitle' },
+  scopedSlots: { customRender: 'name' },
+}, {
+  title: 'Age',
+  dataIndex: 'age',
+  key: 'age',
+}, {
+  title: 'Address',
+  dataIndex: 'address',
+  key: 'address',
+}, {
+  title: 'Tags',
+  key: 'tags',
+  dataIndex: 'tags',
+  scopedSlots: { customRender: 'tags' },
+}, {
+  title: 'Action',
+  key: 'action',
+  scopedSlots: { customRender: 'action' },
+}];
 
-const generateData = (_level, _preKey, _tns) => {
-  const preKey = _preKey || '0'
-  const tns = _tns || gData
+const data = [{
+  key: '1',
+  name: 'John Brown',
+  age: 32,
+  address: 'New York No. 1 Lake Park',
+  tags: ['nice', 'developer'],
+}, {
+  key: '2',
+  name: 'Jim Green',
+  age: 42,
+  address: 'London No. 1 Lake Park',
+  tags: ['loser'],
+}, {
+  key: '3',
+  name: 'Joe Black',
+  age: 32,
+  address: 'Sidney No. 1 Lake Park',
+  tags: ['cool', 'teacher'],
+}];
 
-  const children = []
-  for (let i = 0; i < x; i++) {
-    const key = `${preKey}-${i}`
-    tns.push({ title: key, key, scopedSlots: { title: 'title' }})
-    if (i < y) {
-      children.push(key)
-    }
-  }
-  if (_level < 0) {
-    return tns
-  }
-  const level = _level - 1
-  children.forEach((key, index) => {
-    tns[index].children = []
-    return generateData(level, key, tns[index].children)
-  })
-}
-generateData(z)
-
-const dataList = []
-const generateList = (data) => {
-  for (let i = 0; i < data.length; i++) {
-    const node = data[i]
-    const key = node.key
-    dataList.push({ key, title: key })
-    if (node.children) {
-      generateList(node.children, node.key)
-    }
-  }
-}
-generateList(gData)
-
-
-const getParentKey = (key, tree) => {
-  let parentKey
-  for (let i = 0; i < tree.length; i++) {
-    const node = tree[i]
-    if (node.children) {
-      if (node.children.some(item => item.key === key)) {
-        parentKey = node.key
-      } else if (getParentKey(key, node.children)) {
-        parentKey = getParentKey(key, node.children)
-      }
-    }
-  }
-  return parentKey
-}
 export default {
-  data () {
+  data() {
     return {
-      expandedKeys: [],
-      searchValue: '',
-      autoExpandParent: true,
-      gData,
+      data,
+      columns,
     }
-  },
-  methods: {
-    onExpand  (expandedKeys) {
-      this.expandedKeys = expandedKeys
-      this.autoExpandParent = false
-    },
-    onChange (e) {
-      const value = e.target.value
-      const expandedKeys = dataList.map((item) => {
-        if (item.key.indexOf(value) > -1) {
-          return getParentKey(item.key, gData)
-        }
-        return null
-      }).filter((item, i, self) => item && self.indexOf(item) === i)
-      
-      Object.assign(this, {
-        expandedKeys,
-        searchValue: value,
-        autoExpandParent: true,
-      })
-    },
-  },
+  }
 }
 </script>
 <style scoped>

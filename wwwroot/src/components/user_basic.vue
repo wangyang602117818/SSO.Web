@@ -1,22 +1,48 @@
 <template>
   <div>
-    <a-input-search
-      placeholder="input search text"
-      style="width: 200px"
-      @search="onSearch"
-      v-model="searchValue"
-    />
-    <a-button type="primary" icon="plus" @click="showDrawer()"></a-button>
-    <a-button type="default" icon="redo" @click="reload"></a-button>
-    <a-button type="default" icon="edit" @click="editUser" :disabled="selectedRowKeys.length!=1"></a-button>
-    <a-popconfirm
-      title="Are you sure delete this user?"
-      @confirm="deleteUser"
-      okText="Yes"
-      cancelText="No"
-    >
-      <a-button type="danger" icon="delete" :disabled="selectedRowKeys.length==0"></a-button>
-    </a-popconfirm>
+    <a-row type="flex" align="middle">
+      <a-col :span="12">
+        <a-input-search
+          placeholder="input search text"
+          style="width: 200px"
+          @search="onSearch"
+          v-model="searchValue"
+        />
+        <a-button type="primary" icon="plus" @click="showDrawer()"></a-button>
+        <a-button type="default" icon="redo" @click="reload"></a-button>
+        <a-button
+          type="default"
+          icon="edit"
+          @click="editUser"
+          :disabled="selectedRowKeys.length!=1"
+        ></a-button>
+
+        <a-popconfirm
+          title="Are you sure delete this user?"
+          @confirm="deleteUser"
+          okText="Yes"
+          cancelText="No"
+          v-if="this.showDelete==false"
+        >
+          <a-button type="danger" icon="delete" :disabled="selectedRowKeys.length==0"></a-button>
+        </a-popconfirm>
+        <a-popconfirm
+          title="Are you sure restore this user?"
+          @confirm="restoreUser"
+          okText="Yes"
+          cancelText="No"
+          v-if="this.showDelete==true"
+        >
+          <a-button type="default" icon="rollback" :disabled="selectedRowKeys.length==0"></a-button>
+        </a-popconfirm>
+      </a-col>
+      <a-col :span="12" align="right">
+        <a-tooltip :title="this.showDelete?'显示正常用户':'显示删除用户'" placement="top">
+          <a-switch :defaultChecked="showDelete" @change="changeDeleteShow" />
+        </a-tooltip>
+      </a-col>
+    </a-row>
+
     <a-table
       :columns="columns"
       :rowKey="record => record.UserId"
@@ -26,11 +52,15 @@
       :pagination="pagination"
       @change="handleTableChange"
     >
-      <span slot="tags" slot-scope="CompanyName">
-        <a-tag v-for="tag in CompanyName.split(',')" :key="tag">{{tag}}</a-tag>
-      </span>
-      <span slot="tags" slot-scope="DepartmentName">
+      <a-tag :key="CompanyName" slot="CompanyName" slot-scope="CompanyName">{{CompanyName}}</a-tag>
+      <span slot="DepartmentName" slot-scope="DepartmentName" v-if="DepartmentName">
         <a-tag v-for="tag in DepartmentName.split(',')" :key="tag">{{tag}}</a-tag>
+      </span>
+      <span slot="RoleName" slot-scope="RoleName" v-if="RoleName">
+        <a-tag v-for="tag in RoleName.split(',')" :key="tag">{{tag}}</a-tag>
+      </span>
+      <span slot="IsModified" slot-scope="text, record">
+        <a-tooltip placement="top" :title="parseBsonTime(record.UpdateTime.$date)">{{record.IsModified}}</a-tooltip>
       </span>
     </a-table>
     <a-drawer
@@ -215,9 +245,7 @@ export default {
           title: "已修改",
           dataIndex: "IsModified",
           width: "8%",
-          customRender: val => {
-            return val.toString();
-          }
+          scopedSlots: { customRender: "IsModified" }
         },
         {
           title: "创建时间",
@@ -231,13 +259,17 @@ export default {
       drawerVisible: false,
       pagination: { current: 1, pageSize: 10 },
       loading: false,
-      isUpdate: false
+      isUpdate: false,
+      showDelete: false
     };
   },
   created() {
     this.getData();
   },
   methods: {
+    parseBsonTime(val) {
+      return this.$common.parseBsonTime(val);
+    },
     onSearch() {
       this.pagination.current = 1;
       this.selectedRowKeys = [];
@@ -247,6 +279,10 @@ export default {
     reload() {
       this.selectedRowKeys = [];
       this.selectedRows = [];
+      this.getData();
+    },
+    changeDeleteShow() {
+      this.showDelete = !this.showDelete;
       this.getData();
     },
     handleConfirmBlur(e) {
@@ -261,10 +297,10 @@ export default {
         callback();
       }
     },
-    validateToNextPassword  (rule, value, callback) {
+    validateToNextPassword(rule, value, callback) {
       const form = this.form;
       if (value && this.confirmDirty) {
-        form.validateFields(['confirm'], { force: true });
+        form.validateFields(["confirm"], { force: true });
       }
       callback();
     },
@@ -332,7 +368,43 @@ export default {
           this.loading = false;
         });
     },
+    restoreUser() {
+      this.loading = true;
+      this.$http
+        .post(this.$urls.user.restore, { userIds: this.selectedRowKeys })
+        .then(response => {
+          if (response.body.code == 0) {
+            this.selectedRowKeys = [];
+            this.selectedRows = [];
+            this.getData();
+          }
+          this.loading = false;
+        });
+    },
+    addTableColumns() {
+      var len = this.columns.length;
+      if (this.showDelete) {
+        this.columns.splice(len - 1, 1, {
+          title: "删除时间",
+          dataIndex: "DeleteTime.$date",
+          width: "15%",
+          customRender: val => {
+            return this.$common.parseBsonTime(val);
+          }
+        });
+      } else {
+        this.columns.splice(len - 1, 1, {
+          title: "创建时间",
+          dataIndex: "CreateTime.$date",
+          width: "15%",
+          customRender: val => {
+            return this.$common.parseBsonTime(val);
+          }
+        });
+      }
+    },
     getData() {
+      this.addTableColumns();
       this.loading = true;
       this.$http
         .get(
@@ -342,7 +414,9 @@ export default {
             "&pageSize=" +
             this.pagination.pageSize +
             "&filter=" +
-            this.searchValue
+            this.searchValue +
+            "&delete=" +
+            this.showDelete
         )
         .then(response => {
           this.loading = false;
