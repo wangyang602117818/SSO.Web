@@ -37,7 +37,7 @@
         </a-popconfirm>
         <a-popconfirm
           title="Are you sure permanent delete this user?"
-          @confirm="permanentDeleteUser"
+          @confirm="deleteUser"
           okText="Yes"
           cancelText="No"
           v-if="this.showDelete==true"
