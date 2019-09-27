@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <iframe src="http://www.a.com:8031/index.html" id="frm1"></iframe>
+</body>
+</html>
+<script>
+    window.onload = function () {
+        let targetOrigin = 'http://www.a.com:8031';
+        //想要操作当前iframe的时候，就像该ifranme中postMessage()一个东西。
+        window.frames[0].postMessage('我要给你发消息了!', targetOrigin);
+        //*表示任何域都可以监听。
+    }
+    window.addEventListener('message', function (e) {
+        console.log('a.html 接收到的消息:', e.data);
+    });
+</script>

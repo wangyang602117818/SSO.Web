@@ -18,8 +18,8 @@
         ></a-button>
 
         <a-popconfirm
-          title="Are you sure delete this user?"
-          @confirm="deleteUser"
+          title="Are you sure remove this user?"
+          @confirm="removeUser"
           okText="Yes"
           cancelText="No"
           v-if="this.showDelete==false"
@@ -34,6 +34,15 @@
           v-if="this.showDelete==true"
         >
           <a-button type="default" icon="rollback" :disabled="selectedRowKeys.length==0"></a-button>
+        </a-popconfirm>
+        <a-popconfirm
+          title="Are you sure permanent delete this user?"
+          @confirm="permanentDeleteUser"
+          okText="Yes"
+          cancelText="No"
+          v-if="this.showDelete==true"
+        >
+          <a-button type="default" icon="close" :disabled="selectedRowKeys.length==0"></a-button>
         </a-popconfirm>
       </a-col>
       <a-col :span="12" align="right">
@@ -60,7 +69,10 @@
         <a-tag v-for="tag in RoleName.split(',')" :key="tag">{{tag}}</a-tag>
       </span>
       <span slot="IsModified" slot-scope="text, record">
-        <a-tooltip placement="top" :title="parseBsonTime(record.UpdateTime.$date)">{{record.IsModified}}</a-tooltip>
+        <a-tooltip
+          placement="top"
+          :title="parseBsonTime(record.UpdateTime.$date)"
+        >{{record.IsModified}}</a-tooltip>
       </span>
     </a-table>
     <a-drawer
@@ -353,6 +365,19 @@ export default {
               roles: response.body.result.Role
             });
           }
+        });
+    },
+    removeUser() {
+      this.loading = true;
+      this.$http
+        .post(this.$urls.user.remove, { userIds: this.selectedRowKeys })
+        .then(response => {
+          if (response.body.code == 0) {
+            this.selectedRowKeys = [];
+            this.selectedRows = [];
+            this.getData();
+          }
+          this.loading = false;
         });
     },
     deleteUser() {

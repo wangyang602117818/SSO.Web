@@ -195,6 +195,7 @@
     <Content Include="Content\iconfont\iconfont.woff2" />
     <Content Include="Content\iconfont\iconfont.eot" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="index.html" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />

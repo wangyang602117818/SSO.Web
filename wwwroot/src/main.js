@@ -75,6 +75,7 @@ var urls = {
   user: {
     add: "user/add",
     getbasic: "user/getbasic",
+    remove: "user/remove",
     delete: "user/delete",
     update: "user/update",
     restore: "user/restore",

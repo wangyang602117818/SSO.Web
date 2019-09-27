@@ -142,7 +142,7 @@ namespace SSO.Business
                 CreateTime = userBasic.CreateTime
             };
         }
-        public int DeleteUser(IEnumerable<string> userIds)
+        public int RemoveUser(IEnumerable<string> userIds)
         {
             //删除 role 信息
             var userRoleMappings = userCenterContext.UserRoleMappings.Where(w => userIds.Contains(w.UserId));
@@ -172,6 +172,16 @@ namespace SSO.Business
             foreach (var item in userBasics)
             {
                 item.Delete = false;
+            }
+            return userCenterContext.SaveChanges();
+        }
+        public int DeleteUser(IEnumerable<string> userIds)
+        {
+            var userBasics = userCenterContext.UserBasics.Where(w => userIds.Contains(w.UserId));
+            foreach (var item in userBasics)
+            {
+                userCenterContext.UserBasics.Attach(item);
+                userCenterContext.UserBasics.Remove(item);
             }
             return userCenterContext.SaveChanges();
         }
