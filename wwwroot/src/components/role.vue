@@ -108,7 +108,7 @@ export default {
       selectedRowKeys: [],
       form: this.$form.createForm(this),
       drawerVisible: false,
-      pagination: { current: 1, pageSize: 10 },
+      pagination: { current: 1, pageSize: 10,size:'small' },
       loading: false,
       isUpdate: false
     };
@@ -138,6 +138,7 @@ export default {
           this.loading = false;
           const pagination = { ...this.pagination };
           pagination.total = response.body.count;
+          pagination.showTotal=()=>{return this.pagination.total;};
           this.pagination = pagination;
           if (response.body.code == 0) this.data = response.body.result;
         });
