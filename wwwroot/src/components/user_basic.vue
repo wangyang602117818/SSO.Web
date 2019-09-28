@@ -215,12 +215,12 @@ export default {
         {
           title: "用户名",
           dataIndex: "UserName",
-          width: "10%"
+          width: "12%"
         },
         {
           title: "手机号",
           dataIndex: "Mobile",
-          width: "10%"
+          width: "9%"
         },
         {
           title: "邮箱",
@@ -256,7 +256,7 @@ export default {
         {
           title: "已修改",
           dataIndex: "IsModified",
-          width: "8%",
+          width: "7%",
           scopedSlots: { customRender: "IsModified" }
         },
         {

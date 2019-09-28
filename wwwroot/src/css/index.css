@@ -4,3 +4,7 @@
   .ant-drawer-body .ant-row{
      margin-bottom: 6px;
   }
+  .ant-tag{
+   margin-right:2px !important;
+   padding:0 3px !important;
+ }
