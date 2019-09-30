@@ -1,10 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SSO.Data.Models
 {
-    public class Role:BaseModel
+    public class Role : BaseModel
     {
         [Index(IsUnique = true)]
         [StringLength(50)]
