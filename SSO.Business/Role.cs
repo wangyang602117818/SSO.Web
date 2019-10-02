@@ -67,5 +67,6 @@ namespace SSO.Business
             }
             return userCenterContext.SaveChanges();
         }
+
     }
 }

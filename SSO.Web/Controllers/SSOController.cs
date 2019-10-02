@@ -20,13 +20,13 @@ namespace SSO.Web.Controllers
             ViewBag.ssoUrls = ssoUrls;
             return View();
         }
-        [AllowAnonymous]
-        public ActionResult GetToken(string ticket, string ip)
-        {
-            string userId = JwtManager.DecodeTicket(ticket);
-            string token = userId == "" ? "" : JwtManager.GenerateToken(userId, "", new string[] { "read", "edit" }, ip, 20);
-            return new ResponseModel<string>(ErrorCode.success, token);
-        }
+        //[AllowAnonymous]
+        //public ActionResult GetToken(string ticket, string ip)
+        //{
+        //    string userId = JwtManager.DecodeTicket(ticket);
+        //    string token = userId == "" ? "" : JwtManager.GenerateToken(userId, null, null, null, null, ip, 20);
+        //    return new ResponseModel<string>(ErrorCode.success, token);
+        //}
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -40,7 +40,8 @@ namespace SSO.Web.Controllers
                     returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
                     authorization.Expires = DateTime.Now.AddMinutes(cookieTime);
                     Response.Cookies.Add(authorization);
-                    JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl, cookieTime);  //sso退出用
+                    //sso退出用
+                    JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl, cookieTime);
                     return Redirect(returnUrl);
                 }
                 catch (Exception ex)
@@ -55,12 +56,12 @@ namespace SSO.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(LoginModel loginModel, string returnUrl)
         {
-            if (loginModel.UserName == "wang" && loginModel.PassWord == "123")
+            if (loginModel.UserId == "wang" && loginModel.PassWord == "123")
             {
                 string userId = "CN445379";
                 string ticket = JwtManager.GenerateTicket(userId);
                 returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
-                string token = JwtManager.GenerateToken(userId, "", null, Request.UserHostAddress, 24 * 60);
+                string token = JwtManager.GenerateToken(userId, null, null, null, null, Request.UserHostAddress, 24 * 60);
                 HttpCookie httpCookie = new HttpCookie(Request.Url.Host + ".auth", token);
                 httpCookie.Expires = DateTime.Now.AddMinutes(cookieTime);
                 Response.Cookies.Add(httpCookie);

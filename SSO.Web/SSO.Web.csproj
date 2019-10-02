@@ -222,6 +222,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Company\" />
     <Folder Include="Views\Department\" />
+    <Folder Include="Views\Login\" />
     <Folder Include="Views\Role\" />
     <Folder Include="Views\Token\" />
     <Folder Include="Views\User\" />

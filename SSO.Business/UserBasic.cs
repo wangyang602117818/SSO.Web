@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SSO.Business
 {
-    public class User : ModelBase
+    public class UserBasic : ModelBase
     {
         public int Insert(string userId, string userName, string password, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
         {
@@ -57,7 +57,7 @@ namespace SSO.Business
         public int Update(int id, string userId, string userName, string password, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
         {
             //获取原始 user 信息
-            UserBasic userBasic = userCenterContext.UserBasics.Where(r => r.Id == id).FirstOrDefault();
+            Data.Models.UserBasic userBasic = userCenterContext.UserBasics.Where(r => r.Id == id).FirstOrDefault();
             //删除原始 role 信息
             var userRoleMappings = userCenterContext.UserRoleMappings.Where(w => w.UserId == userBasic.UserId);
             foreach (UserRoleMapping urm in userRoleMappings)
@@ -122,7 +122,7 @@ namespace SSO.Business
         }
         public SSO.Model.UserBasicData GetUserUpdate(string userId)
         {
-            UserBasic userBasic = userCenterContext.UserBasics.Where(r => r.UserId == userId).FirstOrDefault();
+            Data.Models.UserBasic userBasic = userCenterContext.UserBasics.Where(r => r.UserId == userId).FirstOrDefault();
             IQueryable<string> departments = userCenterContext.UserDepartmentMappings.Where(w => w.UserId == userId).Select(s => s.DepartmentCode);
             IQueryable<string> roles = userCenterContext.UserRoleMappings.Where(w => w.UserId == userId).Select(s => s.Role);
             return new Model.UserBasicData()
@@ -191,6 +191,21 @@ namespace SSO.Business
             if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.UserName.Contains(keyword) || w.UserId.Contains(keyword));
             count = query.Count();
             return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+        }
+        public Data.Models.UserBasic Login(string userId, string password)
+        {
+            var res = from user in userCenterContext.UserBasics
+                      join company in userCenterContext.Companies on user.CompanyCode equals company.Code
+                      select new Data.Models.UserBasic
+                      {
+                          UserId = user.UserId,
+                          UserName = user.UserName,
+                          CompanyCode = user.CompanyCode,
+                          CompanyName = company.Name,
+                          DepartmentName = user.DepartmentName,
+                          RoleName = user.RoleName
+                      };
+            return res.FirstOrDefault();
         }
     }
 }

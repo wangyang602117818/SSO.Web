@@ -11,14 +11,18 @@ namespace SSO.Util
     {
         public static string secretKey = ConfigurationManager.AppSettings["secretKey"];
         public static string issuer = ConfigurationManager.AppSettings["issuer"];
-        public static string GenerateToken(string userId, string userName, IEnumerable<string> roles, string ip, int minutes)
+        public static string GenerateToken(string userId, string userName, string company, IEnumerable<string> departments, IEnumerable<string> roles, string ip, int minutes)
         {
             var symmetricKey = Convert.FromBase64String(secretKey);
             var tokenHandler = new JwtSecurityTokenHandler();
             var claims = new List<Claim>() { new Claim(ClaimTypes.Name, userId) };
             if (!string.IsNullOrEmpty(userName)) claims.Add(new Claim("StaffName", userName));
+            if (!string.IsNullOrEmpty(company)) claims.Add(new Claim("Company", company));
+            if (departments != null)
+                foreach (string dept in departments) claims.Add(new Claim("Department", dept));
             if (roles != null)
                 foreach (string role in roles) claims.Add(new Claim(ClaimTypes.Role, role));
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),  //token数据

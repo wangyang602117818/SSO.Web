@@ -9,7 +9,7 @@ namespace SSO.Web.Models
     public class LoginModel
     {
         [Required]
-        public string UserName { get; set; }
+        public string UserId { get; set; }
         [Required]
         public string PassWord { get; set; }
     }

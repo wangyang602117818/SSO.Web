@@ -8,7 +8,7 @@ namespace SSO.Web.Controllers
     [AllowAnonymous]
     public class UserController : Controller
     {
-        Business.User user = new Business.User();
+        Business.UserBasic user = new Business.UserBasic();
         public ActionResult Add(AddUserModel addUserModel)
         {
             if (user.GetUser(addUserModel.UserId) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");

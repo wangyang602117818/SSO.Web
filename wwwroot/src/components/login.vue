@@ -62,5 +62,6 @@ export default {
   right: 0;
   top: 0;
   background-color: rgba(226, 226, 226, 1);
+  
 }
 </style>
