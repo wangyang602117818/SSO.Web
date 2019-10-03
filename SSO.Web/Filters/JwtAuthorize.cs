@@ -93,6 +93,7 @@ namespace SSO.Web.Filters
         }
         public static void AddUrlToCookie(HttpContextBase httpContext, string returnUrl, int cookieTime)
         {
+            if (returnUrl == null) return;
             HttpCookie ssoUrlCookie = httpContext.Request.Cookies["ssourls"];
             Uri uri = new Uri(returnUrl);
             returnUrl = returnUrl.Replace(uri.Query, "");

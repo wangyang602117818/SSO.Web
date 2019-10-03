@@ -4,6 +4,7 @@ using SSO.Util;
 using SSO.Web.Filters;
 using SSO.Web.Models;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
@@ -15,15 +16,6 @@ namespace SSO.Web.Controllers
         public ActionResult Index()
         {
             return View();
-        }
-        public ActionResult Login(LoginModel loginModel)
-        {
-            Data.Models.UserBasic userBasic = user.Login(loginModel.UserId, loginModel.PassWord);
-            if (userBasic == null) return new ResponseModel<string>(ErrorCode.login_fault, "");
-            string[] roles = userBasic.RoleName.Split(',');
-            string[] departments = userBasic.DepartmentName.Split(',');
-            string token = JwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60);
-            return new ResponseModel<string>(ErrorCode.login_fault, token);
         }
         public ActionResult Ticket()
         {

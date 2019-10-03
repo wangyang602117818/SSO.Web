@@ -24,8 +24,14 @@ function removeArrayItem(array, val) {
         array.splice(index, 1);
     }
 }
+function getReturnUrl(name) {
+    var index = window.location.search.indexOf(name);
+    var returnUrl = window.location.search.substring(index + name.length + 1);
+    return returnUrl;
+}
 export default {
     parseBsonTime: parseBsonTime,
-    removeArrayItem:removeArrayItem,
-    randomWord: randomWord
+    removeArrayItem: removeArrayItem,
+    randomWord: randomWord,
+    getReturnUrl: getReturnUrl
 }

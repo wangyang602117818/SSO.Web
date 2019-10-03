@@ -195,17 +195,11 @@ namespace SSO.Business
         public Data.Models.UserBasic Login(string userId, string password)
         {
             var res = from user in userCenterContext.UserBasics
-                      join company in userCenterContext.Companies on user.CompanyCode equals company.Code
-                      select new Data.Models.UserBasic
-                      {
-                          UserId = user.UserId,
-                          UserName = user.UserName,
-                          CompanyCode = user.CompanyCode,
-                          CompanyName = company.Name,
-                          DepartmentName = user.DepartmentName,
-                          RoleName = user.RoleName
-                      };
-            return res.FirstOrDefault();
+                      join company in userCenterContext.Companies
+                      on user.CompanyCode equals company.Code
+                      where user.UserId == userId && user.PassWord == password
+                      select user;
+            return res.ToList().FirstOrDefault();
         }
     }
 }

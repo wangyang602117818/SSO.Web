@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import babelPolyfill from 'babel-polyfill'
 
-import Login from '@/components/login'
 import Home from '@/components/home'
 import OverView from '@/components/overview'
 import UserBasic from '@/components/user_basic'
@@ -12,7 +11,7 @@ import Company from '@/components/company'
 import Department from '@/components/department'
 import Log from '@/components/log'
 import Settings from '@/components/settings'
-import common from './common.js'
+import common from './js/common.js'
 import "@/css/index.css"
 
 import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip,Card } from 'ant-design-vue'
@@ -81,7 +80,8 @@ var urls = {
     update: "user/update",
     restore: "user/restore",
     getbyuserid: "user/getbyuserid"
-  }
+  },
+  login:'home/login'
 }
 Vue.prototype.$urls = urls
 Vue.config.productionTip = false
@@ -89,11 +89,6 @@ Vue.config.productionTip = false
 const router = new VueRouter({
   mode: 'history',
   routes: [
-    {
-      path: '/login',
-      name: "login",
-      component: Login
-    },
     {
       path: '/',
       component: Home,
@@ -139,7 +134,6 @@ const router = new VueRouter({
         },
       ]
     }
-
   ]
 })
 

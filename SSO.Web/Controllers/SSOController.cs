@@ -13,6 +13,7 @@ namespace SSO.Web.Controllers
     public class SSOController : Controller
     {
         public static int cookieTime = int.Parse(ConfigurationManager.AppSettings["cookieTime"]);
+        Business.UserBasic user = new Business.UserBasic();
         [AllowAnonymous]
         public ActionResult Index()
         {
@@ -56,22 +57,15 @@ namespace SSO.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(LoginModel loginModel, string returnUrl)
         {
-            if (loginModel.UserId == "wang" && loginModel.PassWord == "123")
-            {
-                string userId = "CN445379";
-                string ticket = JwtManager.GenerateTicket(userId);
-                returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
-                string token = JwtManager.GenerateToken(userId, null, null, null, null, Request.UserHostAddress, 24 * 60);
-                HttpCookie httpCookie = new HttpCookie(Request.Url.Host + ".auth", token);
-                httpCookie.Expires = DateTime.Now.AddMinutes(cookieTime);
-                Response.Cookies.Add(httpCookie);
-                JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl, cookieTime);  //sso退出用
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return new ResponseModel<string>(ErrorCode.login_fault, "");
-            }
+            var userBasic = user.Login(loginModel.UserId, loginModel.PassWord.GetSha256());
+            if (userBasic == null) return new ResponseModel<string>(ErrorCode.login_fault, "");
+            string[] roles = userBasic.RoleName.Split(',');
+            string[] departments = userBasic.DepartmentName.Split(',');
+            string token = JwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60);
+            HttpCookie httpCookie = new HttpCookie(Request.Url.Host + ".auth", token);
+            httpCookie.Expires = DateTime.Now.AddMinutes(cookieTime);
+            JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl, cookieTime);
+            return new ResponseModel<string>(ErrorCode.success, returnUrl ?? "");
         }
         public ActionResult LogOut()
         {

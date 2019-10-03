@@ -3,14 +3,11 @@
     <a-row type="flex" justify="center" align="middle">
       <a-col :span="6">
         <a-card title="Login" :bordered="true">
-          <a-form :form="form" class="login-form">
+          <a-form :form="form" @submit.prevent="handleSubmit">
             <a-form-item>
               <a-input
-                v-decorator="[
-          'userName',
-          { rules: [{ required: true, message: 'Please input your username!' }] }
-        ]"
-                placeholder="Username"
+                v-decorator="['userId',{ rules: [{ required: true, message: 'Please input your userId!' }] }]"
+                placeholder="UserId"
                 size="large"
               >
                 <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
@@ -18,10 +15,7 @@
             </a-form-item>
             <a-form-item>
               <a-input
-                v-decorator="[
-          'password',
-          { rules: [{ required: true, message: 'Please input your Password!' }] }
-        ]"
+                v-decorator="['password',{ rules: [{ required: true, message: 'Please input your Password!' }] }]"
                 type="password"
                 placeholder="Password"
                 size="large"
@@ -30,7 +24,7 @@
               </a-input>
             </a-form-item>
             <a-form-item>
-              <a-button type="primary" html-type="submit" class="login-form-button">Log in</a-button>
+              <a-button type="primary" html-type="submit">Log in</a-button>
             </a-form-item>
           </a-form>
         </a-card>
@@ -45,6 +39,26 @@ export default {
     return {
       form: this.$form.createForm(this)
     };
+  },
+  methods: {
+    handleSubmit() {
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          this.$http.post(this.$urls.login, values).then(response => {
+            if (response.body.code == 0) {
+              var returnUrl =
+                response.body.result || this.$common.getReturnUrl("returnUrl");
+              this.$router.replace({
+                name: "redirect",
+                params: { returnUrl: returnUrl }
+              });
+            } else {
+              this.$message.warning("用户名或密码不正确!");
+            }
+          });
+        }
+      });
+    }
   }
 };
 </script>
@@ -62,6 +76,5 @@ export default {
   right: 0;
   top: 0;
   background-color: rgba(226, 226, 226, 1);
-  
 }
 </style>
