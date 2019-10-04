@@ -39,7 +39,7 @@ namespace SSO.Web.Controllers
                     var userId = JwtAuthorizeAttribute.ParseToken(authorization.Value).Identity.Name;
                     string ticket = JwtManager.GenerateTicket(userId);
                     returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
-                    authorization.Expires = DateTime.Now.AddMinutes(cookieTime);
+                    //authorization.Expires = DateTime.Now.AddMinutes(cookieTime);
                     Response.Cookies.Add(authorization);
                     //sso退出用
                     JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl, cookieTime);
@@ -63,7 +63,7 @@ namespace SSO.Web.Controllers
             string[] departments = userBasic.DepartmentName.Split(',');
             string token = JwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60);
             HttpCookie httpCookie = new HttpCookie(Request.Url.Host + ".auth", token);
-            httpCookie.Expires = DateTime.Now.AddMinutes(cookieTime);
+            //httpCookie.Expires = DateTime.Now.AddMinutes(cookieTime);
             Response.Cookies.Add(httpCookie);
             JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl, cookieTime);
             return new ResponseModel<string>(ErrorCode.success, returnUrl ?? "");

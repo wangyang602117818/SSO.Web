@@ -16,7 +16,7 @@ namespace FileService.Web.Filters
         public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
             Controller controller = (Controller)actionContext.Controller;
-            controller.Response.AddHeader("Access-Control-Allow-Origin", controller.Request.Headers["Origin"]);
+            controller.Response.AddHeader("Access-Control-Allow-Origin", controller.Request.Headers["Origin"] ?? "*");
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
             if (!controller.ModelState.IsValid)
             {
