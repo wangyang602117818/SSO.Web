@@ -5,7 +5,6 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    [AllowAnonymous]
     public class CompanyController : Controller
     {
         Business.Company company = new Business.Company();

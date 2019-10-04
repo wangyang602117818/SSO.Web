@@ -48,10 +48,7 @@ export default {
             if (response.body.code == 0) {
               var returnUrl =
                 response.body.result || this.$common.getReturnUrl("returnUrl");
-              this.$router.replace({
-                name: "redirect",
-                params: { returnUrl: returnUrl }
-              });
+              window.location.href = decodeURIComponent(returnUrl);
             } else {
               this.$message.warning("用户名或密码不正确!");
             }

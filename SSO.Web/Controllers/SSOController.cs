@@ -64,6 +64,7 @@ namespace SSO.Web.Controllers
             string token = JwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60);
             HttpCookie httpCookie = new HttpCookie(Request.Url.Host + ".auth", token);
             httpCookie.Expires = DateTime.Now.AddMinutes(cookieTime);
+            Response.Cookies.Add(httpCookie);
             JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl, cookieTime);
             return new ResponseModel<string>(ErrorCode.success, returnUrl ?? "");
         }

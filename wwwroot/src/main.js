@@ -14,7 +14,7 @@ import Settings from '@/components/settings'
 import common from './js/common.js'
 import "@/css/index.css"
 
-import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip,Card } from 'ant-design-vue'
+import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 
@@ -81,7 +81,7 @@ var urls = {
     restore: "user/restore",
     getbyuserid: "user/getbyuserid"
   },
-  login:'home/login'
+  login: 'home/login'
 }
 Vue.prototype.$urls = urls
 Vue.config.productionTip = false
@@ -95,6 +95,10 @@ const router = new VueRouter({
       children: [
         {
           path: '',
+          component: OverView
+        },
+        {
+          path: 'index.html',
           component: OverView
         },
         {

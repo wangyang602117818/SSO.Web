@@ -2,39 +2,21 @@
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
-<html>
+<html lang=en>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
-    <link href="~/Content/css/index.css" rel="stylesheet" />
-    <link href="~/Content/css/login.css" rel="stylesheet" />
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <link rel=icon href=favicon.ico>
+    <title>wwwroot</title>
+    <link href="~/Content/css/chunk-vendors.b3d88f72.css" rel="stylesheet" />
+    <link href="~/Content/css/index.72a5ac81.css" rel="stylesheet" />
 </head>
 <body>
+    <div id=app></div>
 
-
-    <div class="login_wrap">
-        <form class="login" name="frm" action="~/sso/login?returnUrl=@ViewBag.returnUrl" method="post">
-            <div class="header">
-                用户登录中心
-            </div>
-            <div class="login_tips" style="visibility:hidden">
-                <div class="error_tips" id="error_tips">
-                    用户名或密码不正确
-                </div>
-            </div>
-            <div class="login_form">
-                <div class="uinarea" id="uinArea">
-                    <input type="text" class="inputstyle" id="u" name="UserName" placeholder="账号" value="" tabindex="1">
-                    <input type="password" class="inputstyle password" id="p" name="PassWord" value="" maxlength="16" tabindex="2" placeholder="密码">
-                </div>
-                <div class="submit_con">
-                    <input type="submit" tabindex="3" value="登 录" class="login_button" id="login_button">
-                </div>
-            </div>
-        </form>
-    </div>
+    <script src="~/Content/scripts/chunk-vendors.d6ddf3df.js"></script>
+    <script src="~/Content/scripts/index.4c838267.js"></script>
 </body>
 </html>

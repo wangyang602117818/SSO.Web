@@ -1,21 +1,21 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang=en>
 <head>
-    <meta charset="utf-8" />
-    <title></title>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <link rel=icon href=favicon.ico>
+    <title>wwwroot</title>
+    <link href=css/chunk-vendors.b3d88f72.css rel=preload as= style>
+    <link href=css/index.679461d8.css rel=preload as= style>
+    <link href=js/chunk-vendors.c66b1818.js rel=preload as=script>
+    <link href=js/index.fe185962.js rel=preload as=script>
+    <link href=css/chunk-vendors.b3d88f72.css rel=stylesheet>
+    <link href=css/index.679461d8.css rel=stylesheet>
 </head>
 <body>
-    <iframe src="http://www.a.com:8031/index.html" id="frm1"></iframe>
+    <div id=app><router-view></router-view></div>
+    <script src=js/chunk-vendors.c66b1818.js></script>
+    <script src=js/index.fe185962.js></script>
 </body>
 </html>
-<script>
-    window.onload = function () {
-        let targetOrigin = 'http://www.a.com:8031';
-        //想要操作当前iframe的时候，就像该ifranme中postMessage()一个东西。
-        window.frames[0].postMessage('我要给你发消息了!', targetOrigin);
-        //*表示任何域都可以监听。
-    }
-    window.addEventListener('message', function (e) {
-        console.log('a.html 接收到的消息:', e.data);
-    });
-</script>

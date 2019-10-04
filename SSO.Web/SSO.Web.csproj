@@ -177,27 +177,13 @@
     <Compile Include="SSOAuthorize.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\css\index.css" />
-    <Content Include="Content\css\login.css" />
-    <Content Include="Content\css\modal.css" />
-    <Content Include="Content\html\department.html" />
-    <Content Include="Content\html\log.html" />
-    <Content Include="Content\html\login.html" />
-    <Content Include="Content\html\role.html" />
-    <Content Include="Content\html\user_basic.html" />
-    <Content Include="Content\html\user_authority.html" />
-    <Content Include="Content\iconfont\iconfont.css" />
-    <Content Include="Content\iconfont\iconfont.svg" />
-    <Content Include="Content\js\jquery-ui.min.js" />
-    <Content Include="Content\js\nestedsortable.min.js" />
+    <Content Include="Content\css\chunk-vendors.b3d88f72.css" />
+    <Content Include="Content\css\index.72a5ac81.css" />
+    <Content Include="Content\scripts\chunk-vendors.d6ddf3df.js" />
+    <Content Include="Content\scripts\index.4c838267.js" />
     <Content Include="Global.asax" />
-    <Content Include="Content\iconfont\iconfont.ttf" />
-    <Content Include="Content\iconfont\iconfont.woff" />
-    <Content Include="Content\iconfont\iconfont.woff2" />
-    <Content Include="Content\iconfont\iconfont.eot" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="index.html" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
