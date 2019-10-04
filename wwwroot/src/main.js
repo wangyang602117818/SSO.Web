@@ -48,6 +48,12 @@ Vue.use(VueResource)
 Vue.use(babelPolyfill)
 
 Vue.http.options.root = 'http://www.sso.com:8030/'
+Vue.http.interceptors.push(function (request, next) {//拦截器
+  // 跨域携带cookie
+  request.credentials = true;
+  next()
+})
+
 var urls = {
   role: {
     add: "role/add",
