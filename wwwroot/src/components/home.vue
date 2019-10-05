@@ -62,9 +62,24 @@
       </a-layout-sider>
       <a-layout>
         <a-layout-header>
-          <a-button type="link" @click="toggleCollapsed">
-            <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
-          </a-button>
+          <a-row>
+            <a-col :span="12">
+              <a-button type="link" @click="toggleCollapsed">
+                <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
+              </a-button>
+            </a-col>
+            <a-col :span="12" style="text-align:right;">
+              <a-dropdown :trigger="['click']">
+                <a-button size="small">Yang X Wang <a-icon type="down" /></a-button>
+                <a-menu slot="overlay">
+                  <a-menu-item key="0">
+                    <a target="_blank" href="http://www.alipay.com/">退出</a>
+                  </a-menu-item>
+                </a-menu>
+              </a-dropdown>
+              <a-button size="small">English</a-button>
+            </a-col>
+          </a-row>
         </a-layout-header>
         <a-layout-content>
           <router-view></router-view>
@@ -113,11 +128,11 @@ export default {
   display: flex;
   height: 50px;
   align-items: center;
-  padding-left: 2px;
+  padding-left: 0px;
+  padding-right: 10px;
   background-color: #fff;
   border-bottom: 1px solid #ccc;
 }
-
 .logo {
   height: 50px;
   background: #002140;
@@ -137,5 +152,9 @@ export default {
 .ant-btn-default,
 .ant-btn-danger {
   margin-left: 10px !important;
+}
+.ant-row {
+  width: 100%;
+  margin-bottom: 0px;
 }
 </style>

@@ -1,8 +1,8 @@
 .ant-row{
-    margin-bottom: 6px;
+    margin-bottom: 0px;
   }
   .ant-drawer-body .ant-row{
-     margin-bottom: 6px;
+     margin-bottom: 6px !important;
   }
   .ant-tag{
    margin-right:2px !important;

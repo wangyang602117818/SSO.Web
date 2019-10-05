@@ -46,7 +46,7 @@
         </a-popconfirm>
       </a-col>
       <a-col :span="12" align="right">
-        <a-tooltip :title="this.showDelete?'显示正常用户':'显示删除用户'" placement="top">
+        <a-tooltip :title="this.showDelete?'显示正常用户':'显示删除用户'" placement="left">
           <a-switch :defaultChecked="showDelete" @change="changeDeleteShow" />
         </a-tooltip>
       </a-col>

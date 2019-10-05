@@ -14,9 +14,8 @@ import Settings from '@/components/settings'
 import common from './js/common.js'
 import "@/css/index.css"
 
-import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card } from 'ant-design-vue'
+import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
-
 
 Vue.use(Button)
 Vue.use(Icon)
@@ -38,6 +37,7 @@ Vue.use(Divider)
 Vue.use(Tag)
 Vue.use(Switch)
 Vue.use(Tooltip)
+Vue.use(Dropdown)
 Vue.use(Card)
 
 Vue.prototype.$message = message
@@ -49,9 +49,14 @@ Vue.use(babelPolyfill)
 
 Vue.http.options.root = 'http://www.sso.com:8030/'
 Vue.http.interceptors.push(function (request, next) {//拦截器
-  // 跨域携带cookie
-  request.credentials = true;
-  next()
+  request.credentials = true;    // 跨域携带cookie
+  next(response => {
+    if (response.body.code == 401) {
+      window.location.href = Vue.http.options.root + urls.login + "?returnUrl=" + window.location.href;
+      return false;
+    }
+    return response;
+  });
 })
 
 var urls = {
@@ -87,7 +92,7 @@ var urls = {
     restore: "user/restore",
     getbyuserid: "user/getbyuserid"
   },
-  login: 'home/login'
+  login: 'sso/login'
 }
 Vue.prototype.$urls = urls
 Vue.config.productionTip = false

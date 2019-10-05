@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    [AllowAnonymous]
     public class RoleController : Controller
     {
         Business.Role role = new Business.Role();

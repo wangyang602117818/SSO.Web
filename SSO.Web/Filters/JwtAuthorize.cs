@@ -30,7 +30,10 @@ namespace SSO.Web.Filters
                 if (c.AttributeType.Name == "AllowAnonymousAttribute") isAuthorization = false;
                 if (c.AttributeType.Name == "JwtAuthorizeAttribute") isAuthorization = true;
             }
+            //如果设置了匿名访问直接返回
             if (!isAuthorization) return;
+            //设置跨域访问
+            filterContext.HttpContext.Response.AddHeader("Access-Control-Allow-Origin", filterContext.HttpContext.Request.Headers["Origin"] ?? "*");
             HttpRequestBase request = filterContext.HttpContext.Request;
             string authorization = request.Cookies[request.Url.Host + ".auth"] == null ? "" : request.Cookies[request.Url.Host + ".auth"].Value;
             if (string.IsNullOrEmpty(authorization))
@@ -91,7 +94,7 @@ namespace SSO.Web.Filters
             }
             return url;
         }
-        public static void AddUrlToCookie(HttpContextBase httpContext, string returnUrl, int cookieTime)
+        public static void AddUrlToCookie(HttpContextBase httpContext, string returnUrl)
         {
             if (returnUrl == null) return;
             HttpCookie ssoUrlCookie = httpContext.Request.Cookies["ssourls"];

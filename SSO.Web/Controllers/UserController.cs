@@ -5,7 +5,6 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    [AllowAnonymous]
     public class UserController : Controller
     {
         Business.UserBasic user = new Business.UserBasic();
