@@ -2,6 +2,7 @@ module.exports = {
     runtimeCompiler: true,
     publicPath: '',
     assetsDir: '',
+    filenameHashing:false,
     pages: {
         index: {
             // page 的入口

@@ -92,7 +92,8 @@ var urls = {
     restore: "user/restore",
     getbyuserid: "user/getbyuserid"
   },
-  login: 'sso/login'
+  login: 'sso/login',
+  logout:'sso/logout'
 }
 Vue.prototype.$urls = urls
 Vue.config.productionTip = false

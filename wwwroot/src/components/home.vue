@@ -70,10 +70,13 @@
             </a-col>
             <a-col :span="12" style="text-align:right;">
               <a-dropdown :trigger="['click']">
-                <a-button size="small">Yang X Wang <a-icon type="down" /></a-button>
+                <a-button size="small">
+                  Yang X Wang
+                  <a-icon type="down" />
+                </a-button>
                 <a-menu slot="overlay">
                   <a-menu-item key="0">
-                    <a target="_blank" href="http://www.alipay.com/">退出</a>
+                    <a target="_blank" :href="this.$http.options.root+this.$urls.logout">退出</a>
                   </a-menu-item>
                 </a-menu>
               </a-dropdown>
@@ -103,7 +106,9 @@ export default {
           : []
     };
   },
-  created() {},
+  created() {
+    window.console.log(this.$http.options.root);
+  },
   methods: {
     toggleCollapsed() {
       this.collapsed = !this.collapsed;

@@ -99,7 +99,8 @@ namespace SSO.Web.Filters
             if (returnUrl == null) return;
             HttpCookie ssoUrlCookie = httpContext.Request.Cookies["ssourls"];
             Uri uri = new Uri(returnUrl);
-            returnUrl = returnUrl.Replace(uri.Query, "");
+            if (uri.Query.Length > 0)
+                returnUrl = returnUrl.Replace(uri.Query, "");
             if (ssoUrlCookie == null)
             {
                 string returnUrls = JsonConvert.SerializeObject(new List<string>() { returnUrl });

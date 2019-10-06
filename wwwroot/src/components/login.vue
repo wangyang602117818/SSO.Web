@@ -44,10 +44,10 @@ export default {
     handleSubmit() {
       this.form.validateFields((err, values) => {
         if (!err) {
+          values.returnUrl = this.$common.getReturnUrl("returnUrl");
           this.$http.post(this.$urls.login, values).then(response => {
             if (response.body.code == 0) {
-              var returnUrl =
-                response.body.result || this.$common.getReturnUrl("returnUrl");
+              var returnUrl = response.body.result;
               window.location.href = decodeURIComponent(returnUrl);
             } else {
               this.$message.warning("用户名或密码不正确!");

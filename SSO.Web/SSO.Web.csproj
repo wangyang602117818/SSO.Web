@@ -177,10 +177,10 @@
     <Compile Include="SSOAuthorize.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\css\chunk-vendors.b3d88f72.css" />
-    <Content Include="Content\css\index.72a5ac81.css" />
-    <Content Include="Content\scripts\chunk-vendors.d6ddf3df.js" />
-    <Content Include="Content\scripts\index.4c838267.js" />
+    <Content Include="Content\css\chunk-vendors.css" />
+    <Content Include="Content\css\index.css" />
+    <Content Include="Content\scripts\chunk-vendors.js" />
+    <Content Include="Content\scripts\index.js" />
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="index.html" />
