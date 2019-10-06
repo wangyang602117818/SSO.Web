@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Security.Claims;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,6 +15,7 @@ namespace SSO.Web.Filters
 {
     public class JwtAuthorizeAttribute : AuthorizeAttribute
     {
+        public static string web = System.Configuration.ConfigurationManager.AppSettings["web"];
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             var reflectedActionDescriptor = (ReflectedActionDescriptor)filterContext.ActionDescriptor;
@@ -35,7 +37,8 @@ namespace SSO.Web.Filters
             //设置跨域访问
             filterContext.HttpContext.Response.AddHeader("Access-Control-Allow-Origin", filterContext.HttpContext.Request.Headers["Origin"] ?? "*");
             HttpRequestBase request = filterContext.HttpContext.Request;
-            string authorization = request.Cookies[request.Url.Host + ".auth"] == null ? "" : request.Cookies[request.Url.Host + ".auth"].Value;
+            string cookieName = request.Url.Host + ".auth";
+            string authorization = request.Cookies[cookieName] == null ? "" : request.Cookies[cookieName].Value;
             if (string.IsNullOrEmpty(authorization))
             {
                 filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
@@ -97,6 +100,7 @@ namespace SSO.Web.Filters
         public static void AddUrlToCookie(HttpContextBase httpContext, string returnUrl)
         {
             if (returnUrl == null) return;
+            if (returnUrl.Contains(web)) return;
             HttpCookie ssoUrlCookie = httpContext.Request.Cookies["ssourls"];
             Uri uri = new Uri(returnUrl);
             if (uri.Query.Length > 0)
@@ -137,6 +141,20 @@ namespace SSO.Web.Filters
                 }
             }
             return access;
+        }
+        private string DecodeBase64(string secureUrlBase64)
+        {
+            secureUrlBase64 = secureUrlBase64.Replace('-', '+').Replace('_', '/');
+            switch (secureUrlBase64.Length % 4)
+            {
+                case 2:
+                    secureUrlBase64 += "==";
+                    break;
+                case 3:
+                    secureUrlBase64 += "=";
+                    break;
+            }
+            return secureUrlBase64;
         }
     }
 }

@@ -17,7 +17,10 @@ namespace SSO.Web.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(Request.Cookies["ssourls"].Value.Base64ToStr());
+            List<string> ssoUrls = new List<string>() { JwtAuthorizeAttribute.web };
+            var ssoUrlsCookie = Request.Cookies["ssourls"];
+            if (ssoUrlsCookie != null)
+                ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlsCookie.Value.Base64ToStr());
             ViewBag.ssoUrls = ssoUrls;
             return View();
         }
@@ -74,9 +77,10 @@ namespace SSO.Web.Controllers
                 authorization.Expires = DateTime.Now.AddDays(-1);
                 Response.Cookies.Add(authorization);
             }
-            var ssoUrl = Request.Cookies["ssourls"];
-            List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrl.Value.Base64ToStr());
-            return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrl.Value);
+            var ssoUrlCookie = Request.Cookies["ssourls"];
+            if (ssoUrlCookie == null) return RedirectToAction("Index");
+            List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlCookie.Value.Base64ToStr());
+            return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrlCookie.Value);
         }
 
 
