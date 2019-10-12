@@ -17,7 +17,7 @@ Vue.use(Avatar)
 Vue.use(VueResource)
 Vue.prototype.$common = common
 
-Vue.http.options.root = ''
+Vue.http.options.root = 'http://www.sso.com:8030/'
 var urls = {
     geturlmeta: 'sso/geturlmeta'
 };

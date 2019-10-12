@@ -116,7 +116,22 @@ namespace SSO.Util
             var index = str.LastIndexOf("\\");
             return str.Substring(index + 1);
         }
-
+        public static string GetUrlBrief(this string str)
+        {
+            Regex regexHttp = new Regex(@"https?://(\w+)");
+            Regex regexWWW = new Regex(@"www\.(.+?)\.");
+            if (str.Contains("www"))
+            {
+                Match match = regexWWW.Match(str);
+                if (match.Success) return match.Groups[1].Value;
+            }
+            else
+            {
+                Match match = regexHttp.Match(str);
+                if (match.Success) return match.Groups[1].Value;
+            }
+            return "";
+        }
         /// <summary>
         /// 获取网站的title和icon
         /// </summary>
@@ -164,7 +179,7 @@ namespace SSO.Util
             catch (Exception ex)
             {
                 result.IconUrl = "";
-                result.Title = new Uri(url).Host;
+                result.Title = url.GetUrlBrief();
                 result.Url = url;
             }
             return result;

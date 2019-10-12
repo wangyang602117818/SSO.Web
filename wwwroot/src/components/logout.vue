@@ -15,8 +15,10 @@
         <a-row type="flex" justify="space-between">
           <a class="site" target="_blank" :href="url.Url" v-for="url in data.urls" :key="url.Title">
             <div class="logo">
-              <img alt="icon" v-bind:src="url.IconUrl" v-if="url.IconUrl"/>
-              <span v-else></span>
+              <img alt="icon" v-bind:src="url.IconUrl" v-if="url.IconUrl" />
+              <span v-else>
+                <a-avatar size="large" style="backgroundColor:#3498DB">{{url.Title.getFileName(1).trimEnd('.')}}</a-avatar>
+              </span>
             </div>
             <div class="title" :title="url.Title">{{url.Title.getFileName(3)}}</div>
           </a>
@@ -32,7 +34,7 @@ export default {
   data() {
     return {
       data: {
-          urls:[]
+        urls: []
       }
     };
   },

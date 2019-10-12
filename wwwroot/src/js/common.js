@@ -29,6 +29,18 @@ function getReturnUrl(name) {
     var returnUrl = window.location.search.substring(index + name.length + 1);
     return returnUrl;
 }
+String.prototype.trim = function (char) {
+    var reTag = new RegExp("^" + (char || ' ') + "+|" + (char || ' ') + "+$", "gi");
+    return this.replace(reTag, "");
+}
+String.prototype.trimEnd = function (char) {
+    var reTag = new RegExp(('\\' + char || ' ') + "+$", "gi");
+    return this.replace(reTag, "");
+}
+String.prototype.trimStart = function (char) {
+    var reTag = new RegExp("^" + (char || ' ') + "+", "gi");
+    return this.replace(reTag, "");
+}
 String.prototype.getFileName = function (length) {
     if (this.indexOf("<span class=\"search_word\">") > -1) {
         var startIndex = this.indexOf("<span class=\"search_word\">"),
