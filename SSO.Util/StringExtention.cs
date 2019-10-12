@@ -115,10 +115,47 @@ namespace SSO.Util
             var index = str.LastIndexOf("\\");
             return str.Substring(index + 1);
         }
-        public static string GetFileExt(this string str)
+        /// <summary>
+        /// 获取网站的title和icon
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static List<string> GetWebSiteMeta(this string url)
         {
-            var index = str.LastIndexOf(".");
-            return str.Substring(index);
+            Regex linkLine = new Regex("<link[^>]+?>", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            Regex iconTagExists = new Regex("rel=\"?.*icon\"?", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            Regex iconHref = new Regex("\\shref=\"(.*?)\"", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            Regex titleLine = new Regex("<title>(.+)</title>", RegexOptions.IgnoreCase);
+            string responseText = new HttpRequestHelper().Get(url, null).Result;
+            List<string> result = new List<string>();
+            MatchCollection matchs = linkLine.Matches(responseText);
+            string icon = "";
+            for (var i = 0; i < matchs.Count; i++)
+            {
+                var match = matchs[i];
+                if (match.Success)
+                {
+                    string line = match.Value;
+                    if (iconTagExists.IsMatch(line))
+                    {
+                        Match href = iconHref.Match(line);
+                        if (href.Success)
+                        {
+                            string iconUrl = href.Groups[1].Value;
+                            icon = iconUrl.Contains(@"//") ? iconUrl : url + iconUrl;
+                        }
+                    }
+                }
+            }
+            result.Add(icon);
+            Match matchTitle = titleLine.Match(responseText);
+            string title = "";
+            if (matchTitle.Success)
+            {
+                title = matchTitle.Groups[1].Value;
+            }
+            result.Add(title);
+            return result;
         }
     }
 }

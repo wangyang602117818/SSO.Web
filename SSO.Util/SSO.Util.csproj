@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base64SecureURL.cs" />
+    <Compile Include="HttpRequestHelper.cs" />
     <Compile Include="JwtManager.cs" />
     <Compile Include="Log4Net.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,31 +7,36 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
 
 namespace SSO.Web.Controllers
 {
+    [AllowAnonymous]
     public class SSOController : Controller
     {
         public static int cookieTime = int.Parse(ConfigurationManager.AppSettings["cookieTime"]);
         Business.UserBasic user = new Business.UserBasic();
-        [AllowAnonymous]
         public ActionResult Index()
         {
             List<string> ssoUrls = new List<string>() { JwtAuthorizeAttribute.web };
             var ssoUrlsCookie = Request.Cookies["ssourls"];
             if (ssoUrlsCookie != null)
-                ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlsCookie.Value.Base64ToStr());
+                ssoUrls.AddRange(JsonConvert.DeserializeObject<List<string>>(ssoUrlsCookie.Value.Base64ToStr()));
             ViewBag.ssoUrls = ssoUrls;
             return View();
         }
-        [AllowAnonymous]
+        public ActionResult GetUrlMeta(string url)
+        {
+            List<WebsiteMeta> websiteMetas = new List<WebsiteMeta>();
+            var result = url.GetWebSiteMeta();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult GetToken(string ticket, string ip)
         {
             string userId = JwtManager.DecodeTicket(ticket);
             string token = userId == "" ? "" : JwtManager.GenerateToken(userId, null, null, null, null, ip, 20);
             return new ResponseModel<string>(ErrorCode.success, token);
         }
-        [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             var authorization = Request.Cookies[Request.Url.Host + ".auth"];
@@ -56,7 +61,6 @@ namespace SSO.Web.Controllers
             return View();
         }
         [HttpPost]
-        [AllowAnonymous]
         public ActionResult Login(LoginModel loginModel, string returnUrl)
         {
             var userBasic = user.Login(loginModel.UserId, loginModel.PassWord.GetSha256());
@@ -82,7 +86,6 @@ namespace SSO.Web.Controllers
             List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlCookie.Value.Base64ToStr());
             return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrlCookie.Value);
         }
-
 
     }
 }
