@@ -29,6 +29,26 @@ function getReturnUrl(name) {
     var returnUrl = window.location.search.substring(index + name.length + 1);
     return returnUrl;
 }
+String.prototype.getFileName = function (length) {
+    if (this.indexOf("<span class=\"search_word\">") > -1) {
+        var startIndex = this.indexOf("<span class=\"search_word\">"),
+            endIndex = this.indexOf("</span>"),
+            startPos = startIndex - length / 2,
+            endPos = endIndex + 7 + length / 2;
+        if (startPos < 0) endPos = endPos + Math.abs(startPos);
+        var newfilename = this.substring(startPos, endPos);
+        if (this.length > newfilename.length) return newfilename + "...";
+        return newfilename;
+    } else {
+        var len = 0;
+        for (var i = 0; i < this.length; i++) {
+            if (i == length) break;
+            /^[\u4E00-\u9FA5]+$/.test(this[i]) ? len += 1 : len += 2;
+        }
+        if (this.length > len) return this.substring(0, len) + "...";
+        return this.substring(0, len);
+    }
+}
 export default {
     parseBsonTime: parseBsonTime,
     removeArrayItem: removeArrayItem,

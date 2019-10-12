@@ -173,18 +173,21 @@
     <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\UserModel.cs" />
-    <Compile Include="Models\WebsiteMeta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SSOAuthorize.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\css\chunk-vendors.css" />
-    <Content Include="Content\css\index.css" />
+    <Content Include="Content\login\chunk-vendors.css" />
+    <Content Include="Content\login\index.css" />
+    <Content Include="Content\index\chunk-vendors.css" />
+    <Content Include="Content\index\chunk-vendors.js" />
+    <Content Include="Content\index\index.css" />
+    <Content Include="Content\index\index.js" />
     <Content Include="Content\logo0.ico" />
     <Content Include="Content\logo1.ico" />
     <Content Include="Content\logo.ico" />
-    <Content Include="Content\scripts\chunk-vendors.js" />
-    <Content Include="Content\scripts\index.js" />
+    <Content Include="Content\login\chunk-vendors.js" />
+    <Content Include="Content\login\index.js" />
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="index.html" />

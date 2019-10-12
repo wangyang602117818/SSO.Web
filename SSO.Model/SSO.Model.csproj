@@ -55,6 +55,7 @@
     <Compile Include="DepartmentData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserBasicData.cs" />
+    <Compile Include="WebsiteMeta.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

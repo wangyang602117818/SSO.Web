@@ -1,13 +1,14 @@
 ﻿using Newtonsoft.Json;
+using SSO.Model;
 using SSO.Util;
 using SSO.Web.Filters;
 using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
-using System.Xml;
 
 namespace SSO.Web.Controllers
 {
@@ -18,19 +19,34 @@ namespace SSO.Web.Controllers
         Business.UserBasic user = new Business.UserBasic();
         public ActionResult Index()
         {
+            return View();
+        }
+        public ActionResult GetUrlMeta()
+        {
             List<string> ssoUrls = new List<string>() { JwtAuthorizeAttribute.web };
             var ssoUrlsCookie = Request.Cookies["ssourls"];
             if (ssoUrlsCookie != null)
                 ssoUrls.AddRange(JsonConvert.DeserializeObject<List<string>>(ssoUrlsCookie.Value.Base64ToStr()));
-            ViewBag.ssoUrls = ssoUrls;
-            return View();
-        }
-        public ActionResult GetUrlMeta(string url)
-        {
             List<WebsiteMeta> websiteMetas = new List<WebsiteMeta>();
-            var result = url.GetWebSiteMeta();
-            return Json(result, JsonRequestBehavior.AllowGet);
+            foreach (string url in ssoUrls)
+            {
+                websiteMetas.Add(url.GetWebSiteMeta());
+            }
+            return new ResponseModel<List<WebsiteMeta>>(ErrorCode.success, websiteMetas);
         }
+        //public ActionResult GetIcon(string url)
+        //{
+        //    Stream stream = new MemoryStream();
+        //    try
+        //    {
+        //        stream = new HttpRequestHelper().GetFile(url, null);
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+        //    if(stream.Length==0) return ;
+        //}
         public ActionResult GetToken(string ticket, string ip)
         {
             string userId = JwtManager.DecodeTicket(ticket);

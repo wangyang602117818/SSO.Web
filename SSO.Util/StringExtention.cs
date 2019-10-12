@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using SSO.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -115,46 +116,57 @@ namespace SSO.Util
             var index = str.LastIndexOf("\\");
             return str.Substring(index + 1);
         }
+
         /// <summary>
         /// 获取网站的title和icon
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static List<string> GetWebSiteMeta(this string url)
+        public static WebsiteMeta GetWebSiteMeta(this string url)
         {
             Regex linkLine = new Regex("<link[^>]+?>", RegexOptions.IgnoreCase | RegexOptions.Multiline);
             Regex iconTagExists = new Regex("rel=\"?.*icon\"?", RegexOptions.IgnoreCase | RegexOptions.Multiline);
             Regex iconHref = new Regex("\\shref=\"(.*?)\"", RegexOptions.IgnoreCase | RegexOptions.Multiline);
             Regex titleLine = new Regex("<title>(.+)</title>", RegexOptions.IgnoreCase);
-            string responseText = new HttpRequestHelper().Get(url, null).Result;
-            List<string> result = new List<string>();
-            MatchCollection matchs = linkLine.Matches(responseText);
-            string icon = "";
-            for (var i = 0; i < matchs.Count; i++)
+            WebsiteMeta result = new WebsiteMeta();
+            try
             {
-                var match = matchs[i];
-                if (match.Success)
+                string responseText = new HttpRequestHelper().Get(url, null).Result;
+                MatchCollection matchs = linkLine.Matches(responseText);
+                string icon = "";
+                for (var i = 0; i < matchs.Count; i++)
                 {
-                    string line = match.Value;
-                    if (iconTagExists.IsMatch(line))
+                    var match = matchs[i];
+                    if (match.Success)
                     {
-                        Match href = iconHref.Match(line);
-                        if (href.Success)
+                        string line = match.Value;
+                        if (iconTagExists.IsMatch(line))
                         {
-                            string iconUrl = href.Groups[1].Value;
-                            icon = iconUrl.Contains(@"//") ? iconUrl : url + iconUrl;
+                            Match href = iconHref.Match(line);
+                            if (href.Success)
+                            {
+                                string iconUrl = href.Groups[1].Value;
+                                icon = iconUrl.Contains(@"//") ? iconUrl : url + "/" + iconUrl;
+                            }
                         }
                     }
                 }
+                result.IconUrl = icon;
+                Match matchTitle = titleLine.Match(responseText);
+                string title = "";
+                if (matchTitle.Success)
+                {
+                    title = matchTitle.Groups[1].Value;
+                }
+                result.Title = title;
+                result.Url = url;
             }
-            result.Add(icon);
-            Match matchTitle = titleLine.Match(responseText);
-            string title = "";
-            if (matchTitle.Success)
+            catch (Exception ex)
             {
-                title = matchTitle.Groups[1].Value;
+                result.IconUrl = "";
+                result.Title = new Uri(url).Host;
+                result.Url = url;
             }
-            result.Add(title);
             return result;
         }
     }

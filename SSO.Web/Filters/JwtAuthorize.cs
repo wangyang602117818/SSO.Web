@@ -32,10 +32,10 @@ namespace SSO.Web.Filters
                 if (c.AttributeType.Name == "AllowAnonymousAttribute") isAuthorization = false;
                 if (c.AttributeType.Name == "JwtAuthorizeAttribute") isAuthorization = true;
             }
-            //如果设置了匿名访问直接返回
-            if (!isAuthorization) return;
             //设置跨域访问
             filterContext.HttpContext.Response.AddHeader("Access-Control-Allow-Origin", filterContext.HttpContext.Request.Headers["Origin"] ?? "*");
+            //如果设置了匿名访问直接返回
+            if (!isAuthorization) return;
             HttpRequestBase request = filterContext.HttpContext.Request;
             string cookieName = request.Url.Host + ".auth";
             string authorization = request.Cookies[cookieName] == null ? "" : request.Cookies[cookieName].Value;

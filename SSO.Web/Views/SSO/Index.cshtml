@@ -9,17 +9,12 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>导航-SSO数据中心</title>
-    <link rel=icon href="~/Content/logo0.ico">
+    <link href="~/Content/index/chunk-vendors.css" rel="stylesheet" />
+    <link href="~/Content/index/index.css" rel="stylesheet" />
 </head>
 <body>
-    sso logout!<br />
-    visit: <br />
-    @{ 
-        for(var i = 0; i < ViewBag.ssoUrls.Count; i++)
-        {
-               <a href="@ViewBag.ssoUrls[i]">@ViewBag.ssoUrls[i]</a><br />
-          
-        }
-    }
+    <div id=app></div>
+    <script src="~/Content/index/chunk-vendors.js"></script>
+    <script src="~/Content/index/index.js"></script>
 </body>
 </html>

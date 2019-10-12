@@ -19,7 +19,7 @@ Vue.prototype.$common = common
 
 Vue.http.options.root = ''
 var urls = {
-    login: 'sso/login'
+    geturlmeta: 'sso/geturlmeta'
 };
 Vue.prototype.$urls = urls
 

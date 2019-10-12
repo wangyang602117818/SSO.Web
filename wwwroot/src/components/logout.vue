@@ -13,29 +13,12 @@
     <a-row type="flex" justify="center" align="middle">
       <a-col :span="8">
         <a-row type="flex" justify="space-between">
-          <a class="site">
+          <a class="site" target="_blank" :href="url.Url" v-for="url in data.urls" :key="url.Title">
             <div class="logo">
-              <img alt="example" src="http://localhost:8080/favicon.ico" />
+              <img alt="icon" v-bind:src="url.IconUrl" v-if="url.IconUrl"/>
+              <span v-else></span>
             </div>
-            <div class="title">sso.com</div>
-          </a>
-          <a class="site">
-            <div class="logo">
-              <a-avatar size="large" style="backgroundColor:#3498DB">SSO</a-avatar>
-            </div>
-            <div class="title">baidu.com</div>
-          </a>
-          <a class="site">
-            <div class="logo">
-              <a-avatar size="large" style="backgroundColor:#3498DB">WY</a-avatar>
-            </div>
-            <div class="title">sso.com</div>
-          </a>
-          <a class="site">
-            <div class="logo">
-              <a-avatar size="large" style="backgroundColor:#3498DB">Ok</a-avatar>
-            </div>
-            <div class="title">sso.com</div>
+            <div class="title" :title="url.Title">{{url.Title.getFileName(3)}}</div>
           </a>
         </a-row>
       </a-col>
@@ -48,11 +31,15 @@ export default {
   name: "app",
   data() {
     return {
-        urls:[]
+      data: {
+          urls:[]
+      }
     };
   },
   created() {
-    
+    this.$http.get(this.$urls.geturlmeta).then(response => {
+      if (response.body.code == 0) this.data.urls = response.body.result;
+    });
   },
   methods: {}
 };
