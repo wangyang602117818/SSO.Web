@@ -1,0 +1,235 @@
+<template>
+  <div>
+    <a-input-search
+      placeholder="input search text"
+      style="width: 200px"
+      @search="onSearch"
+      v-model="searchValue"
+    />
+    <a-button type="primary" icon="plus" @click="drawerVisible=true;isUpdate=false"></a-button>
+    <a-button type="default" icon="redo" @click="reload"></a-button>
+    <a-button type="default" icon="edit" @click="eidtNavigation" :disabled="selectedRowKeys.length!=1"></a-button>
+    <a-popconfirm
+      title="Are you sure delete this navigation?"
+      @confirm="deleteNavigation"
+      okText="Yes"
+      cancelText="No"
+    >
+      <a-button type="danger" icon="delete" :disabled="selectedRowKeys.length==0"></a-button>
+    </a-popconfirm>
+    <a-table
+      :columns="columns"
+      :rowKey="record => record._id"
+      :dataSource="data"
+      :rowSelection="{selectedRowKeys:selectedRowKeys,onChange:onSelectChange}"
+      :loading="loading"
+      :pagination="pagination"
+      @change="handleTableChange"
+    />
+    <a-drawer
+      :title="isUpdate?'更新导航':'添加导航'"
+      :width="360"
+      handle="slot"
+      @close="drawerVisible=false"
+      :visible="drawerVisible"
+    >
+      <a-form :form="form" layout="vertical" @submit.prevent="handleSubmit">
+        <a-row :gutter="16">
+          <a-col :span="24">
+            <a-form-item label="Title">
+              <a-input
+                placeholder="名称"
+                v-decorator="['title',{rules: [{ required: true, message: 'Title is required!' }]}]"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="24">
+            <a-form-item label="Url">
+              <a-input
+                placeholder="导航链接"
+                v-decorator="['url',{rules: [{ required: false, message: 'Url is required!' }]}]"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="24">
+            <a-form-item label="Icon">
+              <a-input
+                placeholder="图标链接"
+                v-decorator="['iconUrl',{rules: [{ required: false, message: 'IconUrl is required!' }]}]"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="24">
+            <a-button @click="form.resetFields();">取 消</a-button>
+            <a-button type="primary" html-type="submit">确 定</a-button>
+          </a-col>
+        </a-row>
+      </a-form>
+    </a-drawer>
+  </div>
+</template>
+<script>
+export default {
+  name: "navigation",
+  data() {
+    return {
+      data: [],
+      searchValue: "",
+      columns: [
+        {
+          title: "编号",
+          dataIndex: "_id",
+          width: "7%"
+        },
+        {
+          title: "名称",
+          dataIndex: "Title",
+          width: "13%"
+        },
+        {
+          title: "链接",
+          dataIndex: "Url",
+          width: "25%"
+        },
+        {
+          title: "图标链接",
+          dataIndex: "IconUrl",
+          width: "25%"
+        },
+        {
+          title: "修改时间",
+          dataIndex: "UpdateTime.$date",
+          width: "15%",
+          customRender: val => {
+            return this.$common.parseBsonTime(val);
+          }
+        },
+        {
+          title: "创建时间",
+          dataIndex: "CreateTime.$date",
+          width: "15%",
+          customRender: val => {
+            return this.$common.parseBsonTime(val);
+          }
+        }
+      ],
+      selectedRowKeys: [],
+      form: this.$form.createForm(this),
+      drawerVisible: false,
+      pagination: { current: 1, pageSize: 10, size: "small" },
+      loading: false,
+      isUpdate: false
+    };
+  },
+  created() {
+    this.getData();
+  },
+  methods: {
+    onSearch() {
+      this.pagination.current = 1;
+      this.selectedRowKeys = [];
+      this.getData();
+    },
+    reload() {
+      this.selectedRowKeys = [];
+      this.getData();
+    },
+    onSelectChange(selectedRowKeys) {
+      this.selectedRowKeys = selectedRowKeys;
+    },
+    handleTableChange(pagination) {
+      this.pagination.current = pagination.current;
+      this.getData();
+    },
+    deleteNavigation() {
+      this.loading = true;
+      this.$http
+        .post(this.$urls.navigation.delete, { ids: this.selectedRowKeys })
+        .then(response => {
+          if (response.body.code == 0) {
+            this.selectedRowKeys = [];
+            this.getData();
+          }
+        });
+      this.loading = false;
+    },
+    eidtNavigation() {
+      this.isUpdate = true;
+      this.drawerVisible = true;
+      this.$http
+        .get(this.$urls.role.getById + "/" + this.selectedRowKeys[0])
+        .then(response => {
+          if (response.body.code == 0) {
+            this.form.setFieldsValue({
+              name: response.body.result.Name,
+              description: response.body.result.Description
+            });
+          }
+        });
+    },
+    getData() {
+      this.loading = true;
+      this.$http
+        .get(
+          this.$urls.navigation.getlist +
+            "?pageIndex=" +
+            this.pagination.current +
+            "&pageSize=" +
+            this.pagination.pageSize +
+            "&filter=" +
+            this.searchValue
+        )
+        .then(response => {
+          this.loading = false;
+          const pagination = { ...this.pagination };
+          pagination.total = response.body.count;
+          pagination.showTotal = () => {
+            return this.pagination.total;
+          };
+          this.pagination = pagination;
+          if (response.body.code == 0) this.data = response.body.result;
+        });
+    },
+    addNavigation(navigation) {
+      this.$http.post(this.$urls.navigation.add, navigation).then(response => {
+        if (response.body.code == 400) {
+          this.$message.warning("记录已存在!");
+        }
+        if (response.body.code == 0) {
+          this.form.resetFields();
+          this.getData();
+        }
+      });
+    },
+    updateNavigation(navigation) {
+      navigation.id = this.selectedRowKeys[0];
+      this.$http.post(this.$urls.navigation.update, navigation).then(response => {
+        if (response.body.code == 400) {
+          this.$message.warning("记录已存在!");
+        }
+        if (response.body.code == 0) {
+          this.form.resetFields();
+          this.getData();
+        }
+      });
+    },
+    handleSubmit() {
+      var that = this;
+      that.form.validateFields((err, values) => {
+        if (!err) {
+          if (that.isUpdate) that.updateNavigation(values);
+          if (!that.isUpdate) that.addNavigation(values);
+        }
+      });
+    }
+  }
+};
+</script>
+<style scoped>
+</style>

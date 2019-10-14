@@ -13,6 +13,7 @@ namespace SSO.Data
         public DbSet<UserBasic> UserBasics { get; set; }
         public DbSet<UserDepartmentMapping> UserDepartmentMappings { get; set; }
         public DbSet<UserRoleMapping> UserRoleMappings { get; set; }
+        public DbSet<Navigation> Navigations { get; set; }
 
     }
 }

@@ -158,6 +158,7 @@
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NavigationController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SSOController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\DepartmentModel.cs" />
     <Compile Include="Models\ErrorCode.cs" />
+    <Compile Include="Models\NavigationModel.cs" />
     <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\UserModel.cs" />

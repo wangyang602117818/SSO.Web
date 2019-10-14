@@ -75,9 +75,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201910130915000_AddNativation.cs" />
+    <Compile Include="Migrations\201910130915000_AddNativation.Designer.cs">
+      <DependentUpon>201910130915000_AddNativation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Navigation.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\UserBasic.cs" />
     <Compile Include="Models\UserDepartmentMapping.cs" />
@@ -93,6 +99,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201910130915000_AddNativation.resx">
+      <DependentUpon>201910130915000_AddNativation.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

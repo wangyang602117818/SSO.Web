@@ -52,12 +52,18 @@
               <span>日志列表</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="settings">
-            <router-link to="/settings">
+          <a-sub-menu key="settings">
+            <span slot="title">
               <a-icon type="setting" />
               <span>系统设置</span>
-            </router-link>
-          </a-menu-item>
+            </span>
+            <a-menu-item key="navigation">
+              <router-link to="/navigation">
+                <a-icon type="info-circle" />
+                <span>导航页</span>
+              </router-link>
+            </a-menu-item>
+          </a-sub-menu>
         </a-menu>
       </a-layout-sider>
       <a-layout>
@@ -100,14 +106,22 @@ export default {
     return {
       collapsed: false,
       routename: this.$route.name || "overview",
-      openKeys:
-        this.$route.name == "userbasic" || this.$route.name == "userauthority"
-          ? ["user"]
-          : []
+      openKeys: []
     };
   },
   created() {
-    window.console.log(this.$http.options.root);
+    var routeName = this.$route.name;
+    var openKeys = [];
+    switch (routeName) {
+      case "userbasic":
+        openKeys = ["user"];
+        break;
+      case "navigation":
+        openKeys = ["settings"];
+        break;
+    }
+    this.openKeys = openKeys;
+    // window.console.log(this.$http.options.root);
   },
   methods: {
     toggleCollapsed() {

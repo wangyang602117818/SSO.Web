@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -20,6 +18,10 @@ namespace SSO.Web
 
             FileInfo fileInfo = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "bin\\log4net.config");
             log4net.Config.XmlConfigurator.ConfigureAndWatch(fileInfo);
+        }
+        protected void Application_BeginRequest()
+        {
+            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", HttpContext.Current.Request.Headers["Origin"] ?? "*");
         }
     }
 }

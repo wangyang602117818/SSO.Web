@@ -97,19 +97,20 @@ namespace SSO.Util
             StreamReader reader = new StreamReader(response.GetResponseStream());
             return reader.ReadToEndAsync();
         }
-        public Stream GetFile(string url, Dictionary<string, string> headers)
+        public bool CheckAvailable(string url)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "get";
-            if (headers != null)
+            HttpWebRequest req = null;
+            try
             {
-                foreach (var kv in headers)
-                {
-                    request.Headers.Add(kv.Key, kv.Value);
-                }
+                req = (HttpWebRequest)WebRequest.CreateDefault(new Uri(url));
+                req.Method = "HEAD";  //这是关键 
+                HttpWebResponse res = (HttpWebResponse)req.GetResponse();
+                return res.StatusCode == HttpStatusCode.OK ? true : false;
             }
-            WebResponse response = request.GetResponse();
-            return response.GetResponseStream();
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

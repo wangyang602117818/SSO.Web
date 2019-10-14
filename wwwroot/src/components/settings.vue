@@ -1,14 +1,14 @@
 <template>
-    <h1>setting</h1>
+  <h1>settings</h1>
 </template>
 <script>
 export default {
-    name: "user_basic"
-
-}
+  name: "settings",
+  methods: {
+      
+  }
+};
 </script>
 <style scoped>
-H1{
-    color: RED;
-}
+
 </style>

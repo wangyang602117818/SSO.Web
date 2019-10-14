@@ -10,7 +10,7 @@ import Role from '@/components/role'
 import Company from '@/components/company'
 import Department from '@/components/department'
 import Log from '@/components/log'
-import Settings from '@/components/settings'
+import Navigation from '@/components/navigation'
 import common from './js/common.js'
 import "@/css/index.css"
 
@@ -58,7 +58,7 @@ Vue.http.interceptors.push(function (request, next) {//拦截器
     return response;
   });
 })
-
+window.console.log("main");
 var urls = {
   role: {
     add: "role/add",
@@ -91,6 +91,10 @@ var urls = {
     update: "user/update",
     restore: "user/restore",
     getbyuserid: "user/getbyuserid"
+  },
+  navigation:{
+    add: "navigation/add",
+    getlist: "navigation/getlist",
   },
   login: 'sso/login',
   logout:'sso/logout'
@@ -144,9 +148,9 @@ const router = new VueRouter({
           component: Log
         },
         {
-          path: 'settings',
-          name: "settings",
-          component: Settings
+          path: 'navigation',
+          name: "navigation",
+          component: Navigation
         },
       ]
     }

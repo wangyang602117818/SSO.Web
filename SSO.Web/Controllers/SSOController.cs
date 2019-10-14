@@ -6,7 +6,6 @@ using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
 using System.Web;
 using System.Web.Mvc;
 
@@ -23,30 +22,9 @@ namespace SSO.Web.Controllers
         }
         public ActionResult GetUrlMeta()
         {
-            List<string> ssoUrls = new List<string>() { JwtAuthorizeAttribute.web };
-            var ssoUrlsCookie = Request.Cookies["ssourls"];
-            if (ssoUrlsCookie != null)
-                ssoUrls.AddRange(JsonConvert.DeserializeObject<List<string>>(ssoUrlsCookie.Value.Base64ToStr()));
-            List<WebsiteMeta> websiteMetas = new List<WebsiteMeta>();
-            foreach (string url in ssoUrls)
-            {
-                websiteMetas.Add(url.GetWebSiteMeta());
-            }
-            return new ResponseModel<List<WebsiteMeta>>(ErrorCode.success, websiteMetas);
+            List<string> websiteMetas = new List<string>();
+            return new ResponseModel<List<string>>(ErrorCode.success, websiteMetas);
         }
-        //public ActionResult GetIcon(string url)
-        //{
-        //    Stream stream = new MemoryStream();
-        //    try
-        //    {
-        //        stream = new HttpRequestHelper().GetFile(url, null);
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //    if(stream.Length==0) return ;
-        //}
         public ActionResult GetToken(string ticket, string ip)
         {
             string userId = JwtManager.DecodeTicket(ticket);

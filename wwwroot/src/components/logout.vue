@@ -13,7 +13,7 @@
     <a-row type="flex" justify="center" align="middle">
       <a-col :span="8">
         <a-row type="flex" justify="space-between">
-          <a class="site" target="_blank" :href="url.Url" v-for="url in data.urls" :key="url.Title">
+          <a class="site" target="_blank" :href="url.Url" v-for="url in data.urls" :key="url.Title" :title="url.Url">
             <div class="logo">
               <img alt="icon" v-bind:src="url.IconUrl" v-if="url.IconUrl" />
               <span v-else>

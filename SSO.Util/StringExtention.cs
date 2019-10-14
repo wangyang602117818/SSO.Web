@@ -143,10 +143,11 @@ namespace SSO.Util
             Regex iconTagExists = new Regex("rel=\"?.*icon\"?", RegexOptions.IgnoreCase | RegexOptions.Multiline);
             Regex iconHref = new Regex("\\shref=\"(.*?)\"", RegexOptions.IgnoreCase | RegexOptions.Multiline);
             Regex titleLine = new Regex("<title>(.+)</title>", RegexOptions.IgnoreCase);
+            HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
             WebsiteMeta result = new WebsiteMeta();
             try
             {
-                string responseText = new HttpRequestHelper().Get(url, null).Result;
+                string responseText = httpRequestHelper.Get(url, null).Result;
                 MatchCollection matchs = linkLine.Matches(responseText);
                 string icon = "";
                 for (var i = 0; i < matchs.Count; i++)
@@ -166,7 +167,7 @@ namespace SSO.Util
                         }
                     }
                 }
-                result.IconUrl = icon;
+                result.IconUrl = httpRequestHelper.CheckAvailable(icon) ? icon : "";
                 Match matchTitle = titleLine.Match(responseText);
                 string title = "";
                 if (matchTitle.Success)
@@ -184,5 +185,11 @@ namespace SSO.Util
             }
             return result;
         }
+    }
+    public class WebsiteMeta
+    {
+        public string Url { get; set; }
+        public string Title { get; set; }
+        public string IconUrl { get; set; }
     }
 }
