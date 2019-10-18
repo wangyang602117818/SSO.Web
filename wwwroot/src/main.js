@@ -58,7 +58,7 @@ Vue.http.interceptors.push(function (request, next) {//拦截器
     return response;
   });
 })
-window.console.log("main");
+
 var urls = {
   role: {
     add: "role/add",
@@ -92,12 +92,12 @@ var urls = {
     restore: "user/restore",
     getbyuserid: "user/getbyuserid"
   },
-  navigation:{
+  navigation: {
     add: "navigation/add",
     getlist: "navigation/getlist",
   },
   login: 'sso/login',
-  logout:'sso/logout'
+  logout: 'sso/logout'
 }
 Vue.prototype.$urls = urls
 Vue.config.productionTip = false
