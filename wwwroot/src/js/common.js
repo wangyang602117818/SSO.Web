@@ -61,7 +61,6 @@ String.prototype.getFileName = function (length) {
         return this.substring(0, len);
     }
 }
-
 export default {
     parseBsonTime: parseBsonTime,
     removeArrayItem: removeArrayItem,

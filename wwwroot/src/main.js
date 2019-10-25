@@ -12,6 +12,7 @@ import Department from '@/components/department'
 import Log from '@/components/log'
 import Navigation from '@/components/navigation'
 import common from './js/common.js'
+import authorize from './js/authorize.js'
 import "@/css/index.css"
 
 import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown } from 'ant-design-vue'
@@ -49,15 +50,20 @@ Vue.use(babelPolyfill)
 
 Vue.http.options.root = 'http://www.sso.com:8030/'
 Vue.http.interceptors.push(function (request, next) {//拦截器
-  request.credentials = true;    // 跨域携带cookie
+  // request.credentials = true;    // 跨域携带cookie
+  request.headers.set('Authorization',authorize.geAuthCookie());
   next(response => {
     if (response.body.code == 401) {
-      window.location.href = Vue.http.options.root + urls.login + "?returnUrl=" + window.location.href;
+      // window.location.href = Vue.http.options.root + urls.login + "?returnUrl=" + window.location.href;
+      this.$message.warning("登陆已过期!");
       return false;
     }
     return response;
   });
 })
+
+//验证cookie
+authorize.authorize(Vue.http.options.root)
 
 var urls = {
   role: {

@@ -21,7 +21,7 @@ namespace SSO.Web
         }
         protected void Application_BeginRequest()
         {
-            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", HttpContext.Current.Request.Headers["Origin"] ?? "*");
+            //HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", HttpContext.Current.Request.Headers["Origin"] ?? "*");
         }
     }
 }

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Security.Claims;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -37,6 +36,7 @@ namespace SSO.Web.Filters
             HttpRequestBase request = filterContext.HttpContext.Request;
             string cookieName = request.Url.Host + ".auth";
             string authorization = request.Cookies[cookieName] == null ? "" : request.Cookies[cookieName].Value;
+            if (string.IsNullOrEmpty(authorization)) authorization = request.Headers["Authorization"] ?? "";
             if (string.IsNullOrEmpty(authorization))
             {
                 filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
@@ -50,7 +50,7 @@ namespace SSO.Web.Filters
                 }
                 catch (SecurityTokenInvalidAudienceException ex) //Audience Error 
                 {
-                    filterContext.Result = new ResponseModel<string>(ErrorCode.token_expired, "");
+                    filterContext.Result = new ResponseModel<string>(ErrorCode.invalid_token, "");
                 }
                 catch (SecurityTokenExpiredException ex) //expried token
                 {
@@ -98,7 +98,7 @@ namespace SSO.Web.Filters
         public static void AddUrlToCookie(HttpContextBase httpContext, string returnUrl)
         {
             if (returnUrl == null) return;
-            if (returnUrl.Contains(web)) return;
+            //if (returnUrl.Contains(web)) return;
             HttpCookie ssoUrlCookie = httpContext.Request.Cookies["ssourls"];
             Uri uri = new Uri(returnUrl);
             if (uri.Query.Length > 0)

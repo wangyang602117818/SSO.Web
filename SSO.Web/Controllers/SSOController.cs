@@ -28,7 +28,7 @@ namespace SSO.Web.Controllers
         public ActionResult GetToken(string ticket, string ip)
         {
             string userId = JwtManager.DecodeTicket(ticket);
-            string token = userId == "" ? "" : JwtManager.GenerateToken(userId, null, null, null, null, ip, 20);
+            string token = userId == "" ? "" : JwtManager.GenerateToken(userId, null, null, null, null, ip ?? Request.UserHostAddress, 20);
             return new ResponseModel<string>(ErrorCode.success, token);
         }
         public ActionResult Login(string returnUrl)

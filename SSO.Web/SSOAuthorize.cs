@@ -63,6 +63,7 @@ namespace A.Web.Filters
                 return;
             }
             string authorization = request.Cookies[cookieName] == null ? "" : request.Cookies[cookieName].Value;
+            if (string.IsNullOrEmpty(authorization)) authorization = request.Headers["Authorization"] ?? "";
             string ticket = request.QueryString["ticket"];
             if (string.IsNullOrEmpty(authorization))
             {

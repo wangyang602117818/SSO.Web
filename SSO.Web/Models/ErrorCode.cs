@@ -43,6 +43,7 @@
         authorize_fault = 401,
         invalid_token = 402,
         token_expired = 403,
+
         /// <summary>
         /// 任务未完成
         /// </summary>
