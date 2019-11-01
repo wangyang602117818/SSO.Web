@@ -15,7 +15,6 @@ namespace SSO.Web.Controllers
     [AllowAnonymous]
     public class SSOController : Controller
     {
-        public static int cookieTime = int.Parse(ConfigurationManager.AppSettings["cookieTime"]);
         Business.UserBasic user = new Business.UserBasic();
         Business.Navigation navigation = new Business.Navigation();
         public ActionResult Index()

@@ -9,11 +9,9 @@ namespace SSO.Util
 {
     public class JwtManager
     {
-        public static string secretKey = ConfigurationManager.AppSettings["secretKey"];
-        public static string issuer = ConfigurationManager.AppSettings["issuer"];
         public static string GenerateToken(string userId, string userName, string company, IEnumerable<string> departments, IEnumerable<string> roles, string ip, int minutes)
         {
-            var symmetricKey = Convert.FromBase64String(secretKey);
+            var symmetricKey = Convert.FromBase64String(AppSettings.secretKey);
             var tokenHandler = new JwtSecurityTokenHandler();
             var claims = new List<Claim>() { new Claim(ClaimTypes.Name, userId) };
             if (!string.IsNullOrEmpty(userName)) claims.Add(new Claim("StaffName", userName));
@@ -26,7 +24,7 @@ namespace SSO.Util
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),  //token数据
-                Issuer = issuer,                       //颁发者
+                Issuer = AppSettings.issuer,           //颁发者
                 IssuedAt = DateTime.Now,               //颁发时间
                 Audience = ip,                         //颁发给
                 Expires = DateTime.Now.AddMinutes(minutes), //过期时间
@@ -39,12 +37,12 @@ namespace SSO.Util
         public static string GenerateTicket(string userId)
         {
             string sourceString = DateTime.Now.ToString("yyyy-MM-dd") + userId + DateTime.Now.ToString("HH:mm:ss");
-            string ticket = SymmetricEncryptHelper.AesEncode(sourceString, secretKey);
+            string ticket = SymmetricEncryptHelper.AesEncode(sourceString, AppSettings.secretKey);
             return Base64SecureURL.Encode(ticket);
         }
         public static string DecodeTicket(string ticket)
         {
-            string sourceString = SymmetricEncryptHelper.AesDecode(Base64SecureURL.Decode(ticket), secretKey);
+            string sourceString = SymmetricEncryptHelper.AesDecode(Base64SecureURL.Decode(ticket), AppSettings.secretKey);
             string userId = sourceString.Substring(10, sourceString.Length - 18);
             DateTime ticketTime = DateTime.Parse(sourceString.Substring(0, 10) + " " + sourceString.Substring(10 + userId.Length));
             var diff = DateTime.Now - ticketTime;

@@ -68,7 +68,7 @@ namespace SSO.Web.Filters
         public static ClaimsPrincipal ParseToken(string authorization)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var symmetricKey = Convert.FromBase64String(JwtManager.secretKey);
+            var symmetricKey = Convert.FromBase64String(AppSettings.secretKey);
             var validationParameters = new TokenValidationParameters()
             {
                 RequireExpirationTime = true,

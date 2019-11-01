@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSettings.cs" />
     <Compile Include="Base64SecureURL.cs" />
     <Compile Include="HttpRequestHelper.cs" />
     <Compile Include="JwtManager.cs" />

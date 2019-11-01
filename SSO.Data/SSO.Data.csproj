@@ -108,6 +108,10 @@
       <Project>{2ba1ea6d-de41-495b-89cc-2d8597022df8}</Project>
       <Name>SSO.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SSO.Util\SSO.Util.csproj">
+      <Project>{211CFFA2-3346-4E6F-ACD6-014F0A64C9B0}</Project>
+      <Name>SSO.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
