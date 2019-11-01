@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -7,22 +8,25 @@ namespace SSO.Business
 {
     public class Navigation : ModelBase
     {
-        public int Insert(string title, string url, string iconUrl)
+        public int Insert(string title, string baseUrl, string iconUrl)
         {
             userCenterContext.Navigations.Add(new Data.Models.Navigation()
             {
                 Title = title,
-                Url = url,
-                IconUrl = iconUrl
+                BaseUrl = baseUrl,
+                IconUrl = iconUrl,
+                UpdateTime = DateTime.Now,
+                CreateTime = DateTime.Now
             });
             return userCenterContext.SaveChanges();
         }
-        public int Update(int id, string title, string url, string iconUrl)
+        public int Update(int id, string title, string baseUrl, string iconUrl)
         {
             Data.Models.Navigation navigation = GetById(id);
             navigation.Title = title;
-            navigation.Url = url;
+            navigation.BaseUrl = baseUrl;
             navigation.IconUrl = iconUrl;
+            navigation.UpdateTime = DateTime.Now;
             return userCenterContext.SaveChanges();
         }
         public int Delete(IEnumerable<int> ids)
@@ -45,6 +49,16 @@ namespace SSO.Business
             if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.Title.Contains(keyword));
             count = query.Count();
             return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+        }
+        public IEnumerable<Data.Models.Navigation> GetAll()
+        {
+            var query = from navigation in userCenterContext.Navigations select navigation;
+            return query.OrderBy(o => o.Title).ToList();
+        }
+        public Data.Models.Navigation GetBaseUrl(string url)
+        {
+            var query = from navigation in userCenterContext.Navigations where url.Contains(navigation.BaseUrl) select navigation;
+            return query.FirstOrDefault();
         }
     }
 }

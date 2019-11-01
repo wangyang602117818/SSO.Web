@@ -23,9 +23,6 @@ function geAuthCookie() {
     var cookieName = window.location.hostname + ".auth";
     return getCookie(cookieName);
 }
-function toUrlSecureString(str) {
-    return str.replace('+', '-').replace('/', '_').trimEnd('=');
-}
 function parseUrlString(str) {
     var result = str.replace('-', '+').replace('_', '/');
     switch (result.length % 4) {
@@ -59,6 +56,7 @@ function authorize(baseUrl) {
     var getTokenUrl = baseUrl + "sso/gettoken";
     var cookieName = window.location.hostname + ".auth";
     var ssourl = getQueryString("ssourls");
+    //debugger;
     //sso退出
     if (ssourl) {
         ////////清除本站cookie
@@ -69,7 +67,7 @@ function authorize(baseUrl) {
         }
         /////////////////////
         var index = 0;
-        for (var i = 0; i < ssoUrls.length; i++) if (window.location.origin.indexOf(ssoUrls[i]) > -1) index = i;
+        for (var i = 0; i < ssoUrls.length; i++) if (window.location.href.indexOf(ssoUrls[i]) > -1) index = i;
         if (index < ssoUrls.length - 1) {
             window.location.href = ssoUrls[index + 1] + "?ssourls=" + ssourl;
         }

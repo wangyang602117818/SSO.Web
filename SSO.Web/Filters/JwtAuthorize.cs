@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using SSO.Business;
 using SSO.Util;
 using SSO.Web.Models;
 using System;
@@ -14,7 +15,6 @@ namespace SSO.Web.Filters
 {
     public class JwtAuthorizeAttribute : AuthorizeAttribute
     {
-        public static string web = System.Configuration.ConfigurationManager.AppSettings["web"];
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             var reflectedActionDescriptor = (ReflectedActionDescriptor)filterContext.ActionDescriptor;
@@ -50,14 +50,17 @@ namespace SSO.Web.Filters
                 }
                 catch (SecurityTokenInvalidAudienceException ex) //Audience Error 
                 {
+                    Log4Net.ErrorLog(ex);
                     filterContext.Result = new ResponseModel<string>(ErrorCode.invalid_token, "");
                 }
                 catch (SecurityTokenExpiredException ex) //expried token
                 {
+                    Log4Net.ErrorLog(ex);
                     filterContext.Result = new ResponseModel<string>(ErrorCode.token_expired, "");
                 }
                 catch (Exception ex)
                 {
+                    Log4Net.ErrorLog(ex);
                     filterContext.Result = new ResponseModel<string>(ErrorCode.invalid_token, "");
                 }
             }
@@ -98,11 +101,13 @@ namespace SSO.Web.Filters
         public static void AddUrlToCookie(HttpContextBase httpContext, string returnUrl)
         {
             if (returnUrl == null) return;
-            //if (returnUrl.Contains(web)) return;
             HttpCookie ssoUrlCookie = httpContext.Request.Cookies["ssourls"];
             Uri uri = new Uri(returnUrl);
             if (uri.Query.Length > 0)
                 returnUrl = returnUrl.Replace(uri.Query, "");
+
+            Data.Models.Navigation navigation = new Navigation().GetBaseUrl(returnUrl);
+            if (navigation != null) returnUrl = navigation.BaseUrl;
             if (ssoUrlCookie == null)
             {
                 string returnUrls = JsonConvert.SerializeObject(new List<string>() { returnUrl });

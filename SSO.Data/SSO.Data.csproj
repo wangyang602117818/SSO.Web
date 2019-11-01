@@ -79,6 +79,18 @@
     <Compile Include="Migrations\201910130915000_AddNativation.Designer.cs">
       <DependentUpon>201910130915000_AddNativation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910290308319_AddBase.cs" />
+    <Compile Include="Migrations\201910290308319_AddBase.Designer.cs">
+      <DependentUpon>201910290308319_AddBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910290612508_AddBase1.cs" />
+    <Compile Include="Migrations\201910290612508_AddBase1.Designer.cs">
+      <DependentUpon>201910290612508_AddBase1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910290854207_AddBase2.cs" />
+    <Compile Include="Migrations\201910290854207_AddBase2.Designer.cs">
+      <DependentUpon>201910290854207_AddBase2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Company.cs" />
@@ -103,6 +115,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201910130915000_AddNativation.resx">
       <DependentUpon>201910130915000_AddNativation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910290308319_AddBase.resx">
+      <DependentUpon>201910290308319_AddBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910290612508_AddBase1.resx">
+      <DependentUpon>201910290612508_AddBase1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910290854207_AddBase2.resx">
+      <DependentUpon>201910290854207_AddBase2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

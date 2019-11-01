@@ -15,7 +15,7 @@
             </a-form-item>
             <a-form-item>
               <a-input
-                v-decorator="['password',{ rules: [{ required: true, message: 'Please input your Password!' }] }]"
+                v-decorator="['password',{ rules: [{ required: true, message: 'Please input your Password!' }]}]"
                 type="password"
                 placeholder="Password"
                 size="large"

@@ -46,10 +46,10 @@
         </a-row>
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-form-item label="Url">
+            <a-form-item label="BaseUrl">
               <a-input
                 placeholder="导航链接"
-                v-decorator="['url',{rules: [{ required: false, message: 'Url is required!' }]}]"
+                v-decorator="['baseUrl',{rules: [{ required: false, message: 'Url is required!' }]}]"
               />
             </a-form-item>
           </a-col>
@@ -94,7 +94,7 @@ export default {
         },
         {
           title: "链接",
-          dataIndex: "Url",
+          dataIndex: "BaseUrl",
           width: "25%"
         },
         {
@@ -163,12 +163,13 @@ export default {
       this.isUpdate = true;
       this.drawerVisible = true;
       this.$http
-        .get(this.$urls.role.getById + "/" + this.selectedRowKeys[0])
+        .get(this.$urls.navigation.getbyid + "/" + this.selectedRowKeys[0])
         .then(response => {
           if (response.body.code == 0) {
             this.form.setFieldsValue({
-              name: response.body.result.Name,
-              description: response.body.result.Description
+              title: response.body.result.Title,
+              baseUrl:response.body.result.BaseUrl,
+              iconUrl:response.body.result.IconUrl
             });
           }
         });

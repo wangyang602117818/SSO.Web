@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SSO.Data.Models;
 using SSO.Model;
 using SSO.Util;
 using SSO.Web.Filters;
@@ -16,14 +17,14 @@ namespace SSO.Web.Controllers
     {
         public static int cookieTime = int.Parse(ConfigurationManager.AppSettings["cookieTime"]);
         Business.UserBasic user = new Business.UserBasic();
+        Business.Navigation navigation = new Business.Navigation();
         public ActionResult Index()
         {
             return View();
         }
         public ActionResult GetUrlMeta()
         {
-            List<string> websiteMetas = new List<string>();
-            return new ResponseModel<List<string>>(ErrorCode.success, websiteMetas);
+            return new ResponseModel<IEnumerable<Data.Models.Navigation>>(ErrorCode.success, navigation.GetAll());
         }
         public ActionResult GetToken(string ticket, string ip)
         {
