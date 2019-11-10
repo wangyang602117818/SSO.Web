@@ -34,8 +34,7 @@ namespace SSO.Web.Filters
             //如果设置了匿名访问直接返回
             if (!isAuthorization) return;
             HttpRequestBase request = filterContext.HttpContext.Request;
-            string cookieName = request.Url.Host + ".auth";
-            string authorization = request.Cookies[cookieName] == null ? "" : request.Cookies[cookieName].Value;
+            string authorization = request.Cookies[AppSettings.cookieName] == null ? "" : request.Cookies[AppSettings.cookieName].Value;
             if (string.IsNullOrEmpty(authorization)) authorization = request.Headers["Authorization"] ?? "";
             if (string.IsNullOrEmpty(authorization))
             {

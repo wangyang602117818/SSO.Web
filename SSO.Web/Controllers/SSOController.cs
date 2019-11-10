@@ -33,7 +33,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Login(string returnUrl)
         {
-            var authorization = Request.Cookies[Request.Url.Host + ".auth"];
+            var authorization = Request.Cookies[AppSettings.cookieName];
             if (authorization != null)  //sso login
             {
                 try
@@ -41,6 +41,10 @@ namespace SSO.Web.Controllers
                     var userId = JwtAuthorizeAttribute.ParseToken(authorization.Value).Identity.Name;
                     string ticket = JwtManager.GenerateTicket(userId);
                     returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
+                    if (AppSettings.cookieTime != "session")
+                    {
+                        authorization.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(AppSettings.cookieTime));
+                    }
                     Response.Cookies.Add(authorization);
                     //sso退出用
                     JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
@@ -62,14 +66,18 @@ namespace SSO.Web.Controllers
             string[] roles = userBasic.RoleName.Split(',');
             string[] departments = userBasic.DepartmentName.Split(',');
             string token = JwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60);
-            HttpCookie httpCookie = new HttpCookie(Request.Url.Host + ".auth", token);
+            HttpCookie httpCookie = new HttpCookie(AppSettings.cookieName, token);
+            if (AppSettings.cookieTime != "session")
+            {
+                httpCookie.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(AppSettings.cookieTime));
+            }
             Response.Cookies.Add(httpCookie);
             JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
             return new ResponseModel<string>(ErrorCode.success, returnUrl ?? "");
         }
         public ActionResult LogOut()
         {
-            var authorization = Request.Cookies[Request.Url.Host + ".auth"];
+            var authorization = Request.Cookies[AppSettings.cookieName];
             if (authorization != null)
             {
                 authorization.Expires = DateTime.Now.AddDays(-1);

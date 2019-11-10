@@ -14,11 +14,13 @@ namespace A.Web.Filters
 {
     public class SSOAuthorizeAttribute : AuthorizeAttribute
     {
-        private static string secretKey = "tvO3zPS9Fdc4EvF867Vjbc8ox0kRaH5DCihwOzYMbLQ=";
-        private static string baseUrl = "http://www.sso.com:8030/";
-        private static string loginUrl = baseUrl + "sso/login";
-        private static string indexUrl = baseUrl + "sso/index";
-        private static string getTokenUrl = baseUrl + "sso/gettoken";
+        public static string secretKey = System.Configuration.ConfigurationManager.AppSettings["ssoSecretKey"];
+        public static string baseUrl = System.Configuration.ConfigurationManager.AppSettings["ssoBaseUrl"];
+        public static string cookieKey = System.Configuration.ConfigurationManager.AppSettings["ssoCookieKey"];
+        public static string cookieTime = System.Configuration.ConfigurationManager.AppSettings["ssoCookieTime"];
+        public static string loginUrl = baseUrl.TrimEnd('/') + "/sso/login";
+        public static string indexUrl = baseUrl.TrimEnd('/') + "/sso/index";
+        public static string getTokenUrl = baseUrl.TrimEnd('/') + "/sso/gettoken";
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             var reflectedActionDescriptor = (ReflectedActionDescriptor)filterContext.ActionDescriptor;
@@ -37,13 +39,13 @@ namespace A.Web.Filters
             }
             if (!isAuthorization) return;
             HttpRequestBase request = filterContext.HttpContext.Request;
-            string cookieName = request.Url.Host + ".auth";
+            //string cookieName = request.Url.Host + ".auth";
             var ssourl = request.QueryString["ssourls"];
             if (!string.IsNullOrEmpty(ssourl)) //sso 退出
             {
                 ////////清除本站cookie
                 List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(Encoding.UTF8.GetString(Convert.FromBase64String(DecodeBase64(ssourl))));
-                var cookie = request.Cookies[cookieName];
+                var cookie = request.Cookies[cookieKey];
                 if (cookie != null)
                 {
                     cookie.Expires = DateTime.Now.AddDays(-1);
@@ -62,7 +64,7 @@ namespace A.Web.Filters
                 }
                 return;
             }
-            string authorization = request.Cookies[cookieName] == null ? "" : request.Cookies[cookieName].Value;
+            string authorization = request.Cookies[cookieKey] == null ? "" : request.Cookies[cookieKey].Value;
             if (string.IsNullOrEmpty(authorization)) authorization = request.Headers["Authorization"] ?? "";
             string ticket = request.QueryString["ticket"];
             if (string.IsNullOrEmpty(authorization))
@@ -77,7 +79,12 @@ namespace A.Web.Filters
                     authorization = GetTokenByTicket(ticket, request.UserHostAddress);
                     if (!string.IsNullOrEmpty(authorization))
                     {
-                        filterContext.HttpContext.Response.Cookies.Add(new HttpCookie(cookieName, authorization));
+                        HttpCookie httpCookie = new HttpCookie(cookieKey, authorization);
+                        if (cookieTime != "session")
+                        {
+                            httpCookie.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(cookieTime));
+                        }
+                        filterContext.HttpContext.Response.Cookies.Add(httpCookie);
                     }
                 }
             }
@@ -102,7 +109,7 @@ namespace A.Web.Filters
             }
             catch (Exception ex) //token失效
             {
-                HttpCookie httpCookie = filterContext.HttpContext.Request.Cookies[cookieName];
+                HttpCookie httpCookie = filterContext.HttpContext.Request.Cookies[cookieKey];
                 if (httpCookie != null)
                 {
                     httpCookie.Expires = DateTime.Now.AddDays(-1);
@@ -133,7 +140,7 @@ namespace A.Web.Filters
             }
             return access;
         }
-        private string GetTokenByTicket(string ticket, string audience)
+        public static string GetTokenByTicket(string ticket, string audience)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(getTokenUrl + "?ticket=" + ticket + "&ip=" + audience);
             request.Method = "get";
