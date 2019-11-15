@@ -11,7 +11,7 @@ namespace SSO.Web.Models
         {
             if (t is string)
             {
-                Content = "{\"code\":" + (int)code + ",\"message\":\"" + code.ToString() + "\",\"result\":\"" + t.ToString() + "\",\"count\":" + count + "}";
+                Content = "{\"code\":" + (int)code + ",\"message\":\"" + code.ToString() + "\",\"result\":\"" + t.ToString().Replace("\"","\\\"") + "\",\"count\":" + count + "}";
             }
             else
             {

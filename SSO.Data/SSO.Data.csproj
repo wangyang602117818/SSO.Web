@@ -75,6 +75,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201911140649227_InitialCreate.cs" />
+    <Compile Include="Migrations\201911140649227_InitialCreate.Designer.cs">
+      <DependentUpon>201911140649227_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911140823274_Add.cs" />
+    <Compile Include="Migrations\201911140823274_Add.Designer.cs">
+      <DependentUpon>201911140823274_Add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Department.cs" />
@@ -85,6 +94,7 @@
     <Compile Include="Models\UserRoleMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserCenterContext.cs" />
+    <Compile Include="UserCenterInitData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Model\SSO.Model.csproj">
@@ -98,6 +108,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201911140649227_InitialCreate.resx">
+      <DependentUpon>201911140649227_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911140823274_Add.resx">
+      <DependentUpon>201911140823274_Add.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

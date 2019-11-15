@@ -9,7 +9,5 @@ namespace SSO.Data.Models
         public string Title { get; set; }
         [StringLength(512)]
         public string BaseUrl { get; set; }
-        [StringLength(512)]
-        public string IconUrl { get; set; }
     }
 }

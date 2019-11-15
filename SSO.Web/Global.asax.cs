@@ -18,6 +18,7 @@ namespace SSO.Web
 
             FileInfo fileInfo = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "bin\\log4net.config");
             log4net.Config.XmlConfigurator.ConfigureAndWatch(fileInfo);
+
         }
         protected void Application_BeginRequest()
         {

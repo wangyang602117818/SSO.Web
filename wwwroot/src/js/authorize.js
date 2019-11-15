@@ -1,6 +1,5 @@
 ///////////////验证中心方法 authorize(baseUrl)////////////////////////////////////
 //********************************************************************* */
-
 function setCookie(cname, cvalue, exdays) {
     var cookies = cname + "=" + cvalue + ";path=/";
     if (exdays) {
@@ -18,10 +17,6 @@ function getCookie(cname) {
         if (c.indexOf(name) == 0) { return c.substring(name.length, c.length); }
     }
     return "";
-}
-function geAuthCookie() {
-    var cookieName = window.location.hostname + ".auth";
-    return getCookie(cookieName);
 }
 function parseUrlString(str) {
     var result = str.replace('-', '+').replace('_', '/');
@@ -50,11 +45,10 @@ function getTokenByTicket(url, success, error) {
     xhr.open('get', url, false);
     xhr.send();
 }
-function authorize(baseUrl) {
+function authorize(baseUrl,cookieName) {
     var loginUrl = baseUrl + "sso/login";
     var indexUrl = baseUrl + "sso/index";
     var getTokenUrl = baseUrl + "sso/gettoken";
-    var cookieName = window.location.hostname + ".auth";
     var ssourl = getQueryString("ssourls");
     //debugger;
     //sso退出
@@ -103,5 +97,5 @@ function authorize(baseUrl) {
 
 export default {
     authorize: authorize,
-    geAuthCookie: geAuthCookie
+    getCookie: getCookie
 }

@@ -5,12 +5,13 @@ import Logout from '@/components/logout'
 
 import common from './js/common.js'
 
-import { Row, Col, Divider, Card, Avatar,Select,Icon,Dropdown,Modal,Form,Input } from 'ant-design-vue'
+import { Row, Col, Divider,Tabs, Card, Avatar, Select, Icon, Dropdown, Modal, Form, Input, message, Menu } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Divider)
+Vue.use(Tabs)
 Vue.use(Card)
 Vue.use(Avatar)
 Vue.use(Select)
@@ -19,13 +20,20 @@ Vue.use(Dropdown)
 Vue.use(Modal)
 Vue.use(Form)
 Vue.use(Input)
+Vue.use(Menu)
+
+Vue.prototype.$message = message
 
 Vue.use(VueResource)
 Vue.prototype.$common = common
 
 Vue.http.options.root = 'http://www.sso.com:8030/'
+
 var urls = {
-    geturlmeta: 'sso/geturlmeta'
+    geturlmeta: 'sso/geturlmeta',
+    login: 'sso/login',
+    logout: 'sso/logout',
+    getuser: 'sso/getuser'
 };
 Vue.prototype.$urls = urls
 

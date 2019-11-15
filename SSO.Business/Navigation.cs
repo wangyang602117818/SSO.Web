@@ -8,24 +8,22 @@ namespace SSO.Business
 {
     public class Navigation : ModelBase
     {
-        public int Insert(string title, string baseUrl, string iconUrl)
+        public int Insert(string title, string baseUrl)
         {
             userCenterContext.Navigations.Add(new Data.Models.Navigation()
             {
                 Title = title,
                 BaseUrl = baseUrl,
-                IconUrl = iconUrl,
                 UpdateTime = DateTime.Now,
                 CreateTime = DateTime.Now
             });
             return userCenterContext.SaveChanges();
         }
-        public int Update(int id, string title, string baseUrl, string iconUrl)
+        public int Update(int id, string title, string baseUrl)
         {
             Data.Models.Navigation navigation = GetById(id);
             navigation.Title = title;
             navigation.BaseUrl = baseUrl;
-            navigation.IconUrl = iconUrl;
             navigation.UpdateTime = DateTime.Now;
             return userCenterContext.SaveChanges();
         }

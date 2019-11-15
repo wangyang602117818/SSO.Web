@@ -4,55 +4,67 @@
       <a-row type="flex" justify="center" align="middle">
         <a-col :span="24" style="text-align:right;padding-right:20px">
           <a-dropdown>
-            <a class="ant-dropdown-link" href="#" @click="showLoginModal">登录</a>
+            <a class="ant-dropdown-link" href="#" v-if="user">
+              {{user}}
+              <a-icon type="down" />
+            </a>
+            <a class="ant-dropdown-link" href="#" @click="()=>this.login_visible = true" v-else>登录</a>
+            <a-menu slot="overlay" v-if="user">
+              <a-menu-item key="0">
+                <a target="_self" :href="this.$urls.logout">退出</a>
+              </a-menu-item>
+            </a-menu>
           </a-dropdown>
         </a-col>
       </a-row>
     </div>
     <div class="main">
-      <a-row type="flex" justify="center" align="middle">
-        <a-col :span="8">
-          <h2>页面导航</h2>
-        </a-col>
-      </a-row>
-      <a-row type="flex" justify="center" align="middle">
-        <a-col :span="8">
-          <a-divider></a-divider>
-        </a-col>
-      </a-row>
-      <a-row type="flex" justify="center" align="middle">
-        <a-col :span="8">
-          <a-row type="flex" justify="space-between">
-            <a
-              class="site"
-              target="_blank"
-              :href="url.BaseUrl"
-              v-for="url in urls"
-              :key="url.Title"
-              :title="url.BaseUrl"
-            >
-              <div class="logo">
-                <img alt="icon" v-bind:src="url.IconUrl" v-if="url.IconUrl" />
-                <span v-else>
-                  <a-avatar
-                    size="large"
-                    style="backgroundColor:#3498DB"
-                  >{{url.Title.getFileName(1).trimEnd('.')}}</a-avatar>
-                </span>
-              </div>
-              <div class="title" :title="url.Title">{{url.Title.getFileName(3)}}</div>
-            </a>
-          </a-row>
+      <a-row justify="center" align="middle">
+        <a-col :span="8" :offset="8">
+          <a-tabs defaultActiveKey="1">
+            <a-tab-pane key="1" :closable="false">
+              <span slot="tab">
+                <a-icon type="home" />导航
+              </span>
+              <a-row type="flex" justify="space-between">
+                <a
+                  class="site"
+                  target="_blank"
+                  :href="url.BaseUrl"
+                  v-for="url in urls"
+                  :key="url.Title"
+                  :title="url.BaseUrl"
+                >
+                  <div class="logo">
+                    <img alt="icon" v-bind:src="url.IconUrl" v-if="url.IconUrl" />
+                    <span v-else>
+                      <a-avatar
+                        size="large"
+                        style="backgroundColor:#3498DB"
+                      >{{url.Title.getFileName(1).trimEnd('.')}}</a-avatar>
+                    </span>
+                  </div>
+                  <div class="title" :title="url.Title">{{url.Title.getFileName(3)}}</div>
+                </a>
+              </a-row>
+            </a-tab-pane>
+            <a-icon
+              type="plus"
+              slot="tabBarExtraContent"
+              :style="{ fontSize: '16px',cursor:'pointer' }"
+              @click="()=>this.addurl_visible = true"
+            />
+          </a-tabs>
         </a-col>
       </a-row>
     </div>
     <a-modal
       title="登录"
-      :visible="visible"
-      :maskClosable='false'
+      :visible="login_visible"
+      :maskClosable="false"
       @ok="login"
-      :confirmLoading="confirmLoading"
-      @cancel="handleCancel"
+      :confirmLoading="false"
+      @cancel="()=>this.login_visible=false"
     >
       <a-form :form="form" @submit.prevent="handleSubmit">
         <a-form-item>
@@ -76,6 +88,29 @@
         </a-form-item>
       </a-form>
     </a-modal>
+    <a-modal
+      title="添加网址"
+      :visible="addurl_visible"
+      :maskClosable="false"
+      @ok="addUrl"
+      :confirmLoading="false"
+      @cancel="()=>this.addurl_visible=false"
+    >
+      <a-form :form="addUrl_form" @submit.prevent="handleSubmit">
+        <a-form-item>
+          <a-input
+            v-decorator="['title',{ rules: [{ required: true, message: 'Please input your title!' }] }]"
+            placeholder="名称"
+          ></a-input>
+        </a-form-item>
+        <a-form-item>
+          <a-input
+            v-decorator="['url',{ rules: [{ required: true, message: 'Please input your url!' }]}]"
+            placeholder="网址"
+          ></a-input>
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -85,30 +120,39 @@ export default {
   data() {
     return {
       urls: [],
-      visible: false,
-      confirmLoading: false,
-      form: this.$form.createForm(this)
+      user: "",
+      login_visible: false,
+      addurl_visible: false,
+      form: this.$form.createForm(this),
+      addUrl_form: this.$form.createForm(this)
     };
   },
   created() {
     this.$http.get(this.$urls.geturlmeta).then(response => {
       if (response.body.code == 0) this.urls = response.body.result;
     });
+    this.$http.get(this.$urls.getuser).then(response => {
+      if (response.body.code == 0 && response.body.result) {
+        this.user = response.body.result;
+      }
+      // this.user = "Yang X Wang";
+    });
   },
   methods: {
     login() {
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log(values);
+          this.$http.post(this.$urls.login, values).then(response => {
+            if (response.body.code == 0) {
+              this.login_visible = false;
+            } else {
+              this.$message.warning("用户名或密码不正确!");
+            }
+          });
         }
       });
     },
-    handleCancel() {
-      this.visible = false;
-    },
-    showLoginModal() {
-      this.visible = true;
-    }
+    addUrl() {}
   }
 };
 </script>

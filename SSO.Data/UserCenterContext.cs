@@ -7,7 +7,10 @@ namespace SSO.Data
     public class UserCenterContext : DbContext
     {
         public static string databaseKey = AppSettings.databaseKey;
-        public UserCenterContext() : base("name=" + databaseKey) { }
+        public UserCenterContext() : base("name=" + databaseKey)
+        {
+            Database.SetInitializer(new UserCenterInitData());
+        }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Department> Departments { get; set; }
@@ -17,4 +20,5 @@ namespace SSO.Data
         public DbSet<Navigation> Navigations { get; set; }
 
     }
+
 }

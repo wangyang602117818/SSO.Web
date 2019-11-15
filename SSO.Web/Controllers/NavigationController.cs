@@ -9,7 +9,7 @@ namespace SSO.Web.Controllers
         Business.Navigation navigation = new Business.Navigation();
         public ActionResult Add(NavigationModel navigationModel)
         {
-            if (navigation.Insert(navigationModel.Title, navigationModel.BaseUrl, navigationModel.IconUrl) > 0)
+            if (navigation.Insert(navigationModel.Title, navigationModel.BaseUrl) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
@@ -20,7 +20,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Update(UpdateNavigationModel updateNavigationModel)
         {
-            if (navigation.Update(updateNavigationModel.Id, updateNavigationModel.Title, updateNavigationModel.BaseUrl,updateNavigationModel.IconUrl) > 0)
+            if (navigation.Update(updateNavigationModel.Id, updateNavigationModel.Title, updateNavigationModel.BaseUrl) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }

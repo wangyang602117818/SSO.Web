@@ -49,9 +49,10 @@ Vue.use(VueResource)
 Vue.use(babelPolyfill)
 
 Vue.http.options.root = 'http://www.sso.com:8030/'
+var cookieName = 'sso.manage.auth';
 Vue.http.interceptors.push(function (request, next) {//拦截器
   // request.credentials = true;    // 跨域携带cookie
-  request.headers.set('Authorization', authorize.geAuthCookie());
+  request.headers.set('Authorization', authorize.getCookie(cookieName));
   next(response => {
     if (response.body.code == 401) {
       // window.location.href = Vue.http.options.root + urls.login + "?returnUrl=" + window.location.href;
@@ -63,7 +64,7 @@ Vue.http.interceptors.push(function (request, next) {//拦截器
 })
 
 //验证cookie
-authorize.authorize(Vue.http.options.root)
+authorize.authorize(Vue.http.options.root, cookieName)
 
 var urls = {
   role: {
@@ -102,7 +103,7 @@ var urls = {
     add: "navigation/add",
     getlist: "navigation/getlist",
     delete: "navigation/delete",
-    getbyid:"navigation/getbyid",
+    getbyid: "navigation/getbyid",
     update: "navigation/update",
   },
   login: 'sso/login',

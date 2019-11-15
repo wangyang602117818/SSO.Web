@@ -25,6 +25,11 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<IEnumerable<Data.Models.Navigation>>(ErrorCode.success, navigation.GetAll());
         }
+        [JwtAuthorize]
+        public ActionResult GetUser()
+        {
+            return new ResponseModel<string>(ErrorCode.success, User.Identity.Name);
+        }
         public ActionResult GetToken(string ticket, string ip)
         {
             string userId = JwtManager.DecodeTicket(ticket);
@@ -61,7 +66,22 @@ namespace SSO.Web.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel loginModel, string returnUrl)
         {
-            var userBasic = user.Login(loginModel.UserId, loginModel.PassWord.GetSha256());
+            UserBasic userBasic = null;
+            string[] admin = AppSettings.admin.Split(';');
+            if (loginModel.UserId == admin[0] && loginModel.PassWord == admin[1])
+            {
+                userBasic = new UserBasic()
+                {
+                    UserId = loginModel.UserId,
+                    UserName = loginModel.UserId,
+                    RoleName = admin[2],
+                    DepartmentName = ""
+                };
+            }
+            else
+            {
+                userBasic = user.Login(loginModel.UserId, loginModel.PassWord.GetSha256());
+            }
             if (userBasic == null) return new ResponseModel<string>(ErrorCode.login_fault, "");
             string[] roles = userBasic.RoleName.Split(',');
             string[] departments = userBasic.DepartmentName.Split(',');
