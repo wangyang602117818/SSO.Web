@@ -5,7 +5,7 @@ import Logout from '@/components/logout'
 
 import common from './js/common.js'
 
-import {Button, Row, Col, Divider,Tabs, Card, Avatar, Select, Icon, Dropdown, Modal, Form, Input, message, Menu } from 'ant-design-vue'
+import {Button, Row, Col, Divider,Tabs, Card, Avatar, Select, Icon, Dropdown, Modal, Form, Input, message,Popconfirm } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 Vue.use(Button)
@@ -21,7 +21,7 @@ Vue.use(Dropdown)
 Vue.use(Modal)
 Vue.use(Form)
 Vue.use(Input)
-Vue.use(Menu)
+Vue.use(Popconfirm)
 
 Vue.prototype.$message = message
 
@@ -35,7 +35,10 @@ var urls = {
     login: 'sso/login',
     logout: 'sso/logout',
     getuser: 'sso/getuser',
-    addnavigation:'sso/addnavigation'
+    addnavigation:'sso/addnavigation',
+    deletenavigation:'sso/deletenavigation',
+    getnavigationbyid:'sso/getnavigationbyid',
+    updatenavigation:'sso/updatenavigation'
 };
 Vue.prototype.$urls = urls
 

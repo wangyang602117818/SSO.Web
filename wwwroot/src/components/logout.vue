@@ -19,67 +19,76 @@
       </a-row>
     </div>
     <div class="main">
-      <a-row justify="center" align="middle">
-        <a-col :span="8" :offset="8">
-          <a-tabs defaultActiveKey="1" style="width:450px">
-            <a-tab-pane key="1" :closable="false">
-              <span slot="tab">
-                <a-icon type="home" />导航
-              </span>
-              <a-row>
-                <a
-                  class="site"
-                  target="_blank"
-                  :href="url.BaseUrl"
-                  v-for="url in urls"
-                  :key="url._id"
-                  :title="url.BaseUrl"
-                >
-                  <div class="logo">
-                    <img alt="icon" v-bind:src="url.IconUrl" v-if="url.IconUrl" />
-                    <span v-else>
-                      <a-avatar
-                        size="large"
-                        style="backgroundColor:#3498DB"
-                      >{{url.Title.getFileName(1).trimEnd('.')}}</a-avatar>
-                    </span>
-                  </div>
-                  <div class="title" :title="url.Title">{{url.Title.getFileName(3)}}</div>
-                  <div @click.prevent="delsite" :id="url._id"><a-icon type="close" class="delsite" style="color:#444"/></div>
-                  <div @click.prevent="updatesite" :id="url._id" class="updatesite"><a-icon type="edit" style="color:#444"/></div>
-                </a>
-              </a-row>
-            </a-tab-pane>
-            <a-icon
-              type="plus"
-              slot="tabBarExtraContent"
-              :style="{ fontSize: '16px',cursor:'pointer' }"
-              @click="()=>this.addurl_visible = !this.addurl_visible"
-            />
-          </a-tabs>
-          <div class="addurl" v-if="addurl_visible">
-            <a-form :form="addUrl_form" layout="inline" @submit.prevent="addUrl">
-              <a-form-item>
-                <a-input
-                  style="width: 120px"
-                  v-decorator="['title',{ rules: [{ required: true, message: 'Please input your title!' }] }]"
-                  placeholder="名称"
-                ></a-input>
-              </a-form-item>
-              <a-form-item>
-                <a-input
-                  style="width: 180px"
-                  v-decorator="['baseUrl',{ rules: [{ required: true, message: 'Please input your url!' }]}]"
-                  placeholder="网址"
-                ></a-input>
-              </a-form-item>
-              <a-form-item>
-                <a-button type="primary" html-type="submit">确定</a-button>
-              </a-form-item>
-            </a-form>
-          </div>
-        </a-col>
-      </a-row>
+      <a-tabs defaultActiveKey="1">
+        <a-tab-pane key="1" :closable="false">
+          <span slot="tab">
+            <a-icon type="home" />导航
+          </span>
+          <a-row>
+            <a
+              class="site"
+              target="_blank"
+              :href="url.BaseUrl"
+              v-for="url in urls"
+              :key="url._id"
+              :title="url.BaseUrl"
+            >
+              <div class="logo">
+                <img alt="icon" v-bind:src="url.IconUrl" v-if="url.IconUrl" />
+                <span v-else>
+                  <a-avatar
+                    size="large"
+                    style="backgroundColor:#3498DB"
+                  >{{url.Title.getFileName(1).trimEnd('.')}}</a-avatar>
+                </span>
+              </div>
+              <div class="title" :title="url.Title">{{url.Title.getFileName(3)}}</div>
+              <a-popconfirm
+                title="Are you sure delete?"
+                @confirm="delsite(url._id)"
+                okText="Yes"
+                cancelText="No"
+              >
+                <a-icon slot="icon" type="question-circle-o" style="color: red" />
+                <div @click.prevent>
+                  <a-icon type="close" class="delsite" style="color:#444" />
+                </div>
+              </a-popconfirm>
+              <div @click.prevent="updatesite(url._id)" :id="url._id" class="updatesite">
+                <a-icon type="edit" style="color:#444" />
+              </div>
+            </a>
+          </a-row>
+        </a-tab-pane>
+        <a-icon
+          type="plus"
+          slot="tabBarExtraContent"
+          :style="{ fontSize: '16px',cursor:'pointer' }"
+          @click="()=>{this.addurl_visible = !this.addurl_visible;this.is_update_url=false}"
+        />
+      </a-tabs>
+      <div class="addurl" v-if="addurl_visible">
+        <a-form :form="addUrl_form" layout="inline" @submit.prevent="addUrl">
+          <a-form-item>
+            <a-input
+              style="width: 120px"
+              v-decorator="['title',{ rules: [{ required: true, message: 'Please input your title!' }] }]"
+              placeholder="名称"
+            ></a-input>
+          </a-form-item>
+          <a-form-item>
+            <a-input
+              style="width: 180px"
+              v-decorator="['baseUrl',{ rules: [{ required: true, message: 'Please input your url!' }]}]"
+              placeholder="网址"
+            ></a-input>
+          </a-form-item>
+          <a-form-item>
+            <a-button type="default" @click="addurl_visible=false">取消</a-button>&nbsp;
+            <a-button type="primary" html-type="submit">{{is_update_url?'修改':'添加'}}</a-button>
+          </a-form-item>
+        </a-form>
+      </div>
     </div>
     <a-modal
       title="登录"
@@ -124,29 +133,51 @@ export default {
       login_visible: false,
       addurl_visible: false,
       form: this.$form.createForm(this),
-      addUrl_form: this.$form.createForm(this)
+      addUrl_form: this.$form.createForm(this),
+      is_update_url: false,
+      id: 0
     };
   },
   created() {
-    this.getData();
+    this.getUrlMeta();
+    this.getUser();
   },
   methods: {
-    getData() {
+    getUrlMeta() {
       this.$http.get(this.$urls.geturlmeta).then(response => {
         if (response.body.code == 0) this.urls = response.body.result;
       });
+    },
+    getUser() {
       this.$http.get(this.$urls.getuser).then(response => {
         if (response.body.code == 0 && response.body.result) {
           this.user = response.body.result;
         }
-        // this.user = "Yang X Wang";
       });
     },
-    delsite(){
-
+    delsite(id) {
+      this.$http
+        .post(this.$urls.deletenavigation, { ids: [id] })
+        .then(response => {
+          if (response.body.code == 0) {
+            this.getUrlMeta();
+          } else {
+            this.$message.warning("删除失败!");
+          }
+        });
     },
-    updatesite(){
-
+    updatesite(id) {
+      this.addurl_visible = true;
+      this.is_update_url = true;
+      this.id = id;
+      this.$http.get(this.$urls.getnavigationbyid + "/" + id).then(response => {
+        if (response.body.code == 0) {
+          this.addUrl_form.setFieldsValue({
+            title: response.body.result.Title,
+            baseUrl: response.body.result.BaseUrl
+          });
+        }
+      });
     },
     login() {
       this.form.validateFields((err, values) => {
@@ -164,14 +195,28 @@ export default {
     addUrl() {
       this.addUrl_form.validateFields((err, values) => {
         if (!err) {
-          this.$http.post(this.$urls.addnavigation, values).then(response => {
-            if (response.body.code == 0) {
-              this.addurl_visible = false;
-              this.getData();
-            } else {
-              this.$message.warning("添加失败!");
-            }
-          });
+          if (this.is_update_url) {
+            values.id = this.id;
+            this.$http
+              .post(this.$urls.updatenavigation, values)
+              .then(response => {
+                if (response.body.code == 0) {
+                  this.addurl_visible = false;
+                  this.getUrlMeta();
+                } else {
+                  this.$message.warning("修改失败!");
+                }
+              });
+          } else {
+            this.$http.post(this.$urls.addnavigation, values).then(response => {
+              if (response.body.code == 0) {
+                this.addurl_visible = false;
+                this.getUrlMeta();
+              } else {
+                this.$message.warning("添加失败!");
+              }
+            });
+          }
         }
       });
     }
@@ -190,6 +235,9 @@ export default {
 }
 .main {
   margin-top: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .site {
   position: relative;
@@ -225,16 +273,19 @@ export default {
   align-items: center;
   width: 100%;
 }
+.ant-tabs {
+  width: 563px;
+}
 .ant-tabs-tabpane {
   background-color: #f6f6f6;
   border: 1px solid #e8e8e8;
 }
 .addurl {
-  border: 1px solid #ccc;
+  border: 1px solid #e8e8e8;
   height: 120px;
   position: absolute;
-  width: 450px;
-  top: 44px;
+  width: 563px;
+  top: 174px;
   background-color: #fff;
   display: flex;
   padding-top: 30px;
@@ -249,7 +300,7 @@ export default {
   left: 0;
   top: 0;
 }
-.delsite:hover{
+.delsite:hover {
   background-color: #ccc;
 }
 .updatesite {
@@ -261,7 +312,7 @@ export default {
   right: 0;
   top: 0;
 }
-.updatesite:hover{
+.updatesite:hover {
   background-color: #ccc;
 }
 .site:hover .delsite {
@@ -270,8 +321,8 @@ export default {
   justify-content: center;
 }
 .site:hover .updatesite {
-   display: inline-flex;
-   align-items: center;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
 }
 </style>

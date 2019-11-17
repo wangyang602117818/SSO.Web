@@ -9,7 +9,10 @@ namespace SSO.Data
         public static string databaseKey = AppSettings.databaseKey;
         public UserCenterContext() : base("name=" + databaseKey)
         {
-            Database.SetInitializer(new UserCenterInitData());
+            if (!Database.Exists())
+            {
+                Database.SetInitializer(new UserCenterInitData()); 
+            }
         }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Company> Companies { get; set; }
