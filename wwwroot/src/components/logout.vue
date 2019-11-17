@@ -21,12 +21,12 @@
     <div class="main">
       <a-row justify="center" align="middle">
         <a-col :span="8" :offset="8">
-          <a-tabs defaultActiveKey="1">
+          <a-tabs defaultActiveKey="1" style="width:450px">
             <a-tab-pane key="1" :closable="false">
               <span slot="tab">
                 <a-icon type="home" />导航
               </span>
-              <a-row type="flex" justify="space-between">
+              <a-row>
                 <a
                   class="site"
                   target="_blank"
@@ -45,6 +45,8 @@
                     </span>
                   </div>
                   <div class="title" :title="url.Title">{{url.Title.getFileName(3)}}</div>
+                  <div @click.prevent="delsite" :id="url._id"><a-icon type="close" class="delsite" style="color:#444"/></div>
+                  <div @click.prevent="updatesite" :id="url._id" class="updatesite"><a-icon type="edit" style="color:#444"/></div>
                 </a>
               </a-row>
             </a-tab-pane>
@@ -140,6 +142,12 @@ export default {
         // this.user = "Yang X Wang";
       });
     },
+    delsite(){
+
+    },
+    updatesite(){
+
+    },
     login() {
       this.form.validateFields((err, values) => {
         if (!err) {
@@ -158,7 +166,8 @@ export default {
         if (!err) {
           this.$http.post(this.$urls.addnavigation, values).then(response => {
             if (response.body.code == 0) {
-              this.login_visible = false;
+              this.addurl_visible = false;
+              this.getData();
             } else {
               this.$message.warning("添加失败!");
             }
@@ -183,11 +192,12 @@ export default {
   margin-top: 100px;
 }
 .site {
+  position: relative;
+  display: inline-flex;
   cursor: pointer;
   height: 100px;
   width: 100px;
-  margin: 5px;
-  display: flex;
+  margin: 6px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -217,17 +227,51 @@ export default {
 }
 .ant-tabs-tabpane {
   background-color: #f6f6f6;
-  border:1px solid #e8e8e8;
+  border: 1px solid #e8e8e8;
 }
 .addurl {
   border: 1px solid #ccc;
   height: 120px;
   position: absolute;
-  width: 100%;
+  width: 450px;
   top: 44px;
   background-color: #fff;
   display: flex;
   padding-top: 30px;
+  justify-content: center;
+}
+.delsite {
+  display: none;
+  position: absolute;
+  background-color: #e0e0e0;
+  width: 20px;
+  height: 20px;
+  left: 0;
+  top: 0;
+}
+.delsite:hover{
+  background-color: #ccc;
+}
+.updatesite {
+  display: none;
+  position: absolute;
+  background-color: #e0e0e0;
+  width: 20px;
+  height: 20px;
+  right: 0;
+  top: 0;
+}
+.updatesite:hover{
+  background-color: #ccc;
+}
+.site:hover .delsite {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.site:hover .updatesite {
+   display: inline-flex;
+   align-items: center;
   justify-content: center;
 }
 </style>
