@@ -32,7 +32,7 @@
                   target="_blank"
                   :href="url.BaseUrl"
                   v-for="url in urls"
-                  :key="url.Title"
+                  :key="url._id"
                   :title="url.BaseUrl"
                 >
                   <div class="logo">
@@ -52,9 +52,30 @@
               type="plus"
               slot="tabBarExtraContent"
               :style="{ fontSize: '16px',cursor:'pointer' }"
-              @click="()=>this.addurl_visible = true"
+              @click="()=>this.addurl_visible = !this.addurl_visible"
             />
           </a-tabs>
+          <div class="addurl" v-if="addurl_visible">
+            <a-form :form="addUrl_form" layout="inline" @submit.prevent="addUrl">
+              <a-form-item>
+                <a-input
+                  style="width: 120px"
+                  v-decorator="['title',{ rules: [{ required: true, message: 'Please input your title!' }] }]"
+                  placeholder="名称"
+                ></a-input>
+              </a-form-item>
+              <a-form-item>
+                <a-input
+                  style="width: 180px"
+                  v-decorator="['baseUrl',{ rules: [{ required: true, message: 'Please input your url!' }]}]"
+                  placeholder="网址"
+                ></a-input>
+              </a-form-item>
+              <a-form-item>
+                <a-button type="primary" html-type="submit">确定</a-button>
+              </a-form-item>
+            </a-form>
+          </div>
         </a-col>
       </a-row>
     </div>
@@ -88,29 +109,6 @@
         </a-form-item>
       </a-form>
     </a-modal>
-    <a-modal
-      title="添加网址"
-      :visible="addurl_visible"
-      :maskClosable="false"
-      @ok="addUrl"
-      :confirmLoading="false"
-      @cancel="()=>this.addurl_visible=false"
-    >
-      <a-form :form="addUrl_form" @submit.prevent="handleSubmit">
-        <a-form-item>
-          <a-input
-            v-decorator="['title',{ rules: [{ required: true, message: 'Please input your title!' }] }]"
-            placeholder="名称"
-          ></a-input>
-        </a-form-item>
-        <a-form-item>
-          <a-input
-            v-decorator="['url',{ rules: [{ required: true, message: 'Please input your url!' }]}]"
-            placeholder="网址"
-          ></a-input>
-        </a-form-item>
-      </a-form>
-    </a-modal>
   </div>
 </template>
 
@@ -128,17 +126,20 @@ export default {
     };
   },
   created() {
-    this.$http.get(this.$urls.geturlmeta).then(response => {
-      if (response.body.code == 0) this.urls = response.body.result;
-    });
-    this.$http.get(this.$urls.getuser).then(response => {
-      if (response.body.code == 0 && response.body.result) {
-        this.user = response.body.result;
-      }
-      // this.user = "Yang X Wang";
-    });
+    this.getData();
   },
   methods: {
+    getData() {
+      this.$http.get(this.$urls.geturlmeta).then(response => {
+        if (response.body.code == 0) this.urls = response.body.result;
+      });
+      this.$http.get(this.$urls.getuser).then(response => {
+        if (response.body.code == 0 && response.body.result) {
+          this.user = response.body.result;
+        }
+        // this.user = "Yang X Wang";
+      });
+    },
     login() {
       this.form.validateFields((err, values) => {
         if (!err) {
@@ -152,7 +153,19 @@ export default {
         }
       });
     },
-    addUrl() {}
+    addUrl() {
+      this.addUrl_form.validateFields((err, values) => {
+        if (!err) {
+          this.$http.post(this.$urls.addnavigation, values).then(response => {
+            if (response.body.code == 0) {
+              this.login_visible = false;
+            } else {
+              this.$message.warning("添加失败!");
+            }
+          });
+        }
+      });
+    }
   }
 };
 </script>
@@ -167,21 +180,24 @@ export default {
   height: 30px;
 }
 .main {
-  margin-top: 150px;
+  margin-top: 100px;
 }
 .site {
   cursor: pointer;
   height: 100px;
   width: 100px;
-  margin-top: 10px;
+  margin: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: #000;
 }
+.site:hover {
+  background-color: #e5e7e8;
+}
 .logo {
-  flex: 1;
+  flex: 2;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -191,14 +207,27 @@ export default {
   height: 40px;
   width: 40px;
 }
-.logo:hover {
-  background-color: #e5e7e8;
-}
+
 .title {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+}
+.ant-tabs-tabpane {
+  background-color: #f6f6f6;
+  border:1px solid #e8e8e8;
+}
+.addurl {
+  border: 1px solid #ccc;
+  height: 120px;
+  position: absolute;
+  width: 100%;
+  top: 44px;
+  background-color: #fff;
+  display: flex;
+  padding-top: 30px;
+  justify-content: center;
 }
 </style>

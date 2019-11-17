@@ -23,6 +23,7 @@
         usercode_required = 110,
         no_handler_available = 111,
         api_not_available = 112,
+        url_not_available = 113,
         /// <summary>
         /// 不存在
         /// </summary>

@@ -17,6 +17,7 @@ namespace SSO.Web.Controllers
     {
         Business.UserBasic user = new Business.UserBasic();
         Business.Navigation navigation = new Business.Navigation();
+        HttpRequestHelper requestHelper = new HttpRequestHelper();
         public ActionResult Index()
         {
             return View();
@@ -109,5 +110,40 @@ namespace SSO.Web.Controllers
             return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrlCookie.Value);
         }
 
+        //[JwtAuthorize]
+        public ActionResult AddNavigation(NavigationModel navigationModel)
+        {
+            if (navigation.Insert(navigationModel.Title, navigationModel.BaseUrl) > 0)
+            {
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            else
+            {
+                return new ResponseModel<string>(ErrorCode.server_exception, "");
+            }
+        }
+        [JwtAuthorize]
+        public ActionResult UpdateNavigation(UpdateNavigationModel updateNavigationModel)
+        {
+            if (navigation.Update(updateNavigationModel.Id, updateNavigationModel.Title, updateNavigationModel.BaseUrl) > 0)
+            {
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            else
+            {
+                return new ResponseModel<string>(ErrorCode.record_exist, "");
+            }
+
+        }
+        [JwtAuthorize]
+        public ActionResult GetNavigationById(int id)
+        {
+            return new ResponseModel<Data.Models.Navigation>(ErrorCode.success, navigation.GetById(id));
+        }
+        [JwtAuthorize]
+        public ActionResult DeleteNavigation(IEnumerable<int> ids)
+        {
+            return new ResponseModel<int>(ErrorCode.success, navigation.Delete(ids));
+        }
     }
 }

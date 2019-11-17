@@ -10,7 +10,7 @@ namespace SSO.Util
 {
     public class HttpRequestHelper
     {
-        public Task<string> PostFile(string url, string type, string fileName, Stream fileStream, Dictionary<string, string> paras = null, Dictionary<string, string> headers = null)
+        public string PostFile(string url, string type, string fileName, Stream fileStream, Dictionary<string, string> paras = null, Dictionary<string, string> headers = null)
         {
             string boundary = "----" + Guid.NewGuid().ToString().Replace("-", "").Substring(0, 30);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -53,11 +53,11 @@ namespace SSO.Util
             {
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
-                    return reader.ReadToEndAsync();
+                    return reader.ReadToEnd();
                 }
             }
         }
-        public Task<string> Post(string url, object paras, Dictionary<string, string> headers)
+        public string Post(string url, object paras, Dictionary<string, string> headers)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "post";
@@ -78,11 +78,11 @@ namespace SSO.Util
             {
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
-                    return reader.ReadToEndAsync();
+                    return reader.ReadToEnd();
                 }
             }
         }
-        public Task<string> Get(string url, Dictionary<string, string> headers)
+        public string Get(string url, Dictionary<string, string> headers)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "get";
@@ -93,9 +93,13 @@ namespace SSO.Util
                     request.Headers.Add(kv.Key, kv.Value);
                 }
             }
-            WebResponse response = request.GetResponse();
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            return reader.ReadToEndAsync();
+            using(WebResponse response = request.GetResponse())
+            {
+                using(StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
         }
         public bool CheckAvailable(string url)
         {

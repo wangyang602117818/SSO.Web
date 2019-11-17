@@ -5,9 +5,10 @@ import Logout from '@/components/logout'
 
 import common from './js/common.js'
 
-import { Row, Col, Divider,Tabs, Card, Avatar, Select, Icon, Dropdown, Modal, Form, Input, message, Menu } from 'ant-design-vue'
+import {Button, Row, Col, Divider,Tabs, Card, Avatar, Select, Icon, Dropdown, Modal, Form, Input, message, Menu } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
+Vue.use(Button)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Divider)
@@ -33,7 +34,8 @@ var urls = {
     geturlmeta: 'sso/geturlmeta',
     login: 'sso/login',
     logout: 'sso/logout',
-    getuser: 'sso/getuser'
+    getuser: 'sso/getuser',
+    addnavigation:'sso/addnavigation'
 };
 Vue.prototype.$urls = urls
 

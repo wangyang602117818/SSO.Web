@@ -147,7 +147,7 @@ namespace SSO.Util
             WebsiteMeta result = new WebsiteMeta();
             try
             {
-                string responseText = httpRequestHelper.Get(url, null).Result;
+                string responseText = httpRequestHelper.Get(url, null);
                 MatchCollection matchs = linkLine.Matches(responseText);
                 string icon = "";
                 for (var i = 0; i < matchs.Count; i++)
