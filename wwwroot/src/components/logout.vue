@@ -185,6 +185,7 @@ export default {
           this.$http.post(this.$urls.login, values).then(response => {
             if (response.body.code == 0) {
               this.login_visible = false;
+              this.getUser();
             } else {
               this.$message.warning("用户名或密码不正确!");
             }

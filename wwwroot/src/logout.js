@@ -5,7 +5,7 @@ import Logout from '@/components/logout'
 
 import common from './js/common.js'
 
-import {Button, Row, Col, Divider,Tabs, Card, Avatar, Select, Icon, Dropdown, Modal, Form, Input, message,Popconfirm } from 'ant-design-vue'
+import {Button, Row, Col, Divider,Tabs, Card, Avatar, Select, Icon, Dropdown, Modal, Form, Input, message,Menu,Popconfirm } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 Vue.use(Button)
@@ -21,6 +21,7 @@ Vue.use(Dropdown)
 Vue.use(Modal)
 Vue.use(Form)
 Vue.use(Input)
+Vue.use(Menu)
 Vue.use(Popconfirm)
 
 Vue.prototype.$message = message
@@ -28,8 +29,8 @@ Vue.prototype.$message = message
 Vue.use(VueResource)
 Vue.prototype.$common = common
 
-Vue.http.options.root = 'http://www.sso.com:8030/'
-
+// Vue.http.options.root = 'http://www.sso.com:8030/'
+Vue.http.options.root=''
 var urls = {
     geturlmeta: 'sso/geturlmeta',
     login: 'sso/login',

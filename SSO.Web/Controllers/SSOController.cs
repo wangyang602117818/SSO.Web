@@ -110,7 +110,7 @@ namespace SSO.Web.Controllers
             return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrlCookie.Value);
         }
 
-        //[JwtAuthorize]
+        [JwtAuthorize]
         public ActionResult AddNavigation(NavigationModel navigationModel)
         {
             if (navigation.Insert(navigationModel.Title, navigationModel.BaseUrl) > 0)
@@ -122,7 +122,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
-        //[JwtAuthorize]
+        [JwtAuthorize]
         public ActionResult UpdateNavigation(UpdateNavigationModel updateNavigationModel)
         {
             if (navigation.Update(updateNavigationModel.Id, updateNavigationModel.Title, updateNavigationModel.BaseUrl) > 0)
@@ -135,12 +135,12 @@ namespace SSO.Web.Controllers
             }
 
         }
-        //[JwtAuthorize]
+        [JwtAuthorize]
         public ActionResult GetNavigationById(int id)
         {
             return new ResponseModel<Data.Models.Navigation>(ErrorCode.success, navigation.GetById(id));
         }
-        //[JwtAuthorize]
+        [JwtAuthorize]
         public ActionResult DeleteNavigation(IEnumerable<int> ids)
         {
             return new ResponseModel<int>(ErrorCode.success, navigation.Delete(ids));
