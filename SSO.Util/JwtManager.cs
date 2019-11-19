@@ -46,7 +46,7 @@ namespace SSO.Util
             string userId = sourceString.Substring(10, sourceString.Length - 18);
             DateTime ticketTime = DateTime.Parse(sourceString.Substring(0, 10) + " " + sourceString.Substring(10 + userId.Length));
             var diff = DateTime.Now - ticketTime;
-            if (diff.TotalSeconds > 30) return "";
+            if (diff.TotalSeconds > Convert.ToInt32(AppSettings.ticketTime)) return "";
             return userId;
         }
     }

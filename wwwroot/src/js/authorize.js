@@ -47,7 +47,6 @@ function getTokenByTicket(url, success, error) {
 }
 function authorize(baseUrl,cookieName) {
     var loginUrl = baseUrl + "sso/login";
-    var indexUrl = baseUrl + "sso/index";
     var getTokenUrl = baseUrl + "sso/gettoken";
     var ssourl = getQueryString("ssourls");
     //debugger;
@@ -67,7 +66,7 @@ function authorize(baseUrl,cookieName) {
         }
         else //最后一个
         {
-            window.location.href = indexUrl;
+            window.location.href = baseUrl;
         }
         return;
     }

@@ -107,7 +107,8 @@ var urls = {
     update: "navigation/update",
   },
   login: 'sso/login',
-  logout: 'sso/logout'
+  logout: 'sso/logout',
+  getuser: 'sso/getuserandrole',
 }
 Vue.prototype.$urls = urls
 Vue.config.productionTip = false

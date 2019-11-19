@@ -44,6 +44,10 @@ namespace SSO.Util
             stream.Position = 0;
             return stream;
         }
+        public static bool IsNullOrEmpty(this string str)
+        {
+            return string.IsNullOrEmpty(str);
+        }
         public static byte[] ToBytes(this Stream stream)
         {
             byte[] bytes = new byte[stream.Length];

@@ -5,10 +5,10 @@
         <a-col :span="24" style="text-align:right;padding-right:20px">
           <a-dropdown>
             <a class="ant-dropdown-link" href="#" v-if="user">
-              {{user}}
+              {{user.UserName}}({{user.Role.toString()}})
               <a-icon type="down" />
             </a>
-            <a class="ant-dropdown-link" href="#" @click="()=>this.login_visible = true" v-else>登录</a>
+            <a class="ant-dropdown-link" href="##" @click="login" v-else>登录</a>
             <a-menu slot="overlay" v-if="user">
               <a-menu-item key="0">
                 <a target="_self" :href="this.$urls.logout">退出</a>
@@ -48,19 +48,21 @@
                 @confirm="delsite(url._id)"
                 okText="Yes"
                 cancelText="No"
+
               >
                 <a-icon slot="icon" type="question-circle-o" style="color: red" />
                 <div @click.prevent>
-                  <a-icon type="close" class="delsite" style="color:#444" />
+                  <a-icon type="close" class="delsite" style="color:#444" v-if="user"/>
                 </div>
               </a-popconfirm>
-              <div @click.prevent="updatesite(url._id)" :id="url._id" class="updatesite">
+              <div @click.prevent="updatesite(url._id)" :id="url._id" class="updatesite" v-if="user">
                 <a-icon type="edit" style="color:#444" />
               </div>
             </a>
           </a-row>
         </a-tab-pane>
         <a-icon
+          v-if="user"
           type="plus"
           slot="tabBarExtraContent"
           :style="{ fontSize: '16px',cursor:'pointer' }"
@@ -90,7 +92,7 @@
         </a-form>
       </div>
     </div>
-    <a-modal
+    <!-- <a-modal
       title="登录"
       :visible="login_visible"
       :maskClosable="false"
@@ -119,7 +121,7 @@
           </a-input>
         </a-form-item>
       </a-form>
-    </a-modal>
+    </a-modal>-->
   </div>
 </template>
 
@@ -129,7 +131,7 @@ export default {
   data() {
     return {
       urls: [],
-      user: "",
+      user: null,
       login_visible: false,
       addurl_visible: false,
       form: this.$form.createForm(this),
@@ -143,6 +145,9 @@ export default {
     this.getUser();
   },
   methods: {
+    login() {
+      window.location.href = this.$http.options.root + this.$urls.login;
+    },
     getUrlMeta() {
       this.$http.get(this.$urls.geturlmeta).then(response => {
         if (response.body.code == 0) this.urls = response.body.result;
@@ -179,20 +184,20 @@ export default {
         }
       });
     },
-    login() {
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          this.$http.post(this.$urls.login, values).then(response => {
-            if (response.body.code == 0) {
-              this.login_visible = false;
-              this.getUser();
-            } else {
-              this.$message.warning("用户名或密码不正确!");
-            }
-          });
-        }
-      });
-    },
+    // login() {
+    //   this.form.validateFields((err, values) => {
+    //     if (!err) {
+    //       this.$http.post(this.$urls.login, values).then(response => {
+    //         if (response.body.code == 0) {
+    //           this.login_visible = false;
+    //           this.getUser();
+    //         } else {
+    //           this.$message.warning("用户名或密码不正确!");
+    //         }
+    //       });
+    //     }
+    //   });
+    // },
     addUrl() {
       this.addUrl_form.validateFields((err, values) => {
         if (!err) {

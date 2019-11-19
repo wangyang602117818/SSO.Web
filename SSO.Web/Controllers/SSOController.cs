@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MongoDB.Bson;
+using Newtonsoft.Json;
 using SSO.Data.Models;
 using SSO.Model;
 using SSO.Util;
@@ -7,6 +8,8 @@ using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
@@ -26,15 +29,27 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<IEnumerable<Data.Models.Navigation>>(ErrorCode.success, navigation.GetAll());
         }
-        [JwtAuthorize]
-        public ActionResult GetUser()
-        {
-            return new ResponseModel<string>(ErrorCode.success, User.Identity.Name);
-        }
         public ActionResult GetToken(string ticket, string ip)
         {
+            string token = "";
             string userId = JwtManager.DecodeTicket(ticket);
-            string token = userId == "" ? "" : JwtManager.GenerateToken(userId, null, null, null, null, ip ?? Request.UserHostAddress, 20);
+            if (!userId.IsNullOrEmpty())
+            {
+                UserBasic userBasic = user.GetUser(userId);
+                if (userBasic == null)
+                {
+                    if (userId == AppSettings.admin[0])
+                    {
+                        token = JwtManager.GenerateToken(userId, userId, null, null, null, ip ?? Request.UserHostAddress, 20);
+                    }
+                }
+                else
+                {
+                    string[] departments = userBasic.DepartmentName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] roles = userBasic.RoleName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    token = JwtManager.GenerateToken(userId, userBasic.UserName, userBasic.CompanyName, departments, roles, ip ?? Request.UserHostAddress, 20);
+                }
+            }
             return new ResponseModel<string>(ErrorCode.success, token);
         }
         public ActionResult Login(string returnUrl)
@@ -68,14 +83,13 @@ namespace SSO.Web.Controllers
         public ActionResult Login(LoginModel loginModel, string returnUrl)
         {
             UserBasic userBasic = null;
-            string[] admin = AppSettings.admin.Split(';');
-            if (loginModel.UserId == admin[0] && loginModel.PassWord == admin[1])
+            if (loginModel.UserId == AppSettings.admin[0] && loginModel.PassWord == AppSettings.admin[1])
             {
                 userBasic = new UserBasic()
                 {
                     UserId = loginModel.UserId,
                     UserName = loginModel.UserId,
-                    RoleName = admin[2],
+                    RoleName = AppSettings.admin[2],
                     DepartmentName = ""
                 };
             }
@@ -94,7 +108,8 @@ namespace SSO.Web.Controllers
             }
             Response.Cookies.Add(httpCookie);
             JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
-            return new ResponseModel<string>(ErrorCode.success, returnUrl ?? "");
+            if (returnUrl.IsNullOrEmpty()) returnUrl = Request.Url.Scheme + "://" + Request.Url.Host + ":" + Request.Url.Port + Request.ApplicationPath;
+            return new ResponseModel<string>(ErrorCode.success, returnUrl);
         }
         public ActionResult LogOut()
         {
@@ -105,11 +120,27 @@ namespace SSO.Web.Controllers
                 Response.Cookies.Add(authorization);
             }
             var ssoUrlCookie = Request.Cookies["ssourls"];
+            if (ssoUrlCookie != null)
+            {
+                ssoUrlCookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(ssoUrlCookie);
+            }
             if (ssoUrlCookie == null) return RedirectToAction("Index");
             List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlCookie.Value.Base64ToStr());
             return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrlCookie.Value);
         }
-
+        [JwtAuthorize]
+        public ActionResult GetUserAndRole()
+        {
+            var roles = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == ClaimTypes.Role).Select(s => s.Value);
+            BsonDocument userRole = new BsonDocument()
+            {
+                {"UserId",User.Identity.Name },
+                {"UserName",User.Identity.Name },
+                {"Role",new BsonArray(roles) },
+            };
+            return new ResponseModel<BsonDocument>(ErrorCode.success, userRole);
+        }
         [JwtAuthorize]
         public ActionResult AddNavigation(NavigationModel navigationModel)
         {

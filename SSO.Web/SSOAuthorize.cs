@@ -19,7 +19,6 @@ namespace A.Web.Filters
         public static string cookieKey = System.Configuration.ConfigurationManager.AppSettings["ssoCookieKey"];
         public static string cookieTime = System.Configuration.ConfigurationManager.AppSettings["ssoCookieTime"];
         public static string loginUrl = baseUrl.TrimEnd('/') + "/sso/login";
-        public static string indexUrl = baseUrl.TrimEnd('/') + "/sso/index";
         public static string getTokenUrl = baseUrl.TrimEnd('/') + "/sso/gettoken";
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -60,7 +59,7 @@ namespace A.Web.Filters
                 }
                 else //最后一个
                 {
-                    filterContext.Result = new RedirectResult(indexUrl);
+                    filterContext.Result = new RedirectResult(baseUrl);
                 }
                 return;
             }

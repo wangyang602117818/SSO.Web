@@ -106,7 +106,8 @@ export default {
     return {
       collapsed: false,
       routename: this.$route.name || "overview",
-      openKeys: []
+      openKeys: [],
+      user:null
     };
   },
   created() {
@@ -121,11 +122,19 @@ export default {
         break;
     }
     this.openKeys = openKeys;
+    this.getUser();
     // window.console.log(this.$http.options.root);
   },
   methods: {
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
+    },
+    getUser(){
+      this.$http.get(this.$urls.getuser).then(response => {
+        if (response.body.code == 0 && response.body.result) {
+          this.user = response.body.result;
+        }
+      });
     }
   }
 };
