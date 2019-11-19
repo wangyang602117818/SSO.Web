@@ -52,18 +52,12 @@
               <span>日志列表</span>
             </router-link>
           </a-menu-item>
-          <a-sub-menu key="settings">
-            <span slot="title">
+          <a-menu-item key="settings">
+            <router-link to="/settings">
               <a-icon type="setting" />
               <span>系统设置</span>
-            </span>
-            <a-menu-item key="navigation">
-              <router-link to="/navigation">
-                <a-icon type="info-circle" />
-                <span>导航页</span>
-              </router-link>
-            </a-menu-item>
-          </a-sub-menu>
+            </router-link>
+          </a-menu-item>
         </a-menu>
       </a-layout-sider>
       <a-layout>
@@ -77,7 +71,7 @@
             <a-col :span="12" style="text-align:right;">
               <a-dropdown :trigger="['click']">
                 <a-button size="small">
-                  Yang X Wang
+                  {{user.UserName}}
                   <a-icon type="down" />
                 </a-button>
                 <a-menu slot="overlay">

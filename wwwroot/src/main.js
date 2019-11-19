@@ -10,7 +10,7 @@ import Role from '@/components/role'
 import Company from '@/components/company'
 import Department from '@/components/department'
 import Log from '@/components/log'
-import Navigation from '@/components/navigation'
+import Settings from '@/components/settings'
 import common from './js/common.js'
 import authorize from './js/authorize.js'
 import "@/css/index.css"
@@ -99,13 +99,6 @@ var urls = {
     restore: "user/restore",
     getbyuserid: "user/getbyuserid"
   },
-  navigation: {
-    add: "navigation/add",
-    getlist: "navigation/getlist",
-    delete: "navigation/delete",
-    getbyid: "navigation/getbyid",
-    update: "navigation/update",
-  },
   login: 'sso/login',
   logout: 'sso/logout',
   getuser: 'sso/getuserandrole',
@@ -159,10 +152,10 @@ const router = new VueRouter({
           component: Log
         },
         {
-          path: 'navigation',
-          name: "navigation",
-          component: Navigation
-        },
+          path: 'settings',
+          name: "settings",
+          component: Settings
+        }
       ]
     }
   ]

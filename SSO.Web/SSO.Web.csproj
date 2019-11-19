@@ -192,6 +192,7 @@
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="index.html" />
+    <Content Include="logo.ico" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

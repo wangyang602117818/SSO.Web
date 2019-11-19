@@ -12,27 +12,35 @@ namespace SSO.Business
         {
             string companyName = "", departmentName = "", roleName = "";
             companyName = userCenterContext.Companies.Where(w => w.Code == companyCode).FirstOrDefault().Name;
-            foreach (string department in departments)
+            if (departments != null)
             {
-                departmentName += userCenterContext.Departments.Where(w => w.Code == department).FirstOrDefault().Name + ",";
-                userCenterContext.UserDepartmentMappings.Add(new Data.Models.UserDepartmentMapping()
+                foreach (string department in departments)
                 {
-                    UserId = userId,
-                    DepartmentCode = department,
-                    UpdateTime = DateTime.Now,
-                    CreateTime = DateTime.Now
-                });
+                    if (department.IsNullOrEmpty()) continue;
+                    departmentName += userCenterContext.Departments.Where(w => w.Code == department).FirstOrDefault().Name + ",";
+                    userCenterContext.UserDepartmentMappings.Add(new Data.Models.UserDepartmentMapping()
+                    {
+                        UserId = userId,
+                        DepartmentCode = department,
+                        UpdateTime = DateTime.Now,
+                        CreateTime = DateTime.Now
+                    });
+                }
             }
-            foreach (string role in roles)
+            if (roles != null)
             {
-                roleName += role + ",";
-                userCenterContext.UserRoleMappings.Add(new Data.Models.UserRoleMapping()
+                foreach (string role in roles)
                 {
-                    UserId = userId,
-                    Role = role,
-                    UpdateTime = DateTime.Now,
-                    CreateTime = DateTime.Now
-                });
+                    if (role.IsNullOrEmpty()) continue;
+                    roleName += role + ",";
+                    userCenterContext.UserRoleMappings.Add(new Data.Models.UserRoleMapping()
+                    {
+                        UserId = userId,
+                        Role = role,
+                        UpdateTime = DateTime.Now,
+                        CreateTime = DateTime.Now
+                    });
+                }
             }
             userCenterContext.UserBasics.Add(new Data.Models.UserBasic()
             {
