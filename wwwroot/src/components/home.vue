@@ -80,6 +80,7 @@
                   </a-menu-item>
                 </a-menu>
               </a-dropdown>
+              <a-button size="small"><a :href="this.$http.options.root">首页</a> </a-button>
               <a-button size="small">English</a-button>
             </a-col>
           </a-row>
@@ -101,7 +102,7 @@ export default {
       collapsed: false,
       routename: this.$route.name || "overview",
       openKeys: [],
-      user:null
+      user:{}
     };
   },
   created() {

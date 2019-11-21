@@ -6,12 +6,13 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    public class RoleController : Controller
+    public class RoleController : BaseController
     {
         Business.Role role = new Business.Role();
         public ActionResult Add(RoleModel roleModel)
         {
             if (role.GetByRoleName(roleModel.Name) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
+            InfoLog("0", "AddRole");
             if (role.Insert(roleModel.Name, roleModel.Description) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -23,6 +24,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Update(UpdateRoleModel updateRoleModel)
         {
+            InfoLog(updateRoleModel.Id.ToString(), "UpdateRole");
             if (role.Update(updateRoleModel.Id, updateRoleModel.Name, updateRoleModel.Description) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -49,6 +51,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Delete(IEnumerable<int> ids)
         {
+            InfoLog(ids.Select(s=>s.ToString()), "DeleteRole");
             return new ResponseModel<int>(ErrorCode.success, role.Delete(ids));
         }
     }

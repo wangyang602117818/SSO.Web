@@ -1,17 +1,18 @@
-﻿using SSO.Web.Models;
+﻿using SSO.Util;
+using SSO.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    [AllowAnonymous]
-    public class CompanyController : Controller
+    public class CompanyController : BaseController
     {
         Business.Company company = new Business.Company();
         public ActionResult Add(CompanyModel companyModel)
         {
             if (company.GetByCode(companyModel.Code) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
+            InfoLog("0", "AddCompany");
             if (company.Insert(companyModel.Code, companyModel.Name, companyModel.Description, companyModel.Order) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -23,6 +24,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Update(UpdateCompanyModel updateCompanyModel)
         {
+            InfoLog(updateCompanyModel.Id.ToString(), "UpdateCompany");
             if (company.Update(updateCompanyModel.Id, updateCompanyModel.Code, updateCompanyModel.Name, updateCompanyModel.Description, updateCompanyModel.Order) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -49,6 +51,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Delete(IEnumerable<int> ids)
         {
+            InfoLog(ids.Select(s=>s.ToString()), "DeleteCompany");
             return new ResponseModel<int>(ErrorCode.success, company.Delete(ids));
         }
     }

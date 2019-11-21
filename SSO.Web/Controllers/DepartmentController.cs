@@ -6,12 +6,13 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    public class DepartmentController : Controller
+    public class DepartmentController : BaseController
     {
         Business.Department department = new Business.Department();
         public ActionResult Add(DepartmentModel departmentModel)
         {
             if (department.GetByCode(departmentModel.Code) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
+            InfoLog("0", "AddDepartment");
             if (department.Insert(departmentModel.Code, departmentModel.Name, departmentModel.Description, departmentModel.CompanyCode, departmentModel.Order, departmentModel.Layer, departmentModel.ParentCode ?? "") > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -42,6 +43,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Update(UpdateDepartmentModel updateDepartmentModel)
         {
+            InfoLog(updateDepartmentModel.Id.ToString(), "UpdateDepartment");
             if (updateDepartmentModel.ParentCode == null) updateDepartmentModel.ParentCode = "";
             if (updateDepartmentModel.ParentCode == "")
             {
@@ -62,6 +64,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Delete(int id)
         {
+            InfoLog(id.ToString(), "DeleteDepartment");
             return new ResponseModel<int>(ErrorCode.success, department.Delete(id));
         }
     }

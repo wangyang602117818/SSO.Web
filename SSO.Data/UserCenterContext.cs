@@ -11,7 +11,7 @@ namespace SSO.Data
         {
             if (!Database.Exists())
             {
-                Database.SetInitializer(new UserCenterInitData()); 
+                Database.SetInitializer(new UserCenterInitData());
             }
         }
         public DbSet<Role> Roles { get; set; }
@@ -21,7 +21,7 @@ namespace SSO.Data
         public DbSet<UserDepartmentMapping> UserDepartmentMappings { get; set; }
         public DbSet<UserRoleMapping> UserRoleMappings { get; set; }
         public DbSet<Navigation> Navigations { get; set; }
-
+        public DbSet<Log> Logs { get; set; }
     }
 
 }

@@ -5,12 +5,13 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         Business.UserBasic user = new Business.UserBasic();
         public ActionResult Add(AddUserModel addUserModel)
         {
             if (user.GetUser(addUserModel.UserId) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
+            InfoLog("0", "AddUser");
             if (user.Insert(addUserModel.UserId, addUserModel.UserName, addUserModel.Password, addUserModel.Mobile, addUserModel.Email, addUserModel.CompanyCode, addUserModel.IdCard, addUserModel.Sex, addUserModel.Departments, addUserModel.Roles) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -22,6 +23,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Update(UpdateUserModel updateUserModel)
         {
+            InfoLog(updateUserModel.Id.ToString(), "UpdateUser");
             if (updateUserModel.Departments == null) updateUserModel.Departments = new List<string>();
             if (updateUserModel.Roles == null) updateUserModel.Roles = new List<string>();
             int count = user.Update(updateUserModel.Id, updateUserModel.UserId, updateUserModel.UserName, updateUserModel.Password, updateUserModel.Mobile, updateUserModel.Email, updateUserModel.CompanyCode, updateUserModel.IdCard, updateUserModel.Sex, updateUserModel.Departments, updateUserModel.Roles);
@@ -36,14 +38,17 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Remove(IEnumerable<string> userIds)
         {
+            InfoLog(userIds, "RemoveUser");
             return new ResponseModel<int>(ErrorCode.success, user.RemoveUser(userIds));
         }
         public ActionResult Delete(IEnumerable<string> userIds)
         {
+            InfoLog(userIds, "DeleteUser");
             return new ResponseModel<int>(ErrorCode.success, user.DeleteUser(userIds));
         }
         public ActionResult Restore(IEnumerable<string> userIds)
         {
+            InfoLog(userIds, "RestoreUser");
             return new ResponseModel<int>(ErrorCode.success, user.RestoreUser(userIds));
         }
         public ActionResult GetByUserId(string userId)

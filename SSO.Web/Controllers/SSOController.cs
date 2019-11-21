@@ -16,7 +16,7 @@ using System.Web.Mvc;
 namespace SSO.Web.Controllers
 {
     [AllowAnonymous]
-    public class SSOController : Controller
+    public class SSOController : BaseController
     {
         Business.UserBasic user = new Business.UserBasic();
         Business.Navigation navigation = new Business.Navigation();
@@ -97,7 +97,11 @@ namespace SSO.Web.Controllers
             {
                 userBasic = user.Login(loginModel.UserId, loginModel.PassWord.GetSha256());
             }
-            if (userBasic == null) return new ResponseModel<string>(ErrorCode.login_fault, "");
+            if (userBasic == null)
+            {
+                InfoLog("0", "LoginFault");
+                return new ResponseModel<string>(ErrorCode.login_fault, "");
+            }
             string[] roles = userBasic.RoleName.Split(',');
             string[] departments = userBasic.DepartmentName.Split(',');
             string token = JwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60);
@@ -109,8 +113,10 @@ namespace SSO.Web.Controllers
             Response.Cookies.Add(httpCookie);
             JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
             if (returnUrl.IsNullOrEmpty()) returnUrl = Request.Url.Scheme + "://" + Request.Url.Host + ":" + Request.Url.Port + Request.ApplicationPath;
+            InfoLog("0", "Login");
             return new ResponseModel<string>(ErrorCode.success, returnUrl);
         }
+        [JwtAuthorize]
         public ActionResult LogOut()
         {
             var authorization = Request.Cookies[AppSettings.cookieName];
@@ -127,6 +133,7 @@ namespace SSO.Web.Controllers
             }
             if (ssoUrlCookie == null) return RedirectToAction("Index");
             List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlCookie.Value.Base64ToStr());
+            InfoLog("0", "LogOut");
             return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrlCookie.Value);
         }
         [JwtAuthorize]
@@ -144,6 +151,7 @@ namespace SSO.Web.Controllers
         [JwtAuthorize]
         public ActionResult AddNavigation(NavigationModel navigationModel)
         {
+            InfoLog("0", "AddNavigation");
             if (navigation.Insert(navigationModel.Title, navigationModel.BaseUrl) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -156,6 +164,7 @@ namespace SSO.Web.Controllers
         [JwtAuthorize]
         public ActionResult UpdateNavigation(UpdateNavigationModel updateNavigationModel)
         {
+            InfoLog(updateNavigationModel.Id.ToString(), "UpdateNavigation");
             if (navigation.Update(updateNavigationModel.Id, updateNavigationModel.Title, updateNavigationModel.BaseUrl) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -174,6 +183,7 @@ namespace SSO.Web.Controllers
         [JwtAuthorize]
         public ActionResult DeleteNavigation(IEnumerable<int> ids)
         {
+            InfoLog(ids.Select(s=>s.ToString()), "DeleteNavigation");
             return new ResponseModel<int>(ErrorCode.success, navigation.Delete(ids));
         }
     }

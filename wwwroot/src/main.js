@@ -99,6 +99,7 @@ var urls = {
     restore: "user/restore",
     getbyuserid: "user/getbyuserid"
   },
+  log:'log/getlist',
   login: 'sso/login',
   logout: 'sso/logout',
   getuser: 'sso/getuserandrole',
