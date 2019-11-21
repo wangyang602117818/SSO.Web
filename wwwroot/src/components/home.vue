@@ -81,7 +81,6 @@
                 </a-menu>
               </a-dropdown>
               <a-button size="small"><a :href="this.$http.options.root">首页</a> </a-button>
-              <a-button size="small">English</a-button>
             </a-col>
           </a-row>
         </a-layout-header>

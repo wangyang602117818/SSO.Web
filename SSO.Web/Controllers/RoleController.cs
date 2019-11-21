@@ -12,7 +12,7 @@ namespace SSO.Web.Controllers
         public ActionResult Add(RoleModel roleModel)
         {
             if (role.GetByRoleName(roleModel.Name) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
-            InfoLog("0", "AddRole");
+            InfoLog("0", "AddRole", roleModel.Name);
             if (role.Insert(roleModel.Name, roleModel.Description) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -24,7 +24,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Update(UpdateRoleModel updateRoleModel)
         {
-            InfoLog(updateRoleModel.Id.ToString(), "UpdateRole");
+            InfoLog(updateRoleModel.Id.ToString(), "UpdateRole", updateRoleModel.Name);
             if (role.Update(updateRoleModel.Id, updateRoleModel.Name, updateRoleModel.Description) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");

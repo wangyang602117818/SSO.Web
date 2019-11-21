@@ -29,6 +29,13 @@ function getReturnUrl(name) {
     var returnUrl = window.location.search.substring(index + name.length + 1);
     return returnUrl;
 }
+function getAgent(agent) {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(agent)) {
+        return "Mobile";
+    } else {
+        return "PC";
+    }
+}
 String.prototype.trim = function (char) {
     var reTag = new RegExp("^" + (char || ' ') + "+|" + (char || ' ') + "+$", "gi");
     return this.replace(reTag, "");
@@ -65,5 +72,6 @@ export default {
     parseBsonTime: parseBsonTime,
     removeArrayItem: removeArrayItem,
     randomWord: randomWord,
-    getReturnUrl: getReturnUrl
+    getReturnUrl: getReturnUrl,
+    getAgent:getAgent
 }

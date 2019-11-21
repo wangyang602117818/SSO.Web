@@ -12,7 +12,7 @@ namespace SSO.Web.Controllers
         public ActionResult Add(CompanyModel companyModel)
         {
             if (company.GetByCode(companyModel.Code) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
-            InfoLog("0", "AddCompany");
+            InfoLog("0", "AddCompany", companyModel.Name);
             if (company.Insert(companyModel.Code, companyModel.Name, companyModel.Description, companyModel.Order) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -24,7 +24,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Update(UpdateCompanyModel updateCompanyModel)
         {
-            InfoLog(updateCompanyModel.Id.ToString(), "UpdateCompany");
+            InfoLog(updateCompanyModel.Id.ToString(), "UpdateCompany", updateCompanyModel.Name);
             if (company.Update(updateCompanyModel.Id, updateCompanyModel.Code, updateCompanyModel.Name, updateCompanyModel.Description, updateCompanyModel.Order) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -51,7 +51,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Delete(IEnumerable<int> ids)
         {
-            InfoLog(ids.Select(s=>s.ToString()), "DeleteCompany");
+            InfoLog(ids.Select(s => s.ToString()), "DeleteCompany");
             return new ResponseModel<int>(ErrorCode.success, company.Delete(ids));
         }
     }
