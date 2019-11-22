@@ -1,12 +1,6 @@
 <template>
   <div>
-
-    <a-input-search
-      placeholder="内容"
-      style="width: 200px"
-      @search="onSearch"
-      v-model="searchValue"
-    />
+    <a-input-search placeholder="内容" style="width: 200px" @search="onSearch" v-model="searchValue" />
     <a-button type="default" icon="redo" @click="reload"></a-button>
     <a-table
       :columns="columns"
@@ -39,9 +33,9 @@ export default {
           dataIndex: "Type",
           width: "5%",
           customRender: val => {
-            if(val==1)return "详情";
-            if(val==2)return "警告";
-            if(val==3)return "错误";
+            if (val == 1) return "详情";
+            if (val == 2) return "警告";
+            if (val == 3) return "错误";
           }
         },
         {
@@ -83,13 +77,13 @@ export default {
       ],
       searchValue: "",
       loading: false,
-      pagination: { current: 1, pageSize: 10,size:'small' },
-    }
+      pagination: { current: 1, pageSize: 10, size: "small" }
+    };
   },
   created() {
     this.getData();
   },
-  methods:{
+  methods: {
     onSearch() {
       this.pagination.current = 1;
       this.getData();
@@ -110,7 +104,9 @@ export default {
           this.loading = false;
           const pagination = { ...this.pagination };
           pagination.total = response.body.count;
-          pagination.showTotal=()=>{return this.pagination.total;};
+          pagination.showTotal = () => {
+            return this.pagination.total;
+          };
           this.pagination = pagination;
           if (response.body.code == 0) this.data = response.body.result;
         });
@@ -122,10 +118,9 @@ export default {
     handleTableChange(pagination) {
       this.pagination.current = pagination.current;
       this.getData();
-    },
+    }
   }
-}
+};
 </script>
 <style scoped>
-
 </style>
