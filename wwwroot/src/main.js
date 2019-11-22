@@ -103,6 +103,7 @@ var urls = {
   log: {
     getlist: 'log/getlist'
   },
+  decodeToken: 'sso/decodetoken',
   login: 'sso/login',
   logout: 'sso/logout',
 }

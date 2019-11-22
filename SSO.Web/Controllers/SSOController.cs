@@ -137,7 +137,7 @@ namespace SSO.Web.Controllers
             return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrlCookie.Value);
         }
         [JwtAuthorize]
-        public ActionResult GetUserAndRole()
+        public ActionResult DecodeToken()
         {
             var roles = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == ClaimTypes.Role).Select(s => s.Value);
             BsonDocument userRole = new BsonDocument()

@@ -118,15 +118,15 @@ export default {
         break;
     }
     this.openKeys = openKeys;
-    this.getUser();
+    this.decodeToken();
     // window.console.log(this.$http.options.root);
   },
   methods: {
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
     },
-    getUser() {
-      this.$http.get(this.$urls.user.getuser).then(response => {
+    decodeToken() {
+      this.$http.get(this.$urls.decodeToken).then(response => {
         if (response.body.code == 0 && response.body.result) {
           this.user = response.body.result;
         }

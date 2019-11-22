@@ -90,7 +90,7 @@ export default {
     };
   },
   created() {
-    
+    this.getUser();
   },
   methods: {
     selectSetting(item) {
@@ -114,6 +114,23 @@ export default {
             }
           }
         });
+    },
+    getUser() {
+      this.$http.get(this.$urls.user.getuser).then(response => {
+        if (response.body.code == 0 && response.body.result) {
+          this.userform.setFieldsValue({
+            userId: response.body.result.UserId,
+            userName: response.body.result.UserName,
+            sex: response.body.result.Sex,
+            mobile: response.body.result.Mobile,
+            email: response.body.result.Email,
+            idCard: response.body.result.IdCard,
+            companyCode: response.body.result.CompanyCode,
+            departments: response.body.result.DepartmentCode,
+            roles: response.body.result.Role
+          });
+        }
+      });
     },
     updateUser() {}
   }
