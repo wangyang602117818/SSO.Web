@@ -71,7 +71,7 @@
             <a-col :span="12" style="text-align:right;">
               <a-dropdown :trigger="['click']">
                 <a-button size="small">
-                  {{user.UserName}}
+                  {{this.user.UserName}}
                   <a-icon type="down" />
                 </a-button>
                 <a-menu slot="overlay">
@@ -80,7 +80,9 @@
                   </a-menu-item>
                 </a-menu>
               </a-dropdown>
-              <a-button size="small"><a :href="this.$http.options.root">首页</a> </a-button>
+              <a-button size="small">
+                <a :href="this.$http.options.root">首页</a>
+              </a-button>
             </a-col>
           </a-row>
         </a-layout-header>
@@ -123,8 +125,8 @@ export default {
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
     },
-    getUser(){
-      this.$http.get(this.$urls.getuser).then(response => {
+    getUser() {
+      this.$http.get(this.$urls.user.getuser).then(response => {
         if (response.body.code == 0 && response.body.result) {
           this.user = response.body.result;
         }

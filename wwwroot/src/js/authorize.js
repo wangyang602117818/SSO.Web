@@ -49,7 +49,6 @@ function authorize(baseUrl,cookieName) {
     var loginUrl = baseUrl + "sso/login";
     var getTokenUrl = baseUrl + "sso/gettoken";
     var ssourl = getQueryString("ssourls");
-    //debugger;
     //sso退出
     if (ssourl) {
         ////////清除本站cookie

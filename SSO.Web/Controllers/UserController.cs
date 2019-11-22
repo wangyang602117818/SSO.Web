@@ -1,6 +1,8 @@
 ﻿using SSO.Model;
 using SSO.Web.Models;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
@@ -50,6 +52,22 @@ namespace SSO.Web.Controllers
         {
             InfoLog(userIds, "RestoreUser");
             return new ResponseModel<int>(ErrorCode.success, user.RestoreUser(userIds));
+        }
+        public ActionResult GetUser()
+        {
+            UserBasicData userBasicData = user.GetUserUpdate(User.Identity.Name);
+            if (userBasicData == null)
+            {
+                var roles = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == ClaimTypes.Role).Select(s => s.Value);
+                var userName = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "StaffName").Select(s => s.Value).FirstOrDefault();
+                userBasicData = new UserBasicData()
+                {
+                    UserId = User.Identity.Name,
+                    UserName = userName,
+                    Role = roles.ToList()
+                };
+            }
+            return new ResponseModel<UserBasicData>(ErrorCode.success, userBasicData);
         }
         public ActionResult GetByUserId(string userId)
         {

@@ -40,7 +40,7 @@ namespace SSO.Web.Controllers
                 {
                     if (userId == AppSettings.admin[0])
                     {
-                        token = JwtManager.GenerateToken(userId, userId, null, null, null, ip ?? Request.UserHostAddress, 20);
+                        token = JwtManager.GenerateToken(userId, userId, null, null, new List<string>() { AppSettings.admin[2] }, ip ?? Request.UserHostAddress, 20);
                     }
                 }
                 else
@@ -119,6 +119,7 @@ namespace SSO.Web.Controllers
         [JwtAuthorize]
         public ActionResult LogOut()
         {
+            InfoLog("0", "LogOut");
             var authorization = Request.Cookies[AppSettings.cookieName];
             if (authorization != null)
             {
@@ -133,7 +134,6 @@ namespace SSO.Web.Controllers
             }
             if (ssoUrlCookie == null) return RedirectToAction("Index");
             List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlCookie.Value.Base64ToStr());
-            InfoLog("0", "LogOut");
             return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrlCookie.Value);
         }
         [JwtAuthorize]

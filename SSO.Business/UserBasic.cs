@@ -131,6 +131,7 @@ namespace SSO.Business
         public SSO.Model.UserBasicData GetUserUpdate(string userId)
         {
             Data.Models.UserBasic userBasic = userCenterContext.UserBasics.Where(r => r.UserId == userId).FirstOrDefault();
+            if (userBasic == null) return null;
             IQueryable<string> departments = userCenterContext.UserDepartmentMappings.Where(w => w.UserId == userId).Select(s => s.DepartmentCode);
             IQueryable<string> roles = userCenterContext.UserRoleMappings.Where(w => w.UserId == userId).Select(s => s.Role);
             return new Model.UserBasicData()

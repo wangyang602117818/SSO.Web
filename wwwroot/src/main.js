@@ -97,14 +97,14 @@ var urls = {
     delete: "user/delete",
     update: "user/update",
     restore: "user/restore",
-    getbyuserid: "user/getbyuserid"
+    getbyuserid: "user/getbyuserid",
+    getuser: 'user/getuser'
   },
   log: {
     getlist: 'log/getlist'
   },
   login: 'sso/login',
   logout: 'sso/logout',
-  getuser: 'sso/getuserandrole',
 }
 Vue.prototype.$urls = urls
 Vue.config.productionTip = false

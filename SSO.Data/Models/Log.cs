@@ -11,7 +11,6 @@ namespace SSO.Data.Models
     public class Log : BaseModel
     {
         [StringLength(30)]
-        [Required]
         public string From { get; set; }
         [Required]
         public LogType Type { get; set; }
