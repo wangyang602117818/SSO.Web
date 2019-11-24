@@ -98,7 +98,8 @@ var urls = {
     update: "user/update",
     restore: "user/restore",
     getbyuserid: "user/getbyuserid",
-    getuser: 'user/getuser'
+    getuser: 'user/getuser',
+    updatebasicsetting:'user/updatebasicsetting'
   },
   log: {
     getlist: 'log/getlist'

@@ -67,11 +67,14 @@ namespace SSO.Business
             //获取原始 user 信息
             Data.Models.UserBasic userBasic = userCenterContext.UserBasics.Where(r => r.Id == id).FirstOrDefault();
             //删除原始 role 信息
-            var userRoleMappings = userCenterContext.UserRoleMappings.Where(w => w.UserId == userBasic.UserId);
-            foreach (UserRoleMapping urm in userRoleMappings)
+            if (roles != null)
             {
-                userCenterContext.UserRoleMappings.Attach(urm);
-                userCenterContext.UserRoleMappings.Remove(urm);
+                var userRoleMappings = userCenterContext.UserRoleMappings.Where(w => w.UserId == userBasic.UserId);
+                foreach (UserRoleMapping urm in userRoleMappings)
+                {
+                    userCenterContext.UserRoleMappings.Attach(urm);
+                    userCenterContext.UserRoleMappings.Remove(urm);
+                }
             }
             //删除原始 department 信息
             var userDepartmentMappings = userCenterContext.UserDepartmentMappings.Where(w => w.UserId == userBasic.UserId);
@@ -96,22 +99,25 @@ namespace SSO.Business
                 });
             }
             //添加新 role
-            foreach (string role in roles)
+            if (roles != null)
             {
-                roleName += role + ",";
-                userCenterContext.UserRoleMappings.Add(new Data.Models.UserRoleMapping()
+                foreach (string role in roles)
                 {
-                    UserId = userId,
-                    Role = role,
-                    UpdateTime = DateTime.Now,
-                    CreateTime = DateTime.Now
-                });
+                    roleName += role + ",";
+                    userCenterContext.UserRoleMappings.Add(new Data.Models.UserRoleMapping()
+                    {
+                        UserId = userId,
+                        Role = role,
+                        UpdateTime = DateTime.Now,
+                        CreateTime = DateTime.Now
+                    });
+                }
             }
             //修改 user
             if (userBasic.UserId != userId && GetUser(userId) != null) return 0;
             userBasic.UserId = userId;
             userBasic.UserName = userName;
-            userBasic.PassWord = password.GetSha256();
+            if (!password.IsNullOrEmpty()) userBasic.PassWord = password.GetSha256();
             userBasic.Mobile = mobile;
             userBasic.Email = email;
             userBasic.CompanyCode = companyCode;
@@ -119,7 +125,7 @@ namespace SSO.Business
             userBasic.Sex = sex.ToString();
             userBasic.CompanyName = companyName;
             userBasic.DepartmentName = departmentName.TrimEnd(',');
-            userBasic.RoleName = roleName.TrimEnd(',');
+            if (roles != null) userBasic.RoleName = roleName.TrimEnd(',');
             userBasic.IsModified = true;
             userBasic.UpdateTime = DateTime.Now;
             return userCenterContext.SaveChanges();

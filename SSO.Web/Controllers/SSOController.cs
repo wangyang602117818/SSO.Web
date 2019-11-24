@@ -99,7 +99,7 @@ namespace SSO.Web.Controllers
             }
             if (userBasic == null)
             {
-                InfoLog("0", "LoginFault");
+                InfoLog("0", "LoginFault", loginModel.UserId);
                 return new ResponseModel<string>(ErrorCode.login_fault, "");
             }
             string[] roles = userBasic.RoleName.Split(',');
@@ -113,13 +113,13 @@ namespace SSO.Web.Controllers
             Response.Cookies.Add(httpCookie);
             JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
             if (returnUrl.IsNullOrEmpty()) returnUrl = Request.Url.Scheme + "://" + Request.Url.Host + ":" + Request.Url.Port + Request.ApplicationPath;
-            InfoLog("0", "Login");
+            InfoLog("0", "Login", loginModel.UserId);
             return new ResponseModel<string>(ErrorCode.success, returnUrl);
         }
         [JwtAuthorize]
         public ActionResult LogOut()
         {
-            InfoLog("0", "LogOut");
+            InfoLog("0", "LogOut", User.Identity.Name);
             var authorization = Request.Cookies[AppSettings.cookieName];
             if (authorization != null)
             {
@@ -140,10 +140,11 @@ namespace SSO.Web.Controllers
         public ActionResult DecodeToken()
         {
             var roles = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == ClaimTypes.Role).Select(s => s.Value);
+            var userName = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "StaffName").Select(s => s.Value).FirstOrDefault();
             BsonDocument userRole = new BsonDocument()
             {
                 {"UserId",User.Identity.Name },
-                {"UserName",User.Identity.Name },
+                {"UserName",userName },
                 {"Role",new BsonArray(roles) },
             };
             return new ResponseModel<BsonDocument>(ErrorCode.success, userRole);
@@ -183,7 +184,7 @@ namespace SSO.Web.Controllers
         [JwtAuthorize]
         public ActionResult DeleteNavigation(IEnumerable<int> ids)
         {
-            InfoLog(ids.Select(s=>s.ToString()), "DeleteNavigation");
+            InfoLog(ids.Select(s => s.ToString()), "DeleteNavigation");
             return new ResponseModel<int>(ErrorCode.success, navigation.Delete(ids));
         }
     }

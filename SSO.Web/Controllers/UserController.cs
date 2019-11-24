@@ -32,6 +32,14 @@ namespace SSO.Web.Controllers
             if (count == 0) return new ResponseModel<string>(ErrorCode.record_exist, "");
             return new ResponseModel<string>(ErrorCode.success, "");
         }
+        public ActionResult UpdateBasicSetting(UpdateUserModel updateUserModel)
+        {
+            InfoLog(updateUserModel.Id.ToString(), "UpdateBasicSetting", updateUserModel.UserName);
+            if (updateUserModel.Departments == null) updateUserModel.Departments = new List<string>();
+            int count = user.Update(updateUserModel.Id, updateUserModel.UserId, updateUserModel.UserName, updateUserModel.Password, updateUserModel.Mobile, updateUserModel.Email, updateUserModel.CompanyCode, updateUserModel.IdCard, updateUserModel.Sex, updateUserModel.Departments, null);
+            if (count == 0) return new ResponseModel<string>(ErrorCode.record_exist, "");
+            return new ResponseModel<string>(ErrorCode.success, "");
+        }
         public ActionResult GetBasic(string filter, int pageIndex = 1, int pageSize = 10, bool delete = false)
         {
             int count = 0;

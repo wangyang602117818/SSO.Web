@@ -317,7 +317,7 @@ export default {
       callback();
     },
     changeCompany(value) {
-      this.form.setFieldsValue({ departments: "" });
+      this.form.setFieldsValue({ departments: [] });
       this.getDepartmentData(value);
     },
     handleSubmit() {

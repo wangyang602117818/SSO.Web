@@ -8,7 +8,7 @@
       </a-menu>
     </a-layout-sider>
     <a-layout-content>
-      <a-form :form="userform" @submit="updateUser">
+      <a-form :form="userform" @submit.prevent="updateUser">
         <a-form-item label="UserName">
           <a-input
             v-decorator="['userName', { rules: [{ required: true, message: 'Please input your userName!' }] }]"
@@ -70,6 +70,22 @@
             allowClear
           ></a-tree-select>
         </a-form-item>
+        <a-form-item label="Role">
+          <a-select
+            allowClear
+            mode="multiple"
+            v-decorator="[ 'roles', {rules: [{ required: false, message: 'Please select role!' }]}]"
+            placeholder="角色"
+            style="width: 240px"
+            disabled
+          >
+            <a-select-option
+              :value="item.Name"
+              v-for="item in roleData"
+              v-bind:key="item._id"
+            >{{item.Name}}</a-select-option>
+          </a-select>
+        </a-form-item>
         <br />
         <a-form-item>
           <a-button type="primary" html-type="submit">确定</a-button>
@@ -84,20 +100,45 @@ export default {
   data() {
     return {
       userform: this.$form.createForm(this),
+      id: null,
+      userId: null,
       companyData: [],
       departmentData: [],
+      roleData: [],
       defaultSelectedCompany: ["1"]
     };
   },
   created() {
+    this.getRoleData();
     this.getUser();
   },
   methods: {
+    getCompanyData(companyCode) {
+      this.$http
+        .get(this.$urls.company.getall)
+        .then(response => {
+          if (response.body.code == 0) {
+            this.companyData = response.body.result;
+            if (response.body.count > 0) {
+              this.getDepartmentData(companyCode);
+            }
+          }
+        });
+    },
+    getRoleData() {
+      this.$http.get(this.$urls.role.getall).then(response => {
+        if (response.body.code == 0) {
+          this.roleData = response.body.result;
+        } else {
+          this.roleData = [];
+        }
+      });
+    },
     selectSetting(item) {
       this.defaultSelectedCompany = [item.key];
     },
     changeCompany(value) {
-      this.form.setFieldsValue({ departments: "" });
+      this.userform.setFieldsValue({ departments: [] });
       this.getDepartmentData(value);
     },
     getDepartmentData(companyCode) {
@@ -118,8 +159,9 @@ export default {
     getUser() {
       this.$http.get(this.$urls.user.getuser).then(response => {
         if (response.body.code == 0 && response.body.result) {
+          this.id = response.body.result._id;
+          this.userId = response.body.result.UserId;
           this.userform.setFieldsValue({
-            userId: response.body.result.UserId,
             userName: response.body.result.UserName,
             sex: response.body.result.Sex,
             mobile: response.body.result.Mobile,
@@ -129,10 +171,26 @@ export default {
             departments: response.body.result.DepartmentCode,
             roles: response.body.result.Role
           });
+          this.getCompanyData(response.body.result.CompanyCode);
         }
       });
     },
-    updateUser() {}
+    updateUser() {
+      this.userform.validateFields((error, values) => {
+        if (!error) {
+          values.id = this.id;
+          values.userId = this.userId;
+          this.$http
+            .post(this.$urls.user.updatebasicsetting, values)
+            .then(response => {
+              if (response.body.code == 0) {
+                this.getUser();
+                this.$message.warning("更新成功!");
+              }
+            });
+        }
+      });
+    }
   }
 };
 </script>
