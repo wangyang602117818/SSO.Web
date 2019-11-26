@@ -145,7 +145,7 @@ namespace SSO.Web.Controllers
             {
                 {"UserId",User.Identity.Name },
                 {"UserName",userName },
-                {"Role",new BsonArray(roles) },
+                {"Role",new BsonArray(roles) }
             };
             return new ResponseModel<BsonDocument>(ErrorCode.success, userRole);
         }

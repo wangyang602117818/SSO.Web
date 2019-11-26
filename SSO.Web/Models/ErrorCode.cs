@@ -24,6 +24,7 @@
         no_handler_available = 111,
         api_not_available = 112,
         url_not_available = 113,
+        old_password_error = 114,
         /// <summary>
         /// 不存在
         /// </summary>

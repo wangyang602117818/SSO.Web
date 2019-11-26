@@ -24,7 +24,7 @@
               </a-input>
             </a-form-item>
             <a-form-item>
-              <a-button type="primary" html-type="submit">Log in</a-button>
+              <a-button type="primary" html-type="submit" :loading="loading">Log in</a-button>
             </a-form-item>
           </a-form>
         </a-card>
@@ -37,11 +37,13 @@ export default {
   name: "app",
   data() {
     return {
-      form: this.$form.createForm(this)
+      form: this.$form.createForm(this),
+      loading:false
     };
   },
   methods: {
     handleSubmit() {
+      this.loading=true;
       this.form.validateFields((err, values) => {
         if (!err) {
           values.returnUrl = this.$common.getReturnUrl("returnUrl");
@@ -51,6 +53,7 @@ export default {
               window.location.href = decodeURIComponent(returnUrl);
             } else {
               this.$message.warning("用户名或密码不正确!");
+              this.loading=false;
             }
           });
         }

@@ -1,9 +1,7 @@
-.ant-row{
+ .ant-row{
     margin-bottom: 0px;
   }
-  .ant-drawer-body .ant-row{
-     margin-bottom: 6px !important;
-  }
+
   .ant-tag{
    margin-right:2px !important;
    padding:0 3px !important;

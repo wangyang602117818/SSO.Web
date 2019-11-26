@@ -36,9 +36,23 @@ namespace SSO.Web.Controllers
         {
             InfoLog(updateUserModel.Id.ToString(), "UpdateBasicSetting", updateUserModel.UserName);
             if (updateUserModel.Departments == null) updateUserModel.Departments = new List<string>();
-            int count = user.Update(updateUserModel.Id, updateUserModel.UserId, updateUserModel.UserName, updateUserModel.Password, updateUserModel.Mobile, updateUserModel.Email, updateUserModel.CompanyCode, updateUserModel.IdCard, updateUserModel.Sex, updateUserModel.Departments, null);
+            int count = user.Update(updateUserModel.Id, User.Identity.Name, updateUserModel.UserName, updateUserModel.Password, updateUserModel.Mobile, updateUserModel.Email, updateUserModel.CompanyCode, updateUserModel.IdCard, updateUserModel.Sex, updateUserModel.Departments, null);
             if (count == 0) return new ResponseModel<string>(ErrorCode.record_exist, "");
             return new ResponseModel<string>(ErrorCode.success, "");
+        }
+        public ActionResult UpdatePassword(UpdatePasswordModel updatePasswordModel)
+        {
+            InfoLog("0", "UpdatePassword");
+            int count = user.UpdatePassword(User.Identity.Name, updatePasswordModel.oldPassword, updatePasswordModel.newPassword);
+            if (count == -1) return new ResponseModel<string>(ErrorCode.old_password_error, "");
+            if (count >= 0)
+            {
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            else
+            {
+                return new ResponseModel<string>(ErrorCode.server_exception, "");
+            }
         }
         public ActionResult GetBasic(string filter, int pageIndex = 1, int pageSize = 10, bool delete = false)
         {

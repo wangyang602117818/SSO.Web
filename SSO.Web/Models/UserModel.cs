@@ -33,4 +33,11 @@ namespace SSO.Web.Models
         [Required]
         public int Id { get; set; }
     }
+    public class UpdatePasswordModel
+    {
+        [Required]
+        public string oldPassword { get; set; }
+        [Required]
+        public string newPassword { get; set; }
+    }
 }

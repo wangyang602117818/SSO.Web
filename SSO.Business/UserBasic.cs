@@ -145,6 +145,7 @@ namespace SSO.Business
                 Id = userBasic.Id,
                 UserId = userBasic.UserId,
                 UserName = userBasic.UserName,
+                CompanyName = userBasic.CompanyName,
                 CompanyCode = userBasic.CompanyCode,
                 Mobile = userBasic.Mobile,
                 Email = userBasic.Email,
@@ -153,6 +154,7 @@ namespace SSO.Business
                 IsModified = userBasic.IsModified,
                 Delete = userBasic.Delete,
                 DepartmentCode = departments.ToList(),
+                DepartmentName = userBasic.DepartmentName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList(),
                 Role = roles.ToList(),
                 CreateTime = userBasic.CreateTime
             };
@@ -215,6 +217,14 @@ namespace SSO.Business
                       where user.UserId == userId && user.PassWord == password
                       select user;
             return res.ToList().FirstOrDefault();
+        }
+        public int UpdatePassword(string userId, string olpassword, string password)
+        {
+            Data.Models.UserBasic userBasic = GetUser(userId);
+            if (userBasic.PassWord != olpassword.GetSha256()) return -1;
+            if (userBasic == null) return 0;
+            userBasic.PassWord = password.GetSha256();
+            return userCenterContext.SaveChanges();
         }
     }
 }

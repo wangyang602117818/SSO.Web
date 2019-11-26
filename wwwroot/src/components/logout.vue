@@ -2,19 +2,22 @@
   <div class="container">
     <div class="top">
       <a-row type="flex" justify="center" align="middle">
-        <a-col :span="24" style="text-align:right;padding-right:20px">
+        <a-col :span="24" style="text-align:right">
           <a-dropdown>
-            <a class="ant-dropdown-link" href="#" v-if="user">
-              {{user.UserName}}({{user.Role.toString()}})
+            <a-button size="small" v-if="user">
+              {{user.UserName}}
               <a-icon type="down" />
-            </a>
-            <a class="ant-dropdown-link" href="##" @click="login" v-else>登录</a>
+            </a-button>
+            <a-button size="small"  @click="login" v-else>登录</a-button>
             <a-menu slot="overlay" v-if="user">
               <a-menu-item key="0">
                 <a target="_self" :href="this.$urls.logout">退出</a>
               </a-menu-item>
             </a-menu>
-          </a-dropdown>
+          </a-dropdown>&nbsp;
+          <element v-if="user">
+            <a-button size="small" v-for="role in user.Role" :key="role">{{role}}</a-button>
+          </element>
         </a-col>
       </a-row>
     </div>
@@ -48,14 +51,18 @@
                 @confirm="delsite(url._id)"
                 okText="Yes"
                 cancelText="No"
-
               >
                 <a-icon slot="icon" type="question-circle-o" style="color: red" />
                 <div @click.prevent>
-                  <a-icon type="close" class="delsite" style="color:#444" v-if="user"/>
+                  <a-icon type="close" class="delsite" style="color:#444" v-if="user" />
                 </div>
               </a-popconfirm>
-              <div @click.prevent="updatesite(url._id)" :id="url._id" class="updatesite" v-if="user">
+              <div
+                @click.prevent="updatesite(url._id)"
+                :id="url._id"
+                class="updatesite"
+                v-if="user"
+              >
                 <a-icon type="edit" style="color:#444" />
               </div>
             </a>
@@ -92,36 +99,6 @@
         </a-form>
       </div>
     </div>
-    <!-- <a-modal
-      title="登录"
-      :visible="login_visible"
-      :maskClosable="false"
-      @ok="login"
-      :confirmLoading="false"
-      @cancel="()=>this.login_visible=false"
-    >
-      <a-form :form="form" @submit.prevent="handleSubmit">
-        <a-form-item>
-          <a-input
-            v-decorator="['userId',{ rules: [{ required: true, message: 'Please input your userId!' }] }]"
-            placeholder="UserId"
-            size="large"
-          >
-            <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
-          </a-input>
-        </a-form-item>
-        <a-form-item>
-          <a-input
-            v-decorator="['password',{ rules: [{ required: true, message: 'Please input your Password!' }]}]"
-            type="password"
-            placeholder="Password"
-            size="large"
-          >
-            <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-          </a-input>
-        </a-form-item>
-      </a-form>
-    </a-modal>-->
   </div>
 </template>
 
@@ -154,7 +131,7 @@ export default {
       });
     },
     getUser() {
-      this.$http.get(this.$urls.getuser).then(response => {
+      this.$http.get(this.$urls.decodetoken).then(response => {
         if (response.body.code == 0 && response.body.result) {
           this.user = response.body.result;
         }
@@ -184,20 +161,6 @@ export default {
         }
       });
     },
-    // login() {
-    //   this.form.validateFields((err, values) => {
-    //     if (!err) {
-    //       this.$http.post(this.$urls.login, values).then(response => {
-    //         if (response.body.code == 0) {
-    //           this.login_visible = false;
-    //           this.getUser();
-    //         } else {
-    //           this.$message.warning("用户名或密码不正确!");
-    //         }
-    //       });
-    //     }
-    //   });
-    // },
     addUrl() {
       this.addUrl_form.validateFields((err, values) => {
         if (!err) {

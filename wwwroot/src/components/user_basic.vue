@@ -105,22 +105,19 @@
           </a-select>
         </a-form-item>
         <a-form-item label="Password" :label-col="{ span: 6 }" :wrapper-col="{ span: 10 }">
-          <a-input
+          <a-input-password
             placeholder="登录密码"
             v-decorator="['password',{rules: [
-            {required: true, message: 'Password is required!' },
-            {validator: validateToNextPassword}
+            {required: true, message: 'Password is required!' }
             ]}]"
-            type="password"
           />
         </a-form-item>
         <a-form-item label="Confirm" :label-col="{ span: 6 }" :wrapper-col="{ span: 10 }">
-          <a-input
+          <a-input-password
             placeholder="确认密码"
             v-decorator="['confirmPassword',{rules: [
             {required: true, message: 'Password is required!' },
             {validator: compareToFirstPassword}]}]"
-            type="password"
             @blur="handleConfirmBlur"
           />
         </a-form-item>
@@ -309,20 +306,12 @@ export default {
         callback();
       }
     },
-    validateToNextPassword(rule, value, callback) {
-      const form = this.form;
-      if (value && this.confirmDirty) {
-        form.validateFields(["confirm"], { force: true });
-      }
-      callback();
-    },
     changeCompany(value) {
       this.form.setFieldsValue({ departments: [] });
       this.getDepartmentData(value);
     },
     handleSubmit() {
       this.form.validateFields((err, values) => {
-        window.console.log(values);
         if (!err) {
           if (this.isUpdate) this.updateUser(values);
           if (!this.isUpdate) this.addUser(values);
@@ -509,7 +498,5 @@ export default {
 };
 </script>
 <style scope>
-.ant-drawer-body .ant-row {
-  margin-bottom: 20px !important;
-}
+
 </style>
