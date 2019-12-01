@@ -2,10 +2,13 @@
   <div class="overview">
     <div class="total_con">
       <div class="total_item total_item_80">
-          <div class="">公司总数</div>
-          <div class="">2</div>
+        <div class="total_item_txt">公司总数</div>
+        <div class="total_item_numb">2</div>
       </div>
-      <div class="total_item total_item_80"></div>
+      <div class="total_item total_item_80">
+           <div class="total_item_txt">部门总数</div>
+        <div class="total_item_numb">21</div>
+      </div>
       <div class="total_item total_item_80"></div>
       <div class="total_item total_item_80"></div>
     </div>
@@ -36,8 +39,26 @@ export default {
 }
 .total_item_80 {
   height: 80px;
+  flex-direction: column;
 }
 .total_item_240 {
   height: 240px;
+}
+.total_item_txt {
+  flex: 2;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+  padding-left: 10px;
+}
+.total_item_numb {
+  flex: 3;
+  font-size: 16px;
+  color: #1890ff;
+  
+  display: flex;
+  align-items: center;
 }
 </style>
