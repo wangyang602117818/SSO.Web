@@ -75,27 +75,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201911210259230_Log.cs" />
-    <Compile Include="Migrations\201911210259230_Log.Designer.cs">
-      <DependentUpon>201911210259230_Log.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911210609426_Log1.cs" />
-    <Compile Include="Migrations\201911210609426_Log1.Designer.cs">
-      <DependentUpon>201911210609426_Log1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911210629249_Log2.cs" />
-    <Compile Include="Migrations\201911210629249_Log2.Designer.cs">
-      <DependentUpon>201911210629249_Log2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911210630509_Log3.cs" />
-    <Compile Include="Migrations\201911210630509_Log3.Designer.cs">
-      <DependentUpon>201911210630509_Log3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911221007575_Log4.cs" />
-    <Compile Include="Migrations\201911221007575_Log4.Designer.cs">
-      <DependentUpon>201911221007575_Log4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Department.cs" />
@@ -121,23 +100,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201911210259230_Log.resx">
-      <DependentUpon>201911210259230_Log.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911210609426_Log1.resx">
-      <DependentUpon>201911210609426_Log1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911210629249_Log2.resx">
-      <DependentUpon>201911210629249_Log2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911210630509_Log3.resx">
-      <DependentUpon>201911210630509_Log3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911221007575_Log4.resx">
-      <DependentUpon>201911221007575_Log4.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
