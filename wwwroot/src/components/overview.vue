@@ -49,7 +49,7 @@ export default {
   font-size: 14px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #EFF2F5;
   width: 100%;
   padding-left: 10px;
 }
