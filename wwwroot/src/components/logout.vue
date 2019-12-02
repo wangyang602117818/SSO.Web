@@ -8,7 +8,7 @@
               {{user.UserName}}
               <a-icon type="down" />
             </a-button>
-            <a-button size="small"  @click="login" v-else>登录</a-button>
+            <a-button size="small" @click="login" v-else>登录</a-button>
             <a-menu slot="overlay" v-if="user">
               <a-menu-item key="0">
                 <a target="_self" :href="this.$urls.logout">退出</a>
@@ -197,6 +197,9 @@ export default {
   text-align: center;
   width: 100%;
   height: 100%;
+}
+.ant-btn{
+  margin-right: 2px !important;
 }
 .top {
   background-color: #e6f7ff;

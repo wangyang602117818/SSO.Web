@@ -16,7 +16,12 @@
           @click="editUser"
           :disabled="selectedRowKeys.length!=1"
         ></a-button>
-
+        <a-button
+          type="default"
+          icon="unlock"
+          @click="resetPassword"
+          :disabled="selectedRowKeys.length!=1"
+        ></a-button>
         <a-popconfirm
           title="Are you sure remove this user?"
           @confirm="removeUser"
@@ -266,7 +271,7 @@ export default {
         }
       ],
       drawerVisible: false,
-      pagination: { current: 1, pageSize: 10,size:'small' },
+      pagination: { current: 1, pageSize: 10, size: "small" },
       loading: false,
       isUpdate: false,
       showDelete: false
@@ -333,6 +338,7 @@ export default {
       this.$http.post(this.$urls.user.update, user).then(response => {
         if (response.body.code == 0) {
           this.getData();
+          this.$message.warning("修改成功!");
         }
       });
     },
@@ -436,7 +442,9 @@ export default {
           this.loading = false;
           const pagination = { ...this.pagination };
           pagination.total = response.body.count;
-          pagination.showTotal=()=>{return this.pagination.total;};
+          pagination.showTotal = () => {
+            return this.pagination.total;
+          };
           this.pagination = pagination;
           if (response.body.code == 0) this.data = response.body.result;
         });
@@ -498,5 +506,4 @@ export default {
 };
 </script>
 <style scope>
-
 </style>
