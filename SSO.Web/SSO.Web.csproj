@@ -212,9 +212,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Base\" />
-    <Folder Include="Views\Log\" />
-    <Folder Include="Views\Overview\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
