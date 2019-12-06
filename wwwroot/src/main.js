@@ -15,7 +15,7 @@ import common from './js/common.js'
 import authorize from './js/authorize.js'
 import "@/css/index.css"
 
-import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message,notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown } from 'ant-design-vue'
+import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 Vue.use(Button)
@@ -100,11 +100,14 @@ var urls = {
     restore: "user/restore",
     getbyuserid: "user/getbyuserid",
     getuser: 'user/getuser',
-    updatebasicsetting:'user/updatebasicsetting',
-    updatepassword:'user/updatepassword'
+    updatebasicsetting: 'user/updatebasicsetting',
+    updatepassword: 'user/updatepassword'
   },
   log: {
     getlist: 'log/getlist'
+  },
+  overview: {
+    total: 'overview/total'
   },
   decodeToken: 'sso/decodetoken',
   login: 'sso/login',

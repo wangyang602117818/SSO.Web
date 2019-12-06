@@ -3,14 +3,20 @@
     <div class="total_con">
       <div class="total_item total_item_80">
         <div class="total_item_txt">公司总数</div>
-        <div class="total_item_numb">2</div>
+        <div class="total_item_numb">{{total.Companys}}</div>
       </div>
       <div class="total_item total_item_80">
-           <div class="total_item_txt">部门总数</div>
-        <div class="total_item_numb">21</div>
+        <div class="total_item_txt">部门总数</div>
+        <div class="total_item_numb">{{total.Departments}}</div>
       </div>
-      <div class="total_item total_item_80"></div>
-      <div class="total_item total_item_80"></div>
+      <div class="total_item total_item_80">
+        <div class="total_item_txt">角色总数</div>
+        <div class="total_item_numb">{{total.Roles}}</div>
+      </div>
+      <div class="total_item total_item_80">
+        <div class="total_item_txt">部门总数</div>
+        <div class="total_item_numb">{{total.Users}}</div>
+      </div>
     </div>
     <div class="total_con">
       <div class="total_item total_item_240"></div>
@@ -20,7 +26,22 @@
 </template>
 <script>
 export default {
-  name: "overview"
+  name: "overview",
+  data() {
+    return {
+      total: {}
+    };
+  },
+  created() {
+    this.getData();
+  },
+  methods: {
+    getData() {
+      this.$http.get(this.$urls.overview.total).then(response => {
+        if (response.body.code == 0) this.total = response.body.result;
+      });
+    }
+  }
 };
 </script>
 <style scoped>
@@ -49,7 +70,7 @@ export default {
   font-size: 14px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #EFF2F5;
+  border-bottom: 1px solid #eff2f5;
   width: 100%;
   padding-left: 10px;
 }
@@ -57,7 +78,7 @@ export default {
   flex: 3;
   font-size: 16px;
   color: #1890ff;
-  
+
   display: flex;
   align-items: center;
 }

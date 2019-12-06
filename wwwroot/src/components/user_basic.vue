@@ -311,6 +311,9 @@ export default {
         callback();
       }
     },
+    resetPassword(){
+
+    },
     changeCompany(value) {
       this.form.setFieldsValue({ departments: [] });
       this.getDepartmentData(value);
