@@ -15,7 +15,7 @@ import common from './js/common.js'
 import authorize from './js/authorize.js'
 import "@/css/index.css"
 
-import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown } from 'ant-design-vue'
+import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown,Spin } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 Vue.use(Button)
@@ -40,6 +40,7 @@ Vue.use(Switch)
 Vue.use(Tooltip)
 Vue.use(Dropdown)
 Vue.use(Card)
+Vue.use(Spin)
 
 Vue.prototype.$message = message
 Vue.prototype.$notification = notification

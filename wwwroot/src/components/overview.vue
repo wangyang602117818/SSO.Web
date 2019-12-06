@@ -3,19 +3,31 @@
     <div class="total_con">
       <div class="total_item total_item_80">
         <div class="total_item_txt">公司总数</div>
-        <div class="total_item_numb">{{total.Companys}}</div>
+        <div class="total_item_numb">
+          <a-spin size="small" v-if="total_loading" />
+          {{total.Companys}}
+        </div>
       </div>
       <div class="total_item total_item_80">
         <div class="total_item_txt">部门总数</div>
-        <div class="total_item_numb">{{total.Departments}}</div>
+        <div class="total_item_numb">
+          <a-spin size="small" v-if="total_loading" />
+          <span>{{total.Departments}}</span>
+        </div>
       </div>
       <div class="total_item total_item_80">
         <div class="total_item_txt">角色总数</div>
-        <div class="total_item_numb">{{total.Roles}}</div>
+        <div class="total_item_numb">
+          <a-spin size="small" v-if="total_loading" />
+          <span>{{total.Roles}}</span>
+        </div>
       </div>
       <div class="total_item total_item_80">
         <div class="total_item_txt">部门总数</div>
-        <div class="total_item_numb">{{total.Users}}</div>
+        <div class="total_item_numb">
+          <a-spin size="small" v-if="total_loading" />
+          <span>{{total.Users}}</span>
+        </div>
       </div>
     </div>
     <div class="total_con">
@@ -29,6 +41,7 @@ export default {
   name: "overview",
   data() {
     return {
+      total_loading: true,
       total: {}
     };
   },
@@ -38,6 +51,7 @@ export default {
   methods: {
     getData() {
       this.$http.get(this.$urls.overview.total).then(response => {
+        this.total_loading = false;
         if (response.body.code == 0) this.total = response.body.result;
       });
     }
