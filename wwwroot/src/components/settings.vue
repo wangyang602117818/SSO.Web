@@ -7,27 +7,30 @@
       </a-menu>
     </a-layout-sider>
     <a-layout-content>
-      <a-form v-if="defaultSelectedCompany[0]=='1'">
-        <a-form-item label="UserId">{{user.UserId}}</a-form-item>
-        <a-form-item label="UserName">{{user.UserName}}</a-form-item>
-        <a-form-item label="Sex">{{user.Sex=='F'?'女':'男'}}</a-form-item>
-        <a-form-item label="Mobile">{{user.Mobile}}</a-form-item>
-        <a-form-item label="Email">{{user.Email}}</a-form-item>
-        <a-form-item label="IdCard">{{user.IdCard}}</a-form-item>
-        <a-form-item label="Company">
-          <a-button size="small">{{user.CompanyName}}</a-button>
-        </a-form-item>
-        <a-form-item label="Department">
-          <a-button size="small" v-for="dname in user.DepartmentName" :key="dname">{{dname}}</a-button>
-        </a-form-item>
-        <a-form-item label="Role">
-          <a-button size="small" v-for="role in user.Role" :key="role">{{role}}</a-button>
-        </a-form-item>
-        <br />
-        <a-form-item>
-          <a-button type="primary" @click="showUserDrawer">修改</a-button>
-        </a-form-item>
-      </a-form>
+      <a-spin size="small" v-if="loading" style="width:100%" />
+      <div v-else>
+        <a-form v-if="defaultSelectedCompany[0]=='1'">
+          <a-form-item label="UserId">{{user.UserId}}</a-form-item>
+          <a-form-item label="UserName">{{user.UserName}}</a-form-item>
+          <a-form-item label="Sex">{{user.Sex=='F'?'女':'男'}}</a-form-item>
+          <a-form-item label="Mobile">{{user.Mobile}}</a-form-item>
+          <a-form-item label="Email">{{user.Email}}</a-form-item>
+          <a-form-item label="IdCard">{{user.IdCard}}</a-form-item>
+          <a-form-item label="Company">
+            <a-button size="small">{{user.CompanyName}}</a-button>
+          </a-form-item>
+          <a-form-item label="Department">
+            <a-button size="small" v-for="dname in user.DepartmentName" :key="dname">{{dname}}</a-button>
+          </a-form-item>
+          <a-form-item label="Role">
+            <a-button size="small" v-for="role in user.Role" :key="role">{{role}}</a-button>
+          </a-form-item>
+          <br />
+          <a-form-item>
+            <a-button type="primary" @click="showUserDrawer">修改</a-button>
+          </a-form-item>
+        </a-form>
+      </div>
       <a-form
         :form="passwordform"
         @submit.prevent="updateUserPassword"
@@ -152,7 +155,8 @@ export default {
       roleData: [],
       defaultSelectedCompany: ["1"],
       confirmDirty: false,
-      userDrawerVisible: false
+      userDrawerVisible: false,
+      loading: false
     };
   },
   created() {
@@ -215,7 +219,9 @@ export default {
         });
     },
     getUser(drawer) {
+      this.loading = true;
       this.$http.get(this.$urls.user.getuser).then(response => {
+        this.loading = false;
         if (response.body.code == 0 && response.body.result) {
           this.user = response.body.result;
           if (drawer) {

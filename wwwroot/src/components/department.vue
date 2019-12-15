@@ -7,6 +7,7 @@
         @search="onSearchCompany"
       />
       <a-menu mode="inline" :defaultSelectedKeys="defaultSelectedCompany" @select="selectCompany">
+        <a-spin size="small" v-if="company_loading" style="width:100%" />
         <a-menu-item
           v-for="item in company"
           v-bind:key="item.Code"
@@ -26,24 +27,28 @@
         :icon="expandedAll?'fullscreen-exit':'fullscreen'"
         @click="expandAll"
       ></a-button>
-      <a-tree
-        :expandedKeys="expandedKeys"
-        :autoExpandParent="autoExpandParent"
-        @expand="onExpand"
-        :treeData="departmentData"
-        @select="selectDepartment"
-      >
-        <template slot="custom" slot-scope="{title}">
-          <span v-if="title.indexOf(departmentSearchValue) > -1">
-            {{title.substr(0, title.indexOf(departmentSearchValue))}}
-            <span
-              style="color: #f50"
-            >{{departmentSearchValue}}</span>
-            {{title.substr(title.indexOf(departmentSearchValue) + departmentSearchValue.length)}}
-          </span>
-          <span v-else>{{title}}</span>
-        </template>
-      </a-tree>
+      <div class="department_wrap">
+        <a-spin size="small" v-if="department_loading" style=" width:100%" />
+        <a-tree
+          :expandedKeys="expandedKeys"
+          :autoExpandParent="autoExpandParent"
+          @expand="onExpand"
+          :treeData="departmentData"
+          @select="selectDepartment"
+          style="border:0"
+        >
+          <template slot="custom" slot-scope="{title}">
+            <span v-if="title.indexOf(departmentSearchValue) > -1">
+              {{title.substr(0, title.indexOf(departmentSearchValue))}}
+              <span
+                style="color: #f50"
+              >{{departmentSearchValue}}</span>
+              {{title.substr(title.indexOf(departmentSearchValue) + departmentSearchValue.length)}}
+            </span>
+            <span v-else>{{title}}</span>
+          </template>
+        </a-tree>
+      </div>
     </a-layout-content>
     <a-layout-sider theme="light" :width="400" :collapsed="collapsedLeft" :collapsedWidth="0">
       <a-tabs defaultActiveKey="1" @change="changeTab">
@@ -248,7 +253,8 @@ export default {
       departmentData: [],
       departmentSearchValue: "",
       drawerVisible: false,
-      loading: false,
+      company_loading: false,
+      department_loading: false,
       expandedAll: false,
       autoExpandParent: false,
       collapsedLeft: true,
@@ -260,12 +266,12 @@ export default {
   },
   methods: {
     getCompanyData() {
-      this.loading = true;
+      this.company_loading = true;
       this.$http
         .get(this.$urls.company.getall + "?filter=" + this.companySearchValue)
         .then(response => {
-          this.loading = false;
           if (response.body.code == 0) {
+            this.company_loading = false;
             this.company = response.body.result;
             if (response.body.count > 0) {
               this.selectedCompany = response.body.result[0].Code;
@@ -295,14 +301,15 @@ export default {
       });
     },
     getDepartmentData(companyCode) {
-      this.loading = true;
+      this.department_loading = true;
+      this.departmentData = [];
       dataList = [];
       this.$http
         .get(
           this.$urls.department.getdepartments + "?companyCode=" + companyCode
         )
         .then(response => {
-          this.loading = false;
+          this.department_loading = false;
           if (response.body.code == 0) {
             if (response.body.result.length > 0) {
               this.departmentData = response.body.result;
@@ -397,12 +404,10 @@ export default {
     addSubDept() {
       this.addform.validateFields((error, values) => {
         if (!error) {
-          this.loading = true;
           values.companyCode = this.selectedCompany;
           values.parentCode = this.selectedDepartment;
           values.layer = this.selectedDepartmentLayer + 1;
           this.$http.post(this.$urls.department.add, values).then(response => {
-            this.loading = false;
             if (response.body.code == 0) {
               this.getDepartmentData(this.selectedCompany);
             } else {
@@ -415,14 +420,12 @@ export default {
     updateSubDept() {
       this.updateform.validateFields((error, values) => {
         if (!error) {
-          this.loading = true;
           values.id = this.id;
           values.companyCode = this.selectedCompany;
           values.parentCode = values.parentCode || "";
           this.$http
             .post(this.$urls.department.update, values)
             .then(response => {
-              this.loading = false;
               if (response.body.code == 0) {
                 this.getDepartmentData(this.selectedCompany);
               } else {
@@ -484,5 +487,10 @@ export default {
   background-color: #fff;
   margin-top: 10px;
   padding-bottom: 20px;
+}
+.department_wrap {
+  background-color: #fff;
+  min-height: 30px;
+  line-height: 30px;
 }
 </style>

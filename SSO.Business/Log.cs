@@ -1,4 +1,5 @@
-﻿using SSO.Util;
+﻿using SSO.Data.Models;
+using SSO.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,17 @@ namespace SSO.Business
             if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.Content == keyword);
             count = query.Count();
             return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+        }
+        public dynamic OpRecordByDay(DateTime minDateTime)
+        {
+            var data = userCenterContext.Logs
+                .Where(w=>w.CreateTime>=minDateTime.Date)
+                .Select(k => new { k.CreateTime.Value.Year, k.CreateTime.Value.Month, k.CreateTime.Value.Day, count = 1 }).GroupBy(x => new { x.Year, x.Month, x.Day }, (key, group) => new
+                {
+                    date= key.Year+"-"+ key.Month+"-"+ key.Day,
+                    count = group.Sum(s => s.count)
+                }).ToList();
+            return data;
         }
     }
 }
