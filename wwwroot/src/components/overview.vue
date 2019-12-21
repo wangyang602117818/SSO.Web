@@ -31,8 +31,12 @@
       </div>
     </div>
     <div class="total_con">
-      <div class="total_item total_item_240"></div>
-      <div class="total_item total_item_240"></div>
+      <div class="total_item total_item_240">
+        <div class="total_item_txt">用户总数</div>
+      </div>
+      <div class="total_item total_item_240">
+        <div class="total_item_txt">用户总数</div>
+      </div>
     </div>
   </div>
 </template>
@@ -41,9 +45,9 @@ export default {
   name: "overview",
   data() {
     return {
-      total_loading: true,
-      op_record_loading:true,
-
+      total_loading: false,
+      op_record_loading: false,
+      user_record_loading:false,
       total: {}
     };
   },
@@ -52,6 +56,7 @@ export default {
   },
   methods: {
     getData() {
+      this.total_loading=true;
       this.$http.get(this.$urls.overview.total).then(response => {
         this.total_loading = false;
         if (response.body.code == 0) this.total = response.body.result;
@@ -80,6 +85,7 @@ export default {
 }
 .total_item_240 {
   height: 240px;
+  flex-direction: column;
 }
 .total_item_txt {
   flex: 2;
@@ -94,7 +100,6 @@ export default {
   flex: 3;
   font-size: 16px;
   color: #1890ff;
-
   display: flex;
   align-items: center;
 }
