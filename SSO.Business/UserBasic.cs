@@ -1,4 +1,5 @@
 ﻿using SSO.Data.Models;
+using SSO.Model;
 using SSO.Util;
 using System;
 using System.Collections.Generic;
@@ -225,6 +226,57 @@ namespace SSO.Business
             if (userBasic == null) return 0;
             userBasic.PassWord = password.GetSha256();
             return userCenterContext.SaveChanges();
+        }
+        public IQueryable<DateCountItem> UserRecordInByDay(DateTime minDateTime, bool delete)
+        {
+            return userCenterContext.UserBasics
+                .Where(w => (w.CreateTime >= minDateTime.Date && w.Delete == delete))
+                .Select(k => new
+                {
+                    k.CreateTime.Value.Year,
+                    k.CreateTime.Value.Month,
+                    k.CreateTime.Value.Day,
+                    count = 1
+                })
+                .GroupBy(x => new { x.Year, x.Month, x.Day }, (key, group) => new
+                DateCountItem
+                {
+                    date = key.Year + "-" + key.Month + "-" + key.Day,
+                    count = group.Sum(s => s.count)
+                });
+        }
+        public IQueryable<DateCountItem> UserRecordByMonth(DateTime minDateTime, bool delete)
+        {
+            return userCenterContext.UserBasics
+                 .Where(w => (w.CreateTime >= minDateTime.Date && w.Delete == delete))
+                 .Select(k => new
+                 {
+                     k.CreateTime.Value.Year,
+                     k.CreateTime.Value.Month,
+                     count = 1
+                 })
+                 .GroupBy(x => new { x.Year, x.Month }, (key, group) => new
+                 DateCountItem
+                 {
+                     date = key.Year + "-" + key.Month,
+                     count = group.Sum(s => s.count)
+                 });
+        }
+        public IQueryable<DateCountItem> UserRecordByYear(DateTime minDateTime, bool delete)
+        {
+            return userCenterContext.UserBasics
+                 .Where(w => (w.CreateTime >= minDateTime.Date && w.Delete == delete))
+                 .Select(k => new
+                 {
+                     k.CreateTime.Value.Year,
+                     count = 1
+                 })
+                 .GroupBy(x => new { x.Year}, (key, group) => new
+                 DateCountItem
+                 {
+                     date = key.Year.ToString(),
+                     count = group.Sum(s => s.count)
+                 });
         }
     }
 }

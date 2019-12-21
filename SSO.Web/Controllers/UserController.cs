@@ -95,5 +95,6 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<UserBasicData>(ErrorCode.success, user.GetUserUpdate(userId));
         }
+
     }
 }

@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DateCountItem.cs" />
     <Compile Include="DepartmentData.cs" />
     <Compile Include="OverviewTotal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,5 @@
 ﻿using SSO.Data.Models;
+using SSO.Model;
 using SSO.Util;
 using System;
 using System.Collections.Generic;
@@ -35,16 +36,49 @@ namespace SSO.Business
             count = query.Count();
             return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }
-        public dynamic OpRecordByDay(DateTime minDateTime)
+        public IQueryable<DateCountItem> OpRecordByDay(DateTime minDateTime)
         {
-            var data = userCenterContext.Logs
-                .Where(w=>w.CreateTime>=minDateTime.Date)
-                .Select(k => new { k.CreateTime.Value.Year, k.CreateTime.Value.Month, k.CreateTime.Value.Day, count = 1 }).GroupBy(x => new { x.Year, x.Month, x.Day }, (key, group) => new
+            return userCenterContext.Logs
+                .Where(w => w.CreateTime >= minDateTime.Date)
+                .Select(k => new
                 {
-                    date= key.Year+"-"+ key.Month+"-"+ key.Day,
+                    k.CreateTime.Value.Year,
+                    k.CreateTime.Value.Month,
+                    k.CreateTime.Value.Day,
+                    count = 1
+                })
+                .GroupBy(x => new { x.Year, x.Month, x.Day }, (key, group) => new DateCountItem
+                {
+                    date = key.Year + "-" + key.Month + "-" + key.Day,
                     count = group.Sum(s => s.count)
-                }).ToList();
-            return data;
+                });
+        }
+        public IQueryable<DateCountItem> OpRecordByMonth(DateTime minDateTime)
+        {
+            return userCenterContext.Logs
+                 .Where(w => w.CreateTime >= minDateTime.Date)
+                 .Select(k => new
+                 {
+                     k.CreateTime.Value.Year,
+                     k.CreateTime.Value.Month,
+                     count = 1
+                 })
+                 .GroupBy(x => new { x.Year, x.Month }, (key, group) => new DateCountItem
+                 {
+                     date = key.Year + "-" + key.Month,
+                     count = group.Sum(s => s.count)
+                 });
+        }
+        public IQueryable<DateCountItem> OpRecordByYear(DateTime minDateTime)
+        {
+            return userCenterContext.Logs
+                .Where(w => w.CreateTime >= minDateTime.Date)
+                .Select(k => new { k.CreateTime.Value.Year, count = 1 })
+                .GroupBy(x => new { x.Year }, (key, group) => new DateCountItem
+                {
+                    date = key.Year.ToString(),
+                    count = group.Sum(s => s.count)
+                });
         }
     }
 }

@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="total_item total_item_80">
-        <div class="total_item_txt">部门总数</div>
+        <div class="total_item_txt">用户总数</div>
         <div class="total_item_numb">
           <a-spin size="small" v-if="total_loading" />
           <span>{{total.Users}}</span>
@@ -42,6 +42,8 @@ export default {
   data() {
     return {
       total_loading: true,
+      op_record_loading:true,
+
       total: {}
     };
   },
