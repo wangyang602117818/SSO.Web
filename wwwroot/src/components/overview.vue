@@ -32,10 +32,16 @@
     </div>
     <div class="total_con">
       <div class="total_item total_item_240">
-        <div class="total_item_txt">用户总数</div>
+        <div class="total_item_txt">操作记录</div>
+        <div class="total_item_data" id="op_record">
+          <a-spin size="small" v-if="op_record_loading" />
+        </div>
       </div>
       <div class="total_item total_item_240">
-        <div class="total_item_txt">用户总数</div>
+        <div class="total_item_txt">用户录入</div>
+        <div class="total_item_data" id="user_record">
+          <a-spin size="small" v-if="op_record_loading" />
+        </div>
       </div>
     </div>
   </div>
@@ -47,19 +53,37 @@ export default {
     return {
       total_loading: false,
       op_record_loading: false,
-      user_record_loading:false,
+      user_record_loading: false,
       total: {}
     };
   },
   created() {
     this.getData();
+    this.getOpRecord();
+    this.getUserRecord();
   },
   methods: {
     getData() {
-      this.total_loading=true;
+      this.total_loading = true;
       this.$http.get(this.$urls.overview.total).then(response => {
         this.total_loading = false;
         if (response.body.code == 0) this.total = response.body.result;
+      });
+    },
+    getOpRecord() {
+      this.op_record_loading = true;
+      this.$http.get(this.$urls.overview.opRecord).then(response => {
+        this.op_record_loading = false;
+        if (response.body.code == 0) {
+        }
+      });
+    },
+    getUserRecord() {
+      this.user_record_loading = true;
+      this.$http.get(this.$urls.overview.userRecord).then(response => {
+        this.user_record_loading = false;
+        if (response.body.code == 0) {
+        }
       });
     }
   }
@@ -78,6 +102,7 @@ export default {
   align-items: center;
   justify-content: center;
   margin-left: 10px;
+  border: 1px solid #eff2f5;
 }
 .total_item_80 {
   height: 80px;
@@ -88,7 +113,7 @@ export default {
   flex-direction: column;
 }
 .total_item_txt {
-  flex: 2;
+  height: 30px;
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -97,10 +122,17 @@ export default {
   padding-left: 10px;
 }
 .total_item_numb {
-  flex: 3;
+  flex: 1;
   font-size: 16px;
   color: #1890ff;
   display: flex;
   align-items: center;
+}
+.total_item_data {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

@@ -229,42 +229,94 @@ namespace SSO.Business
         }
         public IQueryable<DateCountItem> UserRecordInByDay(DateTime minDateTime, bool delete)
         {
-            return userCenterContext.UserBasics
-                .Where(w => (w.CreateTime >= minDateTime.Date && w.Delete == delete))
-                .Select(k => new
+            if (delete)
+            {
+                return userCenterContext.UserBasics.Where(w => (w.DeleteTime >= minDateTime.Date && w.Delete == delete)).Select(s => new
                 {
-                    k.CreateTime.Value.Year,
-                    k.CreateTime.Value.Month,
-                    k.CreateTime.Value.Day,
-                    count = 1
-                })
-                .GroupBy(x => new { x.Year, x.Month, x.Day }, (key, group) => new
-                DateCountItem
+                    s.DeleteTime.Value.Year,
+                    s.DeleteTime.Value.Month,
+                    s.DeleteTime.Value.Day,
+                    count = 1,
+                }).GroupBy(x => new { x.Year, x.Month, x.Day}, (key, group) => new
+                 DateCountItem
                 {
                     date = key.Year + "-" + key.Month + "-" + key.Day,
-                    count = group.Sum(s => s.count)
+                    count = group.Sum(s => s.count),
+                    type = "delete"
                 });
+            }
+            else
+            {
+                return userCenterContext.UserBasics.Where(w => (w.CreateTime >= minDateTime.Date && w.Delete == delete)).Select(s => new
+                {
+                    s.CreateTime.Value.Year,
+                    s.CreateTime.Value.Month,
+                    s.CreateTime.Value.Day,
+                    count = 1
+                }).GroupBy(x => new { x.Year, x.Month, x.Day}, (key, group) => new
+                 DateCountItem
+                {
+                    date = key.Year + "-" + key.Month + "-" + key.Day,
+                    count = group.Sum(s => s.count),
+                    type = "insert"
+                });
+            }
         }
         public IQueryable<DateCountItem> UserRecordByMonth(DateTime minDateTime, bool delete)
         {
-            return userCenterContext.UserBasics
-                 .Where(w => (w.CreateTime >= minDateTime.Date && w.Delete == delete))
-                 .Select(k => new
-                 {
-                     k.CreateTime.Value.Year,
-                     k.CreateTime.Value.Month,
-                     count = 1
-                 })
-                 .GroupBy(x => new { x.Year, x.Month }, (key, group) => new
-                 DateCountItem
-                 {
-                     date = key.Year + "-" + key.Month,
-                     count = group.Sum(s => s.count)
-                 });
+            if (delete)
+            {
+                return userCenterContext.UserBasics.Where(w => (w.DeleteTime >= minDateTime.Date && w.Delete == delete)).Select(k => new
+                {
+                    k.DeleteTime.Value.Year,
+                    k.DeleteTime.Value.Month,
+                    count = 1
+                }).GroupBy(x => new { x.Year, x.Month}, (key, group) => new
+                      DateCountItem
+                {
+                    date = key.Year + "-" + key.Month,
+                    count = group.Sum(s => s.count),
+                    type = "delete"
+                });
+            }
+            else
+            {
+                return userCenterContext.UserBasics.Where(w => (w.CreateTime >= minDateTime.Date && w.Delete == delete)).Select(k => new
+                {
+                    k.CreateTime.Value.Year,
+                    k.CreateTime.Value.Month,
+                    count = 1
+                }).GroupBy(x => new { x.Year, x.Month }, (key, group) => new
+                      DateCountItem
+                {
+                    date = key.Year + "-" + key.Month,
+                    count = group.Sum(s => s.count),
+                    type = "insert"
+                });
+            }
         }
         public IQueryable<DateCountItem> UserRecordByYear(DateTime minDateTime, bool delete)
         {
-            return userCenterContext.UserBasics
+            if (delete)
+            {
+                return userCenterContext.UserBasics
+                 .Where(w => (w.DeleteTime >= minDateTime.Date && w.Delete == delete))
+                 .Select(k => new
+                 {
+                     k.DeleteTime.Value.Year,
+                     count = 1
+                 })
+                 .GroupBy(x => new { x.Year }, (key, group) => new
+                   DateCountItem
+                 {
+                     date = key.Year.ToString(),
+                     count = group.Sum(s => s.count),
+                     type = "delete"
+                 });
+            }
+            else
+            {
+                return userCenterContext.UserBasics
                  .Where(w => (w.CreateTime >= minDateTime.Date && w.Delete == delete))
                  .Select(k => new
                  {
@@ -272,11 +324,13 @@ namespace SSO.Business
                      count = 1
                  })
                  .GroupBy(x => new { x.Year}, (key, group) => new
-                 DateCountItem
+                   DateCountItem
                  {
                      date = key.Year.ToString(),
-                     count = group.Sum(s => s.count)
+                     count = group.Sum(s => s.count),
+                     type = "insert"
                  });
+            }
         }
     }
 }

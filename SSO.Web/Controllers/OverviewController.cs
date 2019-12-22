@@ -57,7 +57,9 @@ namespace SSO.Web.Controllers
                 input = userBasic.UserRecordByYear(DateTime.Now.AddYears(-last), false);
                 output = userBasic.UserRecordByYear(DateTime.Now.AddYears(-last), true);
             }
-            return new ResponseModel<object>(ErrorCode.success, new { input = input.ToList(), output = output.ToList() });
+            List<DateCountItem> result = input.ToList();
+            result.AddRange(output.ToList());
+            return new ResponseModel<List<DateCountItem>>(ErrorCode.success, result, result.Count);
         }
     }
 }
