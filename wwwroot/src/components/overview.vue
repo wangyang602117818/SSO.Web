@@ -118,6 +118,9 @@ export default {
             if (currentValue["type"] == "delete")
               delList.push([currentValue["date"], currentValue["count"]]);
           });
+           window.console.log(dateList)
+          window.console.log(addList)
+          window.console.log(delList)
           var options = this.$common.echartOptions(dateList);
           options.legend = {
             top: 0,

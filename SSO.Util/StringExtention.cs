@@ -48,6 +48,10 @@ namespace SSO.Util
         {
             return string.IsNullOrEmpty(str);
         }
+        public static string FormatMonth(this int month)
+        {
+            return month < 10 ? "0" + month : month.ToString();
+        }
         public static byte[] ToBytes(this Stream stream)
         {
             byte[] bytes = new byte[stream.Length];

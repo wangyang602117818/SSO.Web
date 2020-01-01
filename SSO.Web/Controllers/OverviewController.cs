@@ -26,11 +26,11 @@ namespace SSO.Web.Controllers
         /// <returns></returns>
         public ActionResult OpRecord(string type = "day", int last = 30)
         {
-            IQueryable<DateCountItem> result = null;
-            if (type == "day") result = log.OpRecordByDay(DateTime.Now.AddDays(-last));
-            if (type == "month") result = log.OpRecordByMonth(DateTime.Now.AddMonths(-last));
+            IEnumerable<DateCountItem> result = null;
+            if (type == "day") result = log.OpRecordByDay(DateTime.Now.AddDays(-last)).ToList().Select(s => new DateCountItem() { date = DateTime.Parse(s.date).ToString("yyyy-MM-dd"), count = s.count });
+            if (type == "month") result = log.OpRecordByMonth(DateTime.Now.AddMonths(-last)).ToList().Select(s => new DateCountItem() { date = DateTime.Parse(s.date).ToString("yyyy-MM"), count = s.count });
             if (type == "year") result = log.OpRecordByYear(DateTime.Now.AddYears(-last));
-            return new ResponseModel<List<DateCountItem>>(ErrorCode.success, result.ToList());
+            return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, result);
         }
         /// <summary>
         /// 用户录入删除操作记录
@@ -40,17 +40,17 @@ namespace SSO.Web.Controllers
         /// <returns></returns>
         public ActionResult UserRecord(string type = "day", int last = 30)
         {
-            IQueryable<DateCountItem> input = null;
-            IQueryable<DateCountItem> output = null;
+            IEnumerable<DateCountItem> input = null;
+            IEnumerable<DateCountItem> output = null;
             if (type == "day")
             {
-                input = userBasic.UserRecordInByDay(DateTime.Now.AddDays(-last), false);
-                output = userBasic.UserRecordInByDay(DateTime.Now.AddDays(-last), true);
+                input = userBasic.UserRecordInByDay(DateTime.Now.AddDays(-last), false).ToList().Select(s => new DateCountItem() { date = DateTime.Parse(s.date).ToString("yyyy-MM-dd"), count = s.count, type = s.type });
+                output = userBasic.UserRecordInByDay(DateTime.Now.AddDays(-last), true).ToList().Select(s => new DateCountItem() { date = DateTime.Parse(s.date).ToString("yyyy-MM-dd"), count = s.count , type = s.type });
             }
             if (type == "month")
             {
-                input = userBasic.UserRecordByMonth(DateTime.Now.AddMonths(-last), false);
-                output = userBasic.UserRecordByMonth(DateTime.Now.AddMonths(-last), true);
+                input = userBasic.UserRecordByMonth(DateTime.Now.AddMonths(-last), false).ToList().Select(s => new DateCountItem() { date = DateTime.Parse(s.date).ToString("yyyy-MM"), count = s.count, type = s.type });
+                output = userBasic.UserRecordByMonth(DateTime.Now.AddMonths(-last), true).ToList().Select(s => new DateCountItem() { date = DateTime.Parse(s.date).ToString("yyyy-MM"), count = s.count, type = s.type });
             }
             if (type == "year")
             {
