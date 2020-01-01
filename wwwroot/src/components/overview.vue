@@ -38,10 +38,24 @@
         </div>
       </div>
       <div class="total_item total_item_240">
-        <div class="total_item_txt">用户记录 </div>
+        <div class="total_item_txt">用户记录</div>
         <div class="total_item_data" id="user_record">
           <a-spin size="small" v-if="op_record_loading" />
         </div>
+      </div>
+    </div>
+    <div class="total_con">
+      <div class="total_item total_item_260">
+        <div class="total_item_txt">男女比例</div>
+        <div class="total_item_data"></div>
+      </div>
+      <div class="total_item total_item_260">
+         <div class="total_item_txt">公司人数</div>
+         <div class="total_item_data"></div>
+      </div>
+      <div class="total_item total_item_260">
+         <div class="total_item_txt">部门人数</div>
+         <div class="total_item_data"></div>
       </div>
     </div>
   </div>
@@ -118,9 +132,6 @@ export default {
             if (currentValue["type"] == "delete")
               delList.push([currentValue["date"], currentValue["count"]]);
           });
-           window.console.log(dateList)
-          window.console.log(addList)
-          window.console.log(delList)
           var options = this.$common.echartOptions(dateList);
           options.legend = {
             top: 0,
@@ -170,6 +181,9 @@ export default {
 };
 </script>
 <style scoped>
+.overview{
+  margin-bottom: 50px;
+}
 .total_con {
   display: flex;
   margin-top: 10px;
@@ -190,6 +204,10 @@ export default {
 }
 .total_item_240 {
   height: 240px;
+  flex-direction: column;
+}
+.total_item_260 {
+  height: 260px;
   flex-direction: column;
 }
 .total_item_txt {
