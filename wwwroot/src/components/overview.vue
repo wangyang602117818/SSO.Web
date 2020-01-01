@@ -112,7 +112,7 @@ export default {
           );
           var addList = [];
           var delList = [];
-          response.body.result.forEach(function(currentValue, index, arr) {
+          response.body.result.forEach(function(currentValue) {
             if (currentValue["type"] == "insert")
               addList.push([currentValue["date"], currentValue["count"]]);
             if (currentValue["type"] == "delete")
