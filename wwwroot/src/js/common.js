@@ -36,6 +36,54 @@ function getAgent(agent) {
         return "PC";
     }
 }
+function echartOptions(xData) {
+    return {
+        animation: false,
+        color: ["#0053FE","#00C782"],
+        tooltip: {
+            trigger: 'axis'
+        },
+        grid: {
+            left: "5%",
+            top: "10%",
+            bottom: "15%",
+            right: "5%"
+        },
+        xAxis: {
+            data: xData,
+            axisLine: {
+                lineStyle: {
+                    color: "#484848",
+                    opacity: 0.6
+                }
+            },
+            splitLine: {
+                show: true,
+                lineStyle: {
+                    type: "dashed",
+                    color: "#e4e4e4"
+                }
+            }
+        },
+        yAxis: {
+            type: "value",
+            minInterval: 3,
+            axisLine: {
+                lineStyle: {
+                    color: "#484848",
+                    opacity: 0.6
+                }
+            },
+            splitLine: {
+                show: true,
+                lineStyle: {
+                    type: "dashed",
+                    color: "#e4e4e4"
+                }
+            }
+        }
+    }
+}
 String.prototype.trim = function (char) {
     var reTag = new RegExp("^" + (char || ' ') + "+|" + (char || ' ') + "+$", "gi");
     return this.replace(reTag, "");
@@ -73,5 +121,6 @@ export default {
     removeArrayItem: removeArrayItem,
     randomWord: randomWord,
     getReturnUrl: getReturnUrl,
-    getAgent:getAgent
+    getAgent: getAgent,
+    echartOptions: echartOptions
 }

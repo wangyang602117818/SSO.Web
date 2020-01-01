@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="total_item total_item_240">
-        <div class="total_item_txt">用户录入</div>
+        <div class="total_item_txt">用户记录 </div>
         <div class="total_item_data" id="user_record">
           <a-spin size="small" v-if="op_record_loading" />
         </div>
@@ -47,6 +47,7 @@
   </div>
 </template>
 <script>
+import echarts from "echarts";
 export default {
   name: "overview",
   data() {
@@ -75,6 +76,25 @@ export default {
       this.$http.get(this.$urls.overview.opRecord).then(response => {
         this.op_record_loading = false;
         if (response.body.code == 0) {
+          var dateList = response.body.result.map(function(item) {
+            return item["date"];
+          });
+          var countList = response.body.result.map(function(item) {
+            return item["count"];
+          });
+          // 绘制图表。
+          var options = this.$common.echartOptions(dateList);
+          options.series = [
+            {
+              data: countList,
+              type: "line",
+              symbol: "circle",
+              lineStyle: {
+                width: 1
+              }
+            }
+          ];
+          echarts.init(document.getElementById("op_record")).setOption(options);
         }
       });
     },
@@ -83,6 +103,63 @@ export default {
       this.$http.get(this.$urls.overview.userRecord).then(response => {
         this.user_record_loading = false;
         if (response.body.code == 0) {
+          var dateList = Array.from(
+            new Set(
+              response.body.result.map(function(item) {
+                return item["date"];
+              })
+            )
+          );
+          var addList = [];
+          var delList = [];
+          response.body.result.forEach(function(currentValue, index, arr) {
+            if (currentValue["type"] == "insert")
+              addList.push([currentValue["date"], currentValue["count"]]);
+            if (currentValue["type"] == "delete")
+              delList.push([currentValue["date"], currentValue["count"]]);
+          });
+          var options = this.$common.echartOptions(dateList);
+          options.legend = {
+            top: 0,
+            itemWidth: 25,
+            itemHeight: 2,
+            data: [
+              {
+                name: "录入",
+                icon: "roundRect"
+              },
+              {
+                name: "移除",
+                icon: "roundRect"
+              }
+            ],
+            textStyle: {
+              fontSize: 11
+            }
+          };
+          options.series = [
+            {
+              name: "录入",
+              type: "line",
+              symbol: "circle",
+              lineStyle: {
+                width: 1
+              },
+              data: addList
+            },
+            {
+              name: "移除",
+              type: "line",
+              symbol: "circle",
+              lineStyle: {
+                width: 1
+              },
+              data: delList
+            }
+          ];
+          echarts
+            .init(document.getElementById("user_record"))
+            .setOption(options);
         }
       });
     }

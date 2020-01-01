@@ -117,7 +117,7 @@ var urls = {
   logout: 'sso/logout',
 }
 Vue.prototype.$urls = urls
-Vue.config.productionTip = false
+Vue.config.productionTip = false 
 
 const router = new VueRouter({
   mode: 'history',
