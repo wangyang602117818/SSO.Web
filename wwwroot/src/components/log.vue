@@ -61,7 +61,7 @@ export default {
         {
           title: "用户代理",
           dataIndex: "UserAgent",
-          width: "7%",
+          width: "8%",
           customRender: val => {
             return this.$common.getAgent(val);
           }
@@ -69,7 +69,7 @@ export default {
         {
           title: "生成时间",
           dataIndex: "CreateTime.$date",
-          width: "20%",
+          width: "19%",
           customRender: val => {
             return this.$common.parseBsonTime(val);
           }

@@ -14,9 +14,22 @@ namespace SSO.Web.Controllers
     {
         Business.UserBasic userBasic = new Business.UserBasic();
         Business.Log log = new Business.Log();
+        Business.UserDepartmentMapping userDepartmentMapping = new Business.UserDepartmentMapping();
         public ActionResult Total()
         {
             return new ResponseModel<OverviewTotal>(ErrorCode.success, userBasic.GetOverviewTotal());
+        }
+        public ActionResult UserRatio()
+        {
+            return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, userBasic.GetUserRatio());
+        }
+        public ActionResult UserCompanyRatio()
+        {
+            return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, userBasic.GetUserCompanyRatio());
+        }
+        public ActionResult UserDepartmentRatia()
+        {
+            return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, userDepartmentMapping.GetUserDepartmentRatio());
         }
         /// <summary>
         /// 最近几个月操作记录
@@ -61,5 +74,6 @@ namespace SSO.Web.Controllers
             result.AddRange(output.ToList());
             return new ResponseModel<List<DateCountItem>>(ErrorCode.success, result, result.Count);
         }
+        
     }
 }

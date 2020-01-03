@@ -36,15 +36,24 @@ function getAgent(agent) {
         return "PC";
     }
 }
-function echartOptions(xData) {
+function echartOptionsPie(){
+    return{
+        animation: true,
+        color: ["#0053FE","#00C782"],
+        tooltip: {
+            trigger: 'item'
+        }
+    }
+}
+function echartOptionsLine(xData) {
     return {
-        animation: false,
+        animation: true,
         color: ["#0053FE","#00C782"],
         tooltip: {
             trigger: 'axis'
         },
         grid: {
-            left: "5%",
+            left: "7%",
             top: "10%",
             bottom: "15%",
             right: "5%"
@@ -122,5 +131,6 @@ export default {
     randomWord: randomWord,
     getReturnUrl: getReturnUrl,
     getAgent: getAgent,
-    echartOptions: echartOptions
+    echartOptionsLine: echartOptionsLine,
+    echartOptionsPie:echartOptionsPie
 }

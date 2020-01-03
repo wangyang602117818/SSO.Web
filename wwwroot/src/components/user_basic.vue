@@ -16,12 +16,14 @@
           @click="editUser"
           :disabled="selectedRowKeys.length!=1"
         ></a-button>
-        <a-button
-          type="default"
-          icon="unlock"
-          @click="resetPassword"
-          :disabled="selectedRowKeys.length!=1"
-        ></a-button>
+        <a-popconfirm
+          title="Are you sure reset this user's password?"
+          @confirm="resetPassword"
+          okText="Yes"
+          cancelText="No"
+        >
+          <a-button type="default" icon="unlock"></a-button>
+        </a-popconfirm>
         <a-popconfirm
           title="Are you sure remove this user?"
           @confirm="removeUser"
@@ -108,23 +110,6 @@
             <a-select-option value="M">男</a-select-option>
             <a-select-option value="F">女</a-select-option>
           </a-select>
-        </a-form-item>
-        <a-form-item label="Password" :label-col="{ span: 6 }" :wrapper-col="{ span: 10 }">
-          <a-input-password
-            placeholder="登录密码"
-            v-decorator="['password',{rules: [
-            {required: true, message: 'Password is required!' }
-            ]}]"
-          />
-        </a-form-item>
-        <a-form-item label="Confirm" :label-col="{ span: 6 }" :wrapper-col="{ span: 10 }">
-          <a-input-password
-            placeholder="确认密码"
-            v-decorator="['confirmPassword',{rules: [
-            {required: true, message: 'Password is required!' },
-            {validator: compareToFirstPassword}]}]"
-            @blur="handleConfirmBlur"
-          />
         </a-form-item>
         <a-form-item label="Mobile" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
           <a-input
@@ -299,20 +284,19 @@ export default {
       this.showDelete = !this.showDelete;
       this.getData();
     },
-    handleConfirmBlur(e) {
-      const value = e.target.value;
-      this.confirmDirty = this.confirmDirty || !!value;
-    },
-    compareToFirstPassword(rule, value, callback) {
-      const form = this.form;
-      if (value && value !== form.getFieldValue("password")) {
-        callback("Two passwords that you enter is inconsistent!");
-      } else {
-        callback();
-      }
-    },
-    resetPassword(){
-
+    resetPassword() {
+      this.loading = true;
+      this.$http
+        .post(this.$urls.user.resetpassword, { userIds: this.selectedRowKeys })
+        .then(response => {
+          if (response.body.code == 0) {
+            this.selectedRowKeys = [];
+            this.selectedRows = [];
+            this.getData();
+            this.$message.warning("重置成功!");
+          }
+          this.loading = false;
+        });
     },
     changeCompany(value) {
       this.form.setFieldsValue({ departments: [] });

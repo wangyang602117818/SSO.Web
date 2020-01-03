@@ -9,7 +9,7 @@ namespace SSO.Business
 {
     public class UserBasic : ModelBase
     {
-        public int Insert(string userId, string userName, string password, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
+        public int Insert(string userId, string userName, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
         {
             string companyName = "", departmentName = "", roleName = "";
             companyName = userCenterContext.Companies.Where(w => w.Code == companyCode).FirstOrDefault().Name;
@@ -47,7 +47,7 @@ namespace SSO.Business
             {
                 UserId = userId,
                 UserName = userName,
-                PassWord = password.GetSha256(),
+                PassWord = AppSettings.defaultPassword.GetSha256(),
                 CompanyCode = companyCode,
                 Mobile = mobile,
                 Email = email,
@@ -63,7 +63,7 @@ namespace SSO.Business
             });
             return userCenterContext.SaveChanges();
         }
-        public int Update(int id, string userId, string userName, string password, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
+        public int Update(int id, string userId, string userName, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
         {
             //获取原始 user 信息
             Data.Models.UserBasic userBasic = userCenterContext.UserBasics.Where(r => r.Id == id).FirstOrDefault();
@@ -79,7 +79,7 @@ namespace SSO.Business
             }
             //删除原始 department 信息
             var userDepartmentMappings = userCenterContext.UserDepartmentMappings.Where(w => w.UserId == userBasic.UserId);
-            foreach (UserDepartmentMapping udm in userDepartmentMappings)
+            foreach (Data.Models.UserDepartmentMapping udm in userDepartmentMappings)
             {
                 userCenterContext.UserDepartmentMappings.Attach(udm);
                 userCenterContext.UserDepartmentMappings.Remove(udm);
@@ -118,7 +118,6 @@ namespace SSO.Business
             if (userBasic.UserId != userId && GetUser(userId) != null) return 0;
             userBasic.UserId = userId;
             userBasic.UserName = userName;
-            if (!password.IsNullOrEmpty()) userBasic.PassWord = password.GetSha256();
             userBasic.Mobile = mobile;
             userBasic.Email = email;
             userBasic.CompanyCode = companyCode;
@@ -171,7 +170,7 @@ namespace SSO.Business
             }
             //删除 department 信息
             var userDepartmentMappings = userCenterContext.UserDepartmentMappings.Where(w => userIds.Contains(w.UserId));
-            foreach (UserDepartmentMapping udm in userDepartmentMappings)
+            foreach (Data.Models.UserDepartmentMapping udm in userDepartmentMappings)
             {
                 userCenterContext.UserDepartmentMappings.Attach(udm);
                 userCenterContext.UserDepartmentMappings.Remove(udm);
@@ -227,6 +226,16 @@ namespace SSO.Business
             userBasic.PassWord = password.GetSha256();
             return userCenterContext.SaveChanges();
         }
+        public int ResetPassword(IEnumerable<string> userIds)
+        {
+            var userBasics = userCenterContext.UserBasics.Where(w => userIds.Contains(w.UserId));
+            foreach (var item in userBasics)
+            {
+                item.PassWord = AppSettings.defaultPassword.GetSha256();
+                item.IsModified =true;
+            }
+            return userCenterContext.SaveChanges();
+        }
         public IQueryable<DateCountItem> UserRecordInByDay(DateTime minDateTime, bool delete)
         {
             if (delete)
@@ -236,14 +245,14 @@ namespace SSO.Business
                     s.DeleteTime.Value.Year,
                     s.DeleteTime.Value.Month,
                     s.DeleteTime.Value.Day,
-                    count = 1,
-                }).GroupBy(x => new { x.Year, x.Month, x.Day}, (key, group) => new
-                 DateCountItem
+                }).GroupBy(x => new { x.Year, x.Month, x.Day }, (key, group) => new
+                  DateCountItem
                 {
                     date = key.Year + "-" + key.Month + "-" + key.Day,
-                    count = group.Sum(s => s.count),
+                    count = group.Count(),
                     type = "delete"
-                });
+                })
+                .OrderBy(o => o.date);
             }
             else
             {
@@ -251,15 +260,15 @@ namespace SSO.Business
                 {
                     s.CreateTime.Value.Year,
                     s.CreateTime.Value.Month,
-                    s.CreateTime.Value.Day,
-                    count = 1
-                }).GroupBy(x => new { x.Year, x.Month, x.Day}, (key, group) => new
-                 DateCountItem
+                    s.CreateTime.Value.Day
+                }).GroupBy(x => new { x.Year, x.Month, x.Day }, (key, group) => new
+                  DateCountItem
                 {
                     date = key.Year + "-" + key.Month + "-" + key.Day,
-                    count = group.Sum(s => s.count),
+                    count = group.Count(),
                     type = "insert"
-                });
+                })
+                .OrderBy(o => o.date);
             }
         }
         public IQueryable<DateCountItem> UserRecordByMonth(DateTime minDateTime, bool delete)
@@ -269,30 +278,31 @@ namespace SSO.Business
                 return userCenterContext.UserBasics.Where(w => (w.DeleteTime >= minDateTime.Date && w.Delete == delete)).Select(k => new
                 {
                     k.DeleteTime.Value.Year,
-                    k.DeleteTime.Value.Month,
-                    count = 1
-                }).GroupBy(x => new { x.Year, x.Month}, (key, group) => new
-                      DateCountItem
+                    k.DeleteTime.Value.Month
+                }).GroupBy(x => new { x.Year, x.Month }, (key, group) => new
+                       DateCountItem
                 {
                     date = key.Year + "-" + key.Month,
-                    count = group.Sum(s => s.count),
+                    count = group.Count(),
                     type = "delete"
-                });
+                })
+                .OrderBy(o => o.date);
             }
             else
             {
                 return userCenterContext.UserBasics.Where(w => (w.CreateTime >= minDateTime.Date && w.Delete == delete)).Select(k => new
                 {
                     k.CreateTime.Value.Year,
-                    k.CreateTime.Value.Month,
-                    count = 1
-                }).GroupBy(x => new { x.Year, x.Month }, (key, group) => new
+                    k.CreateTime.Value.Month
+                })
+                    .GroupBy(x => new { x.Year, x.Month }, (key, group) => new
                       DateCountItem
-                {
-                    date = key.Year + "-" + key.Month,
-                    count = group.Sum(s => s.count),
-                    type = "insert"
-                });
+                    {
+                        date = key.Year + "-" + key.Month,
+                        count = group.Count(),
+                        type = "insert"
+                    })
+                .OrderBy(o => o.date);
             }
         }
         public IQueryable<DateCountItem> UserRecordByYear(DateTime minDateTime, bool delete)
@@ -303,16 +313,16 @@ namespace SSO.Business
                  .Where(w => (w.DeleteTime >= minDateTime.Date && w.Delete == delete))
                  .Select(k => new
                  {
-                     k.DeleteTime.Value.Year,
-                     count = 1
+                     k.DeleteTime.Value.Year
                  })
                  .GroupBy(x => new { x.Year }, (key, group) => new
                    DateCountItem
                  {
                      date = key.Year.ToString(),
-                     count = group.Sum(s => s.count),
+                     count = group.Count(),
                      type = "delete"
-                 });
+                 })
+                 .OrderBy(o => o.date);
             }
             else
             {
@@ -320,17 +330,37 @@ namespace SSO.Business
                  .Where(w => (w.CreateTime >= minDateTime.Date && w.Delete == delete))
                  .Select(k => new
                  {
-                     k.CreateTime.Value.Year,
-                     count = 1
+                     k.CreateTime.Value.Year
                  })
-                 .GroupBy(x => new { x.Year}, (key, group) => new
-                   DateCountItem
+                 .GroupBy(x => new { x.Year }, (key, group) => new
+                    DateCountItem
                  {
                      date = key.Year.ToString(),
-                     count = group.Sum(s => s.count),
+                     count = group.Count(),
                      type = "insert"
-                 });
+                 })
+                 .OrderBy(o => o.date);
             }
+        }
+        public IQueryable<DateCountItem> GetUserRatio()
+        {
+            return userCenterContext.UserBasics
+                 .Where(w => w.Delete == false)
+                 .GroupBy(x => new { x.Sex }, (key, group) => new DateCountItem
+                 {
+                     type = key.Sex,
+                     count = group.Count()
+                 });
+        }
+        public IQueryable<DateCountItem> GetUserCompanyRatio()
+        {
+            return userCenterContext.UserBasics
+                 .Where(w => w.Delete == false)
+                 .GroupBy(x => new { x.CompanyName }, (key, group) => new DateCountItem
+                 {
+                     type = key.CompanyName,
+                     count = group.Count()
+                 });
         }
     }
 }

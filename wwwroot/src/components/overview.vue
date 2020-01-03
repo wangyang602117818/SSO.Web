@@ -2,60 +2,107 @@
   <div class="overview">
     <div class="total_con">
       <div class="total_item total_item_80">
-        <div class="total_item_txt">公司总数</div>
+        <div class="total_item_wrap">
+          <div class="total_item_txt">公司总数</div>
+          <div class="total_item_title"></div>
+          <div class="total_item_op">
+            <a-icon type="sync" size="small" @click="getData" />
+          </div>
+        </div>
         <div class="total_item_numb">
           <a-spin size="small" v-if="total_loading" />
-          {{total.Companys}}
+          <span v-else>{{total.Companys}}</span>
         </div>
       </div>
       <div class="total_item total_item_80">
-        <div class="total_item_txt">部门总数</div>
+        <div class="total_item_wrap">
+          <div class="total_item_txt">部门总数</div>
+          <div class="total_item_title"></div>
+          <div class="total_item_op">
+            <a-icon type="sync" size="small" @click="getData" />
+          </div>
+        </div>
         <div class="total_item_numb">
           <a-spin size="small" v-if="total_loading" />
-          <span>{{total.Departments}}</span>
+          <span v-else>{{total.Departments}}</span>
         </div>
       </div>
       <div class="total_item total_item_80">
-        <div class="total_item_txt">角色总数</div>
+        <div class="total_item_wrap">
+          <div class="total_item_txt">角色总数</div>
+          <div class="total_item_title"></div>
+          <div class="total_item_op">
+            <a-icon type="sync" size="small" @click="getData" />
+          </div>
+        </div>
         <div class="total_item_numb">
           <a-spin size="small" v-if="total_loading" />
-          <span>{{total.Roles}}</span>
+          <span v-else>{{total.Roles}}</span>
         </div>
       </div>
       <div class="total_item total_item_80">
-        <div class="total_item_txt">用户总数</div>
+        <div class="total_item_wrap">
+          <div class="total_item_txt">用户总数</div>
+          <div class="total_item_title"></div>
+          <div class="total_item_op">
+            <a-icon type="sync" size="small" @click="getData" />
+          </div>
+        </div>
         <div class="total_item_numb">
           <a-spin size="small" v-if="total_loading" />
-          <span>{{total.Users}}</span>
+          <span v-else>{{total.Users}}</span>
         </div>
       </div>
     </div>
     <div class="total_con">
       <div class="total_item total_item_240">
-        <div class="total_item_txt">操作记录</div>
-        <div class="total_item_data" id="op_record">
-          <a-spin size="small" v-if="op_record_loading" />
+        <div class="total_item_wrap">
+          <div class="total_item_txt">操作记录</div>
+          <div class="total_item_title"></div>
+          <div class="total_item_op">
+            <a-icon type="sync" size="small" @click="getOpRecord" />
+          </div>
         </div>
+        <div class="total_item_data" ref="op_record"></div>
       </div>
       <div class="total_item total_item_240">
-        <div class="total_item_txt">用户记录</div>
-        <div class="total_item_data" id="user_record">
-          <a-spin size="small" v-if="op_record_loading" />
+        <div class="total_item_wrap">
+          <div class="total_item_txt">用户记录</div>
+          <div class="total_item_title">
+            <span class="line line_0053FE"></span> 录入
+            <span class="line line_00C782"></span> 移除
+          </div>
+          <div class="total_item_op">
+            <a-icon type="sync" size="small" @click="getUserRecord" />
+          </div>
         </div>
+        <div class="total_item_data" ref="user_record"></div>
       </div>
     </div>
     <div class="total_con">
       <div class="total_item total_item_260">
-        <div class="total_item_txt">男女比例</div>
+        <div class="total_item_wrap">
+          <div class="total_item_txt">性别比率</div>
+          <div class="total_item_title"></div>
+          <div class="total_item_op">
+            <a-icon type="sync" size="small" @click="getUserRatio" />
+          </div>
+        </div>
+        <div class="total_item_data" ref="user_ratio"></div>
+      </div>
+      <div class="total_item total_item_260">
+        <div class="total_item_wrap">
+          <div class="total_item_txt">公司人数</div>
+          <div class="total_item_title"></div>
+          <div class="total_item_op">
+            <a-icon type="sync" size="small" @click="getUserCompanyRatio" />
+          </div>
+        </div>
+        <div class="total_item_data" ref="user_company_ratio"></div>
+      </div>
+      <div class="total_item total_item_260">
+        <div class="total_item_wrap">部门人数</div>
         <div class="total_item_data"></div>
-      </div>
-      <div class="total_item total_item_260">
-         <div class="total_item_txt">公司人数</div>
-         <div class="total_item_data"></div>
-      </div>
-      <div class="total_item total_item_260">
-         <div class="total_item_txt">部门人数</div>
-         <div class="total_item_data"></div>
       </div>
     </div>
   </div>
@@ -67,15 +114,21 @@ export default {
   data() {
     return {
       total_loading: false,
-      op_record_loading: false,
-      user_record_loading: false,
-      total: {}
+      total: {},
+      opRecordChart: null,
+      userRecordChart: null,
+      userRatioChart: null,
+      userCompanyChart: null
     };
   },
   created() {
     this.getData();
+  },
+  mounted() {
     this.getOpRecord();
     this.getUserRecord();
+    this.getUserRatio();
+    this.getUserCompanyRatio();
   },
   methods: {
     getData() {
@@ -86,9 +139,10 @@ export default {
       });
     },
     getOpRecord() {
-      this.op_record_loading = true;
       this.$http.get(this.$urls.overview.opRecord).then(response => {
-        this.op_record_loading = false;
+        if (!this.opRecordChart) {
+          this.opRecordChart = echarts.init(this.$refs.op_record);
+        }
         if (response.body.code == 0) {
           var dateList = response.body.result.map(function(item) {
             return item["date"];
@@ -97,7 +151,7 @@ export default {
             return item["count"];
           });
           // 绘制图表。
-          var options = this.$common.echartOptions(dateList);
+          var options = this.$common.echartOptionsLine(dateList);
           options.series = [
             {
               data: countList,
@@ -108,14 +162,16 @@ export default {
               }
             }
           ];
-          echarts.init(document.getElementById("op_record")).setOption(options);
+          this.opRecordChart.clear();
+          this.opRecordChart.setOption(options);
         }
       });
     },
     getUserRecord() {
-      this.user_record_loading = true;
       this.$http.get(this.$urls.overview.userRecord).then(response => {
-        this.user_record_loading = false;
+        if (!this.userRecordChart) {
+          this.userRecordChart = echarts.init(this.$refs.user_record);
+        }
         if (response.body.code == 0) {
           var dateList = Array.from(
             new Set(
@@ -132,25 +188,7 @@ export default {
             if (currentValue["type"] == "delete")
               delList.push([currentValue["date"], currentValue["count"]]);
           });
-          var options = this.$common.echartOptions(dateList);
-          options.legend = {
-            top: 0,
-            itemWidth: 25,
-            itemHeight: 2,
-            data: [
-              {
-                name: "录入",
-                icon: "roundRect"
-              },
-              {
-                name: "移除",
-                icon: "roundRect"
-              }
-            ],
-            textStyle: {
-              fontSize: 11
-            }
-          };
+          var options = this.$common.echartOptionsLine(dateList);
           options.series = [
             {
               name: "录入",
@@ -171,9 +209,56 @@ export default {
               data: delList
             }
           ];
-          echarts
-            .init(document.getElementById("user_record"))
-            .setOption(options);
+          this.userRecordChart.clear();
+          this.userRecordChart.setOption(options);
+        }
+      });
+    },
+    getUserRatio() {
+      this.$http.get(this.$urls.overview.userRatio).then(response => {
+        if (!this.userRatioChart) {
+          this.userRatioChart = echarts.init(this.$refs.user_ratio);
+        }
+        if (response.body.code == 0) {
+          var options = this.$common.echartOptionsPie();
+          var data = [];
+          response.body.result.forEach(function(currentValue) {
+            if (currentValue["type"] == "M") {
+              data.push({ value: currentValue.count, name: "男" });
+            } else {
+              data.push({ value: currentValue.count, name: "女" });
+            }
+          });
+          options.series = [
+            {
+              type: "pie",
+              data: data
+            }
+          ];
+          this.userRatioChart.clear();
+          this.userRatioChart.setOption(options);
+        }
+      });
+    },
+    getUserCompanyRatio() {
+      this.$http.get(this.$urls.overview.userCompanyRatio).then(response => {
+        if (!this.userCompanyChart) {
+          this.userCompanyChart = echarts.init(this.$refs.user_company_ratio);
+        }
+        if (response.body.code == 0) {
+          var options = this.$common.echartOptionsPie();
+          var data = [];
+          response.body.result.forEach(function(currentValue) {
+            data.push({ value: currentValue.count, name: currentValue.type });
+          });
+           options.series = [
+            {
+              type: "pie",
+              data: data
+            }
+          ];
+          this.userCompanyChart.clear();
+          this.userCompanyChart.setOption(options);
         }
       });
     }
@@ -181,7 +266,7 @@ export default {
 };
 </script>
 <style scoped>
-.overview{
+.overview {
   margin-bottom: 50px;
 }
 .total_con {
@@ -205,12 +290,13 @@ export default {
 .total_item_240 {
   height: 240px;
   flex-direction: column;
+  position: relative;
 }
 .total_item_260 {
   height: 260px;
   flex-direction: column;
 }
-.total_item_txt {
+.total_item_wrap {
   height: 30px;
   font-size: 14px;
   display: flex;
@@ -218,6 +304,41 @@ export default {
   border-bottom: 1px solid #eff2f5;
   width: 100%;
   padding-left: 10px;
+  padding-right: 10px;
+}
+.total_item_wrap .total_item_txt {
+  flex: 1;
+}
+.total_item_wrap .total_item_title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 11px;
+}
+.total_item_wrap .total_item_op {
+  flex: 1;
+  text-align: right;
+}
+.anticon {
+  font-size: 12px;
+}
+.anticon:hover {
+  cursor: pointer;
+  color: #000;
+}
+.line {
+  display: inline-block;
+  border: 0;
+  height: 2px;
+  width: 20px;
+  margin-left: 5px;
+  margin-right: 2px;
+}
+.line_0053FE {
+  background-color: #0053fe;
+}
+.line_00C782 {
+  background-color: #00c782;
 }
 .total_item_numb {
   flex: 1;
@@ -232,5 +353,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.ant-spin-spinning {
+  position: absolute;
 }
 </style>

@@ -52,6 +52,9 @@ Vue.use(babelPolyfill)
 
 Vue.http.options.root = 'http://www.sso.com:8030/'
 var cookieName = 'sso.manage.auth';
+//验证cookie
+authorize.authorize(Vue.http.options.root, cookieName)
+
 Vue.http.interceptors.push(function (request, next) {//拦截器
   // request.credentials = true;    // 跨域携带cookie
   request.headers.set('Authorization', authorize.getCookie(cookieName));
@@ -64,9 +67,6 @@ Vue.http.interceptors.push(function (request, next) {//拦截器
     return response;
   });
 })
-
-//验证cookie
-authorize.authorize(Vue.http.options.root, cookieName)
 
 var urls = {
   role: {
@@ -102,22 +102,25 @@ var urls = {
     getbyuserid: "user/getbyuserid",
     getuser: 'user/getuser',
     updatebasicsetting: 'user/updatebasicsetting',
-    updatepassword: 'user/updatepassword'
+    updatepassword: 'user/updatepassword',
+    resetpassword:'user/resetpassword'
   },
   log: {
     getlist: 'log/getlist'
   },
   overview: {
     total: 'overview/total',
-    opRecord:'overview/oprecord',
-    userRecord:'overview/userrecord',
+    opRecord: 'overview/oprecord',
+    userRecord: 'overview/userrecord',
+    userRatio: 'overview/userratio',
+    userCompanyRatio: 'overview/userCompanyRatio'
   },
   decodeToken: 'sso/decodetoken',
   login: 'sso/login',
   logout: 'sso/logout',
 }
 Vue.prototype.$urls = urls
-Vue.config.productionTip = false 
+Vue.config.productionTip = false
 
 const router = new VueRouter({
   mode: 'history',
