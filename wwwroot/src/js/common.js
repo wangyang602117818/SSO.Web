@@ -39,7 +39,7 @@ function getAgent(agent) {
 function echartOptionsPie(){
     return{
         animation: true,
-        color: ["#0053FE","#00C782"],
+        color: ["#26A3FF","#26CECD","#26CD7B","#FFD22F","#FF5371"],
         tooltip: {
             trigger: 'item'
         }

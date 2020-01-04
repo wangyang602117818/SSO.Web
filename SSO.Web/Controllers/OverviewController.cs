@@ -27,7 +27,7 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, userBasic.GetUserCompanyRatio());
         }
-        public ActionResult UserDepartmentRatia()
+        public ActionResult UserDepartmentRatio()
         {
             return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, userDepartmentMapping.GetUserDepartmentRatio());
         }
