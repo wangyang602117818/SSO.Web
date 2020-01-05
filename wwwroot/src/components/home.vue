@@ -166,16 +166,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.logo .logo_sso {
-  
-  font-weight: 600;
-  font-size: 20px;
-  padding: 0 5px;
-  color: #fff;
-}
 .logo .logo_admin {
-  margin-left: -1px;
-  
   font-weight: 600;
   font-size: 20px;
   color: #fff;

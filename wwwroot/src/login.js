@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
+import babelPolyfill from 'babel-polyfill'
 
 import common from './js/common.js'
 
@@ -20,6 +21,7 @@ Vue.prototype.$message = message
 Vue.prototype.$common = common
 
 Vue.use(VueResource)
+Vue.use(babelPolyfill)
 
 Vue.http.options.root = ''
 var urls = {

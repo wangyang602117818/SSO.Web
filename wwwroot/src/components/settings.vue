@@ -9,7 +9,7 @@
     <a-layout-content>
       <a-spin size="small" v-if="loading" style="width:100%" />
       <div v-else>
-        <a-form v-if="defaultSelectedCompany[0]=='1'">
+        <a-form layout="inline" v-if="defaultSelectedCompany[0]=='1'">
           <a-form-item label="UserId">{{user.UserId}}</a-form-item>
           <a-form-item label="UserName">{{user.UserName}}</a-form-item>
           <a-form-item label="Sex">{{user.Sex=='F'?'女':'男'}}</a-form-item>
