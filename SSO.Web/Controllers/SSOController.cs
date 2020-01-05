@@ -184,6 +184,7 @@ namespace SSO.Web.Controllers
         [JwtAuthorize]
         public ActionResult DeleteNavigation(IEnumerable<int> ids)
         {
+            if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
             InfoLog(ids.Select(s => s.ToString()), "DeleteNavigation");
             return new ResponseModel<int>(ErrorCode.success, navigation.Delete(ids));
         }

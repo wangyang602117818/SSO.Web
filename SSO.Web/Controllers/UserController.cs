@@ -68,16 +68,19 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Remove(IEnumerable<string> userIds)
         {
+            if (userIds == null || userIds.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
             InfoLog(userIds, "RemoveUser");
             return new ResponseModel<int>(ErrorCode.success, user.RemoveUser(userIds));
         }
         public ActionResult Delete(IEnumerable<string> userIds)
         {
+            if (userIds == null || userIds.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
             InfoLog(userIds, "DeleteUser");
             return new ResponseModel<int>(ErrorCode.success, user.DeleteUser(userIds));
         }
         public ActionResult Restore(IEnumerable<string> userIds)
         {
+            if (userIds == null || userIds.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
             InfoLog(userIds, "RestoreUser");
             return new ResponseModel<int>(ErrorCode.success, user.RestoreUser(userIds));
         }

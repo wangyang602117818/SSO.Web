@@ -51,6 +51,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Delete(IEnumerable<int> ids)
         {
+            if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
             InfoLog(ids.Select(s => s.ToString()), "DeleteCompany");
             return new ResponseModel<int>(ErrorCode.success, company.Delete(ids));
         }

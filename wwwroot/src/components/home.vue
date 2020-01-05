@@ -121,7 +121,6 @@ export default {
     }
     this.openKeys = openKeys;
     this.decodeToken();
-    // window.console.log(this.$http.options.root);
   },
   methods: {
     toggleCollapsed() {
