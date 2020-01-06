@@ -14,6 +14,7 @@ namespace SSO.Business
             return from udm in userCenterContext.UserDepartmentMappings
                    join dept in userCenterContext.Departments
                    on udm.DepartmentCode equals dept.Code into t1
+                   select 
                    from t2 in t1.DefaultIfEmpty()
                    group t2 by udm.DepartmentCode into grouped
                    select grouped;
