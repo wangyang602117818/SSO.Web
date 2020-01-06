@@ -63,6 +63,7 @@
             <a-icon type="sync" size="small" @click="getOpRecord" />
           </div>
         </div>
+        <a-spin size="small" v-if="op_record_loading" />
         <div class="total_item_data" ref="op_record"></div>
       </div>
       <div class="total_item total_item_240">
@@ -76,6 +77,7 @@
             <a-icon type="sync" size="small" @click="getUserRecord" />
           </div>
         </div>
+        <a-spin size="small" v-if="user_record_loading" />
         <div class="total_item_data" ref="user_record"></div>
       </div>
     </div>
@@ -88,6 +90,7 @@
             <a-icon type="sync" size="small" @click="getUserRatio" />
           </div>
         </div>
+        <a-spin size="small" v-if="user_ratio_loading" />
         <div class="total_item_data" ref="user_ratio"></div>
       </div>
       <div class="total_item total_item_260">
@@ -98,11 +101,19 @@
             <a-icon type="sync" size="small" @click="getUserCompanyRatio" />
           </div>
         </div>
+        <a-spin size="small" v-if="user_company_loading" />
         <div class="total_item_data" ref="user_company_ratio"></div>
       </div>
       <div class="total_item total_item_260">
-        <div class="total_item_wrap">部门人数</div>
-        <div class="total_item_data"></div>
+        <div class="total_item_wrap">
+          <div class="total_item_txt">部门人数</div>
+          <div class="total_item_title"></div>
+          <div class="total_item_op">
+            <a-icon type="sync" size="small" @click="getUserDepartmentRatio" />
+          </div>
+        </div>
+        <a-spin size="small" v-if="user_department_loading" />
+        <div class="total_item_data" ref="user_department_ratio"></div>
       </div>
     </div>
   </div>
@@ -114,21 +125,27 @@ export default {
   data() {
     return {
       total_loading: false,
+      op_record_loading:false,
+      user_record_loading:false,
+      user_ratio_loading:false,
+      user_company_loading:false,
+      user_department_loading:false,
       total: {},
       opRecordChart: null,
       userRecordChart: null,
       userRatioChart: null,
-      userCompanyChart: null
+      userCompanyChart: null,
+      userDepartmentChart: null
     };
   },
-  created() {
-    this.getData();
-  },
+  created() {},
   mounted() {
+    this.getData();
     this.getOpRecord();
     this.getUserRecord();
     this.getUserRatio();
     this.getUserCompanyRatio();
+    this.getUserDepartmentRatio();
   },
   methods: {
     getData() {
@@ -139,7 +156,9 @@ export default {
       });
     },
     getOpRecord() {
+      this.op_record_loading=true;
       this.$http.get(this.$urls.overview.opRecord).then(response => {
+        this.op_record_loading=false;
         if (!this.opRecordChart) {
           this.opRecordChart = echarts.init(this.$refs.op_record);
         }
@@ -168,7 +187,9 @@ export default {
       });
     },
     getUserRecord() {
+      this.user_record_loading=true;
       this.$http.get(this.$urls.overview.userRecord).then(response => {
+        this.user_record_loading=false;
         if (!this.userRecordChart) {
           this.userRecordChart = echarts.init(this.$refs.user_record);
         }
@@ -215,7 +236,9 @@ export default {
       });
     },
     getUserRatio() {
+      this.user_ratio_loading=true;
       this.$http.get(this.$urls.overview.userRatio).then(response => {
+        this.user_ratio_loading=false;
         if (!this.userRatioChart) {
           this.userRatioChart = echarts.init(this.$refs.user_ratio);
         }
@@ -241,7 +264,9 @@ export default {
       });
     },
     getUserCompanyRatio() {
+      this.user_company_loading=true;
       this.$http.get(this.$urls.overview.userCompanyRatio).then(response => {
+        this.user_company_loading=false;
         if (!this.userCompanyChart) {
           this.userCompanyChart = echarts.init(this.$refs.user_company_ratio);
         }
@@ -251,7 +276,7 @@ export default {
           response.body.result.forEach(function(currentValue) {
             data.push({ value: currentValue.count, name: currentValue.type });
           });
-           options.series = [
+          options.series = [
             {
               type: "pie",
               data: data
@@ -259,6 +284,32 @@ export default {
           ];
           this.userCompanyChart.clear();
           this.userCompanyChart.setOption(options);
+        }
+      });
+    },
+    getUserDepartmentRatio() {
+      this.user_department_loading=true;
+      this.$http.get(this.$urls.overview.userDepartmentRatio).then(response => {
+        this.user_department_loading=false;
+        if (!this.userDepartmentChart) {
+          this.userDepartmentChart = echarts.init(
+            this.$refs.user_department_ratio
+          );
+        }
+        if (response.body.code == 0) {
+          var options = this.$common.echartOptionsPie();
+          var data = [];
+          response.body.result.forEach(function(currentValue) {
+            data.push({ value: currentValue.count, name: currentValue.type });
+          });
+          options.series = [
+            {
+              type: "pie",
+              data: data
+            }
+          ];
+          this.userDepartmentChart.clear();
+          this.userDepartmentChart.setOption(options);
         }
       });
     }

@@ -16,8 +16,11 @@ namespace SSO.Business
                    on udm.DepartmentCode equals dept.Code into t1
                    select 
                    from t2 in t1.DefaultIfEmpty()
-                   group t2 by udm.DepartmentCode into grouped
-                   select grouped;
+                   select new DateCountItem { type = t2.Name, count = 1 } into t3
+                   group t3 by t3.type into grouped
+                   select new DateCountItem() { type = grouped.Key, count = grouped.Count() };
+            //group t2 by udm.DepartmentCode into grouped
+            //select new DateCountItem() { type = grouped.Key, count = grouped.Count() };
         }
     }
 }

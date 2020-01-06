@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
+import babelPolyfill from 'babel-polyfill'
 
 import Logout from '@/components/logout'
 
@@ -29,6 +30,7 @@ Vue.prototype.$message = message
 Vue.prototype.$common = common
 
 Vue.use(VueResource)
+Vue.use(babelPolyfill)
 
 // Vue.http.options.root = 'http://www.sso.com:8030/'
 Vue.http.options.root = ''

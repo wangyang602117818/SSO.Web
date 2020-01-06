@@ -2,7 +2,9 @@
   <div class="top_layout">
     <a-layout>
       <a-layout-sider :trigger="null" collapsible v-model="collapsed">
-        <div class="logo" theme="light" />
+        <div class="logo" theme="light">
+          <div class="logo_admin">SSOAdmin</div>
+        </div>
         <a-menu
           theme="dark"
           mode="inline"
@@ -79,8 +81,7 @@
                     <a target="_blank" :href="this.$http.options.root+this.$urls.logout">退出</a>
                   </a-menu-item>
                 </a-menu>
-              </a-dropdown>
-              &nbsp;
+              </a-dropdown>&nbsp;
               <a-button size="small">
                 <a :href="this.$http.options.root">首页</a>
               </a-button>
@@ -104,7 +105,7 @@ export default {
       collapsed: false,
       routename: this.$route.name || "overview",
       openKeys: [],
-      user:{}
+      user: {}
     };
   },
   created() {
@@ -120,7 +121,6 @@ export default {
     }
     this.openKeys = openKeys;
     this.decodeToken();
-    // window.console.log(this.$http.options.root);
   },
   methods: {
     toggleCollapsed() {
@@ -161,6 +161,14 @@ export default {
 .logo {
   height: 50px;
   background: #002140;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo .logo_admin {
+  font-weight: 600;
+  font-size: 20px;
+  color: #fff;
 }
 .top_layout .ant-layout-content {
   padding: 0px 15px;

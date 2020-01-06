@@ -103,7 +103,7 @@ var urls = {
     getuser: 'user/getuser',
     updatebasicsetting: 'user/updatebasicsetting',
     updatepassword: 'user/updatepassword',
-    resetpassword:'user/resetpassword'
+    resetpassword: 'user/resetpassword'
   },
   log: {
     getlist: 'log/getlist'
@@ -113,7 +113,8 @@ var urls = {
     opRecord: 'overview/oprecord',
     userRecord: 'overview/userrecord',
     userRatio: 'overview/userratio',
-    userCompanyRatio: 'overview/userCompanyRatio'
+    userCompanyRatio: 'overview/userCompanyRatio',
+    userDepartmentRatio: 'overview/userDepartmentRatio'
   },
   decodeToken: 'sso/decodetoken',
   login: 'sso/login',
