@@ -47,20 +47,22 @@ Vue.use(Spin)
 Vue.prototype.$message = message
 Vue.prototype.$notification = notification
 Vue.prototype.$common = common
+Vue.prototype.$authorize = authorize
+Vue.prototype.$cookieName = "sso.manage.auth"
 
 Vue.use(VueRouter)
 Vue.use(VueResource)
 Vue.use(babelPolyfill)
 
 Vue.http.options.root = 'http://www.sso.com:8030/'
-var cookieName = 'sso.manage.auth';
-authorize.authorize(Vue.http.options.root, cookieName)
 
-Vue.prototype.$lang = window.token_jwt_data.Lang.toLowerCase() == "en-us" ? langEn : langZh
+authorize.authorize(Vue.http.options.root, Vue.prototype.$cookieName)
+
+Vue.prototype.$lang = (window.token_jwt_data.Lang == "en-us") ? langEn : langZh
 
 Vue.http.interceptors.push(function (request, next) {//拦截器
   // request.credentials = true;    // 跨域携带cookie
-  request.headers.set('Authorization', authorize.getCookie(cookieName));
+  request.headers.set('Authorization', authorize.getCookie(Vue.prototype.$cookieName));
   next(response => {
     if (response.body.code == 401) {
       // window.location.href = Vue.http.options.root + urls.login + "?returnUrl=" + window.location.href;

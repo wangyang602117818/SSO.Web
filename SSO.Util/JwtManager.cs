@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 
 namespace SSO.Util
@@ -34,6 +35,33 @@ namespace SSO.Util
             var stoken = tokenHandler.CreateToken(tokenDescriptor);
             var token = tokenHandler.WriteToken(stoken);
             return token;
+        }
+        public static string ModifyTokenLang(string token, string lang, int minutes)
+        {
+            var symmetricKey = Convert.FromBase64String(AppSettings.secretKey);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var stoken = tokenHandler.ReadJwtToken(token);
+            var newClaims = new List<Claim>() { };
+            foreach (var claim in stoken.Claims)
+            {
+                if (claim.Type == "Lang")
+                {
+                    newClaims.Add(new Claim("Lang", lang));
+                }
+                else
+                {
+                    newClaims.Add(new Claim(claim.Type, claim.Value));
+                }
+            }
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(newClaims),  //token数据
+                IssuedAt = DateTime.Now,               //颁发时间
+                Expires = DateTime.Now.AddMinutes(minutes), //过期时间
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(symmetricKey), SecurityAlgorithms.HmacSha256Signature)   //签名
+            };
+            var newStoken = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(newStoken);
         }
         public static string GenerateTicket(string userId)
         {

@@ -1,4 +1,4 @@
 export default {
-    lang: "EN",
-    overview:"Overview"
+    lang:"zh-cn",
+    overview:"概况统计"
 }

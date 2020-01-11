@@ -117,16 +117,18 @@
                 </a-button>
                 <a-menu slot="overlay">
                   <a-menu-item key="0">
-                     <a target="_self" href="/settings">设置</a>
+                    <a target="_self" href="/settings">设置</a>
                   </a-menu-item>
                   <a-menu-item key="1">
                     <a target="_self" :href="this.$http.options.root+this.$urls.logout">退出</a>
                   </a-menu-item>
                 </a-menu>
               </a-dropdown>&nbsp;
-              <a-button size="small">
-                EN
-              </a-button>&nbsp;
+              <a-button
+                size="small"
+                @click="changeLang"
+                :id="this.$lang.lang"
+              >{{this.$lang.lang=="en-us"?'中':'EN'}}</a-button>&nbsp;
               <a-button size="small">
                 <a target="_self" :href="this.$http.options.root">首页</a>
               </a-button>
@@ -165,11 +167,21 @@ export default {
         break;
     }
     this.openKeys = openKeys;
-    window.console.log(this.$lang);
   },
   methods: {
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
+    },
+    changeLang() {
+      var lang = this.$lang.lang == "en-us" ? "zh-cn" : "en-us";
+      this.$http
+        .get(this.$urls.settings.setLang + "?lang=" + lang)
+        .then(response => {
+          if (response.body.code == 0) {
+            this.$authorize.setCookie(this.$cookieName, response.body.result);
+            this.$router.go();
+          }
+        });
     }
   }
 };
