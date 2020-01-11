@@ -251,8 +251,7 @@ namespace SSO.Business
                     date = key.Year + "-" + key.Month + "-" + key.Day,
                     count = group.Count(),
                     type = "delete"
-                })
-                .OrderBy(o => o.date);
+                });
             }
             else
             {
@@ -285,8 +284,7 @@ namespace SSO.Business
                     date = key.Year + "-" + key.Month,
                     count = group.Count(),
                     type = "delete"
-                })
-                .OrderBy(o => o.date);
+                });
             }
             else
             {
@@ -321,8 +319,7 @@ namespace SSO.Business
                      date = key.Year.ToString(),
                      count = group.Count(),
                      type = "delete"
-                 })
-                 .OrderBy(o => o.date);
+                 });
             }
             else
             {

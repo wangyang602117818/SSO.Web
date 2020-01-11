@@ -42,7 +42,7 @@ namespace SSO.Web.Controllers
             if (type == "day") result = log.OpRecordByDay(DateTime.Now.AddDays(-last)).ToList().Select(s => new DateCountItem() { date = DateTime.Parse(s.date).ToString("yyyy-MM-dd"), count = s.count });
             if (type == "month") result = log.OpRecordByMonth(DateTime.Now.AddMonths(-last)).ToList().Select(s => new DateCountItem() { date = DateTime.Parse(s.date).ToString("yyyy-MM"), count = s.count });
             if (type == "year") result = log.OpRecordByYear(DateTime.Now.AddYears(-last));
-            return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, result);
+            return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, result.OrderBy(o => o.date));
         }
         /// <summary>
         /// 用户录入删除操作记录
@@ -71,7 +71,7 @@ namespace SSO.Web.Controllers
             }
             List<DateCountItem> result = input.ToList();
             result.AddRange(output.ToList());
-            return new ResponseModel<List<DateCountItem>>(ErrorCode.success, result, result.Count);
+            return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, result.OrderBy(o => o.date), result.Count);
         }
         
     }

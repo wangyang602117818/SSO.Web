@@ -20,6 +20,7 @@ namespace SSO.Web.Controllers
     {
         Business.UserBasic user = new Business.UserBasic();
         Business.Navigation navigation = new Business.Navigation();
+        Business.Settings settings = new Business.Settings();
         HttpRequestHelper requestHelper = new HttpRequestHelper();
         public ActionResult Index()
         {
@@ -40,14 +41,16 @@ namespace SSO.Web.Controllers
                 {
                     if (userId == AppSettings.admin[0])
                     {
-                        token = JwtManager.GenerateToken(userId, userId, null, null, new List<string>() { AppSettings.admin[2] }, ip ?? Request.UserHostAddress, 20);
+                        token = JwtManager.GenerateToken(userId, userId, AppSettings.lang, null, null, new List<string>() { AppSettings.admin[2] }, ip ?? Request.UserHostAddress, 20);
                     }
                 }
                 else
                 {
+                    Settings setting = settings.GetSetting(userId);
+                    string lang = setting == null ? AppSettings.lang : setting.Lang;
                     string[] departments = userBasic.DepartmentName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     string[] roles = userBasic.RoleName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    token = JwtManager.GenerateToken(userId, userBasic.UserName, userBasic.CompanyName, departments, roles, ip ?? Request.UserHostAddress, 20);
+                    token = JwtManager.GenerateToken(userId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, ip ?? Request.UserHostAddress, 20);
                 }
             }
             return new ResponseModel<string>(ErrorCode.success, token);
@@ -102,9 +105,11 @@ namespace SSO.Web.Controllers
                 InfoLog("0", "LoginFault", loginModel.UserId);
                 return new ResponseModel<string>(ErrorCode.login_fault, "");
             }
+            Settings setting = settings.GetSetting(User.Identity.Name);
             string[] roles = userBasic.RoleName.Split(',');
             string[] departments = userBasic.DepartmentName.Split(',');
-            string token = JwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60);
+            string lang = setting == null ? AppSettings.lang : setting.Lang;
+            string token = JwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60);
             HttpCookie httpCookie = new HttpCookie(AppSettings.cookieName, token);
             if (AppSettings.cookieTime != "session")
             {
@@ -141,11 +146,13 @@ namespace SSO.Web.Controllers
         {
             var roles = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == ClaimTypes.Role).Select(s => s.Value);
             var userName = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "StaffName").Select(s => s.Value).FirstOrDefault();
+            var lang = Request.Cookies["lang"] == null ? ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "Lang").Select(s => s.Value).FirstOrDefault() : Request.Cookies["lang"].Value;
             BsonDocument userRole = new BsonDocument()
             {
                 {"UserId",User.Identity.Name },
                 {"UserName",userName },
-                {"Role",new BsonArray(roles) }
+                {"Role",new BsonArray(roles) },
+                {"Lang",lang }
             };
             return new ResponseModel<BsonDocument>(ErrorCode.success, userRole);
         }
@@ -179,7 +186,7 @@ namespace SSO.Web.Controllers
         [JwtAuthorize]
         public ActionResult GetNavigationById(int id)
         {
-            return new ResponseModel<Data.Models.Navigation>(ErrorCode.success, navigation.GetById(id));
+            return new ResponseModel<Navigation>(ErrorCode.success, navigation.GetById(id));
         }
         [JwtAuthorize]
         public ActionResult DeleteNavigation(IEnumerable<int> ids)

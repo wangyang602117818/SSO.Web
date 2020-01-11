@@ -9,12 +9,13 @@ namespace SSO.Util
 {
     public class JwtManager
     {
-        public static string GenerateToken(string userId, string userName, string company, IEnumerable<string> departments, IEnumerable<string> roles, string ip, int minutes)
+        public static string GenerateToken(string userId, string userName, string lang, string company, IEnumerable<string> departments, IEnumerable<string> roles, string ip, int minutes)
         {
             var symmetricKey = Convert.FromBase64String(AppSettings.secretKey);
             var tokenHandler = new JwtSecurityTokenHandler();
             var claims = new List<Claim>() { new Claim(ClaimTypes.Name, userId) };
             if (!string.IsNullOrEmpty(userName)) claims.Add(new Claim("StaffName", userName));
+            if (!string.IsNullOrEmpty(lang)) claims.Add(new Claim("Lang", lang));
             if (!string.IsNullOrEmpty(company)) claims.Add(new Claim("Company", company));
             if (departments != null)
                 foreach (string dept in departments) claims.Add(new Claim("Department", dept));

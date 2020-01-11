@@ -22,6 +22,7 @@ namespace SSO.Data
         public DbSet<UserRoleMapping> UserRoleMappings { get; set; }
         public DbSet<Navigation> Navigations { get; set; }
         public DbSet<Log> Logs { get; set; }
+        public DbSet<Settings> Settings { get; set; }
     }
 
 }

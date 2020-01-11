@@ -12,5 +12,6 @@ namespace SSO.Util
         public static string databaseKey = ConfigurationManager.AppSettings["databaseKey"];
         public static string[] admin = ConfigurationManager.AppSettings["admin"].Split(';');
         public static string defaultPassword = ConfigurationManager.AppSettings["defaultPassword"];
+        public static string lang = ConfigurationManager.AppSettings["lang"];
     }
 }
