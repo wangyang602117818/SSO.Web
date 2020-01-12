@@ -1,21 +1,27 @@
 <template>
   <div>
     <a-input-search
-      placeholder="input search text"
+      :placeholder="this.$lang.search"
       style="width: 200px"
       @search="onSearch"
       v-model="searchValue"
     />
-    <a-button type="primary" icon="plus" @click="showDrawer"></a-button>
-    <a-button type="default" icon="redo" @click="reload"></a-button>
-    <a-button type="default" icon="edit" @click="eidtCompany" :disabled="selectedRowKeys.length!=1"></a-button>
+    <a-button type="primary" icon="plus" :title="this.$lang.add" @click="showDrawer"></a-button>
+    <a-button type="default" icon="redo" :title="this.$lang.refresh" @click="reload"></a-button>
+    <a-button
+      type="default"
+      icon="edit"
+      :title="this.$lang.edit"
+      @click="eidtCompany"
+      :disabled="selectedRowKeys.length!=1"
+    ></a-button>
     <a-popconfirm
-      title="Are you sure delete this company?"
+      :title="this.$lang.sure_delete_company"
       @confirm="deleteCompany"
-      okText="Yes"
-      cancelText="No"
+      :okText="this.$lang.yes"
+      :cancelText="this.$lang.no"
     >
-      <a-button type="danger" icon="delete" :disabled="selectedRowKeys.length==0"></a-button>
+      <a-button type="danger" icon="delete" :title="this.$lang.delete" :disabled="selectedRowKeys.length==0"></a-button>
     </a-popconfirm>
     <a-table
       :columns="columns"
@@ -27,7 +33,7 @@
       @change="handleTableChange"
     />
     <a-drawer
-      :title="isUpdate?'更新公司':'添加公司'"
+      :title="isUpdate?this.$lang.update_company:this.$lang.add_company"
       :width="360"
       handle="slot"
       @close="drawerVisible=false"
@@ -36,10 +42,9 @@
       <a-form :form="form" layout="vertical" @submit.prevent="handleSubmit">
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-form-item label="Code">
+            <a-form-item :label="this.$lang.company_code">
               <a-input
-                placeholder="公司编号"
-                v-decorator="['code',{rules: [{ required: true, message: 'Code is required!' }]}]"
+                v-decorator="['code',{rules: [{ required: true, message:this.$lang.company_code_required }]}]"
               >
                 <a-icon slot="addonAfter" type="reload" @click="getRandomCode" />
               </a-input>
@@ -48,29 +53,27 @@
         </a-row>
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-form-item label="Name">
+            <a-form-item :label="this.$lang.company_name">
               <a-input
-                placeholder="公司名称"
-                v-decorator="['name',{rules: [{ required: true, message: 'Name is required!' }]}]"
+                v-decorator="['name',{rules: [{ required: true, message: this.$lang.company_name_required}]}]"
               />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-form-item label="Description">
+            <a-form-item :label="this.$lang.company_description">
               <a-textarea
-                placeholder="公司描述"
                 :autosize="{ minRows: 4, maxRows: 6 }"
-                v-decorator="['description',{rules: [{ required: false, message: 'Description is required!' }]}]"
+                v-decorator="['description',{rules: [{ required: false, message: this.$lang.company_description_required }]}]"
               />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-button @click="form.resetFields();">取 消</a-button>
-            <a-button type="primary" html-type="submit">确 定</a-button>
+            <a-button @click="form.resetFields();">{{this.$lang.reset}}</a-button>
+            <a-button type="primary" html-type="submit">{{this.$lang.submit}}</a-button>
           </a-col>
         </a-row>
       </a-form>
@@ -86,27 +89,27 @@ export default {
       searchValue: "",
       columns: [
         {
-          title: "编号",
+          title: this.$lang.id,
           dataIndex: "_id",
           width: "7%"
         },
         {
-          title: "公司编号",
+          title:  this.$lang.company_code,
           dataIndex: "Code",
           width: "10%"
         },
         {
-          title: "公司名称",
+          title:this.$lang.company_name,
           dataIndex: "Name",
           width: "13%"
         },
         {
-          title: "公司描述",
+          title: this.$lang.company_description,
           dataIndex: "Description",
           width: "40%"
         },
         {
-          title: "修改时间",
+          title: this.$lang.update_time,
           dataIndex: "UpdateTime.$date",
           width: "15%",
           customRender: val => {
@@ -114,7 +117,7 @@ export default {
           }
         },
         {
-          title: "创建时间",
+          title:this.$lang.create_time,
           dataIndex: "CreateTime.$date",
           width: "15%",
           customRender: val => {
@@ -125,7 +128,7 @@ export default {
       selectedRowKeys: [],
       form: this.$form.createForm(this),
       drawerVisible: false,
-      pagination: { current: 1, pageSize: 10,size:'small' },
+      pagination: { current: 1, pageSize: 10, size: "small" },
       loading: false,
       isUpdate: false
     };
@@ -163,7 +166,9 @@ export default {
           this.loading = false;
           const pagination = { ...this.pagination };
           pagination.total = response.body.count;
-          pagination.showTotal=()=>{return this.pagination.total;};
+          pagination.showTotal = () => {
+            return this.pagination.total;
+          };
           this.pagination = pagination;
           if (response.body.code == 0) this.data = response.body.result;
         });
@@ -209,7 +214,7 @@ export default {
     addCompany(company) {
       this.$http.post(this.$urls.company.add, company).then(response => {
         if (response.body.code == 400) {
-          this.$message.warning("记录已存在!");
+          this.$message.warning(this.$lang.record_exists);
         }
         if (response.body.code == 0) {
           this.form.resetFields();
@@ -221,7 +226,7 @@ export default {
       company.id = this.selectedRowKeys[0];
       this.$http.post(this.$urls.company.update, company).then(response => {
         if (response.body.code == 400) {
-          this.$message.warning("记录已存在!");
+          this.$message.warning(this.$lang.record_exists);
         }
         if (response.body.code == 0) {
           this.form.resetFields();

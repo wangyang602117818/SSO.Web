@@ -60,43 +60,43 @@
           <a-sub-menu key="user">
             <span slot="title">
               <a-icon type="user" />
-              <span>用户管理</span>
+              <span>{{this.$lang.user}}</span>
             </span>
             <a-menu-item key="userbasic">
               <router-link to="/userbasic">
                 <a-icon type="info-circle" />
-                <span>基本信息</span>
+                <span>{{this.$lang.basic}}</span>
               </router-link>
             </a-menu-item>
           </a-sub-menu>
           <a-menu-item key="role">
             <router-link to="/role">
               <a-icon type="lock" />
-              <span>角色管理</span>
+              <span>{{this.$lang.role}}</span>
             </router-link>
           </a-menu-item>
           <a-menu-item key="company">
             <router-link to="/company">
               <a-icon type="home" />
-              <span>公司管理</span>
+              <span>{{this.$lang.company}}</span>
             </router-link>
           </a-menu-item>
           <a-menu-item key="department">
             <router-link to="/department">
               <a-icon type="gold" />
-              <span>部门管理</span>
+              <span>{{this.$lang.department}}</span>
             </router-link>
           </a-menu-item>
           <a-menu-item key="log">
             <router-link to="/log">
               <a-icon type="align-left" />
-              <span>日志列表</span>
+              <span>{{this.$lang.log}}</span>
             </router-link>
           </a-menu-item>
           <a-menu-item key="settings">
             <router-link to="/settings">
               <a-icon type="setting" />
-              <span>系统设置</span>
+              <span>{{this.$lang.system_settings}}</span>
             </router-link>
           </a-menu-item>
         </a-menu>
@@ -117,10 +117,10 @@
                 </a-button>
                 <a-menu slot="overlay">
                   <a-menu-item key="0">
-                    <a target="_self" href="/settings">设置</a>
+                    <a target="_self" href="/settings">{{this.$lang.settings}}</a>
                   </a-menu-item>
                   <a-menu-item key="1">
-                    <a target="_self" :href="this.$http.options.root+this.$urls.logout">退出</a>
+                    <a target="_self" :href="this.$http.options.root+this.$urls.logout">{{this.$lang.logout}}</a>
                   </a-menu-item>
                 </a-menu>
               </a-dropdown>&nbsp;
@@ -130,7 +130,7 @@
                 :id="this.$lang.lang"
               >{{this.$lang.lang=="en-us"?'中':'EN'}}</a-button>&nbsp;
               <a-button size="small">
-                <a target="_self" :href="this.$http.options.root">首页</a>
+                <a target="_self" :href="this.$http.options.root">{{this.$lang.home}}</a>
               </a-button>
             </a-col>
           </a-row>

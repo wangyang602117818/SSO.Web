@@ -1,21 +1,37 @@
 <template>
   <div>
     <a-input-search
-      placeholder="input search text"
+      :placeholder="this.$lang.search"
       style="width: 200px"
       @search="onSearch"
       v-model="searchValue"
     />
-    <a-button type="primary" icon="plus" @click="drawerVisible=true;isUpdate=false"></a-button>
-    <a-button type="default" icon="redo" @click="reload"></a-button>
-    <a-button type="default" icon="edit" @click="eidtRole" :disabled="selectedRowKeys.length!=1"></a-button>
+    <a-button
+      type="primary"
+      icon="plus"
+      :title="this.$lang.add"
+      @click="drawerVisible=true;isUpdate=false"
+    ></a-button>
+    <a-button type="default" icon="redo" :title="this.$lang.refresh" @click="reload"></a-button>
+    <a-button
+      type="default"
+      icon="edit"
+      :title="this.$lang.edit"
+      @click="eidtRole"
+      :disabled="selectedRowKeys.length!=1"
+    ></a-button>
     <a-popconfirm
-      title="Are you sure delete this role?"
+      :title="this.$lang.sure_delete_role"
       @confirm="deleteRole"
-      okText="Yes"
-      cancelText="No"
+      :okText="this.$lang.yes"
+      :cancelText="this.$lang.no"
     >
-      <a-button type="danger" icon="delete" :disabled="selectedRowKeys.length==0"></a-button>
+      <a-button
+        type="danger"
+        icon="delete"
+        :title="this.$lang.delete"
+        :disabled="selectedRowKeys.length==0"
+      ></a-button>
     </a-popconfirm>
     <a-table
       :columns="columns"
@@ -27,7 +43,7 @@
       @change="handleTableChange"
     />
     <a-drawer
-      :title="isUpdate?'更新角色':'添加角色'"
+      :title="isUpdate?this.$lang.update_role:this.$lang.add_role"
       :width="360"
       handle="slot"
       @close="drawerVisible=false"
@@ -36,29 +52,29 @@
       <a-form :form="form" layout="vertical" @submit.prevent="handleSubmit">
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-form-item label="Name">
+            <a-form-item :label="this.$lang.name">
               <a-input
-                placeholder="角色名称"
-                v-decorator="['name',{rules: [{ required: true, message: 'Name is required!' }]}]"
+                :placeholder="this.$lang.role_name"
+                v-decorator="['name',{rules: [{ required: true, message: this.$lang.name_required }]}]"
               />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-form-item label="Description">
+            <a-form-item :label="this.$lang.description">
               <a-textarea
-                placeholder="角色描述"
+                :placeholder="this.$lang.role_description"
                 :autosize="{ minRows: 4, maxRows: 6 }"
-                v-decorator="['description',{rules: [{ required: true, message: 'Description is required!' }]}]"
+                v-decorator="['description',{rules: [{ required: true, message: this.$lang.description_required }]}]"
               />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-button @click="form.resetFields();">取 消</a-button>
-            <a-button type="primary" html-type="submit">确 定</a-button>
+            <a-button @click="form.resetFields();">{{this.$lang.reset}}</a-button>
+            <a-button type="primary" html-type="submit">{{this.$lang.submit}}</a-button>
           </a-col>
         </a-row>
       </a-form>
@@ -74,22 +90,22 @@ export default {
       searchValue: "",
       columns: [
         {
-          title: "编号",
+          title: this.$lang.id,
           dataIndex: "_id",
           width: "7%"
         },
         {
-          title: "角色名称",
+          title: this.$lang.role_name,
           dataIndex: "Name",
           width: "13%"
         },
         {
-          title: "角色描述",
+          title: this.$lang.role_description,
           dataIndex: "Description",
           width: "50%"
         },
         {
-          title: "修改时间",
+          title: this.$lang.update_time,
           dataIndex: "UpdateTime.$date",
           width: "15%",
           customRender: val => {
@@ -97,7 +113,7 @@ export default {
           }
         },
         {
-          title: "创建时间",
+          title: this.$lang.create_time,
           dataIndex: "CreateTime.$date",
           width: "15%",
           customRender: val => {
@@ -108,7 +124,7 @@ export default {
       selectedRowKeys: [],
       form: this.$form.createForm(this),
       drawerVisible: false,
-      pagination: { current: 1, pageSize: 10,size:'small' },
+      pagination: { current: 1, pageSize: 10, size: "small" },
       loading: false,
       isUpdate: false
     };
@@ -138,7 +154,9 @@ export default {
           this.loading = false;
           const pagination = { ...this.pagination };
           pagination.total = response.body.count;
-          pagination.showTotal=()=>{return this.pagination.total;};
+          pagination.showTotal = () => {
+            return this.pagination.total;
+          };
           this.pagination = pagination;
           if (response.body.code == 0) this.data = response.body.result;
         });
@@ -183,7 +201,7 @@ export default {
     addRole(role) {
       this.$http.post(this.$urls.role.add, role).then(response => {
         if (response.body.code == 400) {
-          this.$message.warning("记录已存在!");
+          this.$message.warning(this.$lang.record_exists);
         }
         if (response.body.code == 0) {
           this.form.resetFields();
@@ -195,7 +213,7 @@ export default {
       role.id = this.selectedRowKeys[0];
       this.$http.post(this.$urls.role.update, role).then(response => {
         if (response.body.code == 400) {
-          this.$message.warning("记录已存在!");
+          this.$message.warning(this.$lang.record_exists);
         }
         if (response.body.code == 0) {
           this.form.resetFields();
