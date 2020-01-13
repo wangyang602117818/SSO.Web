@@ -75,12 +75,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\202001110554360_AddSetting.cs" />
+    <Compile Include="Migrations\202001110554360_AddSetting.Designer.cs">
+      <DependentUpon>202001110554360_AddSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\Navigation.cs" />
     <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\UserBasic.cs" />
     <Compile Include="Models\UserDepartmentMapping.cs" />
     <Compile Include="Models\UserRoleMapping.cs" />
@@ -100,6 +106,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202001110554360_AddSetting.resx">
+      <DependentUpon>202001110554360_AddSetting.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

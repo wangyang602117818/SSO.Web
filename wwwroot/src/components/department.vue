@@ -2,7 +2,7 @@
   <a-layout>
     <a-layout-sider theme="light">
       <a-input-search
-        placeholder="search company"
+        :placeholder="this.$lang.search"
         v-model="companySearchValue"
         @search="onSearchCompany"
       />
@@ -17,15 +17,16 @@
     </a-layout-sider>
     <a-layout-content>
       <a-input-search
-        placeholder="search department"
+        :placeholder="this.$lang.search"
         style="width:50%"
         @change="onSearchDepartment"
       />
-      <a-button type="default" icon="plus" @click="showDrawer" title="添加顶层部门"></a-button>
+      <a-button type="default" icon="plus" @click="showDrawer" :title="this.$lang.add_top_dept"></a-button>
       <a-button
         type="default"
         :icon="expandedAll?'fullscreen-exit':'fullscreen'"
         @click="expandAll"
+        :title="this.$lang.expand_collapse"
       ></a-button>
       <div class="department_wrap">
         <a-spin size="small" v-if="department_loading" style=" width:100%" />
@@ -52,58 +53,80 @@
     </a-layout-content>
     <a-layout-sider theme="light" :width="400" :collapsed="collapsedLeft" :collapsedWidth="0">
       <a-tabs defaultActiveKey="1" @change="changeTab">
-        <a-tab-pane tab="添加子部门" key="1" forceRender>
+        <a-tab-pane :tab="this.$lang.add_sub_dept" key="1" forceRender>
           <a-form :form="addform" @submit.prevent="addSubDept">
-            <a-form-item label="Code" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
+            <a-form-item
+              :label="this.$lang.code"
+              :label-col="{ span: 6 }"
+              :wrapper-col="{ span: 12 }"
+            >
               <a-input
-                placeholder="部门编号"
-                v-decorator="['code', {rules: [{ required: true, message: 'Please input your code!' }]}]"
+                v-decorator="['code', {rules: [{ required: true, message: this.$lang.dept_code_required}]}]"
               >
                 <a-icon slot="addonAfter" type="reload" @click="getRandomCodeSub" />
               </a-input>
             </a-form-item>
-            <a-form-item label="Name" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
+            <a-form-item
+              :label="this.$lang.name"
+              :label-col="{ span: 6 }"
+              :wrapper-col="{ span: 12 }"
+            >
               <a-input
-                placeholder="部门名称"
-                v-decorator="['Name', {rules: [{ required: true, message: 'Please input your name!' }]}]"
+                v-decorator="['Name', {rules: [{ required: true, message: this.$lang.dept_name_required }]}]"
               ></a-input>
             </a-form-item>
-            <a-form-item label="Order" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
+            <a-form-item
+              :label="this.$lang.order"
+              :label-col="{ span: 6 }"
+              :wrapper-col="{ span: 12 }"
+            >
               <a-input-number v-decorator="['order', { initialValue: 0 }]" />
             </a-form-item>
-            <a-form-item label="Description" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
+            <a-form-item
+              :label="this.$lang.description"
+              :label-col="{ span: 6 }"
+              :wrapper-col="{ span: 12 }"
+            >
               <a-textarea
-                placeholder="部门描述"
                 :autosize="{ minRows: 3, maxRows: 5 }"
-                v-decorator="['description',{rules: [{ required: false, message: 'Description is required!' }]}]"
+                v-decorator="['description',{rules: [{ required: false, message: this.$lang.dept_description_required }]}]"
               />
             </a-form-item>
             <a-form-item :wrapper-col="{ span: 12, offset: 6 }">
-              <a-button @click="addform.resetFields();">取 消</a-button>
-              <a-button type="primary" html-type="submit">确 定</a-button>
+              <a-button @click="addform.resetFields();">{{this.$lang.reset}}</a-button>
+              <a-button type="primary" html-type="submit">{{this.$lang.submit}}</a-button>
             </a-form-item>
           </a-form>
         </a-tab-pane>
-        <a-tab-pane tab="修改部门" key="2" forceRender>
+        <a-tab-pane :tab="this.$lang.update" key="2" forceRender>
           <a-form :form="updateform" @submit.prevent="updateSubDept">
-            <a-form-item label="Code" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
+            <a-form-item
+              :label="this.$lang.code"
+              :label-col="{ span: 8 }"
+              :wrapper-col="{ span: 12 }"
+            >
               <a-input
-                placeholder="部门编号"
-                v-decorator="['code', {rules: [{ required: true, message: 'Please input code!' }]}]"
+                v-decorator="['code', {rules: [{ required: true, message: this.$lang.dept_code_required }]}]"
               >
                 <a-icon slot="addonAfter" type="reload" @click="getRandomCodeUpdate" />
               </a-input>
             </a-form-item>
-            <a-form-item label="Name" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
+            <a-form-item
+              :label="this.$lang.name"
+              :label-col="{ span: 8 }"
+              :wrapper-col="{ span: 12 }"
+            >
               <a-input
-                placeholder="部门名称"
-                v-decorator="['name', {rules: [{ required: true, message: 'Please input name!' }]}]"
+                v-decorator="['name', {rules: [{ required: true, message: this.$lang.dept_name_required }]}]"
               ></a-input>
             </a-form-item>
-            <a-form-item label="Company" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
+            <a-form-item
+              :label="this.$lang.comp"
+              :label-col="{ span: 8 }"
+              :wrapper-col="{ span: 12 }"
+            >
               <a-select
-                v-decorator="[ 'companyCode', {rules: [{ required: true, message: 'Please select company!' }]}]"
-                placeholder="所属公司"
+                v-decorator="[ 'companyCode', {rules: [{ required: true, message: this.$lang.company_required }]}]"
               >
                 <a-select-option
                   :value="item.Code"
@@ -112,44 +135,54 @@
                 >{{item.Name}}</a-select-option>
               </a-select>
             </a-form-item>
-            <a-form-item label="上级部门" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
+            <a-form-item
+              :label="this.$lang.sup_dept"
+              :label-col="{ span: 8}"
+              :wrapper-col="{ span: 12 }"
+            >
               <a-tree-select
                 :treeData="departmentData"
                 v-decorator="[ 'parentCode', {rules: [{ required: false }]}]"
-                placeholder="上级部门"
                 treeDefaultExpandAll
                 allowClear
               ></a-tree-select>
             </a-form-item>
-            <a-form-item label="Order" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
+            <a-form-item
+              :label="this.$lang.order"
+              :label-col="{ span: 8 }"
+              :wrapper-col="{ span: 12 }"
+            >
               <a-input-number v-decorator="['order', { initialValue: 0 }]" />
             </a-form-item>
-            <a-form-item label="description" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
+            <a-form-item
+              :label="this.$lang.description"
+              :label-col="{ span: 8 }"
+              :wrapper-col="{ span: 12 }"
+            >
               <a-textarea
-                placeholder="部门描述"
                 :autosize="{ minRows: 3, maxRows: 5 }"
-                v-decorator="['description',{rules: [{ required: false, message: 'Description is required!' }]}]"
+                v-decorator="['description',{rules: [{ required: false, message: this.$lang.dept_description_required}]}]"
               />
             </a-form-item>
-            <a-form-item :wrapper-col="{ span: 12, offset: 6 }">
-              <a-button type="primary" html-type="submit">确 定</a-button>
+            <a-form-item :wrapper-col="{ span: 8, offset: 6 }">
+              <a-button type="primary" html-type="submit">{{this.$lang.submit}}</a-button>
             </a-form-item>
           </a-form>
         </a-tab-pane>
-        <a-tab-pane tab="删除部门" key="3" forceRender>
+        <a-tab-pane :tab="this.$lang.delete" key="3" forceRender>
           <a-popconfirm
-            title="Are you sure delete this department?"
+            :title="this.$lang.sure_delete_dept"
             @confirm="delDept"
-            okText="Yes"
-            cancelText="No"
+            :okText="this.$lang.yes"
+            :cancelText="this.$lang.no"
           >
-            <a-button type="danger">删 除</a-button>
+            <a-button type="danger">{{this.$lang.delete}}</a-button>
           </a-popconfirm>
         </a-tab-pane>
       </a-tabs>
     </a-layout-sider>
     <a-drawer
-      :title="'添加顶层部门'"
+      :title="this.$lang.add_top_dept"
       :width="360"
       handle="slot"
       @close="drawerVisible=false"
@@ -158,10 +191,9 @@
       <a-form :form="form" layout="vertical" @submit.prevent="handleTopSubmit">
         <a-row :gutter="0">
           <a-col :span="24">
-            <a-form-item label="Code">
+            <a-form-item :label="this.$lang.code">
               <a-input
-                placeholder="部门编号"
-                v-decorator="['code',{rules: [{ required: true, message: 'Code is required!' }]}]"
+                v-decorator="['code',{rules: [{ required: true, message: this.$lang.dept_code_required }]}]"
               >
                 <a-icon slot="addonAfter" type="reload" @click="getRandomCode" />
               </a-input>
@@ -170,36 +202,34 @@
         </a-row>
         <a-row :gutter="0">
           <a-col :span="24">
-            <a-form-item label="Name">
+            <a-form-item :label="this.$lang.name">
               <a-input
-                placeholder="部门名称"
-                v-decorator="['name',{rules: [{ required: true, message: 'Name is required!' }]}]"
+                v-decorator="['name',{rules: [{ required: true, message: this.$lang.dept_name_required}]}]"
               />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="0">
           <a-col :span="24">
-            <a-form-item label="Order">
+            <a-form-item :label="this.$lang.order">
               <a-input-number v-decorator="['order', { initialValue: 0 }]" />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="0">
           <a-col :span="24">
-            <a-form-item label="Description">
+            <a-form-item :label="this.$lang.description">
               <a-textarea
-                placeholder="部门描述"
                 :autosize="{ minRows: 4, maxRows: 6 }"
-                v-decorator="['description',{rules: [{ required: false, message: 'Description is required!' }]}]"
+                v-decorator="['description',{rules: [{ required: false, message: this.$lang.dept_description_required }]}]"
               />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="0">
           <a-col :span="24">
-            <a-button @click="form.resetFields();">取 消</a-button>
-            <a-button type="primary" html-type="submit">确 定</a-button>
+            <a-button @click="form.resetFields();">{{this.$lang.reset}}</a-button>
+            <a-button type="primary" html-type="submit">{{this.$lang.submit}}</a-button>
           </a-col>
         </a-row>
       </a-form>
@@ -411,7 +441,7 @@ export default {
             if (response.body.code == 0) {
               this.getDepartmentData(this.selectedCompany);
             } else {
-              this.$message.warning("记录已存在!");
+              this.$message.warning(this.$lang.record_exists);
             }
           });
         }
@@ -429,7 +459,7 @@ export default {
               if (response.body.code == 0) {
                 this.getDepartmentData(this.selectedCompany);
               } else {
-                this.$message.warning("记录已存在!");
+                this.$message.warning(this.$lang.record_exists);
               }
             });
         }
@@ -456,7 +486,7 @@ export default {
           values.parentCode = "";
           this.$http.post(this.$urls.department.add, values).then(response => {
             if (response.body.code == 400) {
-              this.$message.warning("记录已存在!");
+              this.$message.warning(this.$lang.record_exists);
             }
             if (response.body.code == 0) {
               this.form.resetFields();

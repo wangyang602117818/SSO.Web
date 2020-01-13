@@ -2,32 +2,32 @@
   <a-layout>
     <a-layout-sider theme="light">
       <a-menu mode="inline" :defaultSelectedKeys="defaultSelectedCompany" @select="selectSetting">
-        <a-menu-item key="1">基本设置</a-menu-item>
-        <a-menu-item key="2">登录设置</a-menu-item>
+        <a-menu-item key="1">{{this.$lang.basic_setting}}</a-menu-item>
+        <a-menu-item key="2">{{this.$lang.login_setting}}</a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout-content>
       <a-spin size="small" v-if="loading" style="width:100%" />
       <div v-else>
         <a-form layout="inline" v-if="defaultSelectedCompany[0]=='1'">
-          <a-form-item label="UserId">{{user.UserId}}</a-form-item>
-          <a-form-item label="UserName">{{user.UserName}}</a-form-item>
-          <a-form-item label="Sex">{{user.Sex=='F'?'女':'男'}}</a-form-item>
-          <a-form-item label="Mobile">{{user.Mobile}}</a-form-item>
-          <a-form-item label="Email">{{user.Email}}</a-form-item>
-          <a-form-item label="IdCard">{{user.IdCard}}</a-form-item>
-          <a-form-item label="Company">
+          <a-form-item :label="this.$lang.userId">{{user.UserId}}</a-form-item>
+          <a-form-item :label="this.$lang.user_name">{{user.UserName}}</a-form-item>
+          <a-form-item :label="this.$lang.sex">{{user.Sex=='F'?this.$lang.female:this.$lang.male}}</a-form-item>
+          <a-form-item :label="this.$lang.mobile">{{user.Mobile}}</a-form-item>
+          <a-form-item :label="this.$lang.email">{{user.Email}}</a-form-item>
+          <a-form-item :label="this.$lang.id_card">{{user.IdCard}}</a-form-item>
+          <a-form-item :label="this.$lang.comp">
             <a-button size="small">{{user.CompanyName}}</a-button>
           </a-form-item>
-          <a-form-item label="Department">
+          <a-form-item :label="this.$lang.dept">
             <a-button size="small" v-for="dname in user.DepartmentName" :key="dname">{{dname}}</a-button>
           </a-form-item>
-          <a-form-item label="Role">
+          <a-form-item :label="this.$lang.rol">
             <a-button size="small" v-for="role in user.Role" :key="role">{{role}}</a-button>
           </a-form-item>
           <br />
           <a-form-item>
-            <a-button type="primary" @click="showUserDrawer">修改</a-button>
+            <a-button type="primary" @click="showUserDrawer">{{this.$lang.modify}}</a-button>
           </a-form-item>
         </a-form>
       </div>
@@ -36,24 +36,24 @@
         @submit.prevent="updateUserPassword"
         v-if="defaultSelectedCompany[0]=='2'"
       >
-        <a-form-item label="OldPassWord">
+        <a-form-item :label="this.$lang.old_password">
           <a-input-password
-            v-decorator="['oldPassword', { rules: [{ required: true, message: 'Please input your oldpassword!' }] }]"
+            v-decorator="['oldPassword', { rules: [{ required: true, message: this.$lang.old_password_required }] }]"
             style="width: 240px"
           />
         </a-form-item>
-        <a-form-item label="NewPassword">
+        <a-form-item :label="this.$lang.new_password">
           <a-input-password
             v-decorator="['newPassword', { rules: [
-            {required: true, message: 'Please input your newPassword!' }
+            {required: true, message: this.$lang.new_password_required }
             ]}]"
             style="width: 240px"
           />
         </a-form-item>
-        <a-form-item label="Confirm NewPassword">
+        <a-form-item :label="this.$lang.confirm_new_password">
           <a-input-password
             v-decorator="['newPassword2', { rules: [
-            {required: true, message: 'Please confirm your newPassword!' },
+            {required: true, message: this.$lang.confirm_new_password_required },
             {validator: compareToFirstPassword}
             ]}]"
             style="width: 240px"
@@ -62,56 +62,54 @@
         </a-form-item>
         <br />
         <a-form-item>
-          <a-button type="primary" html-type="submit">确定</a-button>
+          <a-button type="primary" html-type="submit">{{this.$lang.submit}}</a-button>
         </a-form-item>
       </a-form>
       <a-drawer
-        title="更新用户"
+        :title="this.$lang.update_user"
         :width="400"
         handle="slot"
         @close="userDrawerVisible=false"
         :visible="userDrawerVisible"
       >
         <a-form :form="userform" @submit.prevent="updateUser" v-if="defaultSelectedCompany[0]=='1'">
-          <a-form-item label="UserName">
+          <a-form-item :label="this.$lang.user_name">
             <a-input
-              v-decorator="['userName', { rules: [{ required: true, message: 'Please input your userName!' }] }]"
+              v-decorator="['userName', { rules: [{ required: true, message:this.$lang.user_name_required }] }]"
               style="width: 240px"
             />
           </a-form-item>
-          <a-form-item label="Sex">
+          <a-form-item :label="this.$lang.sex">
             <a-select
-              placeholder="性别"
-              v-decorator="['sex',{rules: [{ required: true, message: 'Sex is required!' }]}]"
+              v-decorator="['sex',{rules: [{ required: true, message: this.$lang.sex_required }]}]"
               style="width: 150px"
             >
-              <a-select-option value="M">男</a-select-option>
-              <a-select-option value="F">女</a-select-option>
+              <a-select-option value="M">{{this.$lang.male}}</a-select-option>
+              <a-select-option value="F">{{this.$lang.female}}</a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item label="Mobile">
+          <a-form-item :label="this.$lang.mobile">
             <a-input
-              v-decorator="['mobile', { rules: [{ required: true, message: 'Please input your mobile!' }] }]"
+              v-decorator="['mobile', { rules: [{ required: true, message: this.$lang.mobile_required }] }]"
               style="width: 240px"
             />
           </a-form-item>
-          <a-form-item label="Email">
+          <a-form-item :label="this.$lang.email">
             <a-input
-              v-decorator="['email', { rules: [{ required: true, message: 'Please input your email!' }] }]"
+              v-decorator="['email', { rules: [{ required: true, message: this.$lang.email_required }] }]"
               style="width: 240px"
             />
           </a-form-item>
-          <a-form-item label="IdCard">
+          <a-form-item :label="this.$lang.id_card">
             <a-input
-              v-decorator="['idCard', { rules: [{ required: false, message: 'Please input your idCard!' }] }]"
+              v-decorator="['idCard', { rules: [{ required: false, message: this.$lang.id_card_required }] }]"
               style="width: 260px"
             />
           </a-form-item>
-          <a-form-item label="Company">
+          <a-form-item :label="this.$lang.comp">
             <a-select
               allowClear
-              v-decorator="[ 'companyCode', {rules: [{ required: true, message: 'Please select company!' }]}]"
-              placeholder="所属公司"
+              v-decorator="[ 'companyCode', {rules: [{ required: true, message: this.$lang.company_required }]}]"
               @change="changeCompany"
               style="width: 240px"
             >
@@ -122,20 +120,19 @@
               >{{item.Name}}</a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item label="Department">
+          <a-form-item :label="this.$lang.dept">
             <a-tree-select
               style="width: 240px"
               :treeData="departmentData"
               multiple
               v-decorator="[ 'departments', {rules: [{ required: false }]}]"
-              placeholder="所属部门"
               treeDefaultExpandAll
               allowClear
             ></a-tree-select>
           </a-form-item>
           <br />
           <a-form-item>
-            <a-button type="primary" html-type="submit">确定</a-button>
+            <a-button type="primary" html-type="submit">{{this.$lang.submit}}</a-button>
           </a-form-item>
         </a-form>
       </a-drawer>
@@ -249,7 +246,7 @@ export default {
             .then(response => {
               if (response.body.code == 0) {
                 this.getUser();
-                this.$message.warning("更新成功!");
+                this.$message.warning(this.$lang.update_success);
                 this.userDrawerVisible = false;
               }
             });
@@ -263,7 +260,7 @@ export default {
             .post(this.$urls.user.updatepassword, values)
             .then(response => {
               if (response.body.code == 114) {
-                this.$message.warning("旧密码不正确!");
+                this.$message.warning(this.$lang.old_password_error);
               }
               if (response.body.code == 0) {
                 this.passwordform.setFieldsValue({
@@ -271,7 +268,7 @@ export default {
                   newPassword: "",
                   newPassword2: ""
                 });
-                this.$message.warning("修改密码成功");
+                this.$message.warning(this.$lang.update_success);
                 window.location.href =
                   this.$http.options.root + this.$urls.logout;
               }

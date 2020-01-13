@@ -3,7 +3,7 @@
     <div class="total_con">
       <div class="total_item total_item_80">
         <div class="total_item_wrap">
-          <div class="total_item_txt">公司总数</div>
+          <div class="total_item_txt">{{this.$lang.companys}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getData" />
@@ -16,7 +16,7 @@
       </div>
       <div class="total_item total_item_80">
         <div class="total_item_wrap">
-          <div class="total_item_txt">部门总数</div>
+          <div class="total_item_txt">{{this.$lang.departments}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getData" />
@@ -29,7 +29,7 @@
       </div>
       <div class="total_item total_item_80">
         <div class="total_item_wrap">
-          <div class="total_item_txt">角色总数</div>
+          <div class="total_item_txt">{{this.$lang.roles}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getData" />
@@ -42,7 +42,7 @@
       </div>
       <div class="total_item total_item_80">
         <div class="total_item_wrap">
-          <div class="total_item_txt">用户总数</div>
+          <div class="total_item_txt">{{this.$lang.users}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getData" />
@@ -57,7 +57,7 @@
     <div class="total_con">
       <div class="total_item total_item_240">
         <div class="total_item_wrap">
-          <div class="total_item_txt">操作记录</div>
+          <div class="total_item_txt">{{this.$lang.op_record}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getOpRecord" />
@@ -68,10 +68,10 @@
       </div>
       <div class="total_item total_item_240">
         <div class="total_item_wrap">
-          <div class="total_item_txt">用户记录</div>
+          <div class="total_item_txt">{{this.$lang.user_record}}</div>
           <div class="total_item_title">
-            <span class="line line_0053FE"></span> 录入
-            <span class="line line_00C782"></span> 移除
+            <span class="line line_0053FE"></span> {{this.$lang.input}}
+            <span class="line line_00C782"></span> {{this.$lang.delete}}
           </div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getUserRecord" />
@@ -84,7 +84,7 @@
     <div class="total_con">
       <div class="total_item total_item_260">
         <div class="total_item_wrap">
-          <div class="total_item_txt">性别比率</div>
+          <div class="total_item_txt">{{this.$lang.sex_ratio}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getUserRatio" />
@@ -95,7 +95,7 @@
       </div>
       <div class="total_item total_item_260">
         <div class="total_item_wrap">
-          <div class="total_item_txt">公司人数</div>
+          <div class="total_item_txt">{{this.$lang.company_ratio}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getUserCompanyRatio" />
@@ -106,7 +106,7 @@
       </div>
       <div class="total_item total_item_260">
         <div class="total_item_wrap">
-          <div class="total_item_txt">部门人数</div>
+          <div class="total_item_txt">{{this.$lang.department_ratio}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getUserDepartmentRatio" />
@@ -212,7 +212,7 @@ export default {
           var options = this.$common.echartOptionsLine(dateList);
           options.series = [
             {
-              name: "录入",
+              name: this.$lang.input,
               type: "line",
               symbol: "circle",
               lineStyle: {
@@ -221,7 +221,7 @@ export default {
               data: addList
             },
             {
-              name: "移除",
+              name: this.$lang.delete,
               type: "line",
               symbol: "circle",
               lineStyle: {
@@ -245,11 +245,12 @@ export default {
         if (response.body.code == 0) {
           var options = this.$common.echartOptionsPie();
           var data = [];
+          var that =this;
           response.body.result.forEach(function(currentValue) {
             if (currentValue["type"] == "M") {
-              data.push({ value: currentValue.count, name: "男" });
+              data.push({ value: currentValue.count, name: that.$lang.male});
             } else {
-              data.push({ value: currentValue.count, name: "女" });
+              data.push({ value: currentValue.count, name: that.$lang.female });
             }
           });
           options.series = [

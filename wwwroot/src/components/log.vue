@@ -1,6 +1,11 @@
 <template>
   <div>
-    <a-input-search placeholder="内容" style="width: 200px" @search="onSearch" v-model="searchValue" />
+    <a-input-search
+      :placeholder="this.$lang.search"
+      style="width: 200px"
+      @search="onSearch"
+      v-model="searchValue"
+    />
     <a-button type="default" icon="redo" @click="reload"></a-button>
     <a-table
       :columns="columns"
@@ -19,47 +24,47 @@ export default {
       data: [],
       columns: [
         {
-          title: "编号",
+          title: this.$lang.id,
           dataIndex: "_id",
           width: "5%"
         },
         {
-          title: "来源",
+          title: this.$lang.source,
           dataIndex: "From",
           width: "15%"
         },
         {
-          title: "类型",
+          title: this.$lang.type,
           dataIndex: "Type",
           width: "5%",
           customRender: val => {
-            if (val == 1) return "详情";
-            if (val == 2) return "警告";
-            if (val == 3) return "错误";
+            if (val == 1) return "detail";
+            if (val == 2) return "warning";
+            if (val == 3) return "error";
           }
         },
         {
-          title: "内容",
+          title:this.$lang.content,
           dataIndex: "Content",
           width: "15%"
         },
         {
-          title: "备注",
+          title: this.$lang.remark,
           dataIndex: "Remark",
           width: "15%"
         },
         {
-          title: "用户",
+          title: this.$lang.us,
           dataIndex: "UserId",
           width: "8%"
         },
         {
-          title: "用户Ip",
+          title: this.$lang.ip,
           dataIndex: "UserHost",
           width: "10%"
         },
         {
-          title: "用户代理",
+          title: this.$lang.agent,
           dataIndex: "UserAgent",
           width: "8%",
           customRender: val => {
@@ -67,7 +72,7 @@ export default {
           }
         },
         {
-          title: "生成时间",
+          title: this.$lang.create_time,
           dataIndex: "CreateTime.$date",
           width: "19%",
           customRender: val => {

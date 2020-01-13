@@ -50,8 +50,7 @@ namespace SSO.Business
                 {
                     date = key.Year + "-" + key.Month + "-" + key.Day,
                     count = group.Count()
-                })
-                .OrderBy(o => o.date);
+                });
         }
         public IQueryable<DateCountItem> OpRecordByMonth(DateTime minDateTime)
         {
@@ -66,20 +65,18 @@ namespace SSO.Business
                  {
                      date = key.Year + "-" + key.Month,
                      count = group.Count()
-                 })
-                 .OrderBy(o => o.date);
+                 });
         }
         public IQueryable<DateCountItem> OpRecordByYear(DateTime minDateTime)
         {
             return userCenterContext.Logs
                 .Where(w => w.CreateTime >= minDateTime.Date)
-                .Select(k => new { k.CreateTime.Value.Year})
+                .Select(k => new { k.CreateTime.Value.Year })
                 .GroupBy(x => new { x.Year }, (key, group) => new DateCountItem
                 {
                     date = key.Year.ToString(),
                     count = group.Count()
-                })
-                .OrderBy(o => o.date);
+                });
         }
     }
 }

@@ -3,57 +3,76 @@
     <a-row type="flex" align="middle">
       <a-col :span="12">
         <a-input-search
-          placeholder="input search text"
+          :placeholder="this.$lang.search"
           style="width: 200px"
           @search="onSearch"
           v-model="searchValue"
         />
-        <a-button type="primary" icon="plus" @click="showDrawer()"></a-button>
-        <a-button type="default" icon="redo" @click="reload"></a-button>
+        <a-button type="primary" icon="plus" :title="this.$lang.add" @click="showDrawer()"></a-button>
+        <a-button type="default" icon="redo" @click="reload" :title="this.$lang.refresh"></a-button>
         <a-button
           type="default"
           icon="edit"
           @click="editUser"
           :disabled="selectedRowKeys.length!=1"
+          :title="this.$lang.edit"
         ></a-button>
         <a-popconfirm
-          title="Are you sure reset this user's password?"
+          :title="this.$lang.sure_reset_password"
           @confirm="resetPassword"
-          okText="Yes"
-          cancelText="No"
+          :okText="this.$lang.yes"
+          :cancelText="this.$lang.no"
         >
-          <a-button type="default" icon="unlock"></a-button>
+          <a-button type="default" icon="unlock" :title="this.$lang.reset_password"></a-button>
         </a-popconfirm>
         <a-popconfirm
-          title="Are you sure remove this user?"
+          :title="this.$lang.confirm_delete"
           @confirm="removeUser"
-          okText="Yes"
-          cancelText="No"
+          :okText="this.$lang.yes"
+          :cancelText="this.$lang.no"
           v-if="this.showDelete==false"
         >
-          <a-button type="danger" icon="delete" :disabled="selectedRowKeys.length==0"></a-button>
+          <a-button
+            type="danger"
+            icon="delete"
+            :title="this.$lang.delete"
+            :disabled="selectedRowKeys.length==0"
+          ></a-button>
         </a-popconfirm>
         <a-popconfirm
-          title="Are you sure restore this user?"
+          :title="this.$lang.sure_restore_user"
           @confirm="restoreUser"
-          okText="Yes"
-          cancelText="No"
+          :okText="this.$lang.yes"
+          :cancelText="this.$lang.no"
           v-if="this.showDelete==true"
         >
-          <a-button type="default" icon="rollback" :disabled="selectedRowKeys.length==0"></a-button>
+          <a-button
+            type="default"
+            icon="rollback"
+            :title="this.$lang.restore"
+            :disabled="selectedRowKeys.length==0"
+          ></a-button>
         </a-popconfirm>
         <a-popconfirm
-          title="Are you sure permanent delete this user?"
+          :title="this.$lang.sure_permanent_delete_user"
           @confirm="deleteUser"
-          okText="Yes"
-          cancelText="No"
+          :okText="this.$lang.yes"
+          :cancelText="this.$lang.no"
           v-if="this.showDelete==true"
         >
-          <a-button type="default" icon="close" :disabled="selectedRowKeys.length==0"></a-button>
+          <a-button
+            type="default"
+            icon="close"
+            :title="this.$lang.permanent_delete"
+            :disabled="selectedRowKeys.length==0"
+          ></a-button>
         </a-popconfirm>
       </a-col>
       <a-col :span="12" align="right">
-        <a-tooltip :title="this.showDelete?'显示正常用户':'显示删除用户'" placement="left">
+        <a-tooltip
+          :title="this.showDelete?this.$lang.show_normal_user:this.$lang.show_delete_user"
+          placement="left"
+        >
           <a-switch :defaultChecked="showDelete" @change="changeDeleteShow" />
         </a-tooltip>
       </a-col>
@@ -83,57 +102,67 @@
       </span>
     </a-table>
     <a-drawer
-      :title="isUpdate?'更新用户':'添加用户'"
+      :title="isUpdate?this.$lang.update_user:this.$lang.add_user"
       :width="400"
       handle="slot"
       @close="drawerVisible=false"
       :visible="drawerVisible"
     >
       <a-form :form="form" @submit.prevent="handleSubmit">
-        <a-form-item label="UserId" :label-col="{ span: 6 }" :wrapper-col="{ span: 12 }">
+        <a-form-item
+          :label="this.$lang.userId"
+          :label-col="{ span: 6 }"
+          :wrapper-col="{ span: 12 }"
+        >
           <a-input
-            placeholder="用户编号/登录名"
-            v-decorator="['userId',{rules: [{ required: true, message: 'UserId is required!' }]}]"
+            :placeholder="this.$lang.userId+'/'+this.$lang.loginId"
+            v-decorator="['userId',{rules: [{ required: true, message: this.$lang.user_id_required }]}]"
           />
         </a-form-item>
-        <a-form-item label="UserName" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item
+          :label="this.$lang.user_name"
+          :label-col="{ span: 6 }"
+          :wrapper-col="{ span: 15 }"
+        >
           <a-input
-            placeholder="用户名称"
-            v-decorator="['userName',{rules: [{ required: true, message: 'UserName is required!' }]}]"
+            v-decorator="['userName',{rules: [{ required: true, message: this.$lang.user_name_required }]}]"
           />
         </a-form-item>
-        <a-form-item label="Sex" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item :label="this.$lang.sex" :label-col="{ span: 6 }" :wrapper-col="{ span: 8 }">
           <a-select
-            placeholder="性别"
-            v-decorator="['sex',{rules: [{ required: true, message: 'Sex is required!' }]}]"
+            v-decorator="['sex',{rules: [{ required: true, message:this.$lang.sex_required }]}]"
           >
-            <a-select-option value="M">男</a-select-option>
-            <a-select-option value="F">女</a-select-option>
+            <a-select-option value="M">{{this.$lang.male}}</a-select-option>
+            <a-select-option value="F">{{this.$lang.female}}</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item label="Mobile" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item
+          :label="this.$lang.mobile"
+          :label-col="{ span: 6 }"
+          :wrapper-col="{ span: 15 }"
+        >
           <a-input
-            placeholder="手机号"
-            v-decorator="['mobile',{rules: [{ required: false, message: 'Mobile is required!' }]}]"
+            v-decorator="['mobile',{rules: [{ required: false, message: this.$lang.mobile_required }]}]"
           />
         </a-form-item>
-        <a-form-item label="Email" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item :label="this.$lang.email" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
           <a-input
-            placeholder="邮箱"
-            v-decorator="['email',{rules: [{ required: false, message: 'Email is required!' }]}]"
+            v-decorator="['email',{rules: [{ required: false, message:this.$lang.email_required }]}]"
           />
         </a-form-item>
-        <a-form-item label="IdCard" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item
+          :label="this.$lang.id_card"
+          :label-col="{ span: 6 }"
+          :wrapper-col="{ span: 15 }"
+        >
           <a-input
-            placeholder="证件号"
-            v-decorator="['idCard',{rules: [{ required: false, message: 'IdCard is required!' }]}]"
+            v-decorator="['idCard',{rules: [{ required: false, message: this.$lang.id_card_required }]}]"
           />
         </a-form-item>
-        <a-form-item label="Company" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item :label="this.$lang.comp" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
           <a-select
             allowClear
-            v-decorator="[ 'companyCode', {rules: [{ required: true, message: 'Please select company!' }]}]"
-            placeholder="所属公司"
+            v-decorator="[ 'companyCode', {rules: [{ required: true, message: this.$lang.company_required }]}]"
             @change="changeCompany"
           >
             <a-select-option
@@ -143,22 +172,20 @@
             >{{item.Name}}</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item label="Department" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item :label="this.$lang.dept" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
           <a-tree-select
             :treeData="departmentData"
             multiple
             v-decorator="[ 'departments', {rules: [{ required: false }]}]"
-            placeholder="所属部门"
             treeDefaultExpandAll
             allowClear
           ></a-tree-select>
         </a-form-item>
-        <a-form-item label="Role" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item :label="this.$lang.rol" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
           <a-select
             allowClear
             mode="multiple"
-            v-decorator="[ 'roles', {rules: [{ required: false, message: 'Please select role!' }]}]"
-            placeholder="角色"
+            v-decorator="[ 'roles', {rules: [{ required: false, message: this.$lang.rol_required }]}]"
           >
             <a-select-option
               :value="item.Name"
@@ -168,8 +195,8 @@
           </a-select>
         </a-form-item>
         <a-divider />
-        <a-button @click="form.resetFields();">重 置</a-button>
-        <a-button type="primary" html-type="submit">确 定</a-button>
+        <a-button @click="form.resetFields();">{{this.$lang.reset}}</a-button>
+        <a-button type="primary" html-type="submit">{{this.$lang.submit}}</a-button>
       </a-form>
     </a-drawer>
   </div>
@@ -190,64 +217,64 @@ export default {
       confirmDirty: false,
       columns: [
         {
-          title: "编号",
+          title: this.$lang.id,
           dataIndex: "_id",
           width: "5%"
         },
         {
-          title: "用户编号",
+          title: this.$lang.userId,
           dataIndex: "UserId",
           width: "7%"
         },
         {
-          title: "用户名",
+          title: this.$lang.user_name,
           dataIndex: "UserName",
           width: "12%"
         },
         {
-          title: "手机号",
+          title: this.$lang.mobile,
           dataIndex: "Mobile",
           width: "9%"
         },
         {
-          title: "邮箱",
+          title: this.$lang.email,
           dataIndex: "Email",
           width: "13%"
         },
         {
-          title: "性别",
+          title: this.$lang.sex,
           dataIndex: "Sex",
           width: "5%",
           customRender: val => {
-            return val == "F" ? "女" : "男";
+            return val == "F" ? this.$lang.female : this.$lang.male;
           }
         },
         {
-          title: "公司",
+          title: this.$lang.comp,
           dataIndex: "CompanyName",
           width: "5%",
           scopedSlots: { customRender: "CompanyName" }
         },
         {
-          title: "部门",
+          title: this.$lang.dept,
           dataIndex: "DepartmentName",
           width: "10%",
           scopedSlots: { customRender: "DepartmentName" }
         },
         {
-          title: "角色",
+          title: this.$lang.rol,
           dataIndex: "RoleName",
           width: "12%",
           scopedSlots: { customRender: "RoleName" }
         },
         {
-          title: "已修改",
+          title: this.$lang.modified,
           dataIndex: "IsModified",
           width: "7%",
           scopedSlots: { customRender: "IsModified" }
         },
         {
-          title: "创建时间",
+          title: this.$lang.create_time,
           dataIndex: "CreateTime.$date",
           width: "15%",
           customRender: val => {
@@ -293,7 +320,7 @@ export default {
             this.selectedRowKeys = [];
             this.selectedRows = [];
             this.getData();
-            this.$message.warning("重置成功!");
+            this.$message.warning(this.$lang.reset_success);
           }
           this.loading = false;
         });
@@ -313,7 +340,7 @@ export default {
     addUser(user) {
       this.$http.post(this.$urls.user.add, user).then(response => {
         if (response.body.code == 400) {
-          this.$message.warning("记录已存在!");
+          this.$message.warning(this.$lang.record_exists);
         }
         if (response.body.code == 0) {
           this.getData();
@@ -325,7 +352,7 @@ export default {
       this.$http.post(this.$urls.user.update, user).then(response => {
         if (response.body.code == 0) {
           this.getData();
-          this.$message.warning("修改成功!");
+          this.$message.warning(this.$lang.modify_success);
         }
       });
     },
@@ -392,7 +419,7 @@ export default {
       var len = this.columns.length;
       if (this.showDelete) {
         this.columns.splice(len - 1, 1, {
-          title: "删除时间",
+          title: this.$lang.delete_time,
           dataIndex: "DeleteTime.$date",
           width: "15%",
           customRender: val => {
@@ -401,7 +428,7 @@ export default {
         });
       } else {
         this.columns.splice(len - 1, 1, {
-          title: "创建时间",
+          title: this.$lang.create_time,
           dataIndex: "CreateTime.$date",
           width: "15%",
           customRender: val => {

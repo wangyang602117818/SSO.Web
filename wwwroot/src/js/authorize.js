@@ -1,4 +1,5 @@
 ///////////////验证中心方法 authorize(baseUrl)////////////////////////////////////
+//验证完成之后 window.token_jwt_data 就是具体的信息
 //********************************************************************* */
 function setCookie(cname, cvalue, exdays) {
     var cookies = cname + "=" + cvalue + ";path=/";
@@ -14,7 +15,9 @@ function getCookie(cname) {
     var ca = document.cookie.split(';');
     for (var i = 0; i < ca.length; i++) {
         var c = ca[i].trim();
-        if (c.indexOf(name) == 0) { return c.substring(name.length, c.length); }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
     }
     return "";
 }
@@ -45,7 +48,13 @@ function getTokenByTicket(url, success, error) {
     xhr.open('get', url, false);
     xhr.send();
 }
-function authorize(baseUrl,cookieName) {
+function parseTokenSetMessage(token) {
+    if (token) {
+        var data = token.match(/\.(\w+)\./)[1];
+        window.token_jwt_data = JSON.parse(window.atob(data));
+    }
+}
+function authorize(baseUrl, cookieName) {
     var loginUrl = baseUrl + "sso/login";
     var getTokenUrl = baseUrl + "sso/gettoken";
     var ssourl = getQueryString("ssourls");
@@ -82,6 +91,7 @@ function authorize(baseUrl,cookieName) {
         else {
             getTokenByTicket(getTokenUrl + "?ticket=" + ticket, function (result) {
                 if (result.code == 0 && result.result) {
+                    parseTokenSetMessage(authorization);
                     //通过ticket获取到了token,一般发生在首次登陆
                     setCookie(cookieName, result.result);
                 } else {
@@ -90,10 +100,13 @@ function authorize(baseUrl,cookieName) {
                 }
             });
         }
+    } else {
+        parseTokenSetMessage(authorization);
     }
 }
 
 export default {
     authorize: authorize,
-    getCookie: getCookie
+    getCookie: getCookie,
+    setCookie: setCookie
 }
