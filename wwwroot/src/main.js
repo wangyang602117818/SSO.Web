@@ -66,7 +66,7 @@ Vue.http.interceptors.push(function (request, next) {//拦截器
   next(response => {
     if (response.body.code == 401) {
       // window.location.href = Vue.http.options.root + urls.login + "?returnUrl=" + window.location.href;
-      this.$message.warning("登陆已过期!");
+      this.$message.warning(this.$lang.session_exexpired);
       return false;
     }
     return response;

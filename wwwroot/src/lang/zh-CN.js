@@ -123,4 +123,5 @@ export default {
     confirm_new_password:"确认新密码",
     confirm_new_password_required:"请确认新密码",
     old_password_error:"旧密码不正确",
+    session_exexpired:"会话已过期"
 }
