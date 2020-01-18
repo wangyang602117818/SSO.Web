@@ -1,7 +1,9 @@
  .ant-row{
-    margin-bottom: 0px;
+    margin-bottom: 12px  !important;
   }
-
+.ant-form-item{
+  padding-bottom: 0px !important;
+}
   .ant-tag{
    margin-right:2px !important;
    padding:0 3px !important;
