@@ -4,13 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace A.Web.Filters
+namespace SSO.Client
 {
     public class SSOAuthorizeAttribute : AuthorizeAttribute
     {
@@ -38,7 +40,6 @@ namespace A.Web.Filters
             }
             if (!isAuthorization) return;
             HttpRequestBase request = filterContext.HttpContext.Request;
-            //string cookieName = request.Url.Host + ".auth";
             var ssourl = request.QueryString["ssourls"];
             if (!string.IsNullOrEmpty(ssourl)) //sso 退出
             {
