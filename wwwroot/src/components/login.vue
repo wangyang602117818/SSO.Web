@@ -2,12 +2,12 @@
   <div class="container">
     <a-row type="flex" justify="center" align="middle">
       <a-col :span="6">
-        <a-card title="Login" :bordered="true">
+        <a-card title="登录" :bordered="true">
           <a-form :form="form" @submit.prevent="handleSubmit">
             <a-form-item>
               <a-input
-                v-decorator="['userId',{ rules: [{ required: true, message: 'Please input your userId!' }] }]"
-                placeholder="UserId"
+                v-decorator="['userId',{ rules: [{ required: true, message: '请输入用户编号' }] }]"
+                placeholder="用户编号"
                 size="large"
               >
                 <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
@@ -15,16 +15,16 @@
             </a-form-item>
             <a-form-item>
               <a-input
-                v-decorator="['password',{ rules: [{ required: true, message: 'Please input your Password!' }]}]"
+                v-decorator="['password',{ rules: [{ required: true, message: '请输入密码' }]}]"
                 type="password"
-                placeholder="Password"
+                placeholder="用户密码"
                 size="large"
               >
                 <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
               </a-input>
             </a-form-item>
             <a-form-item>
-              <a-button type="primary" html-type="submit" :loading="loading">Log in</a-button>
+              <a-button type="primary" html-type="submit" :loading="loading">登 录</a-button>
             </a-form-item>
           </a-form>
         </a-card>

@@ -91,7 +91,7 @@ function authorize(baseUrl, cookieName) {
         else {
             getTokenByTicket(getTokenUrl + "?ticket=" + ticket, function (result) {
                 if (result.code == 0 && result.result) {
-                    parseTokenSetMessage(authorization);
+                    parseTokenSetMessage(result.result);
                     //通过ticket获取到了token,一般发生在首次登陆
                     setCookie(cookieName, result.result);
                 } else {
