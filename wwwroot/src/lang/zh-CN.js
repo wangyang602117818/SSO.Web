@@ -123,5 +123,7 @@ export default {
     confirm_new_password:"确认新密码",
     confirm_new_password_required:"请确认新密码",
     old_password_error:"旧密码不正确",
-    session_exexpired:"会话已过期"
+    session_exexpired:"会话已过期",
+    two_passwords_inconsistent:"两次密码验证不一致",
+    password_pattern_invalid:"密码规则不符合要求(最短6位,不能为纯数字或纯字母)"
 }

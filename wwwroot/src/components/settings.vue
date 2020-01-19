@@ -45,7 +45,7 @@
         <a-form-item :label="this.$lang.new_password">
           <a-input-password
             v-decorator="['newPassword', { rules: [
-            {required: true, message: this.$lang.new_password_required }
+            {required: true,pattern:'(?=.*[0-9])(?=.*[a-zA-Z]).{6,30}', message: this.$lang.password_pattern_invalid }
             ]}]"
             style="width: 240px"
           />
@@ -53,7 +53,7 @@
         <a-form-item :label="this.$lang.confirm_new_password">
           <a-input-password
             v-decorator="['newPassword2', { rules: [
-            {required: true, message: this.$lang.confirm_new_password_required },
+            {required: true,pattern:'(?=.*[0-9])(?=.*[a-zA-Z]).{6,30}', message: this.$lang.password_pattern_invalid },
             {validator: compareToFirstPassword}
             ]}]"
             style="width: 240px"
@@ -174,7 +174,7 @@ export default {
     compareToFirstPassword(rule, value, callback) {
       const passwordform = this.passwordform;
       if (value && value !== passwordform.getFieldValue("newPassword")) {
-        callback("Two passwords that you enter is inconsistent!");
+        callback(this.$lang.two_passwords_inconsistent);
       } else {
         callback();
       }

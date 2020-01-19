@@ -123,5 +123,7 @@ export default {
     confirm_new_password: "Confirm NewPassword",
     confirm_new_password_required: "Please Confirm NewPassword",
     old_password_error: "OldPassword error",
-    session_exexpired:"Session expired"
+    session_exexpired: "Session expired",
+    two_passwords_inconsistent: "Two passwords that you enter is inconsistent!",
+    password_pattern_invalid: "Incorrect password rule! min:6,must contains a numbers and a letter"
 }
