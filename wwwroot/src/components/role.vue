@@ -65,7 +65,7 @@
             <a-form-item :label="this.$lang.description">
               <a-textarea
                 :placeholder="this.$lang.role_description"
-                :autosize="{ minRows: 4, maxRows: 6 }"
+                :autoSize="{ minRows: 4, maxRows: 6 }"
                 v-decorator="['description',{rules: [{ required: true, message: this.$lang.description_required }]}]"
               />
             </a-form-item>

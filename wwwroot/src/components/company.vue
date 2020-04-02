@@ -64,7 +64,7 @@
           <a-col :span="24">
             <a-form-item :label="this.$lang.company_description">
               <a-textarea
-                :autosize="{ minRows: 4, maxRows: 6 }"
+                :autoSize ="{ minRows: 4, maxRows: 6 }"
                 v-decorator="['description',{rules: [{ required: false, message: this.$lang.company_description_required }]}]"
               />
             </a-form-item>

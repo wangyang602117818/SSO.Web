@@ -88,7 +88,7 @@
               :wrapper-col="{ span: 12 }"
             >
               <a-textarea
-                :autosize="{ minRows: 3, maxRows: 5 }"
+                :autoSize ="{ minRows: 3, maxRows: 5 }"
                 v-decorator="['description',{rules: [{ required: false, message: this.$lang.dept_description_required }]}]"
               />
             </a-form-item>
@@ -160,7 +160,7 @@
               :wrapper-col="{ span: 12 }"
             >
               <a-textarea
-                :autosize="{ minRows: 3, maxRows: 5 }"
+                :autoSize ="{ minRows: 3, maxRows: 5 }"
                 v-decorator="['description',{rules: [{ required: false, message: this.$lang.dept_description_required}]}]"
               />
             </a-form-item>
@@ -220,7 +220,7 @@
           <a-col :span="24">
             <a-form-item :label="this.$lang.description">
               <a-textarea
-                :autosize="{ minRows: 4, maxRows: 6 }"
+                :autoSize ="{ minRows: 4, maxRows: 6 }"
                 v-decorator="['description',{rules: [{ required: false, message: this.$lang.dept_description_required }]}]"
               />
             </a-form-item>
