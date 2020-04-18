@@ -49,14 +49,10 @@ Vue.http.options.root = ''
 //   })
 
 var urls = {
-    geturlmeta: 'sso/geturlmeta',
+    geturlmeta: 'navigation/geturlmeta',
     login: 'sso/login',
     logout: 'sso/logout',
-    decodetoken: 'sso/decodetoken',
-    addnavigation: 'sso/addnavigation',
-    deletenavigation: 'sso/deletenavigation',
-    getnavigationbyid: 'sso/getnavigationbyid',
-    updatenavigation: 'sso/updatenavigation'
+    decodetoken: 'sso/decodetoken'
 };
 Vue.prototype.$urls = urls
 

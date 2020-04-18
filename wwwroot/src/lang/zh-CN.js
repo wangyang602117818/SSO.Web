@@ -125,5 +125,14 @@ export default {
     old_password_error:"旧密码不正确",
     session_exexpired:"会话已过期",
     two_passwords_inconsistent:"两次密码验证不一致",
-    password_pattern_invalid:"密码规则不符合要求(最短6位,不能为纯数字或纯字母)"
+    password_pattern_invalid:"密码规则不符合要求(最短6位,不能为纯数字或纯字母)",
+    navigations:"导航列表",
+    link:"链接",
+    logo:"Logo",
+    update_navigation:"更新导航",
+    add_navigation:"添加导航",
+    navigation_name:"导航名称",
+    navigation_name_required:"导航名称不能为空",
+    link_required:"链接不能为空",
+    sure_delete_navigation:"确定删除导航?"
 }

@@ -19,16 +19,10 @@ namespace SSO.Web.Controllers
     public class SSOController : BaseController
     {
         Business.UserBasic user = new Business.UserBasic();
-        Business.Navigation navigation = new Business.Navigation();
         Business.Settings settings = new Business.Settings();
-        HttpRequestHelper requestHelper = new HttpRequestHelper();
         public ActionResult Index()
         {
             return View();
-        }
-        public ActionResult GetUrlMeta()
-        {
-            return new ResponseModel<IEnumerable<Data.Models.Navigation>>(ErrorCode.success, navigation.GetAll());
         }
         public ActionResult GetToken(string ticket, string ip)
         {
@@ -155,45 +149,6 @@ namespace SSO.Web.Controllers
                 {"Lang",lang }
             };
             return new ResponseModel<BsonDocument>(ErrorCode.success, userRole);
-        }
-        [JwtAuthorize]
-        public ActionResult AddNavigation(NavigationModel navigationModel)
-        {
-            InfoLog("0", "AddNavigation");
-            if (navigation.Insert(navigationModel.Title, navigationModel.BaseUrl) > 0)
-            {
-                return new ResponseModel<string>(ErrorCode.success, "");
-            }
-            else
-            {
-                return new ResponseModel<string>(ErrorCode.server_exception, "");
-            }
-        }
-        [JwtAuthorize]
-        public ActionResult UpdateNavigation(UpdateNavigationModel updateNavigationModel)
-        {
-            InfoLog(updateNavigationModel.Id.ToString(), "UpdateNavigation");
-            if (navigation.Update(updateNavigationModel.Id, updateNavigationModel.Title, updateNavigationModel.BaseUrl) > 0)
-            {
-                return new ResponseModel<string>(ErrorCode.success, "");
-            }
-            else
-            {
-                return new ResponseModel<string>(ErrorCode.record_exist, "");
-            }
-
-        }
-        [JwtAuthorize]
-        public ActionResult GetNavigationById(int id)
-        {
-            return new ResponseModel<Navigation>(ErrorCode.success, navigation.GetById(id));
-        }
-        [JwtAuthorize]
-        public ActionResult DeleteNavigation(IEnumerable<int> ids)
-        {
-            if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
-            InfoLog(ids.Select(s => s.ToString()), "DeleteNavigation");
-            return new ResponseModel<int>(ErrorCode.success, navigation.Delete(ids));
         }
     }
 }

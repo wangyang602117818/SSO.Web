@@ -83,8 +83,14 @@
           </a-menu-item>
           <a-menu-item key="department">
             <router-link to="/department">
-              <a-icon type="gold" />
+              <a-icon type="cluster" />
               <span>{{this.$lang.department}}</span>
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="navigation">
+            <router-link to="/navigation">
+              <a-icon type="compass" />
+              <span>{{this.$lang.navigations}}</span>
             </router-link>
           </a-menu-item>
           <a-menu-item key="log">

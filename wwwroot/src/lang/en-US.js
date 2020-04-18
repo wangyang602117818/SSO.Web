@@ -125,5 +125,14 @@ export default {
     old_password_error: "OldPassword error",
     session_exexpired: "Session expired",
     two_passwords_inconsistent: "Two passwords that you enter is inconsistent!",
-    password_pattern_invalid: "Incorrect password rule! min:6,must contains a numbers and a letter"
+    password_pattern_invalid: "Incorrect password rule! min:6,must contains a numbers and a letter",
+    navigations:"Navigation",
+    link:"Link",
+    logo:"Logo",
+    update_navigation:"Update Navigation",
+    add_navigation:"Add Navigation",
+    navigation_name:"NavigationName",
+    navigation_name_required:"NavigationName is required",
+    link_required:"Link is required",
+    sure_delete_navigation:"Delete this navigation?"
 }

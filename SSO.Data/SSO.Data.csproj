@@ -79,6 +79,10 @@
     <Compile Include="Migrations\202001110554360_AddSetting.Designer.cs">
       <DependentUpon>202001110554360_AddSetting.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004180703484_AddLogoUrl.cs" />
+    <Compile Include="Migrations\202004180703484_AddLogoUrl.Designer.cs">
+      <DependentUpon>202004180703484_AddLogoUrl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Company.cs" />
@@ -110,6 +114,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202001110554360_AddSetting.resx">
       <DependentUpon>202001110554360_AddSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004180703484_AddLogoUrl.resx">
+      <DependentUpon>202004180703484_AddLogoUrl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

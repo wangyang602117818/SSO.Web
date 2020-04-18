@@ -8,6 +8,7 @@ namespace SSO.Web.Models
         public string Title { get; set; }
         [Required]
         public string BaseUrl { get; set; }
+        public string LogoUrl { get; set; }
     }
     public class UpdateNavigationModel : NavigationModel
     {

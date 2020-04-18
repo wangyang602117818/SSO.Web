@@ -37,7 +37,9 @@
               :title="url.BaseUrl"
             >
               <div class="logo">
-                <img alt="icon" v-bind:src="url.IconUrl" v-if="url.IconUrl" />
+                <span v-if="url.LogoUrl" >
+                  <img alt="icon" v-bind:src="url.LogoUrl" />
+                </span>
                 <span v-else>
                   <a-avatar
                     size="large"
@@ -46,58 +48,10 @@
                 </span>
               </div>
               <div class="title" :title="url.Title">{{url.Title.getFileName(3)}}</div>
-              <a-popconfirm
-                title="Are you sure delete?"
-                @confirm="delsite(url._id)"
-                okText="Yes"
-                cancelText="No"
-              >
-                <a-icon slot="icon" type="question-circle-o" style="color: red" />
-                <div @click.prevent>
-                  <a-icon type="close" class="delsite" style="color:#444" v-if="user" />
-                </div>
-              </a-popconfirm>
-              <div
-                @click.prevent="updatesite(url._id)"
-                :id="url._id"
-                class="updatesite"
-                v-if="user"
-              >
-                <a-icon type="edit" style="color:#444" />
-              </div>
             </a>
           </a-row>
         </a-tab-pane>
-        <a-icon
-          v-if="user"
-          type="plus"
-          slot="tabBarExtraContent"
-          :style="{ fontSize: '16px',cursor:'pointer' }"
-          @click="()=>{this.addurl_visible = !this.addurl_visible;this.is_update_url=false}"
-        />
       </a-tabs>
-      <div class="addurl" v-if="addurl_visible">
-        <a-form :form="addUrl_form" layout="inline" @submit.prevent="addUrl">
-          <a-form-item>
-            <a-input
-              style="width: 120px"
-              v-decorator="['title',{ rules: [{ required: true, message: 'Please input your title!' }] }]"
-              placeholder="名称"
-            ></a-input>
-          </a-form-item>
-          <a-form-item>
-            <a-input
-              style="width: 180px"
-              v-decorator="['baseUrl',{ rules: [{ required: true, message: 'Please input your url!' }]}]"
-              placeholder="网址"
-            ></a-input>
-          </a-form-item>
-          <a-form-item>
-            <a-button type="default" @click="addurl_visible=false">取消</a-button>&nbsp;
-            <a-button type="primary" html-type="submit">{{is_update_url?'修改':'添加'}}</a-button>
-          </a-form-item>
-        </a-form>
-      </div>
     </div>
   </div>
 </template>

@@ -1,16 +1,19 @@
- .ant-row{
+.ant-row{
     margin-bottom: 12px  !important;
   }
 .ant-form-item{
   padding-bottom: 0px !important;
 }
-  .ant-tag{
+.ant-tag{
    margin-right:2px !important;
    padding:0 3px !important;
  }
- .ant-table{
+.ant-table{
    font-size: 12.5px !important;
  }
  .ant-table-tbody > tr > td{
    border-width: 0.5px !important;
+ }
+ .ant-table-thead > tr > th{
+  border-width: 0.5px !important;
  }

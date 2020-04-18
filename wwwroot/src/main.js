@@ -9,6 +9,7 @@ import UserBasic from '@/components/user_basic'
 import Role from '@/components/role'
 import Company from '@/components/company'
 import Department from '@/components/department'
+import Navigation from '@/components/navigation'
 import Log from '@/components/log'
 import Settings from '@/components/settings'
 import common from './js/common.js'
@@ -18,7 +19,7 @@ import authorize from './js/authorize.js'
 import "@/css/index.css"
 
 import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown, Spin } from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.css'
+import 'ant-design-vue/dist/antd.less'
 
 Vue.use(Button)
 Vue.use(Icon)
@@ -121,6 +122,13 @@ var urls = {
     userCompanyRatio: 'overview/userCompanyRatio',
     userDepartmentRatio: 'overview/userDepartmentRatio'
   },
+  navigation:{
+    getlist:'navigation/getlist',
+    add: 'navigation/add',
+    delete: 'navigation/delete',
+    getbyid: 'navigation/getbyid',
+    update: 'navigation/update'
+  },
   settings: {
     setLang: 'settings/setlang'
   },
@@ -170,6 +178,11 @@ const router = new VueRouter({
           path: 'department',
           name: "department",
           component: Department
+        },
+        {
+          path: 'navigation',
+          name: "navigation",
+          component: Navigation
         },
         {
           path: 'log',

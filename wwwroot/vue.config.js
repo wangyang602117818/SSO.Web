@@ -2,7 +2,7 @@ module.exports = {
     runtimeCompiler: true,
     publicPath: '',
     assetsDir: '',
-    filenameHashing:false,
+    filenameHashing: false,
     pages: {
         index: {
             // page 的入口
@@ -18,5 +18,17 @@ module.exports = {
             // 提取出来的通用 chunk 和 vendor chunk。
             chunks: ['chunk-vendors', 'chunk-common', 'index']
         }
+    },
+    css: {
+        loaderOptions: {
+            less: {
+                modifyVars: {
+                    // 'primary-color': '#1DA57A',
+                    // 'link-color': '#1DA57A',
+                    // 'border-radius-base': '2px',
+                },
+                javascriptEnabled: true,
+            },
+        },
     }
 }
