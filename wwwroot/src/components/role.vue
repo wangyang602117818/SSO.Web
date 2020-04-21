@@ -109,7 +109,7 @@ export default {
           dataIndex: "UpdateTime.$date",
           width: "15%",
           customRender: val => {
-            return this.$common.parseBsonTime(val);
+            return this.$funtools.parseBsonTime(val);
           }
         },
         {
@@ -117,7 +117,7 @@ export default {
           dataIndex: "CreateTime.$date",
           width: "15%",
           customRender: val => {
-            return this.$common.parseBsonTime(val);
+            return this.$funtools.parseBsonTime(val);
           }
         }
       ],

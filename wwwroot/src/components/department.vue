@@ -375,17 +375,17 @@ export default {
       if (this.expandedKeys.indexOf(key) == -1) {
         this.expandedKeys.push(key);
       } else {
-        this.$common.removeArrayItem(this.expandedKeys, key);
+        this.$funtools.removeArrayItem(this.expandedKeys, key);
       }
     },
     getRandomCode() {
-      this.form.setFieldsValue({ code: this.$common.randomWord(12, 12) });
+      this.form.setFieldsValue({ code: this.$funtools.randomWord(12, 12) });
     },
     getRandomCodeSub() {
-      this.addform.setFieldsValue({ code: this.$common.randomWord(12, 12) });
+      this.addform.setFieldsValue({ code: this.$funtools.randomWord(12, 12) });
     },
     getRandomCodeUpdate() {
-      this.updateform.setFieldsValue({ code: this.$common.randomWord(12, 12) });
+      this.updateform.setFieldsValue({ code: this.$funtools.randomWord(12, 12) });
     },
     selectCompany(item) {
       this.selectedCompany = item.key;

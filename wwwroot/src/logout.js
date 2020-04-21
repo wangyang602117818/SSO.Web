@@ -4,9 +4,6 @@ import babelPolyfill from 'babel-polyfill'
 
 import Logout from '@/components/logout'
 
-import common from './js/common.js'
-// import authorize from './js/authorize.js'
-
 import { Button, Row, Col, Divider, Tabs, Card, Avatar, Select, Icon, Dropdown, Modal, Form, Input, message, Menu, Popconfirm } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
@@ -27,7 +24,6 @@ Vue.use(Menu)
 Vue.use(Popconfirm)
 
 Vue.prototype.$message = message
-Vue.prototype.$common = common
 
 Vue.use(VueResource)
 Vue.use(babelPolyfill)

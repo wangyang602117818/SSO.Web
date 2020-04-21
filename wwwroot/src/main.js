@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import babelPolyfill from 'babel-polyfill'
+import funtools from 'fun-tools'
 
 import Home from '@/components/home'
 import OverView from '@/components/overview'
@@ -12,10 +13,8 @@ import Department from '@/components/department'
 import Navigation from '@/components/navigation'
 import Log from '@/components/log'
 import Settings from '@/components/settings'
-import common from './js/common.js'
 import langEn from './lang/en-US'
 import langZh from './lang/zh-CN'
-import authorize from './js/authorize.js'
 import "@/css/index.css"
 
 import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown, Spin } from 'ant-design-vue'
@@ -47,8 +46,7 @@ Vue.use(Spin)
 
 Vue.prototype.$message = message
 Vue.prototype.$notification = notification
-Vue.prototype.$common = common
-Vue.prototype.$authorize = authorize
+Vue.prototype.$funtools = funtools
 Vue.prototype.$cookieName = "sso.manage.auth"
 
 Vue.use(VueRouter)
@@ -57,13 +55,13 @@ Vue.use(babelPolyfill)
 
 Vue.http.options.root = 'http://www.sso.com:8030/'
 
-authorize.authorize(Vue.http.options.root, Vue.prototype.$cookieName)
+funtools.authorize(Vue.http.options.root, Vue.prototype.$cookieName)
 
 Vue.prototype.$lang = (window.token_jwt_data.Lang == "en-us") ? langEn : langZh
 
 Vue.http.interceptors.push(function (request, next) {//拦截器
   // request.credentials = true;    // 跨域携带cookie
-  request.headers.set('Authorization', authorize.getCookie(Vue.prototype.$cookieName));
+  request.headers.set('Authorization', funtools.getCookie(Vue.prototype.$cookieName));
   next(response => {
     if (response.body.code == 401) {
       // window.location.href = Vue.http.options.root + urls.login + "?returnUrl=" + window.location.href;

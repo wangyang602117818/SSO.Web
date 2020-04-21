@@ -59,7 +59,7 @@ export default {
       this.loading = true;
       this.form.validateFields((err, values) => {
         if (!err) {
-          values.returnUrl = this.$common.getReturnUrl("returnUrl");
+          values.returnUrl = this.$funtools.getReturnUrl("returnUrl");
           this.$http.post(this.$urls.login, values).then(response => {
             if (response.body.code == 0) {
               var returnUrl = response.body.result;

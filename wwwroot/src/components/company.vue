@@ -113,7 +113,7 @@ export default {
           dataIndex: "UpdateTime.$date",
           width: "15%",
           customRender: val => {
-            return this.$common.parseBsonTime(val);
+            return this.$funtools.parseBsonTime(val);
           }
         },
         {
@@ -121,7 +121,7 @@ export default {
           dataIndex: "CreateTime.$date",
           width: "15%",
           customRender: val => {
-            return this.$common.parseBsonTime(val);
+            return this.$funtools.parseBsonTime(val);
           }
         }
       ],
@@ -145,10 +145,10 @@ export default {
     showDrawer() {
       this.drawerVisible = true;
       this.isUpdate = false;
-      this.form.setFieldsValue({ code: this.$common.randomWord(12, 12) });
+      this.form.setFieldsValue({ code: this.$funtools.randomWord(12, 12) });
     },
     getRandomCode() {
-      this.form.setFieldsValue({ code: this.$common.randomWord(12, 12) });
+      this.form.setFieldsValue({ code: this.$funtools.randomWord(12, 12) });
     },
     getData() {
       this.loading = true;

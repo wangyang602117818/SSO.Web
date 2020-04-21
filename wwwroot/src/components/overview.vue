@@ -70,8 +70,10 @@
         <div class="total_item_wrap">
           <div class="total_item_txt">{{this.$lang.user_record}}</div>
           <div class="total_item_title">
-            <span class="line line_0053FE"></span> {{this.$lang.input}}
-            <span class="line line_00C782"></span> {{this.$lang.delete}}
+            <span class="line line_0053FE"></span>
+            {{this.$lang.input}}
+            <span class="line line_00C782"></span>
+            {{this.$lang.delete}}
           </div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getUserRecord" />
@@ -125,11 +127,11 @@ export default {
   data() {
     return {
       total_loading: false,
-      op_record_loading:false,
-      user_record_loading:false,
-      user_ratio_loading:false,
-      user_company_loading:false,
-      user_department_loading:false,
+      op_record_loading: false,
+      user_record_loading: false,
+      user_ratio_loading: false,
+      user_company_loading: false,
+      user_department_loading: false,
       total: {},
       opRecordChart: null,
       userRecordChart: null,
@@ -148,6 +150,63 @@ export default {
     this.getUserDepartmentRatio();
   },
   methods: {
+    getEchartOptionsPie() {
+      return {
+        animation: true,
+        color: ["#26A3FF", "#26CECD", "#26CD7B", "#FFD22F", "#FF5371"],
+        tooltip: {
+          trigger: "item"
+        }
+      };
+    },
+    getEchartOptionsLine(xData) {
+      return {
+        animation: true,
+        color: ["#0053FE", "#00C782"],
+        tooltip: {
+          trigger: "axis"
+        },
+        grid: {
+          left: "7%",
+          top: "10%",
+          bottom: "15%",
+          right: "5%"
+        },
+        xAxis: {
+          data: xData,
+          axisLine: {
+            lineStyle: {
+              color: "#484848",
+              opacity: 0.6
+            }
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              type: "dashed",
+              color: "#e4e4e4"
+            }
+          }
+        },
+        yAxis: {
+          type: "value",
+          minInterval: 3,
+          axisLine: {
+            lineStyle: {
+              color: "#484848",
+              opacity: 0.6
+            }
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              type: "dashed",
+              color: "#e4e4e4"
+            }
+          }
+        }
+      };
+    },
     getData() {
       this.total_loading = true;
       this.$http.get(this.$urls.overview.total).then(response => {
@@ -156,9 +215,9 @@ export default {
       });
     },
     getOpRecord() {
-      this.op_record_loading=true;
+      this.op_record_loading = true;
       this.$http.get(this.$urls.overview.opRecord).then(response => {
-        this.op_record_loading=false;
+        this.op_record_loading = false;
         if (!this.opRecordChart) {
           this.opRecordChart = echarts.init(this.$refs.op_record);
         }
@@ -170,7 +229,7 @@ export default {
             return item["count"];
           });
           // 绘制图表。
-          var options = this.$common.echartOptionsLine(dateList);
+          var options = this.getEchartOptionsLine(dateList);
           options.series = [
             {
               data: countList,
@@ -187,9 +246,9 @@ export default {
       });
     },
     getUserRecord() {
-      this.user_record_loading=true;
+      this.user_record_loading = true;
       this.$http.get(this.$urls.overview.userRecord).then(response => {
-        this.user_record_loading=false;
+        this.user_record_loading = false;
         if (!this.userRecordChart) {
           this.userRecordChart = echarts.init(this.$refs.user_record);
         }
@@ -209,7 +268,7 @@ export default {
             if (currentValue["type"] == "delete")
               delList.push([currentValue["date"], currentValue["count"]]);
           });
-          var options = this.$common.echartOptionsLine(dateList);
+          var options = this.getEchartOptionsLine(dateList);
           options.series = [
             {
               name: this.$lang.input,
@@ -236,19 +295,19 @@ export default {
       });
     },
     getUserRatio() {
-      this.user_ratio_loading=true;
+      this.user_ratio_loading = true;
       this.$http.get(this.$urls.overview.userRatio).then(response => {
-        this.user_ratio_loading=false;
+        this.user_ratio_loading = false;
         if (!this.userRatioChart) {
           this.userRatioChart = echarts.init(this.$refs.user_ratio);
         }
         if (response.body.code == 0) {
-          var options = this.$common.echartOptionsPie();
+          var options = this.getEchartOptionsPie();
           var data = [];
-          var that =this;
+          var that = this;
           response.body.result.forEach(function(currentValue) {
             if (currentValue["type"] == "M") {
-              data.push({ value: currentValue.count, name: that.$lang.male});
+              data.push({ value: currentValue.count, name: that.$lang.male });
             } else {
               data.push({ value: currentValue.count, name: that.$lang.female });
             }
@@ -265,14 +324,14 @@ export default {
       });
     },
     getUserCompanyRatio() {
-      this.user_company_loading=true;
+      this.user_company_loading = true;
       this.$http.get(this.$urls.overview.userCompanyRatio).then(response => {
-        this.user_company_loading=false;
+        this.user_company_loading = false;
         if (!this.userCompanyChart) {
           this.userCompanyChart = echarts.init(this.$refs.user_company_ratio);
         }
         if (response.body.code == 0) {
-          var options = this.$common.echartOptionsPie();
+          var options = this.getEchartOptionsPie();
           var data = [];
           response.body.result.forEach(function(currentValue) {
             data.push({ value: currentValue.count, name: currentValue.type });
@@ -289,16 +348,16 @@ export default {
       });
     },
     getUserDepartmentRatio() {
-      this.user_department_loading=true;
+      this.user_department_loading = true;
       this.$http.get(this.$urls.overview.userDepartmentRatio).then(response => {
-        this.user_department_loading=false;
+        this.user_department_loading = false;
         if (!this.userDepartmentChart) {
           this.userDepartmentChart = echarts.init(
             this.$refs.user_department_ratio
           );
         }
         if (response.body.code == 0) {
-          var options = this.$common.echartOptionsPie();
+          var options = this.getEchartOptionsPie();
           var data = [];
           response.body.result.forEach(function(currentValue) {
             data.push({ value: currentValue.count, name: currentValue.type });

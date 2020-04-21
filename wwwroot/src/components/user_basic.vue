@@ -278,7 +278,7 @@ export default {
           dataIndex: "CreateTime.$date",
           width: "15%",
           customRender: val => {
-            return this.$common.parseBsonTime(val);
+            return this.$funtools.parseBsonTime(val);
           }
         }
       ],
@@ -294,7 +294,7 @@ export default {
   },
   methods: {
     parseBsonTime(val) {
-      return this.$common.parseBsonTime(val);
+      return this.$funtools.parseBsonTime(val);
     },
     onSearch() {
       this.pagination.current = 1;
@@ -423,7 +423,7 @@ export default {
           dataIndex: "DeleteTime.$date",
           width: "15%",
           customRender: val => {
-            return this.$common.parseBsonTime(val);
+            return this.$funtools.parseBsonTime(val);
           }
         });
       } else {
@@ -432,7 +432,7 @@ export default {
           dataIndex: "CreateTime.$date",
           width: "15%",
           customRender: val => {
-            return this.$common.parseBsonTime(val);
+            return this.$funtools.parseBsonTime(val);
           }
         });
       }

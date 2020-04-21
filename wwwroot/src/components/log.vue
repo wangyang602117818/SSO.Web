@@ -68,7 +68,7 @@ export default {
           dataIndex: "UserAgent",
           width: "8%",
           customRender: val => {
-            return this.$common.getAgent(val);
+            return this.$funtools.getDeviceType(val);
           }
         },
         {
@@ -76,7 +76,7 @@ export default {
           dataIndex: "CreateTime.$date",
           width: "19%",
           customRender: val => {
-            return this.$common.parseBsonTime(val);
+            return this.$funtools.parseBsonTime(val);
           }
         }
       ],
