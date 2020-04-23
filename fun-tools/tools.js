@@ -124,6 +124,13 @@ function trimStartChar(char) {
     var reTag = new RegExp("^" + (char || ' ') + "+", "gi");
     return this.replace(reTag, "");
 }
+//把html字符串转换成dom对象
+function htmlToDom(html) {
+    var obj = document.createElement("div");
+    obj.innerHTML = html;
+    return obj.firstChild;
+}
+
 module.exports = {
     getCookie: getCookie,
     setCookie: setCookie,
@@ -139,5 +146,6 @@ module.exports = {
     getFileName: getFileName,
     trimChar: trimChar,
     trimEndChar: trimEndChar,
-    trimStartChar: trimStartChar
+    trimStartChar: trimStartChar,
+    htmlToDom: htmlToDom
 }
