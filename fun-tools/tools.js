@@ -89,7 +89,7 @@ function getDeviceType(userAgent) {
     }
 }
 //获取长文件名的前几个字符串
-function getFileName(fileName,length) {
+function getFileName(fileName, length) {
     if (fileName.indexOf("<span class=\"search_word\">") > -1) {
         var startIndex = fileName.indexOf("<span class=\"search_word\">"),
             endIndex = tfileNameis.indexOf("</span>"),
@@ -110,18 +110,18 @@ function getFileName(fileName,length) {
     }
 }
 //去除字符串首尾char字符串
-function trimChar(str,char) {
-    var reTag = new RegExp("^" + (char || ' ') + "+|" + (char || ' ') + "+$", "gi");
+function trimChar(str, char) {
+    var reTag = new RegExp("^" + ("\\" + char || ' ') + "+|" + ("\\" + char || ' ') + "+$", "gi");
     return str.replace(reTag, "");
 }
 //去除字符串尾char字符串
-function trimEndChar(str,char) {
+function trimEndChar(str, char) {
     var reTag = new RegExp(('\\' + char || ' ') + "+$", "gi");
     return str.replace(reTag, "");
 }
 //去除字符串首char字符串
-function trimStartChar(str,char) {
-    var reTag = new RegExp("^" + (char || ' ') + "+", "gi");
+function trimStartChar(str, char) {
+    var reTag = new RegExp("^" + ("\\" + char || ' ') + "+", "gi");
     return str.replace(reTag, "");
 }
 //把html字符串转换成dom对象
@@ -130,7 +130,19 @@ function htmlToDom(html) {
     obj.innerHTML = html.trim();
     return obj.firstChild;
 }
-
+//将一个一维数组转换成二维数组每一项有len个元素,不足填充null
+function reMapArray(array, len) {
+    var new_array = [];
+    for (var i = 0; i < array.length; i += len) {
+        if (i % len == 0) {
+            new_array.push(array.slice(i, i + len));
+        }
+    }
+    while (new_array[new_array.length - 1].length < len) {
+        new_array[new_array.length - 1].push(null);
+    }
+    return new_array;
+}
 module.exports = {
     getCookie: getCookie,
     setCookie: setCookie,
@@ -147,5 +159,6 @@ module.exports = {
     trimChar: trimChar,
     trimEndChar: trimEndChar,
     trimStartChar: trimStartChar,
-    htmlToDom: htmlToDom
+    htmlToDom: htmlToDom,
+    reMapArray: reMapArray
 }

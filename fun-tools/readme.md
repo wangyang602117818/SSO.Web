@@ -46,5 +46,8 @@ var result = trimStartChar(str,char)
 
 //把html字符串转换成dom对象
 var dom = htmlToDom(html)
+
+//将一个一维数组转换成二维数组每一项有len个元素,不足填充null
+var arr = reMapArray(array, len)
 ```
 
