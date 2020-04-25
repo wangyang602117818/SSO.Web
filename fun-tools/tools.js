@@ -89,45 +89,45 @@ function getDeviceType(userAgent) {
     }
 }
 //获取长文件名的前几个字符串
-function getFileName(length) {
-    if (this.indexOf("<span class=\"search_word\">") > -1) {
-        var startIndex = this.indexOf("<span class=\"search_word\">"),
-            endIndex = this.indexOf("</span>"),
+function getFileName(fileName,length) {
+    if (fileName.indexOf("<span class=\"search_word\">") > -1) {
+        var startIndex = fileName.indexOf("<span class=\"search_word\">"),
+            endIndex = tfileNameis.indexOf("</span>"),
             startPos = startIndex - length / 2,
             endPos = endIndex + 7 + length / 2;
         if (startPos < 0) endPos = endPos + Math.abs(startPos);
-        var newfilename = this.substring(startPos, endPos);
-        if (this.length > newfilename.length) return newfilename + "...";
+        var newfilename = fileName.substring(startPos, endPos);
+        if (fileName.length > newfilename.length) return newfilename + "...";
         return newfilename;
     } else {
         var len = 0;
-        for (var i = 0; i < this.length; i++) {
+        for (var i = 0; i < fileName.length; i++) {
             if (i == length) break;
-            /^[\u4E00-\u9FA5]+$/.test(this[i]) ? len += 1 : len += 2;
+            /^[\u4E00-\u9FA5]+$/.test(fileName[i]) ? len += 1 : len += 2;
         }
-        if (this.length > len) return this.substring(0, len) + "...";
-        return this.substring(0, len);
+        if (fileName.length > len) return fileName.substring(0, len) + "...";
+        return fileName.substring(0, len);
     }
 }
 //去除字符串首尾char字符串
-function trimChar(char) {
+function trimChar(str,char) {
     var reTag = new RegExp("^" + (char || ' ') + "+|" + (char || ' ') + "+$", "gi");
-    return this.replace(reTag, "");
+    return str.replace(reTag, "");
 }
 //去除字符串尾char字符串
-function trimEndChar(char) {
+function trimEndChar(str,char) {
     var reTag = new RegExp(('\\' + char || ' ') + "+$", "gi");
-    return this.replace(reTag, "");
+    return str.replace(reTag, "");
 }
 //去除字符串首char字符串
-function trimStartChar(char) {
+function trimStartChar(str,char) {
     var reTag = new RegExp("^" + (char || ' ') + "+", "gi");
-    return this.replace(reTag, "");
+    return str.replace(reTag, "");
 }
 //把html字符串转换成dom对象
 function htmlToDom(html) {
     var obj = document.createElement("div");
-    obj.innerHTML = html;
+    obj.innerHTML = html.trim();
     return obj.firstChild;
 }
 

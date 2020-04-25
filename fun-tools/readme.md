@@ -37,12 +37,12 @@ removeArrayItem(array, val)
 var device = getDeviceType(userAgent)
 
 //获取长文件名的前几个字符串
-var result = getFileName(length)
+var result = getFileName(fileName,length)
 
 //去除字符串首尾char字符串
-var result = trimChar(char)
-var result = trimEndChar(char)
-var result = trimStartChar(char)
+var result = trimChar(str,char)
+var result = trimEndChar(str,char)
+var result = trimStartChar(str,char)
 
 //把html字符串转换成dom对象
 var dom = htmlToDom(html)
