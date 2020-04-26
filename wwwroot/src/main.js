@@ -18,7 +18,6 @@ import langZh from './lang/zh-CN'
 import "@/css/index.css"
 
 import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown, Spin } from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.less'
 
 Vue.use(Button)
 Vue.use(Icon)

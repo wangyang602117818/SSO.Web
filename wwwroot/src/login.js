@@ -5,7 +5,6 @@ import babelPolyfill from 'babel-polyfill'
 import Login from '@/components/login'
 
 import { Button, Icon, Input, Form, Row, Col, message, Card } from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.css'
 
 Vue.use(Button)
 Vue.use(Icon)
