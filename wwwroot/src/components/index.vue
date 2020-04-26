@@ -11,7 +11,7 @@
           <span>{{user.UserName}}</span>
         </div>
         <div class="login_user" @click="login" v-else>
-          <span>登录</span>
+          <span>{{this.lang.login}}</span>
         </div>
         <div
           class="login_tools"
@@ -20,16 +20,16 @@
           v-if="user"
           v-show="show_logout"
         >
-          <a class="tools_item" target="_self" :href="this.$urls.logout">退出</a>
+          <a class="tools_item" target="_self" :href="this.$urls.logout">{{this.lang.logout}}</a>
         </div>
       </div>
     </div>
     <div class="search">
-      <input type="text" name="search" placeholder="Search" />
+      <input type="text" name="search" :placeholder="this.lang.search" />
     </div>
     <div class="main">
       <div class="main_tab">
-        <div class="tab_title">我的导航</div>
+        <div class="tab_title">{{this.lang.my_navigation}}</div>
         <div class="tab_data_line" v-for="(item,index) in urls" :key="index">
           <div class="data_site_wrap" v-for="(u,index) in item" :key="index">
             <a class="data_site" v-if="u" :href="u.BaseUrl" :title="u.BaseUrl" target="_blank">
@@ -50,6 +50,8 @@
   </div>
 </template>
 <script>
+import langEn from "../lang/en-US";
+import langZh from "../lang/zh-CN";
 export default {
   name: "index",
   data() {
@@ -57,6 +59,7 @@ export default {
       urls: [],
       len: 5,
       user: null,
+      lang: langZh,
       show_logout: false
     };
   },
@@ -81,6 +84,7 @@ export default {
       this.$http.get(this.$urls.decodetoken).then(response => {
         if (response.body.code == 0 && response.body.result) {
           this.user = response.body.result;
+          this.lang = response.body.result.Lang == "en-us" ? langEn : langZh;
         }
       });
     }
@@ -104,7 +108,7 @@ a {
   color: #666;
 }
 .top {
-  border:0;
+  border: 0;
   display: flex;
   height: 40px;
   align-items: center;

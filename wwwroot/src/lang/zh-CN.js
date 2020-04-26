@@ -9,6 +9,7 @@ export default {
     log: "日志列表",
     system_settings: "系统设置",
     settings: "设置",
+    login:"登录",
     logout: "退出",
     home: "首页",
     companys: "公司总数",
@@ -127,6 +128,7 @@ export default {
     two_passwords_inconsistent:"两次密码验证不一致",
     password_pattern_invalid:"密码规则不符合要求(最短6位,不能为纯数字或纯字母)",
     navigations:"导航列表",
+    my_navigation:"我的导航",
     link:"链接",
     logo:"Logo",
     update_navigation:"更新导航",
@@ -134,5 +136,6 @@ export default {
     navigation_name:"导航名称",
     navigation_name_required:"导航名称不能为空",
     link_required:"链接不能为空",
-    sure_delete_navigation:"确定删除导航?"
+    sure_delete_navigation:"确定删除导航?",
+    
 }

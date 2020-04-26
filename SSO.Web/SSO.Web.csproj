@@ -184,7 +184,6 @@
   <ItemGroup>
     <Content Include="Content\login\chunk-vendors.css" />
     <Content Include="Content\login\index.css" />
-    <Content Include="Content\index\chunk-vendors.css" />
     <Content Include="Content\index\chunk-vendors.js" />
     <Content Include="Content\index\index.css" />
     <Content Include="Content\index\index.js" />

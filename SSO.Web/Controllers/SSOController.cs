@@ -112,7 +112,7 @@ namespace SSO.Web.Controllers
             Response.Cookies.Add(httpCookie);
             JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
             if (returnUrl.IsNullOrEmpty()) returnUrl = Request.Url.Scheme + "://" + Request.Url.Host + ":" + Request.Url.Port + Request.ApplicationPath;
-            InfoLog("0", "Login", loginModel.UserId);
+            InfoLog("0", "Login", loginModel.UserId, loginModel.UserId);
             return new ResponseModel<string>(ErrorCode.success, returnUrl);
         }
         [JwtAuthorize]

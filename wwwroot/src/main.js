@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
-import babelPolyfill from 'babel-polyfill'
+// import babelPolyfill from 'babel-polyfill'
 import funtools from 'fun-tools'
 
 import Home from '@/components/home'
@@ -50,7 +50,7 @@ Vue.prototype.$cookieName = "sso.manage.auth"
 
 Vue.use(VueRouter)
 Vue.use(VueResource)
-Vue.use(babelPolyfill)
+// Vue.use(babelPolyfill)
 
 Vue.http.options.root = 'http://www.sso.com:8030/'
 

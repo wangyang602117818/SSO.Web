@@ -57,20 +57,21 @@ export default {
   methods: {
     handleSubmit() {
       this.loading = true;
+      var that=this;
       this.form.validateFields((err, values) => {
         if (!err) {
-          values.returnUrl = this.$funtools.getReturnUrl("returnUrl");
-          this.$http.post(this.$urls.login, values).then(response => {
+          values.returnUrl = that.$funtools.getReturnUrl("returnUrl");
+          that.$http.post(that.$urls.login, values).then(response => {
             if (response.body.code == 0) {
               var returnUrl = response.body.result;
               window.location.href = decodeURIComponent(returnUrl);
             } else {
-              this.$message.warning("用户名或密码不正确!");
-              this.loading = false;
+              that.$message.warning("用户名或密码不正确!");
+              that.loading = false;
             }
           });
         }else{
-          this.loading = false;
+          that.loading = false;
         }
       });
     },
