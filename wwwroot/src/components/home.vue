@@ -184,7 +184,7 @@ export default {
         .get(this.$urls.settings.setLang + "?lang=" + lang)
         .then(response => {
           if (response.body.code == 0) {
-            this.$authorize.setCookie(this.$cookieName, response.body.result);
+            this.$funtools.setCookie(this.$cookieName, response.body.result);
             this.$router.go();
           }
         });

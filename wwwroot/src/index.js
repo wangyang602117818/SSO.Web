@@ -8,14 +8,15 @@ Vue.prototype.$funtools = funtools
 
 Vue.use(VueResource)
 
-Vue.http.options.root = 'http://www.sso.com:8030/'
-// Vue.http.options.root = ''
+// Vue.http.options.root = 'http://www.sso.com:8030/'
+Vue.http.options.root = ''
 
 var urls = {
     geturlmeta: 'navigation/geturlmeta',
     login: 'sso/login',
     logout: 'sso/logout',
-    decodetoken: 'sso/decodetoken'
+    decodetoken: 'sso/decodetoken',
+    setLang:'settings/setlanglocal'
 };
 Vue.prototype.$urls = urls
 

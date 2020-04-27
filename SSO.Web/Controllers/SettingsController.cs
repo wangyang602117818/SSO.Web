@@ -23,5 +23,23 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
+        public ActionResult SetLangLocal(string lang)
+        {
+            if (settings.UpdateLang(User.Identity.Name, lang) >= 0)
+            {
+                string token = JwtManager.ModifyTokenLang(HttpContext.Items["Authorization"].ToString(), lang, 24 * 60);
+                HttpCookie httpCookie = new HttpCookie(AppSettings.cookieName, token);
+                if (AppSettings.cookieTime != "session")
+                {
+                    httpCookie.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(AppSettings.cookieTime));
+                }
+                Response.Cookies.Add(httpCookie);
+                return new ResponseModel<string>(ErrorCode.success, token);
+            }
+            else
+            {
+                return new ResponseModel<string>(ErrorCode.server_exception, "");
+            }
+        }
     }
 }

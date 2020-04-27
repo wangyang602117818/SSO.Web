@@ -20,6 +20,7 @@
           v-if="user"
           v-show="show_logout"
         >
+         <a class="tools_item" target="_self" @click="changeLang">{{this.user.Lang=="en-us"?'中':'EN'}}</a>
           <a class="tools_item" target="_self" :href="this.$urls.logout">{{this.lang.logout}}</a>
         </div>
       </div>
@@ -87,6 +88,16 @@ export default {
           this.lang = response.body.result.Lang == "en-us" ? langEn : langZh;
         }
       });
+    },
+    changeLang() {
+      var lang = this.user.Lang == "en-us" ? "zh-cn" : "en-us";
+      this.$http
+        .get(this.$urls.setLang + "?lang=" + lang)
+        .then(response => {
+          if (response.body.code == 0) {
+            location.reload();
+          }
+        });
     }
   }
 };
@@ -145,6 +156,7 @@ a {
   top: 40px;
   border-radius: 5px;
   display: flex;
+  flex-direction: column;
   background-color: #fff;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.15);
   -webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.15);
@@ -153,7 +165,6 @@ a {
 }
 .login_tools .tools_item {
   height: 35px;
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
