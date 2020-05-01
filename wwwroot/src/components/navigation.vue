@@ -65,7 +65,7 @@
         </a-row>
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-form-item :label="this.$lang.logoUrl">
+            <a-form-item :label="this.$lang.logo">
               <a-input
                 v-decorator="['logoUrl',{rules: [{ required: false, message: this.$lang.link_required }]}]"
               />

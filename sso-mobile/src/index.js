@@ -1,8 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import funtools from 'fun-tools';
+import { baseURL, cookieName } from './config/http';
+import App from './components/App';
+import './css/index.css';
 import * as serviceWorker from './serviceWorker';
+
+funtools.authorize(baseURL, cookieName);
 
 ReactDOM.render(
   <React.StrictMode>

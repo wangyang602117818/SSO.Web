@@ -1,0 +1,13 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.icon {
+  width: 1.8em; height: 1.8em;
+  vertical-align: -0.15em;
+  fill: #949494;
+  overflow: hidden;
+}
+.iconblue{
+  fill: #108ee9;
+}
