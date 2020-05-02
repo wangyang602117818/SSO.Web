@@ -11,13 +11,13 @@ class Navigator extends React.Component {
     }
     componentDidMount() {
         axios.get(urls.navigation.geturlmeta).then(response => {
-            if (response.code == 0) {
+            if (response.code === 0) {
                 this.setState({ datas: response.result });
             }
         });
     }
-    itemClick(item,index){
-       window.open(item.BaseUrl);
+    itemClick(item, index) {
+        window.open(item.BaseUrl);
     }
     render() {
         return (
@@ -26,13 +26,14 @@ class Navigator extends React.Component {
                     <input type="text" placeholder="search" />
                 </div>
                 <div className="nav_content">
-                    <div className="sub_title">导航列表 </div>
+                    <div className="sub_title">导航列表</div>
                     <Grid data={this.state.datas}
                         columnNum={3}
                         onClick={this.itemClick}
+                        itemStyle={{borderRadius:"0 0 4px 4px"}}
                         renderItem={dataItem => (
                             <div>
-                                <img className="nav_logo" src={dataItem.LogoUrl} alt={dataItem.BaseUrl} />
+                                <img className="nav_logo" src={dataItem.LogoUrl} alt="" />
                                 <div className="nav_title">
                                     <span>{dataItem.Title}</span>
                                 </div>

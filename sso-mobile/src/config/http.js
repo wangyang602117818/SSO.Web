@@ -86,7 +86,7 @@ ax.interceptors.request.use((config) => {
 //响应拦截器
 ax.interceptors.response.use(
     response => {
-        if (response.code == 401) {
+        if (response.code === 401) {
             Toast.info('登录过期', 1);
             return false
         }
