@@ -24,14 +24,14 @@ namespace SSO.Business
         public IEnumerable<Data.Models.Company> GetList(ref int count, string keyword = "", int pageIndex = 1, int pageSize = 15)
         {
             var query = from company in userCenterContext.Companies select company;
-            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.Code.Contains(keyword) || w.Name.Contains(keyword) || w.Description.Contains(keyword));
+            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.Code.ToLower().Contains(keyword.ToLower()) || w.Name.ToLower().Contains(keyword.ToLower()) || w.Description.ToLower().Contains(keyword.ToLower()));
             count = query.Count();
             return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }
         public IEnumerable<Data.Models.Company> GetAll(string filter)
         {
             var query = from company in userCenterContext.Companies select company;
-            if (!string.IsNullOrEmpty(filter)) query = query.Where(w => w.Name.Contains(filter));
+            if (!string.IsNullOrEmpty(filter)) query = query.Where(w => w.Name.ToLower().Contains(filter.ToLower()));
             return query.OrderBy(o=>o.Name).ToList();
         }
         public Data.Models.Company GetById(int id)

@@ -46,7 +46,7 @@ namespace SSO.Business
         public IEnumerable<Data.Models.Navigation> GetList(ref int count, string keyword = "", int pageIndex = 1, int pageSize = 15)
         {
             var query = from navigation in userCenterContext.Navigations select navigation;
-            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.Title.Contains(keyword));
+            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.Title.ToLower().Contains(keyword.ToLower()));
             count = query.Count();
             return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }

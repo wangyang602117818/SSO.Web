@@ -32,7 +32,7 @@ namespace SSO.Business
         public IEnumerable<Data.Models.Log> GetList(ref int count, string keyword = "", int pageIndex = 1, int pageSize = 15)
         {
             var query = from log in userCenterContext.Logs select log;
-            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.Content == keyword);
+            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.Content.ToLower() == keyword.ToLower());
             count = query.Count();
             return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }

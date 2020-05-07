@@ -12,13 +12,11 @@ class TabBarHome extends React.Component {
     super(props);
     this.state = {
       selectedTab: 'navigator',
-      hidden: false,
-      fullScreen: true
     };
   }
   render() {
     return (
-      <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
+      <div className="app">
         <Router>
           <Switch>
             <Route exact path="/">

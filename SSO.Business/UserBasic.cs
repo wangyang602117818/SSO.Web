@@ -205,7 +205,7 @@ namespace SSO.Business
         public List<Data.Models.UserBasic> GetBasic(ref int count, string keyword = "", bool delete = false, int pageIndex = 1, int pageSize = 15)
         {
             var query = from userBasic in userCenterContext.UserBasics where userBasic.Delete == delete select userBasic;
-            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.UserName.Contains(keyword) || w.UserId.Contains(keyword));
+            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.UserName.ToLower().Contains(keyword.ToLower()) || w.UserId.ToLower().Contains(keyword.ToLower()));
             count = query.Count();
             return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }

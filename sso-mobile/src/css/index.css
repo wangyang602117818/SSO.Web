@@ -1,6 +1,7 @@
 *{
   margin: 0;
   padding: 0;
+  font-family: "PingFang SC", "Helvetica Neue", "Hiragino Sans GB", Helvetica, "Microsoft YaHei", Arial;
 }
 .icon {
   width: 1.8em; height: 1.8em;
