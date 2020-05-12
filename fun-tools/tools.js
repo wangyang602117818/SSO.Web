@@ -143,6 +143,11 @@ function reMapArray(array, len) {
     }
     return new_array;
 }
+//获取一段html中指定的某个tag的内部html(包括他本身)
+function getOuterHtml(html, tag) {
+    var regex = new RegExp("<" + tag + "[\\s\\S\\r\\n]*<\\/" + tag + ">", "ig");
+    return html.match(regex)[0];
+}
 module.exports = {
     getCookie: getCookie,
     setCookie: setCookie,
@@ -160,5 +165,6 @@ module.exports = {
     trimEndChar: trimEndChar,
     trimStartChar: trimStartChar,
     htmlToDom: htmlToDom,
-    reMapArray: reMapArray
+    reMapArray: reMapArray,
+    getOuterHtml: getOuterHtml
 }

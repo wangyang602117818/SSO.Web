@@ -1,10 +1,14 @@
 import React from 'react';
 import { TabBar } from 'antd-mobile';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+
 import Navigator from './Navigator';
 import Manage from './Manage';
 import Me from './Me';
-import UserManage from './UserManage'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import UserManage from './UserManage';
+import UserUpdate from './UserUpdate';
+import DepartmentSelect from './DepartmentSelect';
+
 import '../css/app.css';
 
 class TabBarHome extends React.Component {
@@ -71,8 +75,11 @@ class TabBarHome extends React.Component {
                 </TabBar.Item>
               </TabBar>
             </Route>
-            <Route exact path="/user">
-              <UserManage />
+            <Route exact path="/user" component={UserManage}>
+            </Route>
+            <Route exact path="/userupdate/:id" component={UserUpdate}>
+            </Route>
+            <Route exact path="/departmentselect/:companycode" component={DepartmentSelect}>
             </Route>
           </Switch>
         </Router>

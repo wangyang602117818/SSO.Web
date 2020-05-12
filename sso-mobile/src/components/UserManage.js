@@ -8,34 +8,38 @@ class UserManage extends React.Component {
         super(props);
         this.state = {
             datas: [],
-            filter: ""
+            filter: "",
+            isEnd: false,
+            refreshing: false,
+            pageIndex: 1,
+            pageSize: 15
         };
-        this.pageIndex = 1;
-        this.pageSize = 15;
-        this.isEnd = false;
-        this.down = true;
-        this.refreshing = false;
     }
     componentDidMount() {
         this.getData();
     }
     getData() {
-        if (this.isEnd) {
+        Toast.loading('Loading...', 5);
+        if (this.state.isEnd) {
             Toast.info('已到达末尾', 1);
+            this.setState({ refreshing: false });
             return;
         }
-        axios.get(urls.user.getbasic + "?pageIndex=" + this.pageIndex + "&pageSize=" + this.pageSize + "&filter=" + this.state.filter).then(response => {
-            this.refreshing = false;
+        axios.get(urls.user.getbasic + "?pageIndex=" + this.state.pageIndex + "&pageSize=" + this.state.pageSize + "&filter=" + this.state.filter).then(response => {
+            Toast.hide();
             if (response.code === 0) {
                 if (response.result.length === 0) {
-                    this.isEnd = true;
-                    if (this.pageIndex > 1) Toast.info('已到达末尾', 1);
+                    this.setState({ isEnd: true, refreshing: false });
+                    if (this.state.pageIndex > 1) Toast.info('已到达末尾', 1);
                 } else {
                     var res = this.state.datas.concat(response.result);
-                    this.setState({ datas: res });
+                    this.setState({ datas: res, refreshing: false });
                 }
             }
         });
+    }
+    itemClick(id) {
+        this.props.history.push('/userupdate/' + id);
     }
     getUserList(datas) {
         var array = [];
@@ -43,9 +47,13 @@ class UserManage extends React.Component {
             array.push(
                 <List.Item
                     arrow="horizontal"
-                    thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
+                    thumb={
+                        <svg className="icon icon2" aria-hidden="true">
+                            <use xlinkHref="#iconpic"></use>
+                        </svg>
+                    }
                     multipleLine
-                    onClick={() => { }}
+                    onClick={() => { this.itemClick(item.UserId) }}
                     key={item._id}
                 >
                     {item.UserName}
@@ -56,27 +64,30 @@ class UserManage extends React.Component {
         return array;
     }
     loadMore() {
-        this.pageIndex = this.pageIndex + 1;
-        this.refreshing = true;
+        this.setState({
+            refreshing: true,
+            pageIndex: this.state.pageIndex + 1
+        });
         this.getData();
     }
-    handleEnterKey(e) {
-        this.isEnd = false;
+    search(e) {
         var code = e.nativeEvent.keyCode;
         if (code === 13) {
-            this.setState({ datas: [] });
-            this.pageIndex = 1;
+            //此处不设置setState改变状态
+            this.state.isEnd = false;
+            this.state.pageIndex = 1;
+            this.state.datas = [];
             this.getData();
         }
     }
     render() {
-        var dataExists = this.state.datas.length === 0 ? false : true;
+        var dataEmpty = this.state.datas.length === 0 ? true : false;
         return (
             <div className="user_manage">
                 <NavBar
                     mode="dack"
                     icon={<Icon type="left" />}
-                    onLeftClick={() => { this.props.history.goBack(-1); }}
+                    onLeftClick={() => { this.props.history.goBack(-1);}}
                     rightContent={
                         <Popover mask
                             visible={this.state.visible}
@@ -119,16 +130,16 @@ class UserManage extends React.Component {
                         name="search"
                         placeholder="Search"
                         onChange={(e) => { this.setState({ filter: e.target.value }) }}
-                        onKeyPress={this.handleEnterKey.bind(this)}
+                        onKeyPress={this.search.bind(this)}
                         defaultValue={this.state.filter} />
                 </div>
                 <div className="list_con">
-                    <div className="no_data" style={{ display: dataExists ? 'none' : 'block' }}>没有数据</div>
+                    <div className="no_data" style={{ display: dataEmpty && this.state.isEnd === true ? 'block' : 'none' }}>没有数据</div>
                     <List>
                         <PullToRefresh
                             damping={60}
                             direction='up'
-                            refreshing={this.refreshing}
+                            refreshing={this.state.refreshing}
                             onRefresh={this.loadMore.bind(this)}
                         >
                             {this.getUserList(this.state.datas)}

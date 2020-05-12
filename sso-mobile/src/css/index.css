@@ -9,6 +9,9 @@
   fill: #949494;
   overflow: hidden;
 }
+.icon2{
+  width: 2em; height: 2em;
+}
 .iconblue{
   fill: #108ee9;
 }
