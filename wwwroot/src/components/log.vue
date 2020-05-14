@@ -18,10 +18,12 @@
   </div>
 </template>
 <script>
+import base from "./Base";
 export default {
+  name:"log",
+  mixins: [base],
   data() {
     return {
-      data: [],
       columns: [
         {
           title: this.$lang.id,
@@ -80,50 +82,11 @@ export default {
           }
         }
       ],
-      searchValue: "",
-      loading: false,
-      pagination: { current: 1, pageSize: 10, size: "small" }
+      getlist: this.$urls.log.getlist
     };
   },
-  created() {
-    this.getData();
-  },
   methods: {
-    onSearch() {
-      this.pagination.current = 1;
-      this.getData();
-    },
-    getData() {
-      this.loading = true;
-      this.$http
-        .get(
-          this.$urls.log.getlist +
-            "?pageIndex=" +
-            this.pagination.current +
-            "&pageSize=" +
-            this.pagination.pageSize +
-            "&filter=" +
-            this.searchValue
-        )
-        .then(response => {
-          this.loading = false;
-          const pagination = { ...this.pagination };
-          pagination.total = response.body.count;
-          pagination.showTotal = () => {
-            return this.pagination.total;
-          };
-          this.pagination = pagination;
-          if (response.body.code == 0) this.data = response.body.result;
-        });
-    },
-    reload() {
-      this.selectedRowKeys = [];
-      this.getData();
-    },
-    handleTableChange(pagination) {
-      this.pagination.current = pagination.current;
-      this.getData();
-    }
+ 
   }
 };
 </script>

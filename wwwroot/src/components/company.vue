@@ -21,7 +21,12 @@
       :okText="this.$lang.yes"
       :cancelText="this.$lang.no"
     >
-      <a-button type="danger" icon="delete" :title="this.$lang.delete" :disabled="selectedRowKeys.length==0"></a-button>
+      <a-button
+        type="danger"
+        icon="delete"
+        :title="this.$lang.delete"
+        :disabled="selectedRowKeys.length==0"
+      ></a-button>
     </a-popconfirm>
     <a-table
       :columns="columns"
@@ -64,7 +69,7 @@
           <a-col :span="24">
             <a-form-item :label="this.$lang.company_description">
               <a-textarea
-                :autoSize ="{ minRows: 4, maxRows: 6 }"
+                :autoSize="{ minRows: 4, maxRows: 6 }"
                 v-decorator="['description',{rules: [{ required: false, message: this.$lang.company_description_required }]}]"
               />
             </a-form-item>
@@ -81,12 +86,12 @@
   </div>
 </template>
 <script>
+import base from "./Base";
 export default {
   name: "company",
+  mixins: [base],
   data() {
     return {
-      data: [],
-      searchValue: "",
       columns: [
         {
           title: this.$lang.id,
@@ -94,12 +99,12 @@ export default {
           width: "7%"
         },
         {
-          title:  this.$lang.company_code,
+          title: this.$lang.company_code,
           dataIndex: "Code",
           width: "10%"
         },
         {
-          title:this.$lang.company_name,
+          title: this.$lang.company_name,
           dataIndex: "Name",
           width: "13%"
         },
@@ -117,7 +122,7 @@ export default {
           }
         },
         {
-          title:this.$lang.create_time,
+          title: this.$lang.create_time,
           dataIndex: "CreateTime.$date",
           width: "15%",
           customRender: val => {
@@ -125,23 +130,10 @@ export default {
           }
         }
       ],
-      selectedRowKeys: [],
-      form: this.$form.createForm(this),
-      drawerVisible: false,
-      pagination: { current: 1, pageSize: 10, size: "small" },
-      loading: false,
-      isUpdate: false
+      getlist: this.$urls.company.getlist
     };
   },
-  created() {
-    this.getData();
-  },
   methods: {
-    onSearch() {
-      this.pagination.current = 1;
-      this.selectedRowKeys = [];
-      this.getData();
-    },
     showDrawer() {
       this.drawerVisible = true;
       this.isUpdate = false;
@@ -149,29 +141,6 @@ export default {
     },
     getRandomCode() {
       this.form.setFieldsValue({ code: this.$funtools.randomWord(12, 12) });
-    },
-    getData() {
-      this.loading = true;
-      this.$http
-        .get(
-          this.$urls.company.getlist +
-            "?pageIndex=" +
-            this.pagination.current +
-            "&pageSize=" +
-            this.pagination.pageSize +
-            "&filter=" +
-            this.searchValue
-        )
-        .then(response => {
-          this.loading = false;
-          const pagination = { ...this.pagination };
-          pagination.total = response.body.count;
-          pagination.showTotal = () => {
-            return this.pagination.total;
-          };
-          this.pagination = pagination;
-          if (response.body.code == 0) this.data = response.body.result;
-        });
     },
     eidtCompany() {
       this.isUpdate = true;
@@ -199,17 +168,6 @@ export default {
           }
           this.loading = false;
         });
-    },
-    reload() {
-      this.selectedRowKeys = [];
-      this.getData();
-    },
-    onSelectChange(selectedRowKeys) {
-      this.selectedRowKeys = selectedRowKeys;
-    },
-    handleTableChange(pagination) {
-      this.pagination.current = pagination.current;
-      this.getData();
     },
     addCompany(company) {
       this.$http.post(this.$urls.company.add, company).then(response => {

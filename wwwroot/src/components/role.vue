@@ -82,12 +82,12 @@
   </div>
 </template>
 <script>
+import base from "./Base";
 export default {
   name: "role",
+  mixins: [base],
   data() {
     return {
-      data: [],
-      searchValue: "",
       columns: [
         {
           title: this.$lang.id,
@@ -121,46 +121,10 @@ export default {
           }
         }
       ],
-      selectedRowKeys: [],
-      form: this.$form.createForm(this),
-      drawerVisible: false,
-      pagination: { current: 1, pageSize: 10, size: "small" },
-      loading: false,
-      isUpdate: false
+      getlist: this.$urls.role.getlist
     };
   },
-  created() {
-    this.getData();
-  },
   methods: {
-    onSearch() {
-      this.pagination.current = 1;
-      this.selectedRowKeys = [];
-      this.getData();
-    },
-    getData() {
-      this.loading = true;
-      this.$http
-        .get(
-          this.$urls.role.getlist +
-            "?pageIndex=" +
-            this.pagination.current +
-            "&pageSize=" +
-            this.pagination.pageSize +
-            "&filter=" +
-            this.searchValue
-        )
-        .then(response => {
-          this.loading = false;
-          const pagination = { ...this.pagination };
-          pagination.total = response.body.count;
-          pagination.showTotal = () => {
-            return this.pagination.total;
-          };
-          this.pagination = pagination;
-          if (response.body.code == 0) this.data = response.body.result;
-        });
-    },
     eidtRole() {
       this.isUpdate = true;
       this.drawerVisible = true;
@@ -186,17 +150,6 @@ export default {
           }
         });
       this.loading = false;
-    },
-    reload() {
-      this.selectedRowKeys = [];
-      this.getData();
-    },
-    onSelectChange(selectedRowKeys) {
-      this.selectedRowKeys = selectedRowKeys;
-    },
-    handleTableChange(pagination) {
-      this.pagination.current = pagination.current;
-      this.getData();
     },
     addRole(role) {
       this.$http.post(this.$urls.role.add, role).then(response => {
