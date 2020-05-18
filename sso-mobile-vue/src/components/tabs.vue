@@ -1,0 +1,41 @@
+<template>
+  <f7-page :page-content="false">
+    <f7-toolbar tabbar bottom>
+      <f7-link tab-link="#navigator" text="导航" icon-f7="flag_circle"></f7-link>
+      <f7-link tab-link="#manage" tab-link-active text="管理" icon-f7="square_grid_2x2_fill"></f7-link>
+      <f7-link tab-link="#me" text="我的" icon-f7="person_crop_circle"></f7-link>
+    </f7-toolbar>
+    <f7-tabs>
+      <f7-tab id="navigator" class="page-content">
+        <Navigator />
+      </f7-tab>
+      <f7-tab id="manage" class="page-content" tab-active>
+        <Manage />
+      </f7-tab>
+      <f7-tab id="me" class="page-content">
+        <Me />
+      </f7-tab>
+    </f7-tabs>
+  </f7-page>
+</template>
+
+<script>
+import Navigator from "./navigator";
+import Manage from "./manage";
+import Me from "./me";
+export default {
+  name: "tabs",
+  components: { Navigator, Manage, Me },
+  data() {
+    return {};
+  },
+  computed: {},
+  methods: {}
+};
+</script>
+
+<style scoped>
+.page {
+  background-color: #f5f5f9;
+}
+</style>
