@@ -111,7 +111,6 @@ export default {
   created() {
     this.getCompanyData();
     this.getRoleData();
-    this.getDepartmentData(this.user.CompanyCode);
   },
   methods: {
     formatValueText(values) {
@@ -144,25 +143,23 @@ export default {
       this.user.Departments = depts;
     },
     getCompanyData() {
-      if (this.$f7.companyData) {
-        this.companyData = this.$f7.companyData;
-        return;
-      }
       this.$axios.get(this.$urls.company.getall).then(response => {
         if (response.code === 0) {
-          this.$f7.companyData = response.result;
           this.companyData = response.result;
+          if (this.user.CompanyCode.trim() === "")
+            this.user.CompanyCode = this.companyData[0].Code;
+          this.getDepartmentData(this.user.CompanyCode);
         }
       });
     },
     getRoleData() {
-      if (this.$f7.roleData) {
-        this.roleData = this.$f7.roleData;
-        return;
-      }
+      //   if (this.$f7.roleData) {
+      //     this.roleData = this.$f7.roleData;
+      //     return;
+      //   }
       this.$axios.get(this.$urls.role.getall).then(response => {
         if (response.code === 0) {
-          this.$f7.roleData = response.result;
+          //   this.$f7.roleData = response.result;
           this.roleData = response.result;
         }
       });

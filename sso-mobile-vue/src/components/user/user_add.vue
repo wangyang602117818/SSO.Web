@@ -1,6 +1,6 @@
 <template>
   <f7-page name="user_add">
-    <f7-navbar title="用户修改" back-link="返回">
+    <f7-navbar title="用户添加" back-link="返回">
       <f7-link slot="right" @click="saveUser">保存</f7-link>
     </f7-navbar>
     <UserBase :user="user" />
@@ -18,7 +18,7 @@ export default {
         id: "",
         UserId: "",
         UserName: "",
-        Sex: "",
+        Sex: "M",
         Mobile: "",
         Email: "",
         IdCard: "",
@@ -29,8 +29,16 @@ export default {
     };
   },
   methods: {
-    saveUser(user) {
-      this.$axios.post(this.$urls.user.add, user).then(response => {
+    saveUser() {
+      if (this.user.UserId.trim() == "") {
+        this.showInfo("用户编号是必填项!");
+        return;
+      }
+      if (this.user.UserName.trim() == "") {
+        this.showInfo("用户名称是必填项!");
+        return;
+      }
+      this.$axios.post(this.$urls.user.add, this.user).then(response => {
         if (response.code == 0) {
           this.$f7router.back();
           this.showSuccess();

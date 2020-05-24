@@ -85,6 +85,14 @@ ax.interceptors.request.use((config) => {
 //响应拦截器
 ax.interceptors.response.use(
     response => {
+        if (response.data.code === 400) {
+            window.vue.showInfo("记录已存在!");
+            return false;
+        }
+        if (response.data.code === 401) {
+            window.vue.showInfo("登录已过期!");
+            return false
+        }
         return response.data;
     },
     error => {
