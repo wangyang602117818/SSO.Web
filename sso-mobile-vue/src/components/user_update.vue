@@ -1,0 +1,77 @@
+<template>
+  <f7-page name="user_update">
+    <f7-navbar title="用户修改" back-link="返回">
+      <f7-link slot="right" @click="saveUser" v-if="user.id">保存</f7-link>
+    </f7-navbar>
+    <UserBase v-if="user.id" :user="user" />
+  </f7-page>
+</template>
+
+<script>
+import UserBase from "./user_base";
+export default {
+  name: "user_update",
+  components: { UserBase },
+  data() {
+    return {
+      user: {
+        id: "",
+        UserId: "",
+        UserName: "",
+        Sex: "",
+        Mobile: "",
+        Email: "",
+        IdCard: "",
+        CompanyCode: "",
+        Departments: [],
+        Roles: []
+      }
+    };
+  },
+  created() {
+    this.getData();
+  },
+  methods: {
+    saveUser() {
+      if (this.user.UserId.trim() == "") {
+        this.showInfo("用户编号是必填项!");
+        return;
+      }
+      if (this.user.UserName.trim() == "") {
+        this.showInfo("用户名称是必填项!");
+        return;
+      }
+      this.$axios.post(this.$urls.user.update, this.user).then(response => {
+        if (response.code == 0) {
+          this.$f7router.back();
+          this.showSuccess();
+        }
+      });
+    },
+    getData() {
+      var userId = this.$f7route.params.userId;
+      this.$axios
+        .get(this.$urls.user.getbyuserid + "?userid=" + userId)
+        .then(response => {
+          if (response.code === 0) {
+            this.user = {
+              id: response.result._id,
+              UserId: response.result.UserId,
+              UserName: response.result.UserName,
+              Sex: response.result.Sex,
+              Mobile: response.result.Mobile,
+              Email: response.result.Email,
+              IdCard: response.result.IdCard,
+              CompanyCode: response.result.CompanyCode,
+              Departments: response.result.DepartmentCode,
+              Roles: response.result.Role
+            };
+          }
+        });
+    }
+  }
+};
+</script>
+
+<style scoped>
+</style>

@@ -6,13 +6,13 @@
       <f7-link tab-link="#me" text="我的" icon-f7="person_crop_circle"></f7-link>
     </f7-toolbar>
     <f7-tabs>
-      <f7-tab id="navigator" class="page-content">
+      <f7-tab id="navigator" >
         <Navigator />
       </f7-tab>
-      <f7-tab id="manage" class="page-content" tab-active>
+      <f7-tab id="manage" tab-active>
         <Manage />
       </f7-tab>
-      <f7-tab id="me" class="page-content">
+      <f7-tab id="me" >
         <Me />
       </f7-tab>
     </f7-tabs>
@@ -35,7 +35,5 @@ export default {
 </script>
 
 <style scoped>
-.page {
-  background-color: #f5f5f9;
-}
+
 </style>

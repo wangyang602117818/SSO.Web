@@ -21,7 +21,7 @@
     <div class="man_content">
       <f7-row no-gap>
         <f7-col>
-          <div class="nav_wrap" @click="gotoUser">
+          <div class="nav_wrap" @click='$f7router.navigate("/users")'>
             <f7-icon f7="person_2_fill" color="blue"></f7-icon>
             <div class="nav_title">
               <span>用户管理</span>
@@ -62,7 +62,7 @@
             </div>
           </div>
         </f7-col>
-         <f7-col>
+        <f7-col>
           <div class="nav_wrap">
             <f7-icon f7="doc_text" color="blue"></f7-icon>
             <div class="nav_title">
@@ -70,11 +70,10 @@
             </div>
           </div>
         </f7-col>
-         <f7-col></f7-col>
-         <f7-col></f7-col>
+        <f7-col></f7-col>
+        <f7-col></f7-col>
       </f7-row>
     </div>
-    <f7-link link="/users">Tab 2</f7-link>
   </div>
 </template>
 
@@ -88,9 +87,7 @@ export default {
   },
   computed: {},
   methods: {
-    gotoUser(){
-      this.$f7router.navigate("/users");
-    }
+    
   }
 };
 </script>
@@ -167,7 +164,7 @@ export default {
   justify-content: center;
   padding: 10px;
 }
-.nav_wrap:active{
+.nav_wrap:active {
   background-color: #ddd;
 }
 .nav_wrap .nav_title {

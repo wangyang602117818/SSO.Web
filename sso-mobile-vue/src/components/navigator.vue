@@ -3,7 +3,6 @@
     <div class="nav_top">
       <input type="text" placeholder="search" />
     </div>
-
     <div class="nav_content">
       <div class="sub_title">导航列表</div>
       <f7-row v-for="(item,index) in datas" :key="index" no-gap>
