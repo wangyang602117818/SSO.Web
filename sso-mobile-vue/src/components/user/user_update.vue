@@ -33,16 +33,10 @@ export default {
   },
   methods: {
     saveUser() {
-      if (this.user.UserId.trim() == "") {
-        this.showInfo("用户编号是必填项!");
-        return;
-      }
-      if (this.user.UserName.trim() == "") {
-        this.showInfo("用户名称是必填项!");
-        return;
-      }
+      if (this.user.UserId.trim() == "") return;
+      if (this.user.UserName.trim() == "") return;
       this.$axios.post(this.$urls.user.update, this.user).then(response => {
-        if (response.code == 0) {
+        if (response.code === 0) {
           this.$f7router.back();
           this.showSuccess();
         }

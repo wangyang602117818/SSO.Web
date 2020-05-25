@@ -29,7 +29,7 @@
           </div>
         </f7-col>
         <f7-col>
-          <div class="nav_wrap">
+          <div class="nav_wrap" @click='$f7router.navigate("/roles")'>
             <f7-icon f7="lock_circle" color="blue"></f7-icon>
             <div class="nav_title">
               <span>角色管理</span>

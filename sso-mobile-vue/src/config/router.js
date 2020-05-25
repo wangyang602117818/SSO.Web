@@ -2,6 +2,7 @@ import Tabs from "../components/tabs"
 import UserManage from '../components/user/user_manage'
 import UserUpdate from '../components/user/user_update'
 import UserAdd from '../components/user/user_add'
+import RoleManage from '../components/role/role_manage'
 import RoleUpdate from '../components/role/role_update'
 import RoleAdd from '../components/role/role_add'
 var routes = [
@@ -38,6 +39,14 @@ var routes = [
         }
     },
     {
+        name:"roles",
+        path: "/roles",
+        component: RoleManage,
+        options:{
+            transition: 'f7-parallax',
+        }
+    },
+    {
         name:"roleadd",
         path: "/roleadd",
         component: RoleAdd,
@@ -47,7 +56,7 @@ var routes = [
     },
     {
         name:"roleupdate",
-        path: "/roleupdate",
+        path: "/roleupdate/:id",
         component: RoleUpdate,
         options:{
             transition: 'f7-parallax',

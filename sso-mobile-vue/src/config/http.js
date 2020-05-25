@@ -96,6 +96,9 @@ ax.interceptors.response.use(
         return response.data;
     },
     error => {
+        if(error.message.includes('timeout')){
+            window.vue.showInfo("请求超时!");
+        }
         return Promise.reject(error.response) // 返回接口返回的错误信息
     }
 );

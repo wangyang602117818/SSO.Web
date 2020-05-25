@@ -6,6 +6,7 @@
       label="编号*"
       type="text"
       placeholder="编号/登录名称"
+      error-message="编号是必填项!"
       clear-button
       :value="user.UserId"
       @input="($event)=>{user.UserId=$event.target.value}"
@@ -14,6 +15,7 @@
       label="用户名*"
       type="text"
       placeholder="用户名称"
+      error-message="用户名称是必填项!"
       required
       validate
       clear-button
@@ -41,6 +43,7 @@
       type="email"
       validate
       placeholder="邮箱"
+      error-message="邮箱格式不正确!"
       clear-button
       :value="user.Email"
       @input="($event)=>{user.Email=$event.target.value}"
