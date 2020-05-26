@@ -55,7 +55,7 @@
       </f7-row>
       <f7-row no-gap>
         <f7-col>
-          <div class="nav_wrap">
+          <div class="nav_wrap" @click='$f7router.navigate("/navigation")'>
             <f7-icon f7="flag_circle" color="blue"></f7-icon>
             <div class="nav_title">
               <span>导航管理</span>

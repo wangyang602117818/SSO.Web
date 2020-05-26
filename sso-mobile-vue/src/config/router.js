@@ -8,6 +8,9 @@ import RoleAdd from '../components/role/role_add'
 import CompanyManage from '../components/company/company_manage'
 import CompanyUpdate from '../components/company/company_update'
 import CompanyAdd from '../components/company/company_add'
+import NavigationManage from '../components/navigation/navigation_manage'
+import NavigationUpdate from '../components/navigation/navigation_update'
+import NavigationAdd from '../components/navigation/navigation_add'
 var routes = [
     {
         name: "tab",
@@ -93,6 +96,30 @@ var routes = [
         name: "companyadd",
         path: "/companyadd",
         component: CompanyAdd,
+        options: {
+            transition: 'f7-parallax',
+        }
+    },
+    {
+        name: "navigation",
+        path: "/navigation",
+        component: NavigationManage,
+        options: {
+            transition: 'f7-parallax',
+        }
+    },
+    {
+        name: "navigationupdate",
+        path: "/navigationupdate/:id",
+        component: NavigationUpdate,
+        options: {
+            transition: 'f7-parallax',
+        }
+    },
+    {
+        name: "navigationadd",
+        path: "/navigationadd",
+        component: NavigationAdd,
         options: {
             transition: 'f7-parallax',
         }
