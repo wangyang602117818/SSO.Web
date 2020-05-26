@@ -27,7 +27,7 @@ export default {
       if (this.role.description.trim() == "") return;
       this.$axios.post(this.$urls.role.add, this.role).then(response => {
         if (response.code == 0) {
-          this.$f7router.back();
+          this.$f7router.back("",{force:true});
           this.showSuccess();
         }
       });

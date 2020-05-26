@@ -29,6 +29,15 @@ namespace SSO.Business
             Data.Models.Role role = GetById(id);
             if (role == null) return 0;
             if (role.Name != name && GetByRoleName(name) != null) return 0;
+            if (role.Name != name)
+            {
+                var userRoleMapping = userCenterContext.UserRoleMappings.Where(w => w.Role == role.Name);
+                foreach(var item in userRoleMapping)
+                {
+                    item.Role = name;
+                    item.UpdateTime = DateTime.Now;
+                }
+            }
             role.Name = name;
             role.Description = description;
             role.UpdateTime = DateTime.Now;

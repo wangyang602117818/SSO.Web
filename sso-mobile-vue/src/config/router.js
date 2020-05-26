@@ -5,60 +5,95 @@ import UserAdd from '../components/user/user_add'
 import RoleManage from '../components/role/role_manage'
 import RoleUpdate from '../components/role/role_update'
 import RoleAdd from '../components/role/role_add'
+import CompanyManage from '../components/company/company_manage'
+import CompanyUpdate from '../components/company/company_update'
+import CompanyAdd from '../components/company/company_add'
 var routes = [
     {
-        name:"tab",
+        name: "tab",
         path: "/",
         component: Tabs,
-        options:{
+        options: {
             transition: 'f7-parallax',
         }
     },
     {
-        name:"users",
+        name: "users",
         path: "/users",
         component: UserManage,
-        options:{
+        options: {
             transition: 'f7-parallax',
         }
     },
     {
-        name:"userupdate",
+        name: "userupdate",
         path: "/userupdate/:userId",
         component: UserUpdate,
-        options:{
+        options: {
             transition: 'f7-parallax',
         }
     },
     {
-        name:"useradd",
+        name: "useradd",
         path: "/useradd",
         component: UserAdd,
-        options:{
+        options: {
             transition: 'f7-parallax',
         }
     },
     {
-        name:"roles",
+        name: "roles",
         path: "/roles",
         component: RoleManage,
-        options:{
-            transition: 'f7-parallax',
+        options: {
+            transition: 'f7-parallax'
+        },
+        beforeEnter: function (routeTo, routeFrom, resolve, reject) {
+            resolve();
+        },
+        on: {
+            pageBeforeIn: function (event, page) {
+
+            }
         }
     },
     {
-        name:"roleadd",
+        name: "roleadd",
         path: "/roleadd",
         component: RoleAdd,
-        options:{
+        options: {
             transition: 'f7-parallax',
         }
     },
     {
-        name:"roleupdate",
+        name: "roleupdate",
         path: "/roleupdate/:id",
         component: RoleUpdate,
-        options:{
+        options: {
+            transition: 'f7-parallax',
+        }
+    },
+    {
+        name: "company",
+        path: "/company",
+        component: CompanyManage,
+        options: {
+            transition: 'f7-parallax',
+        }
+    },
+    {
+        name: "companyupdate",
+        path: "/companyupdate/:id",
+        component: CompanyUpdate,
+        options: {
+            transition: 'f7-parallax',
+        }
+    },
+    {
+        name: "companyadd",
+        path: "/companyadd",
+        component: CompanyAdd,
+        options: {
             transition: 'f7-parallax',
         }
     },

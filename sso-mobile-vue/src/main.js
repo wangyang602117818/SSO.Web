@@ -9,7 +9,7 @@ import { baseURL, cookieName, urls } from './config/http';
 import 'framework7/css/framework7.bundle.css'
 import 'framework7-icons';
 
-import { f7App, f7Tabs, f7Tab, f7Toolbar, f7View, f7Page, f7Link, f7Navbar, f7NavRight, f7Icon, f7Row, f7Col, f7Searchbar, f7List, f7ListItem, f7Preloader, f7Block, f7SkeletonBlock, f7ListInput } from "framework7-vue"
+import { f7App, f7Tabs, f7Tab, f7Toolbar, f7View, f7Page, f7Link, f7Navbar, f7NavRight, f7Icon, f7Row, f7Col, f7Searchbar, f7List, f7ListItem, f7Preloader, f7Block, f7SkeletonBlock, f7ListInput,f7SwipeoutActions,f7SwipeoutButton } from "framework7-vue"
 
 Vue.component('f7-app', f7App);
 Vue.component('f7-view', f7View);
@@ -30,6 +30,8 @@ Vue.component('f7-preloader', f7Preloader);
 Vue.component('f7-block', f7Block);
 Vue.component('f7-skeleton-block', f7SkeletonBlock);
 Vue.component('f7-list-input', f7ListInput);
+Vue.component('f7-swipeout-actions', f7SwipeoutActions);
+Vue.component('f7-swipeout-button', f7SwipeoutButton);
 
 Framework7.use(Framework7Vue);
 
@@ -55,6 +57,7 @@ Vue.prototype.showInfo = function (info) {
     closeTimeout: 1500
   });
 }
+
 Vue.config.productionTip = false;
 
 var vue = new Vue({

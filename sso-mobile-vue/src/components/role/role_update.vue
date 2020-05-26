@@ -1,9 +1,9 @@
 <template>
-  <f7-page name="role_add">
+  <f7-page name="role_update">
     <f7-navbar title="角色修改" back-link="返回">
       <f7-link slot="right" @click="saveRole">保存</f7-link>
     </f7-navbar>
-    <RoleBase v-if="role.id" :role="role" />
+    <RoleBase v-if="role.id>=0" :role="role" />
   </f7-page>
 </template>
 

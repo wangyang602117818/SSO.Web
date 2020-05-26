@@ -1,6 +1,6 @@
 <template>
   <f7-page
-    name="home"
+    name="user_manage"
     ptr
     @ptr:refresh="refresh"
     infinite
@@ -21,8 +21,12 @@
         :title="item.UserName"
         :subtitle="item.CompanyName+'|'+item.DepartmentName"
         :key="item._id"
+        swipeout
       >
         <f7-skeleton-block style="width: 40px; height: 40px;border-radius: 50%" slot="media"></f7-skeleton-block>
+        <f7-swipeout-actions right>
+          <f7-swipeout-button color="blue" @click="removeUser(item._id,item.UserId)">Delete</f7-swipeout-button>
+        </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>
     <f7-block class="text-align-center" v-if="datas.length===0&&isEnd">没有数据</f7-block>
@@ -40,8 +44,18 @@ export default {
       getlist: this.$urls.user.getbasic
     };
   },
-  created() {},
-  methods: {}
+  methods: {
+    removeUser(id,userId) {
+      var that = this;
+      this.$f7.dialog.confirm("确定删除?", "提示", function() {
+        that.$axios
+          .post(that.$urls.user.remove, { userIds: [userId] })
+          .then(response => {
+            if (response.code === 0) that.removeItem(id);
+          });
+      });
+    }
+  }
 };
 </script>
 

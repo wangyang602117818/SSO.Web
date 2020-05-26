@@ -1,6 +1,7 @@
 ﻿using SSO.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace SSO.Business
@@ -26,6 +27,23 @@ namespace SSO.Business
         public int Update(int id, string code, string name, string description, int order, string parentCode, int layer)
         {
             Data.Models.Department department = GetById(id);
+            if (department == null) return 0;
+            if (department.Code != code && GetByCode(code) != null) return 0;
+            if (department.Code != code)
+            {
+                var departments = userCenterContext.Departments.Where(w => w.ParentCode == department.Code);
+                foreach(var item in departments)
+                {
+                    item.ParentCode = code;
+                    item.UpdateTime = DateTime.Now;
+                }
+                var userDepartmentMappings = userCenterContext.UserDepartmentMappings.Where(w => w.DepartmentCode == department.Code);
+                foreach(var item in userDepartmentMappings)
+                {
+                    item.DepartmentCode = code;
+                    item.UpdateTime = DateTime.Now;
+                }
+            }
             department.Code = code;
             department.Name = name;
             department.Description = description;

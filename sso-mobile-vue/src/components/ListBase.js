@@ -30,6 +30,13 @@ var ListBase = {
             this.pageIndex = this.pageIndex + 1;
             this.getData(null, false);
         },
+        removeItem(id) {
+            var index = -1;
+            for (var i = 0; i < this.datas.length; i++) {
+                if (this.datas[i]._id == id) index = i;
+            }
+            this.datas.splice(index,1);
+        },
         getData(callback, replace) {
             this.loading = true;
             this.$axios
@@ -47,8 +54,10 @@ var ListBase = {
                     if (response.code === 0) {
                         if (response.result.length < this.pageSize) this.isEnd = true;
                         if (replace) {
+                            // store.resetRoles(response.result);
                             this.datas = response.result;
                         } else {
+                            // store.addRoles(response.result);
                             this.datas = this.datas.concat(response.result);
                         }
                     }

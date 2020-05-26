@@ -65,6 +65,21 @@ namespace SSO.Business
             Data.Models.Company company = GetById(id);
             if (company == null) return 0;
             if (company.Code != code && GetByCode(code) != null) return 0;
+            if (company.Code != code)
+            {
+                var departments = userCenterContext.Departments.Where(w => w.CompanyCode == company.Code);
+                foreach (var item in departments)
+                {
+                    item.CompanyCode = code;
+                    item.UpdateTime = DateTime.Now;
+                }
+                var users = userCenterContext.UserBasics.Where(w => w.CompanyCode == company.Code);
+                foreach(var item in users)
+                {
+                    item.CompanyCode = code;
+                    item.UpdateTime = DateTime.Now;
+                }
+            }
             company.Code = code;
             company.Name = name;
             company.Description = description;
