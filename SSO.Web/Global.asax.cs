@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -16,9 +17,9 @@ namespace SSO.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            FileInfo fileInfo = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "bin\\log4net.config");
-            log4net.Config.XmlConfigurator.ConfigureAndWatch(fileInfo);
-
+            var assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "bin\\SSO.Util.Client.dll");
+            var stream = assembly.GetManifestResourceStream("SSO.Util.Client.log4net.config");
+            log4net.Config.XmlConfigurator.Configure(stream);
         }
         protected void Application_BeginRequest()
         {

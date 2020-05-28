@@ -1,4 +1,5 @@
 ﻿using SSO.Util;
+using SSO.Util.Client;
 using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace SSO.Web.Controllers
     public class SettingsController : Controller
     {
         Business.Settings settings = new Business.Settings();
+        public string cookieName = AppSettings.GetValue("cookieName");
         public ActionResult SetLang(string lang)
         {
             if (settings.UpdateLang(User.Identity.Name, lang) >= 0)
@@ -28,10 +30,10 @@ namespace SSO.Web.Controllers
             if (settings.UpdateLang(User.Identity.Name, lang) >= 0)
             {
                 string token = JwtManager.ModifyTokenLang(HttpContext.Items["Authorization"].ToString(), lang, 24 * 60);
-                HttpCookie httpCookie = new HttpCookie(AppSettings.cookieName, token);
-                if (AppSettings.cookieTime != "session")
+                HttpCookie httpCookie = new HttpCookie(cookieName, token);
+                if (cookieName != "session")
                 {
-                    httpCookie.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(AppSettings.cookieTime));
+                    httpCookie.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(cookieName));
                 }
                 Response.Cookies.Add(httpCookie);
                 return new ResponseModel<string>(ErrorCode.success, token);

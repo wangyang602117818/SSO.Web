@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SSO.Business;
 using SSO.Util;
+using SSO.Util.Client;
 using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace SSO.Web.Filters
 {
     public class JwtAuthorizeAttribute : AuthorizeAttribute
     {
+        public static string cookieName = AppSettings.GetValue("cookieName");
+        public static string secretKey = AppSettings.GetValue("secretKey");
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             var reflectedActionDescriptor = (ReflectedActionDescriptor)filterContext.ActionDescriptor;
@@ -35,9 +38,9 @@ namespace SSO.Web.Filters
             if (!isAuthorization) return;
             HttpRequestBase request = filterContext.HttpContext.Request;
             string authorization = "";
-            if (request.Cookies[AppSettings.cookieName] != null)
+            if (request.Cookies[cookieName] != null)
             {
-                authorization = request.Cookies[AppSettings.cookieName].Value;
+                authorization = request.Cookies[cookieName].Value;
             }
             if (string.IsNullOrEmpty(authorization))
             {
@@ -78,7 +81,7 @@ namespace SSO.Web.Filters
         public static ClaimsPrincipal ParseToken(string authorization)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var symmetricKey = Convert.FromBase64String(AppSettings.secretKey);
+            var symmetricKey = Convert.FromBase64String(secretKey);
             var validationParameters = new TokenValidationParameters()
             {
                 RequireExpirationTime = true,
@@ -154,20 +157,6 @@ namespace SSO.Web.Filters
                 }
             }
             return access;
-        }
-        private string DecodeBase64(string secureUrlBase64)
-        {
-            secureUrlBase64 = secureUrlBase64.Replace('-', '+').Replace('_', '/');
-            switch (secureUrlBase64.Length % 4)
-            {
-                case 2:
-                    secureUrlBase64 += "==";
-                    break;
-                case 3:
-                    secureUrlBase64 += "=";
-                    break;
-            }
-            return secureUrlBase64;
         }
     }
 }

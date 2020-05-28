@@ -1,19 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.705
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSO.Web", "SSO.Web\SSO.Web.csproj", "{913182ED-E0ED-436A-BFF2-9E8E756F80FD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSO.Util", "SSO.Util\SSO.Util.csproj", "{211CFFA2-3346-4E6F-ACD6-014F0A64C9B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSO.Data", "SSO.Data\SSO.Data.csproj", "{ACCB2FE5-7DDB-4FFA-8E0A-C4B750A607BD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSO.Business", "SSO.Business\SSO.Business.csproj", "{FFE0F7BB-FF1F-4EB1-ADDB-A630101E1909}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSO.Model", "SSO.Model\SSO.Model.csproj", "{2BA1EA6D-DE41-495B-89CC-2D8597022DF8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSO.Client", "SSO.Client\SSO.Client.csproj", "{8507366A-2046-4E38-BB00-AC2D35DE870E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +21,6 @@ Global
 		{913182ED-E0ED-436A-BFF2-9E8E756F80FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{913182ED-E0ED-436A-BFF2-9E8E756F80FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{913182ED-E0ED-436A-BFF2-9E8E756F80FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{211CFFA2-3346-4E6F-ACD6-014F0A64C9B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{211CFFA2-3346-4E6F-ACD6-014F0A64C9B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{211CFFA2-3346-4E6F-ACD6-014F0A64C9B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{211CFFA2-3346-4E6F-ACD6-014F0A64C9B0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ACCB2FE5-7DDB-4FFA-8E0A-C4B750A607BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ACCB2FE5-7DDB-4FFA-8E0A-C4B750A607BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACCB2FE5-7DDB-4FFA-8E0A-C4B750A607BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,10 +33,6 @@ Global
 		{2BA1EA6D-DE41-495B-89CC-2D8597022DF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BA1EA6D-DE41-495B-89CC-2D8597022DF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BA1EA6D-DE41-495B-89CC-2D8597022DF8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8507366A-2046-4E38-BB00-AC2D35DE870E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8507366A-2046-4E38-BB00-AC2D35DE870E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8507366A-2046-4E38-BB00-AC2D35DE870E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8507366A-2046-4E38-BB00-AC2D35DE870E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

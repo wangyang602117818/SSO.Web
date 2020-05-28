@@ -1,12 +1,13 @@
 ﻿using SSO.Data.Models;
 using SSO.Util;
+using SSO.Util.Client;
 using System.Data.Entity;
 
 namespace SSO.Data
 {
     public class UserCenterContext : DbContext
     {
-        public static string databaseKey = AppSettings.databaseKey;
+        public static string databaseKey = AppSettings.GetValue("databaseKey");
         public UserCenterContext() : base("name=" + databaseKey)
         {
             if (!Database.Exists())

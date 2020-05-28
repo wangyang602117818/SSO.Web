@@ -1,6 +1,7 @@
 ﻿using SSO.Data.Models;
 using SSO.Model;
 using SSO.Util;
+using SSO.Util.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace SSO.Business
 {
     public class UserBasic : ModelBase
     {
+        public string defaultPassword = AppSettings.GetValue("defaultPassword");
         public int Insert(string userId, string userName, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
         {
             string companyName = "", departmentName = "", roleName = "";
@@ -47,7 +49,7 @@ namespace SSO.Business
             {
                 UserId = userId,
                 UserName = userName,
-                PassWord = AppSettings.defaultPassword.GetSha256(),
+                PassWord = defaultPassword.GetSha256(),
                 CompanyCode = companyCode,
                 Mobile = mobile,
                 Email = email,
@@ -231,7 +233,7 @@ namespace SSO.Business
             var userBasics = userCenterContext.UserBasics.Where(w => userIds.Contains(w.UserId));
             foreach (var item in userBasics)
             {
-                item.PassWord = AppSettings.defaultPassword.GetSha256();
+                item.PassWord = defaultPassword.GetSha256();
                 item.IsModified =true;
             }
             return userCenterContext.SaveChanges();

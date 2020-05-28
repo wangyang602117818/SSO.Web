@@ -1,4 +1,5 @@
-﻿using SSO.Util;
+﻿using SSO.Model;
+using SSO.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

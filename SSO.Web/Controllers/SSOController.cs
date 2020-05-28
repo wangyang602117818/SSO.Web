@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using SSO.Data.Models;
 using SSO.Model;
 using SSO.Util;
+using SSO.Util.Client;
 using SSO.Web.Filters;
 using SSO.Web.Models;
 using System;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Razor.Parser;
 
 namespace SSO.Web.Controllers
 {
@@ -20,6 +22,10 @@ namespace SSO.Web.Controllers
     {
         Business.UserBasic user = new Business.UserBasic();
         Business.Settings settings = new Business.Settings();
+        public static string[] admin = AppSettings.GetValue("admin").Split(';');
+        public static string lang = AppSettings.GetValue("lang");
+        public static string cookieName = AppSettings.GetValue("cookieName");
+        public static string cookieTime = AppSettings.GetValue("cookieTime");
         public ActionResult Index()
         {
             return View();
@@ -33,15 +39,15 @@ namespace SSO.Web.Controllers
                 UserBasic userBasic = user.GetUser(userId);
                 if (userBasic == null)
                 {
-                    if (userId == AppSettings.admin[0])
+                    if (userId == admin[0])
                     {
-                        token = JwtManager.GenerateToken(userId, userId, AppSettings.lang, null, null, new List<string>() { AppSettings.admin[2] }, ip ?? Request.UserHostAddress, 20);
+                        token = JwtManager.GenerateToken(userId, userId, lang, null, null, new List<string>() { admin[2] }, ip ?? Request.UserHostAddress, 20);
                     }
                 }
                 else
                 {
                     Settings setting = settings.GetSetting(userId);
-                    string lang = setting == null ? AppSettings.lang : setting.Lang;
+                    if (setting != null) lang = setting.Lang;
                     string[] departments = userBasic.DepartmentName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     string[] roles = userBasic.RoleName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     token = JwtManager.GenerateToken(userId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, ip ?? Request.UserHostAddress, 20);
@@ -51,7 +57,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Login(string returnUrl)
         {
-            var authorization = Request.Cookies[AppSettings.cookieName];
+            var authorization = Request.Cookies[cookieName];
             if (authorization != null)  //sso login
             {
                 try
@@ -59,9 +65,9 @@ namespace SSO.Web.Controllers
                     var userId = JwtAuthorizeAttribute.ParseToken(authorization.Value).Identity.Name;
                     string ticket = JwtManager.GenerateTicket(userId);
                     returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
-                    if (AppSettings.cookieTime != "session")
+                    if (cookieName != "session")
                     {
-                        authorization.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(AppSettings.cookieTime));
+                        authorization.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(cookieName));
                     }
                     Response.Cookies.Add(authorization);
                     //sso退出用
@@ -80,13 +86,13 @@ namespace SSO.Web.Controllers
         public ActionResult Login(LoginModel loginModel, string returnUrl)
         {
             UserBasic userBasic = null;
-            if (loginModel.UserId == AppSettings.admin[0] && loginModel.PassWord == AppSettings.admin[1])
+            if (loginModel.UserId == admin[0] && loginModel.PassWord == admin[1])
             {
                 userBasic = new UserBasic()
                 {
                     UserId = loginModel.UserId,
                     UserName = loginModel.UserId,
-                    RoleName = AppSettings.admin[2],
+                    RoleName = admin[2],
                     DepartmentName = ""
                 };
             }
@@ -102,12 +108,12 @@ namespace SSO.Web.Controllers
             Settings setting = settings.GetSetting(User.Identity.Name);
             string[] roles = userBasic.RoleName.Split(',');
             string[] departments = userBasic.DepartmentName.Split(',');
-            string lang = setting == null ? AppSettings.lang : setting.Lang;
+            if (setting != null) lang = setting.Lang;
             string token = JwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60);
-            HttpCookie httpCookie = new HttpCookie(AppSettings.cookieName, token);
-            if (AppSettings.cookieTime != "session")
+            HttpCookie httpCookie = new HttpCookie(cookieName, token);
+            if (cookieTime != "session")
             {
-                httpCookie.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(AppSettings.cookieTime));
+                httpCookie.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(cookieTime));
             }
             Response.Cookies.Add(httpCookie);
             JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
@@ -119,7 +125,7 @@ namespace SSO.Web.Controllers
         public ActionResult LogOut()
         {
             InfoLog("0", "LogOut", User.Identity.Name);
-            var authorization = Request.Cookies[AppSettings.cookieName];
+            var authorization = Request.Cookies[cookieName];
             if (authorization != null)
             {
                 authorization.Expires = DateTime.Now.AddDays(-1);

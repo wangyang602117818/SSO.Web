@@ -57,7 +57,7 @@ namespace SSO.Util
                 }
             }
         }
-        public string Post(string url, object paras, Dictionary<string, string> headers)
+        public string Post(string url, object jsonObject, Dictionary<string, string> headers)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "post";
@@ -71,7 +71,7 @@ namespace SSO.Util
             }
             using (var streamWriter = new StreamWriter(request.GetRequestStream()))
             {
-                string json = JsonConvert.SerializeObject(paras);
+                string json = JsonConvert.SerializeObject(jsonObject);
                 streamWriter.Write(json);
             }
             using (WebResponse response = request.GetResponse())
@@ -99,21 +99,6 @@ namespace SSO.Util
                 {
                     return reader.ReadToEnd();
                 }
-            }
-        }
-        public bool CheckAvailable(string url)
-        {
-            HttpWebRequest req = null;
-            try
-            {
-                req = (HttpWebRequest)WebRequest.CreateDefault(new Uri(url));
-                req.Method = "HEAD";  //这是关键 
-                HttpWebResponse res = (HttpWebResponse)req.GetResponse();
-                return res.StatusCode == HttpStatusCode.OK ? true : false;
-            }
-            catch (Exception ex)
-            {
-                return false;
             }
         }
     }
