@@ -20,12 +20,12 @@
         :link="'/userupdate/'+item.UserId"
         :title="item.UserName"
         :subtitle="item.CompanyName+'|'+item.DepartmentName"
-        :key="item._id"
+        :key="item.Id"
         swipeout
       >
         <f7-skeleton-block style="width: 40px; height: 40px;border-radius: 50%" slot="media"></f7-skeleton-block>
         <f7-swipeout-actions right>
-          <f7-swipeout-button color="blue" @click="removeUser(item._id,item.UserId)">Delete</f7-swipeout-button>
+          <f7-swipeout-button color="blue" @click="removeUser(item.Id,item.UserId)">Delete</f7-swipeout-button>
         </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>

@@ -1,5 +1,5 @@
 import ax from 'axios';
-import funtools from 'fun-tools';
+import funtools from 'sso-util';
 
 export const baseURL = "http://www.sso.com:8030/";
 export const cookieName = "sso.mobile.auth";

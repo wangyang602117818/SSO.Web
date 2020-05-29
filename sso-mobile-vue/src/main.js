@@ -2,14 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import Framework7 from 'framework7/framework7-lite.esm.bundle'
 import Framework7Vue from 'framework7-vue'
-import axios from 'axios';
 import funtools from 'sso-util';
-import { baseURL, cookieName, urls } from './config/http';
+import { baseURL, cookieName, urls, axios } from './config/http';
 
 import 'framework7/css/framework7.bundle.css'
 import 'framework7-icons';
 
-import { f7App, f7Tabs, f7Tab, f7Toolbar, f7View, f7Page, f7Link, f7Navbar, f7NavRight, f7Icon, f7Row, f7Col, f7Searchbar, f7List, f7ListItem, f7Preloader, f7Block, f7SkeletonBlock, f7ListInput,f7SwipeoutActions,f7SwipeoutButton } from "framework7-vue"
+import { f7App, f7Tabs, f7Tab, f7Toolbar, f7View, f7Page, f7Link, f7Navbar, f7NavRight, f7Icon, f7Row, f7Col, f7Searchbar, f7List, f7ListItem, f7Preloader, f7Block, f7SkeletonBlock, f7ListInput, f7SwipeoutActions, f7SwipeoutButton } from "framework7-vue"
 
 Vue.component('f7-app', f7App);
 Vue.component('f7-view', f7View);

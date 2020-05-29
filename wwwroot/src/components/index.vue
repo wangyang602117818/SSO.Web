@@ -70,31 +70,31 @@ export default {
   },
   methods: {
     login() {
-      window.location.href = this.$http.options.root + this.$urls.login;
+      window.location.href = this.$baseUrl + this.$urls.login;
     },
     getFileName(fileName, length) {
       return this.$funtools.getFileName(fileName, length);
     },
     getUrlMeta() {
-      this.$http.get(this.$urls.geturlmeta).then(response => {
-        if (response.body.code == 0)
-          this.urls = this.$funtools.reMapArray(response.body.result, this.len);
+      this.$axios.get(this.$urls.geturlmeta).then(response => {
+        if (response.code == 0)
+          this.urls = this.$funtools.reMapArray(response.result, this.len);
       });
     },
     getUser() {
-      this.$http.get(this.$urls.decodetoken).then(response => {
-        if (response.body.code == 0 && response.body.result) {
-          this.user = response.body.result;
-          this.lang = response.body.result.Lang == "en-us" ? langEn : langZh;
+      this.$axios.get(this.$urls.decodetoken).then(response => {
+        if (response.code == 0 && response.result) {
+          this.user = response.result;
+          this.lang = response.result.Lang == "en-us" ? langEn : langZh;
         }
       });
     },
     changeLang() {
       var lang = this.user.Lang == "en-us" ? "zh-cn" : "en-us";
-      this.$http
+      this.$axios
         .get(this.$urls.setLang + "?lang=" + lang)
         .then(response => {
-          if (response.body.code == 0) {
+          if (response.code == 0) {
             location.reload();
           }
         });

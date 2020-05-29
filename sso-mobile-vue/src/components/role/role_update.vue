@@ -40,7 +40,7 @@ export default {
       this.$axios.get(this.$urls.role.getById + "/" + id).then(response => {
         if (response.code === 0) {
           this.role = {
-            id: response.result._id,
+            id: response.result.Id,
             name: response.result.Name,
             description: response.result.Description
           };

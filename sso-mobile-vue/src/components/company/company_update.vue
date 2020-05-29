@@ -43,7 +43,7 @@ export default {
       this.$axios.get(this.$urls.company.getById + "/" + id).then(response => {
         if (response.code === 0) {
           this.company = {
-            id: response.result._id,
+            id: response.result.Id,
             code: response.result.Code,
             name: response.result.Name,
             description: response.result.Description

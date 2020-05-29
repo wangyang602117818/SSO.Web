@@ -135,24 +135,24 @@ export default {
     eidtNavigation() {
       this.isUpdate = true;
       this.drawerVisible = true;
-      this.$http
+      this.$axios
         .get(this.$urls.navigation.getbyid + "/" + this.selectedRowKeys[0])
         .then(response => {
-          if (response.body.code == 0) {
+          if (response.code == 0) {
             this.form.setFieldsValue({
-              title: response.body.result.Title,
-              baseUrl: response.body.result.BaseUrl,
-              logoUrl: response.body.result.LogoUrl
+              title: response.result.Title,
+              baseUrl: response.result.BaseUrl,
+              logoUrl: response.result.LogoUrl
             });
           }
         });
     },
     deleteNavigation() {
       this.loading = true;
-      this.$http
+      this.$axios
         .post(this.$urls.navigation.delete, { ids: this.selectedRowKeys })
         .then(response => {
-          if (response.body.code == 0) {
+          if (response.code == 0) {
             this.selectedRowKeys = [];
             this.getData();
           }
@@ -170,24 +170,24 @@ export default {
     },
     updateNavigation(navigation) {
       navigation.id = this.selectedRowKeys[0];
-      this.$http
+      this.$axios
         .post(this.$urls.navigation.update, navigation)
         .then(response => {
-          if (response.body.code == 400) {
+          if (response.code == 400) {
             this.$message.warning(this.$lang.record_exists);
           }
-          if (response.body.code == 0) {
+          if (response.code == 0) {
             this.form.resetFields();
             this.getData();
           }
         });
     },
     addNavigation(navigation) {
-      this.$http.post(this.$urls.navigation.add, navigation).then(response => {
-        if (response.body.code == 400) {
+      this.$axios.post(this.$urls.navigation.add, navigation).then(response => {
+        if (response.code == 400) {
           this.$message.warning(this.$lang.record_exists);
         }
-        if (response.body.code == 0) {
+        if (response.code == 0) {
           this.form.resetFields();
           this.getData();
         }

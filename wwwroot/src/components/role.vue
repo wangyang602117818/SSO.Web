@@ -128,23 +128,23 @@ export default {
     eidtRole() {
       this.isUpdate = true;
       this.drawerVisible = true;
-      this.$http
+      this.$axios
         .get(this.$urls.role.getById + "/" + this.selectedRowKeys[0])
         .then(response => {
-          if (response.body.code == 0) {
+          if (response.code == 0) {
             this.form.setFieldsValue({
-              name: response.body.result.Name,
-              description: response.body.result.Description
+              name: response.result.Name,
+              description: response.result.Description
             });
           }
         });
     },
     deleteRole() {
       this.loading = true;
-      this.$http
+      this.$axios
         .post(this.$urls.role.delete, { ids: this.selectedRowKeys })
         .then(response => {
-          if (response.body.code == 0) {
+          if (response.code == 0) {
             this.selectedRowKeys = [];
             this.getData();
           }
@@ -152,11 +152,11 @@ export default {
       this.loading = false;
     },
     addRole(role) {
-      this.$http.post(this.$urls.role.add, role).then(response => {
-        if (response.body.code == 400) {
+      this.$axios.post(this.$urls.role.add, role).then(response => {
+        if (response.code == 400) {
           this.$message.warning(this.$lang.record_exists);
         }
-        if (response.body.code == 0) {
+        if (response.code == 0) {
           this.form.resetFields();
           this.getData();
         }
@@ -164,11 +164,11 @@ export default {
     },
     updateRole(role) {
       role.id = this.selectedRowKeys[0];
-      this.$http.post(this.$urls.role.update, role).then(response => {
-        if (response.body.code == 400) {
+      this.$axios.post(this.$urls.role.update, role).then(response => {
+        if (response.code == 400) {
           this.$message.warning(this.$lang.record_exists);
         }
-        if (response.body.code == 0) {
+        if (response.code == 0) {
           this.form.resetFields();
           this.getData();
         }

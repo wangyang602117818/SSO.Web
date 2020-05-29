@@ -18,14 +18,14 @@
       <f7-list-item
         v-for="item in datas"
         swipeout
-        :link="'/navigationupdate/'+item._id"
+        :link="'/navigationupdate/'+item.Id"
         :title="item.Title"
         :subtitle="item.BaseUrl"
-        :key="item._id"
+        :key="item.Id"
       >
         <img slot="media" :src="item.LogoUrl" width="40" />
         <f7-swipeout-actions right>
-          <f7-swipeout-button color="blue" @click="delNavigation(item._id)">Delete</f7-swipeout-button>
+          <f7-swipeout-button color="blue" @click="delNavigation(item.Id)">Delete</f7-swipeout-button>
         </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>

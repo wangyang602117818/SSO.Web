@@ -26,18 +26,18 @@ var BaseComponent = {
     },
     getData() {
       this.loading = true;
-      this.$http
+      this.$axios
         .get(this.getlist + "?pageIndex=" + this.pagination.current + "&pageSize=" + this.pagination.pageSize + "&filter=" + this.searchValue
         )
         .then(response => {
           this.loading = false;
           const pagination = { ...this.pagination };
-          pagination.total = response.body.count;
+          pagination.total = response.count;
           pagination.showTotal = () => {
             return this.pagination.total;
           };
           this.pagination = pagination;
-          if (response.body.code == 0) this.data = response.body.result;
+          if (response.code == 0) this.data = response.result;
         });
     },
     reload() {

@@ -89,15 +89,15 @@ export default {
       var that = this;
       if (this.userId.trim().length > 0 && this.passWord.trim().length > 0) {
         var returnUrl = this.$funtools.getReturnUrl("returnUrl");
-        this.$http
+        this.$axios
           .post(that.$urls.login, {
             userId: this.userId,
             passWord: this.passWord,
             returnUrl: returnUrl
           })
           .then(response => {
-            if (response.body.code == 0) {
-              var returnUrl = response.body.result;
+            if (response.code == 0) {
+              var returnUrl = response.result;
               window.location.href = decodeURIComponent(returnUrl);
             } else {
               that.mssage_show = true;

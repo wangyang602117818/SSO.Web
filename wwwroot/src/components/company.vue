@@ -145,24 +145,24 @@ export default {
     eidtCompany() {
       this.isUpdate = true;
       this.drawerVisible = true;
-      this.$http
+      this.$axios
         .get(this.$urls.company.getById + "/" + this.selectedRowKeys[0])
         .then(response => {
-          if (response.body.code == 0) {
+          if (response.code == 0) {
             this.form.setFieldsValue({
-              code: response.body.result.Code,
-              name: response.body.result.Name,
-              description: response.body.result.Description
+              code: response.result.Code,
+              name: response.result.Name,
+              description: response.result.Description
             });
           }
         });
     },
     deleteCompany() {
       this.loading = true;
-      this.$http
+      this.$axios
         .post(this.$urls.company.delete, { ids: this.selectedRowKeys })
         .then(response => {
-          if (response.body.code == 0) {
+          if (response.code == 0) {
             this.selectedRowKeys = [];
             this.getData();
           }
@@ -170,11 +170,11 @@ export default {
         });
     },
     addCompany(company) {
-      this.$http.post(this.$urls.company.add, company).then(response => {
-        if (response.body.code == 400) {
+      this.$axios.post(this.$urls.company.add, company).then(response => {
+        if (response.code == 400) {
           this.$message.warning(this.$lang.record_exists);
         }
-        if (response.body.code == 0) {
+        if (response.code == 0) {
           this.form.resetFields();
           this.getData();
         }
@@ -182,11 +182,11 @@ export default {
     },
     updateCompany(company) {
       company.id = this.selectedRowKeys[0];
-      this.$http.post(this.$urls.company.update, company).then(response => {
-        if (response.body.code == 400) {
+      this.$axios.post(this.$urls.company.update, company).then(response => {
+        if (response.code == 400) {
           this.$message.warning(this.$lang.record_exists);
         }
-        if (response.body.code == 0) {
+        if (response.code == 0) {
           this.form.resetFields();
           this.getData();
         }
@@ -212,3 +212,4 @@ export default {
   color: #000;
 }
 </style>
+

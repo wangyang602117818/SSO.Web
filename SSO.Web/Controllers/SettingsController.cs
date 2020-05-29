@@ -30,9 +30,9 @@ namespace SSO.Web.Controllers
             {
                 string token = jwtManager.ModifyTokenLang(HttpContext.Items["Authorization"].ToString(), lang, 24 * 60);
                 HttpCookie httpCookie = new HttpCookie(cookieName, token);
-                if (cookieName != "session")
+                if (cookieTime != "session")
                 {
-                    httpCookie.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(cookieName));
+                    httpCookie.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(cookieTime));
                 }
                 Response.Cookies.Add(httpCookie);
                 return new ResponseModel<string>(ErrorCode.success, token);

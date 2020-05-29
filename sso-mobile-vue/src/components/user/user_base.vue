@@ -61,7 +61,7 @@
         <option
           v-for="item in companyData"
           :value="item.Code"
-          :key="item._id"
+          :key="item.Id"
           :selected="item.Code===user.CompanyCode"
         >{{item.Name}}</option>
       </select>
@@ -89,7 +89,7 @@
         <option
           v-for="item in roleData"
           :value="item.Name"
-          :key="item._id"
+          :key="item.Id"
           :selected="user.Roles.indexOf(item.Name)>-1"
         >{{item.Name}}</option>
       </select>

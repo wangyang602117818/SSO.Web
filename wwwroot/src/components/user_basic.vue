@@ -313,10 +313,10 @@ export default {
     },
     resetPassword() {
       this.loading = true;
-      this.$http
+      this.$axios
         .post(this.$urls.user.resetpassword, { userIds: this.selectedRowKeys })
         .then(response => {
-          if (response.body.code == 0) {
+          if (response.code == 0) {
             this.selectedRowKeys = [];
             this.selectedRows = [];
             this.getData();
@@ -338,50 +338,50 @@ export default {
       });
     },
     addUser(user) {
-      this.$http.post(this.$urls.user.add, user).then(response => {
-        if (response.body.code == 400) {
+      this.$axios.post(this.$urls.user.add, user).then(response => {
+        if (response.code == 400) {
           this.$message.warning(this.$lang.record_exists);
         }
-        if (response.body.code == 0) {
+        if (response.code == 0) {
           this.getData();
         }
       });
     },
     updateUser(user) {
       user.id = this.selectedRows[0].Id;
-      this.$http.post(this.$urls.user.update, user).then(response => {
-        if (response.body.code == 0) {
+      this.$axios.post(this.$urls.user.update, user).then(response => {
+        if (response.code == 0) {
           this.getData();
           this.$message.warning(this.$lang.modify_success);
         }
       });
     },
     editUser() {
-      this.$http
+      this.$axios
         .get(this.$urls.user.getbyuserid + "?userid=" + this.selectedRowKeys[0])
         .then(response => {
-          if (response.body.code == 0) {
-            this.showDrawer(response.body.result.CompanyCode);
+          if (response.code == 0) {
+            this.showDrawer(response.result.CompanyCode);
             this.form.setFieldsValue({
-              userId: response.body.result.UserId,
-              userName: response.body.result.UserName,
-              sex: response.body.result.Sex,
-              mobile: response.body.result.Mobile,
-              email: response.body.result.Email,
-              idCard: response.body.result.IdCard,
-              companyCode: response.body.result.CompanyCode,
-              departments: response.body.result.DepartmentCode,
-              roles: response.body.result.Role
+              userId: response.result.UserId,
+              userName: response.result.UserName,
+              sex: response.result.Sex,
+              mobile: response.result.Mobile,
+              email: response.result.Email,
+              idCard: response.result.IdCard,
+              companyCode: response.result.CompanyCode,
+              departments: response.result.DepartmentCode,
+              roles: response.result.Role
             });
           }
         });
     },
     removeUser() {
       this.loading = true;
-      this.$http
+      this.$axios
         .post(this.$urls.user.remove, { userIds: this.selectedRowKeys })
         .then(response => {
-          if (response.body.code == 0) {
+          if (response.code == 0) {
             this.selectedRowKeys = [];
             this.selectedRows = [];
             this.getData();
@@ -391,10 +391,10 @@ export default {
     },
     deleteUser() {
       this.loading = true;
-      this.$http
+      this.$axios
         .post(this.$urls.user.delete, { userIds: this.selectedRowKeys })
         .then(response => {
-          if (response.body.code == 0) {
+          if (response.code == 0) {
             this.selectedRowKeys = [];
             this.selectedRows = [];
             this.getData();
@@ -404,10 +404,10 @@ export default {
     },
     restoreUser() {
       this.loading = true;
-      this.$http
+      this.$axios
         .post(this.$urls.user.restore, { userIds: this.selectedRowKeys })
         .then(response => {
-          if (response.body.code == 0) {
+          if (response.code == 0) {
             this.selectedRowKeys = [];
             this.selectedRows = [];
             this.getData();
@@ -440,7 +440,7 @@ export default {
     getData() {
       this.addTableColumns();
       this.loading = true;
-      this.$http
+      this.$axios
         .get(
           this.$urls.user.getbasic +
             "?pageIndex=" +
@@ -455,30 +455,30 @@ export default {
         .then(response => {
           this.loading = false;
           const pagination = { ...this.pagination };
-          pagination.total = response.body.count;
+          pagination.total = response.count;
           pagination.showTotal = () => {
             return this.pagination.total;
           };
           this.pagination = pagination;
-          if (response.body.code == 0) this.data = response.body.result;
+          if (response.code == 0) this.data = response.result;
         });
     },
     getCompanyData() {
-      this.$http.get(this.$urls.company.getall).then(response => {
-        if (response.body.code == 0) {
-          this.companyData = response.body.result;
+      this.$axios.get(this.$urls.company.getall).then(response => {
+        if (response.code == 0) {
+          this.companyData = response.result;
         }
       });
     },
     getDepartmentData(companyCode) {
-      this.$http
+      this.$axios
         .get(
           this.$urls.department.getdepartments + "?companyCode=" + companyCode
         )
         .then(response => {
-          if (response.body.code == 0) {
-            if (response.body.result.length > 0) {
-              this.departmentData = response.body.result;
+          if (response.code == 0) {
+            if (response.result.length > 0) {
+              this.departmentData = response.result;
             } else {
               this.departmentData = [];
             }
@@ -486,9 +486,9 @@ export default {
         });
     },
     getRoleData() {
-      this.$http.get(this.$urls.role.getall).then(response => {
-        if (response.body.code == 0) {
-          this.roleData = response.body.result;
+      this.$axios.get(this.$urls.role.getall).then(response => {
+        if (response.code == 0) {
+          this.roleData = response.result;
         } else {
           this.roleData = [];
         }

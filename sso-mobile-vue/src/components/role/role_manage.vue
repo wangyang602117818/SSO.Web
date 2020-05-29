@@ -18,13 +18,13 @@
       <f7-list-item
         v-for="item in datas"
         swipeout
-        :link="'/roleupdate/'+item._id"
+        :link="'/roleupdate/'+item.Id"
         :title="item.Name"
         :subtitle="item.Description"
-        :key="item._id"
+        :key="item.Id"
       >
         <f7-swipeout-actions right>
-          <f7-swipeout-button color="blue" @click="delRole(item._id)">Delete</f7-swipeout-button>
+          <f7-swipeout-button color="blue" @click="delRole(item.Id)">Delete</f7-swipeout-button>
         </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>

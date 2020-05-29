@@ -43,7 +43,7 @@ export default {
         .then(response => {
           if (response.code === 0) {
             this.navigation = {
-              id: response.result._id,
+              id: response.result.Id,
               title: response.result.Title,
               baseUrl: response.result.BaseUrl,
               logoUrl: response.result.LogoUrl

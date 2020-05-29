@@ -33,7 +33,7 @@ var ListBase = {
         removeItem(id) {
             var index = -1;
             for (var i = 0; i < this.datas.length; i++) {
-                if (this.datas[i]._id == id) index = i;
+                if (this.datas[i].Id == id) index = i;
             }
             this.datas.splice(index,1);
         },

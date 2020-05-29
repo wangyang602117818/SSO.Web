@@ -49,7 +49,7 @@ export default {
         .then(response => {
           if (response.code === 0) {
             this.user = {
-              id: response.result._id,
+              id: response.result.Id,
               UserId: response.result.UserId,
               UserName: response.result.UserName,
               Sex: response.result.Sex,

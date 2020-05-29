@@ -297,14 +297,14 @@ export default {
   methods: {
     getCompanyData() {
       this.company_loading = true;
-      this.$http
+      this.$axios
         .get(this.$urls.company.getall + "?filter=" + this.companySearchValue)
         .then(response => {
-          if (response.body.code == 0) {
+          if (response.code == 0) {
             this.company_loading = false;
-            this.company = response.body.result;
-            if (response.body.count > 0) {
-              this.selectedCompany = response.body.result[0].Code;
+            this.company = response.result;
+            if (response.count > 0) {
+              this.selectedCompany = response.result[0].Code;
               this.defaultSelectedCompany.splice(0, 1, this.selectedCompany);
               this.getDepartmentData(this.selectedCompany);
             }
@@ -334,15 +334,15 @@ export default {
       this.department_loading = true;
       this.departmentData = [];
       dataList = [];
-      this.$http
+      this.$axios
         .get(
           this.$urls.department.getdepartments + "?companyCode=" + companyCode
         )
         .then(response => {
           this.department_loading = false;
-          if (response.body.code == 0) {
-            if (response.body.result.length > 0) {
-              this.departmentData = response.body.result;
+          if (response.code == 0) {
+            if (response.result.length > 0) {
+              this.departmentData = response.result;
               generateList(this.departmentData);
             } else {
               this.departmentData = [];
@@ -396,20 +396,20 @@ export default {
         this.getRandomCodeSub();
         this.addform.setFieldsValue({ description: "" });
         this.collapsedLeft = false;
-        this.$http
+        this.$axios
           .get(this.$urls.department.get + "?code=" + selectedKeys[0])
           .then(response => {
-            if (response.body.code == 0) {
-              this.id = response.body.result.Id;
-              this.selectedDepartment = response.body.result.key;
-              this.selectedDepartmentLayer = response.body.result.Layer;
+            if (response.code == 0) {
+              this.id = response.result.Id;
+              this.selectedDepartment = response.result.key;
+              this.selectedDepartmentLayer = response.result.Layer;
               this.updateform.setFieldsValue({
-                code: response.body.result.key,
-                name: response.body.result.title,
-                order: response.body.result.Order,
+                code: response.result.key,
+                name: response.result.title,
+                order: response.result.Order,
                 companyCode: this.selectedCompany,
-                parentCode: response.body.result.ParentCode,
-                description: response.body.result.Description
+                parentCode: response.result.ParentCode,
+                description: response.result.Description
               });
             }
           });
@@ -437,8 +437,8 @@ export default {
           values.companyCode = this.selectedCompany;
           values.parentCode = this.selectedDepartment;
           values.layer = this.selectedDepartmentLayer + 1;
-          this.$http.post(this.$urls.department.add, values).then(response => {
-            if (response.body.code == 0) {
+          this.$axios.post(this.$urls.department.add, values).then(response => {
+            if (response.code == 0) {
               this.getDepartmentData(this.selectedCompany);
             } else {
               this.$message.warning(this.$lang.record_exists);
@@ -453,10 +453,10 @@ export default {
           values.id = this.id;
           values.companyCode = this.selectedCompany;
           values.parentCode = values.parentCode || "";
-          this.$http
+          this.$axios
             .post(this.$urls.department.update, values)
             .then(response => {
-              if (response.body.code == 0) {
+              if (response.code == 0) {
                 this.getDepartmentData(this.selectedCompany);
               } else {
                 this.$message.warning(this.$lang.record_exists);
@@ -467,10 +467,10 @@ export default {
     },
     delDept() {
       if (this.id) {
-        this.$http
+        this.$axios
           .get(this.$urls.department.delete + "/" + this.id)
           .then(response => {
-            if (response.body.code == 0) {
+            if (response.code == 0) {
               this.id = "";
               this.selectedDepartment = "";
               this.getDepartmentData(this.selectedCompany);
@@ -484,11 +484,11 @@ export default {
           values.companyCode = this.selectedCompany;
           values.layer = 0;
           values.parentCode = "";
-          this.$http.post(this.$urls.department.add, values).then(response => {
-            if (response.body.code == 400) {
+          this.$axios.post(this.$urls.department.add, values).then(response => {
+            if (response.code == 400) {
               this.$message.warning(this.$lang.record_exists);
             }
-            if (response.body.code == 0) {
+            if (response.code == 0) {
               this.form.resetFields();
               this.getDepartmentData(this.selectedCompany);
             }

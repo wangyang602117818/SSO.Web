@@ -180,10 +180,10 @@ export default {
       }
     },
     getCompanyData(companyCode) {
-      this.$http.get(this.$urls.company.getall).then(response => {
-        if (response.body.code == 0) {
-          this.companyData = response.body.result;
-          if (response.body.count > 0) {
+      this.$axios.get(this.$urls.company.getall).then(response => {
+        if (response.code == 0) {
+          this.companyData = response.result;
+          if (response.count > 0) {
             this.getDepartmentData(companyCode);
           }
         }
@@ -201,14 +201,14 @@ export default {
       this.getDepartmentData(value);
     },
     getDepartmentData(companyCode) {
-      this.$http
+      this.$axios
         .get(
           this.$urls.department.getdepartments + "?companyCode=" + companyCode
         )
         .then(response => {
-          if (response.body.code == 0) {
-            if (response.body.result.length > 0) {
-              this.departmentData = response.body.result;
+          if (response.code == 0) {
+            if (response.result.length > 0) {
+              this.departmentData = response.result;
             } else {
               this.departmentData = [];
             }
@@ -217,21 +217,21 @@ export default {
     },
     getUser(drawer) {
       this.loading = true;
-      this.$http.get(this.$urls.user.getuser).then(response => {
+      this.$axios.get(this.$urls.user.getuser).then(response => {
         this.loading = false;
-        if (response.body.code == 0 && response.body.result) {
-          this.user = response.body.result;
+        if (response.code == 0 && response.result) {
+          this.user = response.result;
           if (drawer) {
             this.userform.setFieldsValue({
-              userName: response.body.result.UserName,
-              sex: response.body.result.Sex,
-              mobile: response.body.result.Mobile,
-              email: response.body.result.Email,
-              idCard: response.body.result.IdCard,
-              companyCode: response.body.result.CompanyCode,
-              departments: response.body.result.DepartmentCode
+              userName: response.result.UserName,
+              sex: response.result.Sex,
+              mobile: response.result.Mobile,
+              email: response.result.Email,
+              idCard: response.result.IdCard,
+              companyCode: response.result.CompanyCode,
+              departments: response.result.DepartmentCode
             });
-            this.getCompanyData(response.body.result.CompanyCode);
+            this.getCompanyData(response.result.CompanyCode);
           }
         }
       });
@@ -241,10 +241,10 @@ export default {
         if (!error) {
           values.id = this.user.Id;
           values.userId = this.user.UserId;
-          this.$http
+          this.$axios
             .post(this.$urls.user.updatebasicsetting, values)
             .then(response => {
-              if (response.body.code == 0) {
+              if (response.code == 0) {
                 this.getUser();
                 this.$message.warning(this.$lang.update_success);
                 this.userDrawerVisible = false;
@@ -256,21 +256,20 @@ export default {
     updateUserPassword() {
       this.passwordform.validateFields((error, values) => {
         if (!error) {
-          this.$http
+          this.$axios
             .post(this.$urls.user.updatepassword, values)
             .then(response => {
-              if (response.body.code == 114) {
+              if (response.code == 114) {
                 this.$message.warning(this.$lang.old_password_error);
               }
-              if (response.body.code == 0) {
+              if (response.code == 0) {
                 this.passwordform.setFieldsValue({
                   oldPassword: "",
                   newPassword: "",
                   newPassword2: ""
                 });
                 this.$message.warning(this.$lang.update_success);
-                window.location.href =
-                  this.$http.options.root + this.$urls.logout;
+                window.location.href = this.$baseUrl + this.$urls.logout;
               }
             });
         }
