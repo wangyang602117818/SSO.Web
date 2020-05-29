@@ -131,7 +131,7 @@
                 <a-select-option
                   :value="item.Code"
                   v-for="item in company"
-                  v-bind:key="item._id"
+                  v-bind:key="item.Id"
                 >{{item.Name}}</a-select-option>
               </a-select>
             </a-form-item>
@@ -400,7 +400,7 @@ export default {
           .get(this.$urls.department.get + "?code=" + selectedKeys[0])
           .then(response => {
             if (response.body.code == 0) {
-              this.id = response.body.result._id;
+              this.id = response.body.result.Id;
               this.selectedDepartment = response.body.result.key;
               this.selectedDepartmentLayer = response.body.result.Layer;
               this.updateform.setFieldsValue({

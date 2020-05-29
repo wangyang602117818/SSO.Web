@@ -1,28 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using MongoDB.Bson;
-using MongoDB.Bson.IO;
-using MongoDB.Bson.Serialization.Attributes;
-
+using Newtonsoft.Json;
+using SSO.Util.Client;
 namespace SSO.Model
 {
     public class DepartmentData
     {
-        [BsonElement("scopedSlots")]
+        [JsonProperty("scopedSlots")]
         public ScopedSlots ScopedSlots { get { return new ScopedSlots(); } }
-        [BsonElement("value")]
+        [JsonProperty("value")]
         public string Value { get { return Code; } }
 
         public int Id { get; set; }
-        [BsonElement("key")]
+        [JsonProperty("key")]
         public string Code { get; set; }
-        [BsonElement("title")]
+        [JsonProperty("title")]
         public string Name { get; set; }
         public string Description { get; set; }
         public int Order { get; set; }
         public int Layer { get; set; }
         public string ParentCode { get; set; }
-        [BsonElement("children")]
+        [JsonProperty("children")]
         public List<DepartmentData> Children { get; set; }
     }
     public class ScopedSlots

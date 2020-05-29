@@ -71,17 +71,14 @@
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.6.0\lib\net45\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Bson, Version=2.10.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Bson.2.10.4\lib\net452\MongoDB.Bson.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Npgsql, Version=4.1.3.1, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.4.1.3.1\lib\net461\Npgsql.dll</HintPath>
     </Reference>
-    <Reference Include="SSO.Util.Client, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSO.Util.Client.1.0.8\lib\net45\SSO.Util.Client.dll</HintPath>
+    <Reference Include="SSO.Util.Client, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSO.Util.Client.1.1.3\lib\net45\SSO.Util.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -184,16 +181,12 @@
     <Compile Include="Controllers\SSOController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\JwtAuthorize.cs" />
-    <Compile Include="Filters\MyHandleErrorAttribute.cs" />
-    <Compile Include="Filters\ValidateModelStateAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\DepartmentModel.cs" />
-    <Compile Include="Models\ErrorCode.cs" />
     <Compile Include="Models\NavigationModel.cs" />
-    <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -228,8 +221,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Navigation\" />
-    <Folder Include="Views\Settings\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,6 +15,7 @@ namespace SSO.Data.Models
         [Required]
         public string UserName { get; set; }
         [StringLength(64)]
+        [JsonIgnore]
         public string PassWord { get; set; }
         [StringLength(30)]
         public string CompanyCode { get; set; }

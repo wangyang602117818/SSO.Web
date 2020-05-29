@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
-import funtools from 'fun-tools'
+import funtools from 'sso-util'
 
 import Login from '@/components/login'
 

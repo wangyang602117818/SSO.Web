@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SSO.Data.Models;
 using SSO.Model;
 using SSO.Util;
@@ -22,10 +21,6 @@ namespace SSO.Web.Controllers
     {
         Business.UserBasic user = new Business.UserBasic();
         Business.Settings settings = new Business.Settings();
-        public static string[] admin = AppSettings.GetValue("admin").Split(';');
-        public static string lang = AppSettings.GetValue("lang");
-        public static string cookieName = AppSettings.GetValue("cookieName");
-        public static string cookieTime = AppSettings.GetValue("cookieTime");
         public ActionResult Index()
         {
             return View();
@@ -33,7 +28,7 @@ namespace SSO.Web.Controllers
         public ActionResult GetToken(string ticket, string ip)
         {
             string token = "";
-            string userId = JwtManager.DecodeTicket(ticket);
+            string userId = jwtManager.DecodeTicket(ticket);
             if (!userId.IsNullOrEmpty())
             {
                 UserBasic userBasic = user.GetUser(userId);
@@ -41,7 +36,7 @@ namespace SSO.Web.Controllers
                 {
                     if (userId == admin[0])
                     {
-                        token = JwtManager.GenerateToken(userId, userId, lang, null, null, new List<string>() { admin[2] }, ip ?? Request.UserHostAddress, 20);
+                        token = jwtManager.GenerateToken(userId, userId, lang, null, null, new List<string>() { admin[2] }, ip ?? Request.UserHostAddress, 20);
                     }
                 }
                 else
@@ -50,7 +45,7 @@ namespace SSO.Web.Controllers
                     if (setting != null) lang = setting.Lang;
                     string[] departments = userBasic.DepartmentName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     string[] roles = userBasic.RoleName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    token = JwtManager.GenerateToken(userId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, ip ?? Request.UserHostAddress, 20);
+                    token = jwtManager.GenerateToken(userId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, ip ?? Request.UserHostAddress, 20);
                 }
             }
             return new ResponseModel<string>(ErrorCode.success, token);
@@ -63,11 +58,11 @@ namespace SSO.Web.Controllers
                 try
                 {
                     var userId = JwtAuthorizeAttribute.ParseToken(authorization.Value).Identity.Name;
-                    string ticket = JwtManager.GenerateTicket(userId);
+                    string ticket = jwtManager.GenerateTicket(userId);
                     returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
-                    if (cookieName != "session")
+                    if (cookieTime != "session")
                     {
-                        authorization.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(cookieName));
+                        authorization.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(cookieTime));
                     }
                     Response.Cookies.Add(authorization);
                     //sso退出用
@@ -109,7 +104,7 @@ namespace SSO.Web.Controllers
             string[] roles = userBasic.RoleName.Split(',');
             string[] departments = userBasic.DepartmentName.Split(',');
             if (setting != null) lang = setting.Lang;
-            string token = JwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60);
+            string token = jwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60);
             HttpCookie httpCookie = new HttpCookie(cookieName, token);
             if (cookieTime != "session")
             {
@@ -147,14 +142,14 @@ namespace SSO.Web.Controllers
             var roles = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == ClaimTypes.Role).Select(s => s.Value);
             var userName = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "StaffName").Select(s => s.Value).FirstOrDefault();
             var lang = Request.Cookies["lang"] == null ? ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "Lang").Select(s => s.Value).FirstOrDefault() : Request.Cookies["lang"].Value;
-            BsonDocument userRole = new BsonDocument()
+            object userRole = new
             {
-                {"UserId",User.Identity.Name },
-                {"UserName",userName },
-                {"Role",new BsonArray(roles) },
-                {"Lang",lang }
+                UserId = User.Identity.Name,
+                UserName = userName,
+                Role = roles,
+                Lang = lang
             };
-            return new ResponseModel<BsonDocument>(ErrorCode.success, userRole);
+            return new ResponseModel<object>(ErrorCode.success, userRole);
         }
     }
 }

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 // import babelPolyfill from 'babel-polyfill'
-import funtools from 'fun-tools'
+import funtools from 'sso-util'
 
 import Home from '@/components/home'
 import OverView from '@/components/overview'

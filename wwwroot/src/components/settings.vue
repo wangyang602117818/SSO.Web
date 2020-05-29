@@ -116,7 +116,7 @@
               <a-select-option
                 :value="item.Code"
                 v-for="item in companyData"
-                v-bind:key="item._id"
+                v-bind:key="item.Id"
               >{{item.Name}}</a-select-option>
             </a-select>
           </a-form-item>
@@ -239,7 +239,7 @@ export default {
     updateUser() {
       this.userform.validateFields((error, values) => {
         if (!error) {
-          values.id = this.user._id;
+          values.id = this.user.Id;
           values.userId = this.user.UserId;
           this.$http
             .post(this.$urls.user.updatebasicsetting, values)

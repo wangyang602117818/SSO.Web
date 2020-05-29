@@ -30,7 +30,7 @@
     </a-popconfirm>
     <a-table
       :columns="columns"
-      :rowKey="record => record._id"
+      :rowKey="record => record.Id"
       :dataSource="data"
       :rowSelection="{selectedRowKeys:selectedRowKeys,onChange:onSelectChange}"
       :loading="loading"
@@ -95,7 +95,7 @@ export default {
       columns: [
         {
           title: this.$lang.id,
-          dataIndex: "_id",
+          dataIndex: "Id",
           width: "7%"
         },
         {
@@ -115,18 +115,18 @@ export default {
         },
         {
           title: this.$lang.update_time,
-          dataIndex: "UpdateTime.$date",
+          dataIndex: "UpdateTime",
           width: "15%",
           customRender: val => {
-            return this.$funtools.parseBsonTime(val);
+            return this.$funtools.parseIsoDateTime(val);
           }
         },
         {
           title: this.$lang.create_time,
-          dataIndex: "CreateTime.$date",
+          dataIndex: "CreateTime",
           width: "15%",
           customRender: val => {
-            return this.$funtools.parseBsonTime(val);
+            return this.$funtools.parseIsoDateTime(val);
           }
         }
       ],

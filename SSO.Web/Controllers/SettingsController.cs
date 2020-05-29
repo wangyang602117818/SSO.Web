@@ -9,15 +9,14 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    public class SettingsController : Controller
+    public class SettingsController : BaseController
     {
         Business.Settings settings = new Business.Settings();
-        public string cookieName = AppSettings.GetValue("cookieName");
         public ActionResult SetLang(string lang)
         {
             if (settings.UpdateLang(User.Identity.Name, lang) >= 0)
             {
-                string token = JwtManager.ModifyTokenLang(HttpContext.Items["Authorization"].ToString(), lang, 24 * 60);
+                string token = jwtManager.ModifyTokenLang(HttpContext.Items["Authorization"].ToString(), lang, 24 * 60);
                 return new ResponseModel<string>(ErrorCode.success, token);
             }
             else
@@ -29,7 +28,7 @@ namespace SSO.Web.Controllers
         {
             if (settings.UpdateLang(User.Identity.Name, lang) >= 0)
             {
-                string token = JwtManager.ModifyTokenLang(HttpContext.Items["Authorization"].ToString(), lang, 24 * 60);
+                string token = jwtManager.ModifyTokenLang(HttpContext.Items["Authorization"].ToString(), lang, 24 * 60);
                 HttpCookie httpCookie = new HttpCookie(cookieName, token);
                 if (cookieName != "session")
                 {

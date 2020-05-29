@@ -97,7 +97,7 @@
       <span slot="IsModified" slot-scope="text, record">
         <a-tooltip
           placement="top"
-          :title="parseBsonTime(record.UpdateTime.$date)"
+          :title="$funtools.parseIsoDateTime(record.UpdateTime)"
         >{{record.IsModified}}</a-tooltip>
       </span>
     </a-table>
@@ -168,7 +168,7 @@
             <a-select-option
               :value="item.Code"
               v-for="item in companyData"
-              v-bind:key="item._id"
+              v-bind:key="item.Id"
             >{{item.Name}}</a-select-option>
           </a-select>
         </a-form-item>
@@ -190,7 +190,7 @@
             <a-select-option
               :value="item.Name"
               v-for="item in roleData"
-              v-bind:key="item._id"
+              v-bind:key="item.Id"
             >{{item.Name}}</a-select-option>
           </a-select>
         </a-form-item>
@@ -218,7 +218,7 @@ export default {
       columns: [
         {
           title: this.$lang.id,
-          dataIndex: "_id",
+          dataIndex: "Id",
           width: "5%"
         },
         {
@@ -275,10 +275,10 @@ export default {
         },
         {
           title: this.$lang.create_time,
-          dataIndex: "CreateTime.$date",
+          dataIndex: "CreateTime",
           width: "15%",
           customRender: val => {
-            return this.$funtools.parseBsonTime(val);
+            return this.$funtools.parseIsoDateTime(val);
           }
         }
       ],
@@ -348,7 +348,7 @@ export default {
       });
     },
     updateUser(user) {
-      user.id = this.selectedRows[0]._id;
+      user.id = this.selectedRows[0].Id;
       this.$http.post(this.$urls.user.update, user).then(response => {
         if (response.body.code == 0) {
           this.getData();
@@ -420,19 +420,19 @@ export default {
       if (this.showDelete) {
         this.columns.splice(len - 1, 1, {
           title: this.$lang.delete_time,
-          dataIndex: "DeleteTime.$date",
+          dataIndex: "DeleteTime",
           width: "15%",
           customRender: val => {
-            return this.$funtools.parseBsonTime(val);
+            return this.$funtools.parseIsoDateTime(val);
           }
         });
       } else {
         this.columns.splice(len - 1, 1, {
           title: this.$lang.create_time,
-          dataIndex: "CreateTime.$date",
+          dataIndex: "CreateTime",
           width: "15%",
           customRender: val => {
-            return this.$funtools.parseBsonTime(val);
+            return this.$funtools.parseIsoDateTime(val);
           }
         });
       }

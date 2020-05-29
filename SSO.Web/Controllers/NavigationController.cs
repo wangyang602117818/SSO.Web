@@ -1,4 +1,5 @@
 ﻿using SSO.Data.Models;
+using SSO.Util.Client;
 using SSO.Web.Models;
 using System;
 using System.Collections.Generic;

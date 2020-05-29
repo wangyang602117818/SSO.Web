@@ -9,7 +9,7 @@
     <a-button type="default" icon="redo" @click="reload"></a-button>
     <a-table
       :columns="columns"
-      :rowKey="record => record._id"
+      :rowKey="record => record.Id"
       :dataSource="data"
       :loading="loading"
       :pagination="pagination"
@@ -27,7 +27,7 @@ export default {
       columns: [
         {
           title: this.$lang.id,
-          dataIndex: "_id",
+          dataIndex: "Id",
           width: "5%"
         },
         {
@@ -75,10 +75,10 @@ export default {
         },
         {
           title: this.$lang.create_time,
-          dataIndex: "CreateTime.$date",
+          dataIndex: "CreateTime",
           width: "19%",
           customRender: val => {
-            return this.$funtools.parseBsonTime(val);
+            return this.$funtools.parseIsoDateTime(val);
           }
         }
       ],
