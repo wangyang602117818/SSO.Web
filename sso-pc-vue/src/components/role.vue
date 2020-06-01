@@ -124,6 +124,16 @@ export default {
     };
   },
   methods: {
+    getQuerystring() {
+      return (
+        "?pageIndex=" +
+        this.pagination.current +
+        "&pageSize=" +
+        this.pagination.pageSize +
+        "&filter=" +
+        this.searchValue
+      );
+    },
     eidtRole() {
       this.isUpdate = true;
       this.drawerVisible = true;

@@ -13,7 +13,6 @@ namespace SSO.Web.Controllers
         public ActionResult Add(CompanyModel companyModel)
         {
             if (company.GetByCode(companyModel.Code) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
-            InfoLog("0", "AddCompany", companyModel.Name);
             if (company.Insert(companyModel.Code, companyModel.Name, companyModel.Description, companyModel.Order) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -25,7 +24,6 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Update(UpdateCompanyModel updateCompanyModel)
         {
-            InfoLog(updateCompanyModel.Id.ToString(), "UpdateCompany", updateCompanyModel.Name);
             if (company.Update(updateCompanyModel.Id, updateCompanyModel.Code, updateCompanyModel.Name, updateCompanyModel.Description, updateCompanyModel.Order) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -35,16 +33,19 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.record_exist, "");
             }
         }
+        [NoneLogRecord]
         public ActionResult GetById(int id)
         {
             return new ResponseModel<Data.Models.Company>(ErrorCode.success, company.GetById(id));
         }
+        [NoneLogRecord]
         public ActionResult GetList(string filter = "", int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
             var result = company.GetList(ref count, filter, pageIndex, pageSize);
             return new ResponseModel<IEnumerable<Data.Models.Company>>(ErrorCode.success, result, count);
         }
+        [NoneLogRecord]
         public ActionResult GetAll(string filter = "")
         {
             var result = company.GetAll(filter);
@@ -53,7 +54,6 @@ namespace SSO.Web.Controllers
         public ActionResult Delete(IEnumerable<int> ids)
         {
             if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
-            InfoLog(ids.Select(s => s.ToString()), "DeleteCompany");
             return new ResponseModel<int>(ErrorCode.success, company.Delete(ids));
         }
     }

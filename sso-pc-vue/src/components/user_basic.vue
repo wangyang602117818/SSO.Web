@@ -87,9 +87,9 @@
       :pagination="pagination"
       @change="handleTableChange"
     >
-      <a-tag :key="CompanyName" slot="CompanyName" slot-scope="CompanyName">{{CompanyName}}</a-tag>
+      <a-tag :key="CompanyName" slot="CompanyName" slot-scope="CompanyName" color="#108ee9">{{CompanyName}}</a-tag>
       <span slot="DepartmentName" slot-scope="DepartmentName" v-if="DepartmentName">
-        <a-tag v-for="tag in DepartmentName.split(',')" :key="tag">{{tag}}</a-tag>
+        <a-tag v-for="tag in DepartmentName.split(',')" :key="tag" color="#87d068">{{tag}}</a-tag>
       </span>
       <span slot="RoleName" slot-scope="RoleName" v-if="RoleName">
         <a-tag v-for="tag in RoleName.split(',')" :key="tag">{{tag}}</a-tag>
@@ -223,27 +223,30 @@ export default {
         {
           title: this.$lang.userId,
           dataIndex: "UserId",
-          width: "7%"
+          width: "7%",ellipsis: true
         },
         {
           title: this.$lang.user_name,
           dataIndex: "UserName",
-          width: "12%"
+          width: "10%",ellipsis: true
         },
         {
           title: this.$lang.mobile,
           dataIndex: "Mobile",
-          width: "9%"
+          width: "11%",
+          ellipsis: true
         },
         {
           title: this.$lang.email,
           dataIndex: "Email",
-          width: "13%"
+          width: "10%",
+          ellipsis: true
         },
         {
           title: this.$lang.sex,
           dataIndex: "Sex",
           width: "5%",
+          ellipsis: true,
           customRender: val => {
             return val == "F" ? this.$lang.female : this.$lang.male;
           }
@@ -251,31 +254,36 @@ export default {
         {
           title: this.$lang.comp,
           dataIndex: "CompanyName",
-          width: "5%",
+          width: "10%",
+          ellipsis: false,
           scopedSlots: { customRender: "CompanyName" }
         },
         {
           title: this.$lang.dept,
           dataIndex: "DepartmentName",
-          width: "10%",
+          width: "13%",
+          ellipsis: false,
           scopedSlots: { customRender: "DepartmentName" }
         },
         {
           title: this.$lang.rol,
           dataIndex: "RoleName",
           width: "12%",
+          ellipsis: false,
           scopedSlots: { customRender: "RoleName" }
         },
         {
           title: this.$lang.modified,
           dataIndex: "IsModified",
           width: "7%",
+          ellipsis: true,
           scopedSlots: { customRender: "IsModified" }
         },
         {
           title: this.$lang.create_time,
           dataIndex: "CreateTime",
-          width: "15%",
+          ellipsis: true,
+          width: "10%",
           customRender: val => {
             return this.$funtools.parseIsoDateTime(val);
           }

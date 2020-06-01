@@ -136,5 +136,7 @@ export default {
     navigation_name:"NavigationName",
     navigation_name_required:"NavigationName is required",
     link_required:"Link is required",
-    sure_delete_navigation:"Delete this navigation?"
+    sure_delete_navigation:"Delete this navigation?",
+    query:"Query",
+    path:"Path"
 }

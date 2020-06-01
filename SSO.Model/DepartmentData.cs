@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using SSO.Util.Client;
 namespace SSO.Model
 {
     public class DepartmentData

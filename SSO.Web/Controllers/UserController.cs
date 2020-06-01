@@ -15,7 +15,6 @@ namespace SSO.Web.Controllers
         public ActionResult Add(AddUserModel addUserModel)
         {
             if (user.GetUser(addUserModel.UserId) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
-            InfoLog("0", "AddUser", addUserModel.UserName);
             if (user.Insert(addUserModel.UserId, addUserModel.UserName, addUserModel.Mobile, addUserModel.Email, addUserModel.CompanyCode, addUserModel.IdCard, addUserModel.Sex, addUserModel.Departments, addUserModel.Roles) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -27,7 +26,6 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Update(UpdateUserModel updateUserModel)
         {
-            InfoLog(updateUserModel.Id.ToString(), "UpdateUser", updateUserModel.UserName);
             if (updateUserModel.Departments == null) updateUserModel.Departments = new List<string>();
             if (updateUserModel.Roles == null) updateUserModel.Roles = new List<string>();
             int count = user.Update(updateUserModel.Id, updateUserModel.UserId, updateUserModel.UserName, updateUserModel.Mobile, updateUserModel.Email, updateUserModel.CompanyCode, updateUserModel.IdCard, updateUserModel.Sex, updateUserModel.Departments, updateUserModel.Roles);
@@ -36,7 +34,6 @@ namespace SSO.Web.Controllers
         }
         public ActionResult UpdateBasicSetting(UpdateUserModel updateUserModel)
         {
-            InfoLog(updateUserModel.Id.ToString(), "UpdateBasicSetting", updateUserModel.UserName);
             if (updateUserModel.Departments == null) updateUserModel.Departments = new List<string>();
             int count = user.Update(updateUserModel.Id, User.Identity.Name, updateUserModel.UserName, updateUserModel.Mobile, updateUserModel.Email, updateUserModel.CompanyCode, updateUserModel.IdCard, updateUserModel.Sex, updateUserModel.Departments, null);
             if (count == 0) return new ResponseModel<string>(ErrorCode.record_exist, "");
@@ -44,7 +41,6 @@ namespace SSO.Web.Controllers
         }
         public ActionResult UpdatePassword(UpdatePasswordModel updatePasswordModel)
         {
-            InfoLog("0", "UpdatePassword");
             int count = user.UpdatePassword(User.Identity.Name, updatePasswordModel.oldPassword, updatePasswordModel.newPassword);
             if (count == -1) return new ResponseModel<string>(ErrorCode.old_password_error, "");
             if (count >= 0)
@@ -58,9 +54,9 @@ namespace SSO.Web.Controllers
         }
         public ActionResult ResetPassword(IEnumerable<string> userIds)
         {
-            InfoLog("0", "ResetPassword");
             return new ResponseModel<int>(ErrorCode.success, user.ResetPassword(userIds));
         }
+        [NoneLogRecord]
         public ActionResult GetBasic(string filter, int pageIndex = 1, int pageSize = 10, bool delete = false)
         {
             int count = 0;
@@ -70,19 +66,16 @@ namespace SSO.Web.Controllers
         public ActionResult Remove(IEnumerable<string> userIds)
         {
             if (userIds == null || userIds.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
-            InfoLog(userIds, "RemoveUser");
             return new ResponseModel<int>(ErrorCode.success, user.RemoveUser(userIds));
         }
         public ActionResult Delete(IEnumerable<string> userIds)
         {
             if (userIds == null || userIds.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
-            InfoLog(userIds, "DeleteUser");
             return new ResponseModel<int>(ErrorCode.success, user.DeleteUser(userIds));
         }
         public ActionResult Restore(IEnumerable<string> userIds)
         {
             if (userIds == null || userIds.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
-            InfoLog(userIds, "RestoreUser");
             return new ResponseModel<int>(ErrorCode.success, user.RestoreUser(userIds));
         }
         public ActionResult GetUser()

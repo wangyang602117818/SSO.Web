@@ -29,10 +29,10 @@ namespace SSO.Web.Controllers
             if (settings.UpdateLang(User.Identity.Name, lang) >= 0)
             {
                 string token = jwtManager.ModifyTokenLang(HttpContext.Items["Authorization"].ToString(), lang, 24 * 60);
-                HttpCookie httpCookie = new HttpCookie(cookieName, token);
-                if (cookieTime != "session")
+                HttpCookie httpCookie = new HttpCookie(ssoCookieKey, token);
+                if (ssoCookieTime != "session")
                 {
-                    httpCookie.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(cookieTime));
+                    httpCookie.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(ssoCookieTime));
                 }
                 Response.Cookies.Add(httpCookie);
                 return new ResponseModel<string>(ErrorCode.success, token);

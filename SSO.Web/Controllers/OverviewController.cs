@@ -9,10 +9,10 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
+    [NoneLogRecord]
     public class OverviewController : BaseController
     {
         Business.UserBasic userBasic = new Business.UserBasic();
-        Business.Log log = new Business.Log();
         Business.UserDepartmentMapping userDepartmentMapping = new Business.UserDepartmentMapping();
         public ActionResult Total()
         {
@@ -38,11 +38,8 @@ namespace SSO.Web.Controllers
         /// <returns></returns>
         public ActionResult OpRecord(string type = "day", int last = 30)
         {
-            IEnumerable<DateCountItem> result = null;
-            if (type == "day") result = log.OpRecordByDay(DateTime.Now.AddDays(-last)).ToList().Select(s => new DateCountItem() { date = DateTime.Parse(s.date).ToString("yyyy-MM-dd"), count = s.count });
-            if (type == "month") result = log.OpRecordByMonth(DateTime.Now.AddMonths(-last)).ToList().Select(s => new DateCountItem() { date = DateTime.Parse(s.date).ToString("yyyy-MM"), count = s.count });
-            if (type == "year") result = log.OpRecordByYear(DateTime.Now.AddYears(-last));
-            return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, result.OrderBy(o => o.date));
+            var result = logService.GetOpRecordByDayJson(last);
+            return Content(result, "application/json");
         }
         /// <summary>
         /// 用户录入删除操作记录

@@ -12,6 +12,7 @@ namespace SSO.Web
             filters.Add(new JwtAuthorizeAttribute());
             filters.Add(new MyHandleErrorAttribute());
             filters.Add(new ValidateModelStateAttribute());
+            filters.Add(new LogRecordAttribute());
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using SSO.Data.Models;
-using SSO.Util;
 using SSO.Util.Client;
 using System.Data.Entity;
 
@@ -22,7 +21,6 @@ namespace SSO.Data
         public DbSet<UserDepartmentMapping> UserDepartmentMappings { get; set; }
         public DbSet<UserRoleMapping> UserRoleMappings { get; set; }
         public DbSet<Navigation> Navigations { get; set; }
-        public DbSet<Log> Logs { get; set; }
         public DbSet<Settings> Settings { get; set; }
     }
 

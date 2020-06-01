@@ -93,27 +93,32 @@ export default {
         {
           title: this.$lang.id,
           dataIndex: "Id",
-          width: "5%"
+          width: "5%",
+          ellipsis: true
         },
         {
           title: this.$lang.name,
           dataIndex: "Title",
-          width: "10%"
+          width: "10%",
+          ellipsis: true
         },
         {
           title: this.$lang.link,
           dataIndex: "BaseUrl",
-          width: "20%"
+          width: "20%",
+          ellipsis: true
         },
         {
           title: this.$lang.logo,
           dataIndex: "LogoUrl",
-          width: "25%"
+          width: "25%",
+          ellipsis: true
         },
         {
           title: this.$lang.update_time,
           dataIndex: "UpdateTime",
           width: "20%",
+          ellipsis: true,
           customRender: val => {
             return this.$funtools.parseIsoDateTime(val);
           }
@@ -122,6 +127,7 @@ export default {
           title: this.$lang.create_time,
           dataIndex: "CreateTime",
           width: "20%",
+          ellipsis: true,
           customRender: val => {
             return this.$funtools.parseIsoDateTime(val);
           }
@@ -131,6 +137,16 @@ export default {
     };
   },
   methods: {
+    getQuerystring() {
+      return (
+        "?pageIndex=" +
+        this.pagination.current +
+        "&pageSize=" +
+        this.pagination.pageSize +
+        "&filter=" +
+        this.searchValue
+      );
+    },
     eidtNavigation() {
       this.isUpdate = true;
       this.drawerVisible = true;

@@ -95,27 +95,32 @@ export default {
         {
           title: this.$lang.id,
           dataIndex: "Id",
-          width: "7%"
+          width: "7%",
+          ellipsis: true
         },
         {
           title: this.$lang.company_code,
           dataIndex: "Code",
-          width: "10%"
+          width: "10%",
+          ellipsis: true
         },
         {
           title: this.$lang.company_name,
           dataIndex: "Name",
-          width: "13%"
+          width: "13%",
+          ellipsis: true
         },
         {
           title: this.$lang.company_description,
           dataIndex: "Description",
-          width: "40%"
+          width: "40%",
+          ellipsis: true
         },
         {
           title: this.$lang.update_time,
           dataIndex: "UpdateTime",
           width: "15%",
+          ellipsis: true,
           customRender: val => {
             return this.$funtools.parseIsoDateTime(val);
           }
@@ -124,6 +129,7 @@ export default {
           title: this.$lang.create_time,
           dataIndex: "CreateTime",
           width: "15%",
+          ellipsis: true,
           customRender: val => {
             return this.$funtools.parseIsoDateTime(val);
           }
@@ -133,6 +139,16 @@ export default {
     };
   },
   methods: {
+    getQuerystring() {
+      return (
+        "?pageIndex=" +
+        this.pagination.current +
+        "&pageSize=" +
+        this.pagination.pageSize +
+        "&filter=" +
+        this.searchValue
+      );
+    },
     showDrawer() {
       this.drawerVisible = true;
       this.isUpdate = false;

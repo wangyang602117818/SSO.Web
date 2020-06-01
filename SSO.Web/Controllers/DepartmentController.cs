@@ -13,7 +13,6 @@ namespace SSO.Web.Controllers
         public ActionResult Add(DepartmentModel departmentModel)
         {
             if (department.GetByCode(departmentModel.Code) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
-            InfoLog("0", "AddDepartment", departmentModel.Name);
             if (department.Insert(departmentModel.Code, departmentModel.Name, departmentModel.Description, departmentModel.CompanyCode, departmentModel.Order, departmentModel.Layer, departmentModel.ParentCode ?? "") > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -44,7 +43,6 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Update(UpdateDepartmentModel updateDepartmentModel)
         {
-            InfoLog(updateDepartmentModel.Id.ToString(), "UpdateDepartment", updateDepartmentModel.Name);
             if (updateDepartmentModel.ParentCode == null) updateDepartmentModel.ParentCode = "";
             if (updateDepartmentModel.ParentCode == "")
             {
@@ -65,7 +63,6 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Delete(int id)
         {
-            InfoLog(id.ToString(), "DeleteDepartment");
             return new ResponseModel<int>(ErrorCode.success, department.Delete(id));
         }
     }

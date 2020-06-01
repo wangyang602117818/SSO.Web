@@ -17,6 +17,7 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<IEnumerable<Navigation>>(ErrorCode.success, navigation.GetAll());
         }
+        [NoneLogRecord]
         public ActionResult GetList(string filter, int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
@@ -25,7 +26,6 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Add(NavigationModel navigationModel)
         {
-            InfoLog("0", "AddNavigation");
             if (navigation.Insert(navigationModel.Title, navigationModel.BaseUrl, navigationModel.LogoUrl) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -37,7 +37,6 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Update(UpdateNavigationModel updateNavigationModel)
         {
-            InfoLog(updateNavigationModel.Id.ToString(), "UpdateNavigation");
             if (navigation.Update(updateNavigationModel.Id, updateNavigationModel.Title, updateNavigationModel.BaseUrl, updateNavigationModel.LogoUrl) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -48,6 +47,7 @@ namespace SSO.Web.Controllers
             }
 
         }
+        [NoneLogRecord]
         public ActionResult GetById(int id)
         {
             return new ResponseModel<Navigation>(ErrorCode.success, navigation.GetById(id));
@@ -55,7 +55,6 @@ namespace SSO.Web.Controllers
         public ActionResult Delete(IEnumerable<int> ids)
         {
             if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
-            InfoLog(ids.Select(s => s.ToString()), "DeleteNavigation");
             return new ResponseModel<int>(ErrorCode.success, navigation.Delete(ids));
         }
     }

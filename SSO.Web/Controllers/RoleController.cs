@@ -13,7 +13,6 @@ namespace SSO.Web.Controllers
         public ActionResult Add(RoleModel roleModel)
         {
             if (role.GetByRoleName(roleModel.Name) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
-            InfoLog("0", "AddRole", roleModel.Name);
             if (role.Insert(roleModel.Name, roleModel.Description) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -25,7 +24,6 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Update(UpdateRoleModel updateRoleModel)
         {
-            InfoLog(updateRoleModel.Id.ToString(), "UpdateRole", updateRoleModel.Name);
             if (role.Update(updateRoleModel.Id, updateRoleModel.Name, updateRoleModel.Description) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -39,12 +37,14 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<Data.Models.Role>(ErrorCode.success, role.GetById(id));
         }
+        [NoneLogRecord]
         public ActionResult GetList(string filter = "", int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
             var result = role.GetList(ref count, filter, pageIndex, pageSize);
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, count);
         }
+        [NoneLogRecord]
         public ActionResult GetAll()
         {
             var result = role.GetAll();
@@ -53,7 +53,6 @@ namespace SSO.Web.Controllers
         public ActionResult Delete(IEnumerable<int> ids)
         {
             if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
-            InfoLog(ids.Select(s=>s.ToString()), "DeleteRole");
             return new ResponseModel<int>(ErrorCode.success, role.Delete(ids));
         }
     }

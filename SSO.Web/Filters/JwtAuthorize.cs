@@ -16,8 +16,8 @@ namespace SSO.Web.Filters
 {
     public class JwtAuthorizeAttribute : AuthorizeAttribute
     {
-        public static string cookieName = AppSettings.GetValue("cookieName");
-        public static string secretKey = AppSettings.GetValue("secretKey");
+        public static string ssoCookieKey = AppSettings.GetValue("ssoCookieKey");
+        public static string ssoSecretKey = AppSettings.GetValue("ssoSecretKey");
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             var reflectedActionDescriptor = (ReflectedActionDescriptor)filterContext.ActionDescriptor;
@@ -38,9 +38,9 @@ namespace SSO.Web.Filters
             if (!isAuthorization) return;
             HttpRequestBase request = filterContext.HttpContext.Request;
             string authorization = "";
-            if (request.Cookies[cookieName] != null)
+            if (request.Cookies[ssoCookieKey] != null)
             {
-                authorization = request.Cookies[cookieName].Value;
+                authorization = request.Cookies[ssoCookieKey].Value;
             }
             if (string.IsNullOrEmpty(authorization))
             {
@@ -81,7 +81,7 @@ namespace SSO.Web.Filters
         public static ClaimsPrincipal ParseToken(string authorization)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var symmetricKey = Convert.FromBase64String(secretKey);
+            var symmetricKey = Convert.FromBase64String(ssoSecretKey);
             var validationParameters = new TokenValidationParameters()
             {
                 RequireExpirationTime = true,

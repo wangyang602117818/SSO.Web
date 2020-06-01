@@ -137,5 +137,6 @@ export default {
     navigation_name_required:"导航名称不能为空",
     link_required:"链接不能为空",
     sure_delete_navigation:"确定删除导航?",
-    
+    query:"查询",
+    path:"路径"
 }

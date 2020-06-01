@@ -9,66 +9,68 @@
     <a-button type="default" icon="redo" @click="reload"></a-button>
     <a-table
       :columns="columns"
-      :rowKey="record => record.Id"
+      :rowKey="record => record._id"
       :dataSource="data"
       :loading="loading"
       :pagination="pagination"
       @change="handleTableChange"
-    />
+    >
+      <span slot="RoleName" slot-scope="RoleName" v-if="RoleName">
+        <a-tag v-for="tag in RoleName.split(',')" :key="tag">{{tag}}</a-tag>
+      </span>
+      <span slot="path" slot-scope="text, record">{{record.Controller+"/"+record.Action}}</span>
+    </a-table>
   </div>
 </template>
 <script>
 import base from "./Base";
 export default {
-  name:"log",
+  name: "log",
   mixins: [base],
   data() {
     return {
       columns: [
         {
-          title: this.$lang.id,
-          dataIndex: "Id",
-          width: "5%"
-        },
-        {
           title: this.$lang.source,
           dataIndex: "From",
-          width: "15%"
+          width: "12%",
+          ellipsis: true
         },
         {
-          title: this.$lang.type,
-          dataIndex: "Type",
-          width: "5%",
-          customRender: val => {
-            if (val == 1) return "detail";
-            if (val == 2) return "warning";
-            if (val == 3) return "error";
-          }
+          title: this.$lang.path,
+          key: "path",
+          width: "10%",
+          scopedSlots: { customRender: "path" },
+          ellipsis: true
         },
         {
-          title:this.$lang.content,
+          title: this.$lang.query,
+          dataIndex: "QueryString",
+          width: "10%",
+          ellipsis: true
+        },
+        {
+          title: this.$lang.content,
           dataIndex: "Content",
-          width: "15%"
-        },
-        {
-          title: this.$lang.remark,
-          dataIndex: "Remark",
-          width: "15%"
+          width: "20%",
+          ellipsis: true
         },
         {
           title: this.$lang.us,
           dataIndex: "UserId",
-          width: "8%"
+          width: "10%"
         },
         {
           title: this.$lang.ip,
           dataIndex: "UserHost",
-          width: "10%"
+          width: "10%",
+          ellipsis: true
         },
         {
           title: this.$lang.agent,
           dataIndex: "UserAgent",
           width: "8%",
+          ellipsis: true,
           customRender: val => {
             return this.$funtools.getDeviceType(val);
           }
@@ -76,7 +78,8 @@ export default {
         {
           title: this.$lang.create_time,
           dataIndex: "CreateTime",
-          width: "19%",
+          width: "20%",
+          ellipsis: true,
           customRender: val => {
             return this.$funtools.parseIsoDateTime(val);
           }
@@ -86,7 +89,16 @@ export default {
     };
   },
   methods: {
- 
+    getQuerystring() {
+      return (
+        "?pageIndex=" +
+        this.pagination.current +
+        "&pageSize=" +
+        this.pagination.pageSize +
+        "&filter=" +
+        this.searchValue
+      );
+    }
   }
 };
 </script>

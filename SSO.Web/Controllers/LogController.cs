@@ -8,14 +8,15 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    public class LogController : Controller
+    public class LogController : BaseController
     {
-        Business.Log log = new Business.Log();
-        public ActionResult GetList(string filter = "", int pageIndex = 1, int pageSize = 10)
+        [NoneLogRecord]
+        public ActionResult GetList(string from = "", string userId = "", int pageIndex = 1, int pageSize = 10)
         {
-            int count = 0;
-            var result = log.GetList(ref count, filter, pageIndex, pageSize);
-            return new ResponseModel<IEnumerable<Data.Models.Log>>(ErrorCode.success, result, count);
+            Dictionary<string, string> sorts = new Dictionary<string, string>();
+            sorts.Add("CreateTime", "desc");
+            var result = logService.GetListJson(from, userId, sorts, pageIndex, pageSize);
+            return Content(result, "application/json");
         }
     }
 }
