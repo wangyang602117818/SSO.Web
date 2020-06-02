@@ -114,7 +114,7 @@ export default {
     remark:"备注",
     us:"用户",
     ip:"Ip",
-    agent:"用户代理",
+    agent:"代理",
     basic_setting:"基本设置",
     login_setting:"登录设置",
     old_password:"旧密码",

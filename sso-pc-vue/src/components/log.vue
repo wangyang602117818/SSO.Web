@@ -37,28 +37,33 @@ export default {
           ellipsis: true
         },
         {
-          title: this.$lang.path,
-          key: "path",
+          title: "controller",
+          dataIndex: "Controller",
           width: "10%",
-          scopedSlots: { customRender: "path" },
+          ellipsis: true
+        },
+        {
+          title: "action",
+          dataIndex: "Action",
+          width: "10%",
           ellipsis: true
         },
         {
           title: this.$lang.query,
           dataIndex: "QueryString",
-          width: "10%",
+          width: "15%",
           ellipsis: true
         },
         {
           title: this.$lang.content,
           dataIndex: "Content",
-          width: "20%",
+          width: "15%",
           ellipsis: true
         },
         {
           title: this.$lang.us,
           dataIndex: "UserId",
-          width: "10%"
+          width: "8"
         },
         {
           title: this.$lang.ip,
@@ -69,7 +74,7 @@ export default {
         {
           title: this.$lang.agent,
           dataIndex: "UserAgent",
-          width: "8%",
+          width: "5%",
           ellipsis: true,
           customRender: val => {
             return this.$funtools.getDeviceType(val);
@@ -78,7 +83,7 @@ export default {
         {
           title: this.$lang.create_time,
           dataIndex: "CreateTime",
-          width: "20%",
+          width: "15%",
           ellipsis: true,
           customRender: val => {
             return this.$funtools.parseIsoDateTime(val);
