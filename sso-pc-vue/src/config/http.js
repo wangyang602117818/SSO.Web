@@ -40,7 +40,8 @@ export const urls = {
         resetpassword: 'user/resetpassword'
     },
     log: {
-        getlist: 'log/getlist'
+        getlist: 'log/getlist',
+        getfromlist:'log/getfromlist'
     },
     overview: {
         total: 'overview/total',

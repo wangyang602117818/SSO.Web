@@ -8,7 +8,7 @@ import langEn from './lang/en-US'
 import langZh from './lang/zh-CN'
 import "./css/index.css"
 
-import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown, Spin } from 'ant-design-vue'
+import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown, Spin, DatePicker } from 'ant-design-vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +35,7 @@ Vue.use(Tooltip)
 Vue.use(Dropdown)
 Vue.use(Card)
 Vue.use(Spin)
+Vue.use(DatePicker)
 
 Vue.prototype.$message = message
 Vue.prototype.$notification = notification

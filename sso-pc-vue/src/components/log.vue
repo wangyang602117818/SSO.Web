@@ -1,11 +1,42 @@
 <template>
   <div>
-    <a-input-search
-      :placeholder="this.$lang.search"
-      style="width: 200px"
-      @search="onSearch"
-      v-model="searchValue"
-    />
+    <a-select :default-value="from" v-model="from" style="width: 150px" @change="fromChange">
+      <a-select-option value>{{this.$lang.all}}</a-select-option>
+      <a-select-option v-for="item in fromlist" :value="item.from" :key="item.from">{{item.from}}</a-select-option>
+    </a-select>&nbsp;
+    <a-input
+      placeholder="controller"
+      style="width: 120px"
+      v-on:keyup.enter="onSearch"
+      v-model="controllerName"
+    />&nbsp;
+    <a-input
+      placeholder="active"
+      style="width: 120px"
+      v-on:keyup.enter="onSearch"
+      v-model="actionName"
+    />&nbsp;
+    <a-input
+      :placeholder="this.$lang.userId"
+      style="width: 100px"
+      v-on:keyup.enter="onSearch"
+      v-model="userId"
+    />&nbsp;
+    <a-date-picker
+      valueFormat="YYYY-MM-DD"
+      :value="startTime"
+      @change="onStartChange"
+      :placeholder="this.$lang.start_time"
+      style="width: 120px"
+    />&nbsp;
+    <a-date-picker
+      valueFormat="YYYY-MM-DD"
+      :value="endTime"
+      @change="onEndChange"
+      :placeholder="this.$lang.end_time"
+      style="width: 120px"
+    />&nbsp;
+    <a-button @click="handleReset">Clear</a-button>
     <a-button type="default" icon="redo" @click="reload"></a-button>
     <a-table
       :columns="columns"
@@ -90,22 +121,66 @@ export default {
           }
         }
       ],
+      fromlist: [],
+      from: "",
+      controllerName: "",
+      actionName: "",
+      startTime: null,
+      endTime: null,
+      userId: "",
       getlist: this.$urls.log.getlist
     };
   },
+  mounted() {
+    this.getFromList();
+  },
   methods: {
+    handleReset() {
+      this.from = "";
+      this.controllerName = "";
+      this.actionName = "";
+      this.startTime = null;
+      this.endTime = null;
+      this.userId = "";
+      this.getData();
+    },
+    fromChange(item) {
+      this.from = item;
+      this.getData();
+    },
+    onStartChange(date, dateString) {
+      this.startTime = dateString;
+      this.getData();
+    },
+    onEndChange(date, dateString) {
+      this.endTime = dateString;
+      this.getData();
+    },
     getQuerystring() {
-      return (
+      var url =
         "?pageIndex=" +
         this.pagination.current +
         "&pageSize=" +
-        this.pagination.pageSize +
-        "&filter=" +
-        this.searchValue
-      );
+        this.pagination.pageSize;
+      if (this.from) url += "&from=" + this.from;
+      if (this.controllerName) url += "&controllerName=" + this.controllerName;
+      if (this.actionName) url += "&actionName=" + this.actionName;
+      if (this.userId) url += "&userId=" + this.userId;
+      if (this.startTime) url += "&startTime=" + this.startTime;
+      if (this.endTime) url += "&endTime=" + this.endTime;
+      return url;
+    },
+    getFromList() {
+      this.$axios.get(this.$urls.log.getfromlist).then(response => {
+        if (response.code === 0) this.fromlist = response.result;
+      });
     }
   }
 };
 </script>
 <style scoped>
+.ant-select-enabled,
+.ant-input {
+  margin: 10px 0px;
+}
 </style>

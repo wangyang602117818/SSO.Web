@@ -138,5 +138,8 @@ export default {
     link_required:"Link is required",
     sure_delete_navigation:"Delete this navigation?",
     query:"Query",
-    path:"Path"
+    path:"Path",
+    all:"All",
+    start_time:"start time",
+    end_time:"end time"
 }

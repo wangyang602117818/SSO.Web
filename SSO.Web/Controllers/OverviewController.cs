@@ -36,7 +36,7 @@ namespace SSO.Web.Controllers
         /// <param name="type">类型 day month year</param>
         /// <param name="last">最近多少 天 月 年</param>
         /// <returns></returns>
-        public ActionResult OpRecord(string type = "day", int last = 30)
+        public ActionResult OpRecord(int last = 30)
         {
             var result = logService.GetOpRecordByDayJson(last);
             return Content(result, "application/json");

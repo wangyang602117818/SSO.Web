@@ -39,6 +39,7 @@ namespace SSO.Web.Controllers
             if (count == 0) return new ResponseModel<string>(ErrorCode.record_exist, "");
             return new ResponseModel<string>(ErrorCode.success, "");
         }
+        [LogRecord(RecordContent = false)]
         public ActionResult UpdatePassword(UpdatePasswordModel updatePasswordModel)
         {
             int count = user.UpdatePassword(User.Identity.Name, updatePasswordModel.oldPassword, updatePasswordModel.newPassword);

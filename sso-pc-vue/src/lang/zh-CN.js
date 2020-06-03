@@ -138,5 +138,8 @@ export default {
     link_required:"链接不能为空",
     sure_delete_navigation:"确定删除导航?",
     query:"查询",
-    path:"路径"
+    path:"路径",
+    all:"全部",
+    start_time:"开始时间",
+    end_time:"结束时间"
 }

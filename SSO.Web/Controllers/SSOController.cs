@@ -78,6 +78,7 @@ namespace SSO.Web.Controllers
             return View();
         }
         [HttpPost]
+        [LogRecord(RecordContent = false)]
         public ActionResult Login(LoginModel loginModel, string returnUrl)
         {
             UserBasic userBasic = null;
