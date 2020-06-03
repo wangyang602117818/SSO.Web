@@ -17,7 +17,6 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<IEnumerable<Navigation>>(ErrorCode.success, navigation.GetAll());
         }
-        [NoneLogRecord]
         public ActionResult GetList(string filter, int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
@@ -47,7 +46,6 @@ namespace SSO.Web.Controllers
             }
 
         }
-        [NoneLogRecord]
         public ActionResult GetById(int id)
         {
             return new ResponseModel<Navigation>(ErrorCode.success, navigation.GetById(id));

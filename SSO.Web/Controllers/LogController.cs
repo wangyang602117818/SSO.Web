@@ -8,7 +8,6 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    [NoneLogRecord]
     public class LogController : BaseController
     {
         public ActionResult GetList(string from = "", string controllerName = "", string actionName = "", DateTime? startTime = null, DateTime? endTime = null, string userId = "", int pageIndex = 1, int pageSize = 10)

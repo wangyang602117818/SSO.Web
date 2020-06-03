@@ -57,7 +57,6 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<int>(ErrorCode.success, user.ResetPassword(userIds));
         }
-        [NoneLogRecord]
         public ActionResult GetBasic(string filter, int pageIndex = 1, int pageSize = 10, bool delete = false)
         {
             int count = 0;

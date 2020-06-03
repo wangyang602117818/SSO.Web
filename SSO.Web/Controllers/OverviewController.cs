@@ -9,7 +9,6 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    [NoneLogRecord]
     public class OverviewController : BaseController
     {
         Business.UserBasic userBasic = new Business.UserBasic();
