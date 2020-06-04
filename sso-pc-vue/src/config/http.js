@@ -41,7 +41,7 @@ export const urls = {
     },
     log: {
         getlist: 'log/getlist',
-        getfromlist:'log/getfromlist'
+        getfromlist: 'log/getfromlist'
     },
     overview: {
         total: 'overview/total',
@@ -100,6 +100,7 @@ ax.interceptors.response.use(
         if (error.message.includes('timeout')) {
             if (window.vue.$message)
                 window.vue.$message.warning("请求超时!");
+            return;
         }
         return Promise.reject(error.response) // 返回接口返回的错误信息
     }

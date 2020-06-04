@@ -41,7 +41,9 @@ export const urls = {
         resetpassword: 'user/resetpassword'
     },
     log: {
-        getlist: 'log/getlist'
+        getlist: 'log/getlist',
+        getlistsimple:'log/getlistsimple',
+        detail:'log/detail'
     },
     overview: {
         total: 'overview/total',
@@ -98,6 +100,7 @@ ax.interceptors.response.use(
     error => {
         if(error.message.includes('timeout')){
             window.vue.showInfo("请求超时!");
+            return;
         }
         return Promise.reject(error.response) // 返回接口返回的错误信息
     }

@@ -63,7 +63,7 @@
           </div>
         </f7-col>
         <f7-col>
-          <div class="nav_wrap">
+          <div class="nav_wrap" @click='$f7router.navigate("/logs")'>
             <f7-icon f7="doc_text" color="blue"></f7-icon>
             <div class="nav_title">
               <span>日志列表</span>

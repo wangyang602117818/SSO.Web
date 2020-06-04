@@ -54,10 +54,8 @@ var ListBase = {
                     if (response.code === 0) {
                         if (response.result.length < this.pageSize) this.isEnd = true;
                         if (replace) {
-                            // store.resetRoles(response.result);
                             this.datas = response.result;
                         } else {
-                            // store.addRoles(response.result);
                             this.datas = this.datas.concat(response.result);
                         }
                     }
