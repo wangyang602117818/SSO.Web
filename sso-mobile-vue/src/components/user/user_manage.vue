@@ -25,7 +25,7 @@
       >
         <f7-skeleton-block style="width: 40px; height: 40px;border-radius: 50%" slot="media"></f7-skeleton-block>
         <f7-swipeout-actions right>
-          <f7-swipeout-button color="blue" @click="removeUser(item.Id,item.UserId)">Delete</f7-swipeout-button>
+          <f7-swipeout-button color="red" @click="removeUser(item.Id,item.UserId)">Delete</f7-swipeout-button>
         </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>

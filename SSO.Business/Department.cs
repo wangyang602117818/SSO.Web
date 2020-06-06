@@ -70,6 +70,7 @@ namespace SSO.Business
         {
             List<int> ids = new List<int>() { id };
             Data.Models.Department dept = userCenterContext.Departments.Where(w => w.Id == id).FirstOrDefault();
+            //递归删除下级部门
             GetSubDepartmentIds(dept.Code, ref ids);
             foreach (var item in ids)
             {

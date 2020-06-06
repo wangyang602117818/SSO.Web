@@ -25,7 +25,7 @@
       >
         <img slot="media" :src="item.LogoUrl" width="40" />
         <f7-swipeout-actions right>
-          <f7-swipeout-button color="blue" @click="delNavigation(item.Id)">Delete</f7-swipeout-button>
+          <f7-swipeout-button color="red" @click="delNavigation(item.Id)">Delete</f7-swipeout-button>
         </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>

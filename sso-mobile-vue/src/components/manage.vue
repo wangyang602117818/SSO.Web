@@ -45,7 +45,7 @@
           </div>
         </f7-col>
         <f7-col>
-          <div class="nav_wrap">
+          <div class="nav_wrap" @click='$f7router.navigate("/coms")'>
             <f7-icon f7="rectangle_3_offgrid_fill" color="blue"></f7-icon>
             <div class="nav_title">
               <span>部门管理</span>

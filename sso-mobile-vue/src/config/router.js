@@ -13,6 +13,8 @@ import NavigationUpdate from '../components/navigation/navigation_update'
 import NavigationAdd from '../components/navigation/navigation_add'
 import LogManage from '../components/log/log_manage'
 import LogDetail from '../components/log/log_detail'
+import Companys from '../components/department/companys'
+import DepartmentManage from '../components/department/department_manage'
 var routes = [
     {
         name: "tab",
@@ -138,6 +140,22 @@ var routes = [
         name: "logdetail",
         path: "/logdetail/:id",
         component: LogDetail,
+        options: {
+            transition: 'f7-parallax',
+        }
+    },
+    {
+        name:"coms",
+        path: "/coms",
+        component: Companys,
+        options: {
+            transition: 'f7-parallax',
+        }
+    },
+    {
+        name:"departmentmanage",
+        path: "/departmentmanage/:id/:name",
+        component: DepartmentManage,
         options: {
             transition: 'f7-parallax',
         }

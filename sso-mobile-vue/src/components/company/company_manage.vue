@@ -24,7 +24,7 @@
         :key="item.Id"
       >
         <f7-swipeout-actions right>
-          <f7-swipeout-button color="blue" @click="delCompany(item.Id)">Delete</f7-swipeout-button>
+          <f7-swipeout-button color="red" @click="delCompany(item.Id)">Delete</f7-swipeout-button>
         </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>
