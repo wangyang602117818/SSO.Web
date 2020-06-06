@@ -44,7 +44,18 @@ export default {
       getlist: this.$urls.navigation.getlist
     };
   },
-  methods: {}
+  methods: {
+    getQuerystring() {
+      var url =
+        "?pageIndex=" +
+        this.pageIndex +
+        "&pageSize=" +
+        this.pageSize +
+        "&filter=" +
+        this.filter;
+      return url;
+    }
+  }
 };
 </script>
 

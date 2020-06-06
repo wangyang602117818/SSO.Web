@@ -45,6 +45,16 @@ export default {
   },
   mounted() {},
   methods: {
+    getQuerystring() {
+      var url =
+        "?pageIndex=" +
+        this.pageIndex +
+        "&pageSize=" +
+        this.pageSize +
+        "&filter=" +
+        this.filter;
+      return url;
+    },
     delRole(id) {
       var that = this;
       this.$f7.dialog.confirm("确定删除?", "提示", function() {

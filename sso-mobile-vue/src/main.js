@@ -8,7 +8,7 @@ import { baseURL, cookieName, urls, axios } from './config/http';
 import 'framework7/css/framework7.bundle.css'
 import 'framework7-icons';
 
-import { f7App, f7Tabs, f7Tab, f7Toolbar, f7View, f7Page, f7Link, f7Navbar, f7NavRight, f7Icon, f7Row, f7Col, f7Searchbar, f7List, f7ListItem, f7Preloader, f7Block, f7SkeletonBlock, f7ListInput, f7SwipeoutActions, f7SwipeoutButton } from "framework7-vue"
+import { f7App, f7Tabs, f7Tab, f7Toolbar, f7View, f7Page, f7Link, f7Navbar, f7NavRight, f7Icon, f7Row, f7Col, f7Searchbar, f7List, f7ListItem, f7Preloader, f7Block, f7SkeletonBlock, f7ListInput, f7SwipeoutActions, f7SwipeoutButton, f7Sheet, f7PageContent, f7BlockTitle, f7Button, f7Chip } from "framework7-vue"
 
 Vue.component('f7-app', f7App);
 Vue.component('f7-view', f7View);
@@ -31,6 +31,11 @@ Vue.component('f7-skeleton-block', f7SkeletonBlock);
 Vue.component('f7-list-input', f7ListInput);
 Vue.component('f7-swipeout-actions', f7SwipeoutActions);
 Vue.component('f7-swipeout-button', f7SwipeoutButton);
+Vue.component('f7-sheet', f7Sheet);
+Vue.component('f7-page-content', f7PageContent);
+Vue.component('f7-block-title', f7BlockTitle);
+Vue.component('f7-button', f7Button);
+Vue.component("f7-chip", f7Chip)
 
 Framework7.use(Framework7Vue);
 

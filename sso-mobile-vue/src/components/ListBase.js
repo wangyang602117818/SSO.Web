@@ -35,19 +35,12 @@ var ListBase = {
             for (var i = 0; i < this.datas.length; i++) {
                 if (this.datas[i].Id == id) index = i;
             }
-            this.datas.splice(index,1);
+            this.datas.splice(index, 1);
         },
         getData(callback, replace) {
             this.loading = true;
             this.$axios
-                .get(this.getlist +
-                    "?pageIndex=" +
-                    this.pageIndex +
-                    "&pageSize=" +
-                    this.pageSize +
-                    "&filter=" +
-                    this.filter
-                )
+                .get(this.getlist + this.getQuerystring())
                 .then(response => {
                     if (callback) callback();
                     this.loading = false;

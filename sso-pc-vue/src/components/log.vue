@@ -11,16 +11,16 @@
       v-model="controllerName"
     />&nbsp;
     <a-input
-      placeholder="active"
+      placeholder="action"
       style="width: 120px"
       v-on:keyup.enter="onSearch"
       v-model="actionName"
     />&nbsp;
     <a-input
-      :placeholder="this.$lang.userId"
+      :placeholder="this.$lang.us"
       style="width: 100px"
       v-on:keyup.enter="onSearch"
-      v-model="userId"
+      v-model="userName"
     />&nbsp;
     <a-date-picker
       valueFormat="YYYY-MM-DD"
@@ -93,19 +93,19 @@ export default {
         },
         {
           title: this.$lang.us,
-          dataIndex: "UserId",
-          width: "8"
+          dataIndex: "UserName",
+          width: "10%"
         },
         {
           title: this.$lang.ip,
           dataIndex: "UserHost",
-          width: "10%",
+          width: "9%",
           ellipsis: true
         },
         {
           title: this.$lang.agent,
           dataIndex: "UserAgent",
-          width: "5%",
+          width: "6%",
           ellipsis: true,
           customRender: val => {
             return this.$funtools.getDeviceType(val);
@@ -114,7 +114,7 @@ export default {
         {
           title: this.$lang.create_time,
           dataIndex: "CreateTime",
-          width: "15%",
+          width: "13%",
           ellipsis: true,
           customRender: val => {
             return this.$funtools.parseIsoDateTime(val);
@@ -127,7 +127,7 @@ export default {
       actionName: "",
       startTime: null,
       endTime: null,
-      userId: "",
+      userName: "",
       getlist: this.$urls.log.getlist
     };
   },
@@ -141,7 +141,7 @@ export default {
       this.actionName = "";
       this.startTime = null;
       this.endTime = null;
-      this.userId = "";
+      this.userName = "";
       this.getData();
     },
     fromChange(item) {
@@ -165,7 +165,7 @@ export default {
       if (this.from) url += "&from=" + this.from;
       if (this.controllerName) url += "&controllerName=" + this.controllerName;
       if (this.actionName) url += "&actionName=" + this.actionName;
-      if (this.userId) url += "&userId=" + this.userId;
+      if (this.userName) url += "&userName=" + this.userName;
       if (this.startTime) url += "&startTime=" + this.startTime;
       if (this.endTime) url += "&endTime=" + this.endTime;
       return url;

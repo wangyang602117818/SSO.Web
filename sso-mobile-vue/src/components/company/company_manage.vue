@@ -44,6 +44,16 @@ export default {
     };
   },
   methods: {
+    getQuerystring() {
+      var url =
+        "?pageIndex=" +
+        this.pageIndex +
+        "&pageSize=" +
+        this.pageSize +
+        "&filter=" +
+        this.filter;
+      return url;
+    },
     delCompany(id) {
       var that = this;
       this.$f7.dialog.confirm("确定删除?", "提示", function() {

@@ -101,7 +101,7 @@ export default {
         {
           title: this.$lang.company_code,
           dataIndex: "Code",
-          width: "10%",
+          width: "15%",
           ellipsis: true
         },
         {
@@ -113,7 +113,7 @@ export default {
         {
           title: this.$lang.company_description,
           dataIndex: "Description",
-          width: "40%",
+          width: "35%",
           ellipsis: true
         },
         {

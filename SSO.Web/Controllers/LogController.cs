@@ -35,5 +35,15 @@ namespace SSO.Web.Controllers
             var result = logService.GetFromListJson();
             return Content(result, "application/json");
         }
+        public ActionResult GetControllersByFrom(string from)
+        {
+            var result = logService.GetControllersByFromJson(from);
+            return Content(result, "application/json");
+        }
+        public ActionResult GetActionsByController(string from, string controllerName)
+        {
+            var result = logService.GetActionsByControllerJson(from, controllerName);
+            return Content(result, "application/json");
+        }
     }
 }
