@@ -13,6 +13,15 @@ namespace SSO.Web.Controllers
         public ActionResult Add(DepartmentModel departmentModel)
         {
             if (department.GetByCode(departmentModel.Code) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
+            if (departmentModel.ParentCode == null || departmentModel.ParentCode.Trim() == "")
+            {
+                departmentModel.Layer = 0;
+            }
+            else
+            {
+                var dept = department.GetByCode(departmentModel.ParentCode);
+                departmentModel.Layer = dept.Layer + 1;
+            }
             if (department.Insert(departmentModel.Code, departmentModel.Name, departmentModel.Description, departmentModel.CompanyCode, departmentModel.Order, departmentModel.Layer, departmentModel.ParentCode ?? "") > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -52,7 +61,7 @@ namespace SSO.Web.Controllers
             {
                 updateDepartmentModel.Layer = department.GetByCode(updateDepartmentModel.ParentCode).Layer + 1;
             }
-            if (department.Update(updateDepartmentModel.Id, updateDepartmentModel.Code, updateDepartmentModel.Name, updateDepartmentModel.Description, updateDepartmentModel.Order, updateDepartmentModel.ParentCode, updateDepartmentModel.Layer) > 0)
+            if (department.Update(updateDepartmentModel.Id, updateDepartmentModel.Code, updateDepartmentModel.Name, updateDepartmentModel.Description, updateDepartmentModel.Order, updateDepartmentModel.ParentCode, updateDepartmentModel.CompanyCode, updateDepartmentModel.Layer) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }

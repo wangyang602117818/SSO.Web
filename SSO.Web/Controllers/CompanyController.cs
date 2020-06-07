@@ -10,6 +10,7 @@ namespace SSO.Web.Controllers
     public class CompanyController : BaseController
     {
         Business.Company company = new Business.Company();
+        Business.Department department = new Business.Department();
         public ActionResult Add(CompanyModel companyModel)
         {
             if (company.GetByCode(companyModel.Code) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
@@ -54,6 +55,15 @@ namespace SSO.Web.Controllers
         public ActionResult Delete(IEnumerable<int> ids)
         {
             if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
+            foreach (var id in ids)
+            {
+                Data.Models.Company com = company.GetById(id);
+                int count = department.CountDepartmentByCompanyCode(com.Code);
+                if (count > 0)
+                {
+                    return new ResponseModel<string>(ErrorCode.record_exist,"");
+                }
+            }
             return new ResponseModel<int>(ErrorCode.success, company.Delete(ids));
         }
     }

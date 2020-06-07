@@ -8,9 +8,9 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
+    [NoneLogRecord]
     public class LogController : BaseController
     {
-        [NoneLogRecord]
         public ActionResult GetList(string from = "", string controllerName = "", string actionName = "", DateTime? startTime = null, DateTime? endTime = null, string userId = "", string userName = null, int pageIndex = 1, int pageSize = 10)
         {
             Dictionary<string, string> sorts = new Dictionary<string, string>();
@@ -18,7 +18,6 @@ namespace SSO.Web.Controllers
             var result = logService.GetListJson(from, controllerName, actionName, startTime, endTime, userId, userName, sorts, pageIndex, pageSize);
             return Content(result, "application/json");
         }
-        [NoneLogRecord]
         public ActionResult GetListSimple(string from = "", string controllerName = "", string actionName = "", DateTime? startTime = null, DateTime? endTime = null, string userId = "", string userName = null, int pageIndex = 1, int pageSize = 10)
         {
             Dictionary<string, string> sorts = new Dictionary<string, string>();

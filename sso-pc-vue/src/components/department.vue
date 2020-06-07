@@ -127,6 +127,8 @@
             >
               <a-select
                 v-decorator="[ 'companyCode', {rules: [{ required: true, message: this.$lang.company_required }]}]"
+                @change="changeCompany"
+                disabled
               >
                 <a-select-option
                   :value="item.Code"
@@ -328,6 +330,9 @@ export default {
         departmentSearchValue: value,
         autoExpandParent: true
       });
+    },
+    changeCompany(value){
+      // this.getDepartmentData(value);
     },
     getDepartmentData(companyCode) {
       this.department_loading = true;

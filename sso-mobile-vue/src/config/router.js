@@ -15,6 +15,8 @@ import LogManage from '../components/log/log_manage'
 import LogDetail from '../components/log/log_detail'
 import Companys from '../components/department/companys'
 import DepartmentManage from '../components/department/department_manage'
+import DepartmentAdd from '../components/department/department_add'
+import DepartmentUpdate from '../components/department/department_update'
 var routes = [
     {
         name: "tab",
@@ -156,6 +158,22 @@ var routes = [
         name:"departmentmanage",
         path: "/departmentmanage/:id/:name",
         component: DepartmentManage,
+        options: {
+            transition: 'f7-parallax',
+        }
+    },
+    {
+        name:"departmentadd",
+        path:"/departmentadd/:companyCode/:parentCode",
+        component: DepartmentAdd,
+        options: {
+            transition: 'f7-parallax',
+        }
+    },
+    {
+        name:"departmentupdate",
+        path:"/departmentupdate/:companyCode/:code",
+        component: DepartmentUpdate,
         options: {
             transition: 'f7-parallax',
         }

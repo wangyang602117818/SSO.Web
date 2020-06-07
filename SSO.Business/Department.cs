@@ -24,7 +24,7 @@ namespace SSO.Business
             });
             return userCenterContext.SaveChanges();
         }
-        public int Update(int id, string code, string name, string description, int order, string parentCode, int layer)
+        public int Update(int id, string code, string name, string description, int order, string parentCode,string companyCode, int layer)
         {
             Data.Models.Department department = GetById(id);
             if (department == null) return 0;
@@ -49,6 +49,7 @@ namespace SSO.Business
             department.Description = description;
             department.Order = order;
             department.ParentCode = parentCode;
+            department.CompanyCode = companyCode;
             department.Layer = layer;
             department.UpdateTime = DateTime.Now;
             return userCenterContext.SaveChanges();
@@ -61,10 +62,18 @@ namespace SSO.Business
         {
             return userCenterContext.Departments.Where(c => c.Code == code).FirstOrDefault();
         }
+        public Data.Models.Department GetByParentCode(string parentCode)
+        {
+            return userCenterContext.Departments.Where(c => c.ParentCode == parentCode).FirstOrDefault();
+        }
         public List<DepartmentData> GetDepartment(string companyCode)
         {
             List<Data.Models.Department> list = userCenterContext.Departments.Where(c => c.CompanyCode == companyCode).ToList();
             return GetDepartmentInner(list, "");
+        }
+        public int CountDepartmentByCompanyCode(string companyCode)
+        {
+            return userCenterContext.Departments.Where(c => c.CompanyCode == companyCode).Count();
         }
         public int Delete(int id)
         {
