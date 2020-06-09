@@ -2,19 +2,19 @@
   <div class="manage">
     <div class="man_top">
       <div class="man_title">管理中心</div>
-      <div class="man_news">xx新增了一条用户信息</div>
+      <!-- <div class="man_news">xx新增了一条用户信息</div> -->
     </div>
     <div class="man_record">
       <div class="man_record_item">
-        <div class="man_record_num">12243</div>
+        <div class="man_record_num">{{operation.all}}</div>
         <div class="man_record_txt">总操作数</div>
       </div>
       <div class="man_record_item">
-        <div class="man_record_num">123</div>
+        <div class="man_record_num">{{operation.lastMonth}}</div>
         <div class="man_record_txt">上月操作数</div>
       </div>
       <div class="man_record_item">
-        <div class="man_record_num">13</div>
+        <div class="man_record_num">{{operation.lastDay}}</div>
         <div class="man_record_txt">昨日操作数</div>
       </div>
     </div>
@@ -82,12 +82,20 @@ export default {
   name: "manage",
   data() {
     return {
-      datas: []
+      operation: {}
     };
   },
-  computed: {},
+  created(){
+    this.getData();
+  },
   methods: {
-    
+    getData(){
+      this.$axios.get(this.$urls.log.getOperations).then(response => {
+        if (response.code === 0) {
+          this.operation = response.result;
+        }
+      });
+    }
   }
 };
 </script>

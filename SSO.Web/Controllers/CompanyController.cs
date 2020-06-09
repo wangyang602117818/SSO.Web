@@ -34,19 +34,16 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.record_exist, "");
             }
         }
-        [NoneLogRecord]
         public ActionResult GetById(int id)
         {
             return new ResponseModel<Data.Models.Company>(ErrorCode.success, company.GetById(id));
         }
-        [NoneLogRecord]
         public ActionResult GetList(string filter = "", int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
             var result = company.GetList(ref count, filter, pageIndex, pageSize);
             return new ResponseModel<IEnumerable<Data.Models.Company>>(ErrorCode.success, result, count);
         }
-        [NoneLogRecord]
         public ActionResult GetAll(string filter = "")
         {
             var result = company.GetAll(filter);

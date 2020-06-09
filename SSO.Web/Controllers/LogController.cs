@@ -44,5 +44,10 @@ namespace SSO.Web.Controllers
             var result = logService.GetActionsByControllerJson(from, controllerName);
             return Content(result, "application/json");
         }
+        public ActionResult GetOperations()
+        {
+            var result = logService.GetOperationsJson();
+            return Content(result, "application/json");
+        }
     }
 }
