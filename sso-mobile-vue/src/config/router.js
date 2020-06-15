@@ -17,6 +17,7 @@ import Companys from '../components/department/companys'
 import DepartmentManage from '../components/department/department_manage'
 import DepartmentAdd from '../components/department/department_add'
 import DepartmentUpdate from '../components/department/department_update'
+import Personal from '../components/me/personal'
 var routes = [
     {
         name: "tab",
@@ -174,6 +175,14 @@ var routes = [
         name:"departmentupdate",
         path:"/departmentupdate/:companyCode/:code",
         component: DepartmentUpdate,
+        options: {
+            transition: 'f7-parallax',
+        }
+    },
+    {
+        name:"personal",
+        path:"/personal/:id",
+        component: Personal,
         options: {
             transition: 'f7-parallax',
         }

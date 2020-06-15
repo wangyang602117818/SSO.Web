@@ -21,7 +21,7 @@
     <div class="man_content">
       <f7-row no-gap>
         <f7-col>
-          <div class="nav_wrap" @click='$f7router.navigate("/users")'>
+          <div class="nav_wrap" @click="$f7router.navigate('/users')">
             <f7-icon f7="person_2_fill" color="blue"></f7-icon>
             <div class="nav_title">
               <span>用户管理</span>
@@ -29,7 +29,7 @@
           </div>
         </f7-col>
         <f7-col>
-          <div class="nav_wrap" @click='$f7router.navigate("/roles")'>
+          <div class="nav_wrap" @click="$f7router.navigate('/roles')">
             <f7-icon f7="lock_circle" color="blue"></f7-icon>
             <div class="nav_title">
               <span>角色管理</span>
@@ -37,7 +37,7 @@
           </div>
         </f7-col>
         <f7-col>
-          <div class="nav_wrap" @click='$f7router.navigate("/company")'>
+          <div class="nav_wrap" @click="$f7router.navigate('/company')">
             <f7-icon f7="building_2_fill" color="blue"></f7-icon>
             <div class="nav_title">
               <span>公司管理</span>
@@ -45,7 +45,7 @@
           </div>
         </f7-col>
         <f7-col>
-          <div class="nav_wrap" @click='$f7router.navigate("/coms")'>
+          <div class="nav_wrap" @click="$f7router.navigate('/coms')">
             <f7-icon f7="rectangle_3_offgrid_fill" color="blue"></f7-icon>
             <div class="nav_title">
               <span>部门管理</span>
@@ -55,7 +55,7 @@
       </f7-row>
       <f7-row no-gap>
         <f7-col>
-          <div class="nav_wrap" @click='$f7router.navigate("/navigation")'>
+          <div class="nav_wrap" @click="$f7router.navigate('/navigation')">
             <f7-icon f7="flag_circle" color="blue"></f7-icon>
             <div class="nav_title">
               <span>导航管理</span>
@@ -63,7 +63,7 @@
           </div>
         </f7-col>
         <f7-col>
-          <div class="nav_wrap" @click='$f7router.navigate("/logs")'>
+          <div class="nav_wrap" @click="$f7router.navigate('/logs')">
             <f7-icon f7="doc_text" color="blue"></f7-icon>
             <div class="nav_title">
               <span>日志列表</span>
@@ -85,11 +85,11 @@ export default {
       operation: {}
     };
   },
-  created(){
+  created() {
     this.getData();
   },
   methods: {
-    getData(){
+    getData() {
       this.$axios.get(this.$urls.log.getOperations).then(response => {
         if (response.code === 0) {
           this.operation = response.result;

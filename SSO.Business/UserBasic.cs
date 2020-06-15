@@ -219,6 +219,12 @@ namespace SSO.Business
                       select user;
             return res.ToList().FirstOrDefault();
         }
+        public int UpdateLoginTime(int id)
+        {
+            var user = userCenterContext.UserBasics.Where(w => w.Id == id).FirstOrDefault();
+            user.LastLoginTime = DateTime.Now;
+            return userCenterContext.SaveChanges();
+        }
         public int UpdatePassword(string userId, string olpassword, string password)
         {
             Data.Models.UserBasic userBasic = GetUser(userId);
@@ -233,7 +239,7 @@ namespace SSO.Business
             foreach (var item in userBasics)
             {
                 item.PassWord = defaultPassword.GetSha256();
-                item.IsModified =true;
+                item.IsModified = true;
             }
             return userCenterContext.SaveChanges();
         }

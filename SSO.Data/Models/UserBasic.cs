@@ -30,6 +30,7 @@ namespace SSO.Data.Models
         public bool IsModified { get; set; }
         public bool Delete { get; set; }
         public DateTime? DeleteTime { get; set; }
+        public DateTime? LastLoginTime { get; set; }
         /// <summary>
         /// 额外字段,方便显示
         /// </summary>
