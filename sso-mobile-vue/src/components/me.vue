@@ -14,29 +14,24 @@
       </div>
     </div>
     <div class="me_settings">
-      <f7-list media-list>
-        <f7-list-item title="Yellow Submarine" subtitle="Beatles">
-          <img
-            slot="media"
-            src="https://cdn.framework7.io/placeholder/fashion-88x88-1.jpg"
-            width="44"
-          />
-        </f7-list-item>
-        <f7-list-item link="#" title="Don't Stop Me Now" subtitle="Queen">
-          <img
-            slot="media"
-            src="https://cdn.framework7.io/placeholder/fashion-88x88-2.jpg"
-            width="44"
-          />
-        </f7-list-item>
-        <f7-list-item title="Billie Jean" subtitle="Michael Jackson">
-          <img
-            slot="media"
-            src="https://cdn.framework7.io/placeholder/fashion-88x88-3.jpg"
-            width="44"
-          />
-        </f7-list-item>
-      </f7-list>
+      <div class="setting_line">
+        <div class="setting_line_name">语言设置</div>
+        <div class="setting_line_right">
+          <div class="setting_line_data">中</div>
+          <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
+        </div>
+      </div>
+      <div class="setting_line">
+        <div class="setting_line_name">头像设置</div>
+        <div class="setting_line_right">
+          <div class="setting_line_data">
+          </div>
+          <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
+        </div>
+      </div>
+    </div>
+    <div class="me_bottom">
+      <f7-button large outline color="gray">退出</f7-button>
     </div>
   </div>
 </template>
@@ -56,13 +51,16 @@ export default {
   margin: 0 auto;
   width: 90%;
   align-items: center;
-  /* border: 1px solid transparent; */
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid green; */
 }
 .me_text {
   font-size: 16px;
   height: 35px;
   line-height: 35px;
   padding-left: 5px;
+  width: 100%;
 }
 .me_title {
   height: 50px;
@@ -71,6 +69,7 @@ export default {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #e3e4e4;
+  width: 100%;
 }
 .me_title:active {
   background-color: #ddd;
@@ -102,10 +101,19 @@ export default {
   flex: 1;
   display: flex;
 }
-.media-list .item-inner {
-  border-bottom: 1px solid red;
+.me_settings {
+  flex: 1;
+  width: 100%;
 }
-.list li {
-  /* border-bottom: 1px solid #e3e4e4; */
+.me_bottom {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 0;
+}
+.me_bottom .button{
+  width:100%;
 }
 </style>

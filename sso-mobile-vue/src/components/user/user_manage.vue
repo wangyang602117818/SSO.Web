@@ -8,7 +8,7 @@
     :infinite-preloader="loading"
     @infinite="loadMore"
   >
-    <f7-navbar title="用户管理" back-link="返回">
+    <f7-navbar title="用户管理" back-link="返回" >
       <f7-nav-right>
         <f7-link icon-f7="person_crop_circle_fill_badge_plus" href="/useradd/"></f7-link>
       </f7-nav-right>

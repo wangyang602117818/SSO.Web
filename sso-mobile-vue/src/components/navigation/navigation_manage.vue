@@ -54,6 +54,16 @@ export default {
         "&filter=" +
         this.filter;
       return url;
+    },
+    delNavigation(id) {
+      var that = this;
+      this.$f7.dialog.confirm("确定删除?", "提示", function() {
+        that.$axios
+          .post(that.$urls.navigation.delete, { ids: [id] })
+          .then(response => {
+            if (response.code === 0) that.removeItem(id);
+          });
+      });
     }
   }
 };
