@@ -58,6 +58,8 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Login(string returnUrl)
         {
+            if (!returnUrl.IsNullOrEmpty())
+                returnUrl = HttpUtility.UrlDecode(returnUrl);
             var authorization = Request.Cookies[ssoCookieKey];
             if (authorization != null)  //sso login
             {
@@ -73,20 +75,22 @@ namespace SSO.Web.Controllers
                     Response.Cookies.Add(authorization);
                     //sso退出用
                     JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
-                    return Redirect(returnUrl);
+                    if (!string.IsNullOrEmpty(returnUrl))
+                        return Redirect(returnUrl);
                 }
                 catch (Exception ex)
                 {
                     Log4Net.InfoLog(ex);
                 }
             }
-            ViewBag.returnUrl = returnUrl;
             return View();
         }
         [HttpPost]
         [LogRecord(RecordContent = false)]
         public ActionResult Login(LoginModel loginModel, string returnUrl)
         {
+            if (!returnUrl.IsNullOrEmpty())
+                returnUrl = HttpUtility.UrlDecode(returnUrl);
             UserBasic userBasic = null;
             if (loginModel.UserId == admin[0] && loginModel.PassWord == admin[1])
             {
@@ -125,11 +129,21 @@ namespace SSO.Web.Controllers
             Response.Cookies.Add(httpCookie);
             JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
             if (returnUrl.IsNullOrEmpty()) returnUrl = Request.Url.Scheme + "://" + Request.Url.Host + ":" + Request.Url.Port + Request.ApplicationPath;
+            //登录成功,替换掉旧的ticket
+            string ticket = jwtManager.GenerateTicket(userBasic.UserId);
+            returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
             return new ResponseModel<string>(ErrorCode.success, returnUrl);
         }
+        /// <summary>
+        /// 退出带上 returnUrl 方便再次登录进入当前页面
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [JwtAuthorize]
-        public ActionResult LogOut()
+        public ActionResult LogOut(string returnUrl)
         {
+            if (!returnUrl.IsNullOrEmpty())
+                returnUrl = HttpUtility.UrlDecode(returnUrl);
             var authorization = Request.Cookies[ssoCookieKey];
             if (authorization != null)
             {
@@ -142,9 +156,9 @@ namespace SSO.Web.Controllers
                 ssoUrlCookie.Expires = DateTime.Now.AddDays(-1);
                 Response.Cookies.Add(ssoUrlCookie);
             }
-            if (ssoUrlCookie == null) return RedirectToAction("Index");
+            if (ssoUrlCookie == null) return RedirectToAction("Login", new { returnUrl = returnUrl });
             List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlCookie.Value.Base64ToStr());
-            return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrlCookie.Value);
+            return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrlCookie.Value + "&returnUrl=" + returnUrl);
         }
         [JwtAuthorize]
         public ActionResult DecodeToken()

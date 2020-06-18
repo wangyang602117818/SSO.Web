@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-on:keyup.enter="handleSubmit">
+  <div class="container" v-on:keyup.enter.stop="handleLogin">
     <div class="login_wrap">
       <div class="login_title">登录</div>
       <div class="login_content">
@@ -38,7 +38,7 @@
           class="submit_button"
           :disabled="loading==true"
           value="登 录"
-          @click="handleSubmit"
+          @click="handleLogin"
         />
       </div>
     </div>
@@ -57,7 +57,7 @@
 </template>
 <script>
 export default {
-  name: "app",
+  name: "login",
   data() {
     return {
       loading: false,
@@ -84,7 +84,7 @@ export default {
       this.passWordExists = value == "" ? false : true;
       this.passWordErrorLine = value == "" ? true : false;
     },
-    handleSubmit() {
+    handleLogin() {
       this.loading = true;
       if (this.userId.trim().length > 0 && this.passWord.trim().length > 0) {
         var returnUrl = this.$funtools.getReturnUrl("returnUrl");

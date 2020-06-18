@@ -126,7 +126,10 @@
                     <a target="_self" href="/settings">{{this.$lang.settings}}</a>
                   </a-menu-item>
                   <a-menu-item key="1">
-                    <a target="_self" :href="this.$baseUrl+this.$urls.logout">{{this.$lang.logout}}</a>
+                    <a
+                      target="_self"
+                      :href="logOutUrl"
+                    >{{this.$lang.logout}}</a>
                   </a-menu-item>
                 </a-menu>
               </a-dropdown>&nbsp;
@@ -158,6 +161,11 @@ export default {
       collapsed: false,
       routename: this.$route.name || "overview",
       openKeys: [],
+      logOutUrl:
+        this.$axios.defaults.baseURL +
+        this.$urls.logout +
+        "?returnUrl=" +
+        window.location.href,
       user: window.token_jwt_data
     };
   },

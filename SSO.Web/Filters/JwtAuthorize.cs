@@ -94,22 +94,23 @@ namespace SSO.Web.Filters
             SecurityToken securityToken;
             return tokenHandler.ValidateToken(authorization, validationParameters, out securityToken);
         }
-        public static string AppendTicket(string url, string ticket)
+        public static string AppendTicket(string returnUrl, string ticket)
         {
-            if (url.Contains("ticket"))
+            if (returnUrl.IsNullOrEmpty()) return returnUrl;
+            if (returnUrl.Contains("ticket"))
             {
-                var index = url.IndexOf("ticket");
-                url = url.Substring(0, index - 1);
+                var index = returnUrl.IndexOf("ticket");
+                returnUrl = returnUrl.Substring(0, index - 1);
             }
-            if (url.Contains("?"))
+            if (returnUrl.Contains("?"))
             {
-                url += "&ticket=" + ticket;
+                returnUrl += "&ticket=" + ticket;
             }
             else
             {
-                url += "?ticket=" + ticket;
+                returnUrl += "?ticket=" + ticket;
             }
-            return url;
+            return returnUrl;
         }
         public static void AddUrlToCookie(HttpContextBase httpContext, string returnUrl)
         {

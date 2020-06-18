@@ -39,14 +39,12 @@
         <div class="setting_line_name">上次登录时间</div>
         <div class="setting_line_right">
           <div class="setting_line_data">{{user.LastLoginTime}}</div>
-         
         </div>
       </div>
       <div class="setting_line">
         <div class="setting_line_name">创建时间</div>
         <div class="setting_line_right">
           <div class="setting_line_data">{{user.CreateTime}}</div>
-          
         </div>
       </div>
     </div>
@@ -64,14 +62,15 @@ export default {
       user: window.token_jwt_data
     };
   },
-  created() {
-    window.console.log(window.token_jwt_data);
-  },
+  created() {},
   methods: {
     logOut() {
-      window.location.href = this.$axios.defaults.baseURL + this.$urls.logout;
-    },
-    
+      window.location.href =
+        this.$axios.defaults.baseURL +
+        this.$urls.logout +
+        "?returnUrl=" +
+        window.location.href;
+    }
   }
 };
 </script>
