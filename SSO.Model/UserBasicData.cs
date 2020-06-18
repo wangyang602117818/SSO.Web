@@ -24,5 +24,6 @@ namespace SSO.Model
         public List<string> Role { get; set; }
         public DateTime? CreateTime { get; set; }
         public DateTime? LastLoginTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
     }
 }

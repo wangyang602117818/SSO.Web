@@ -32,11 +32,13 @@ namespace SSO.Web.Controllers
             if (!userId.IsNullOrEmpty())
             {
                 UserBasic userBasic = user.GetUser(userId);
+                Dictionary<string, string> extra = new Dictionary<string, string>();
                 if (userBasic == null)
                 {
                     if (userId == admin[0])
                     {
-                        token = jwtManager.GenerateToken(userId, userId, lang, null, null, new List<string>() { admin[2] }, ip ?? Request.UserHostAddress, 20);
+                        extra.Add("LastLoginTime", DateTime.Now.ToString(AppSettings.DateTimeFormat));
+                        token = jwtManager.GenerateToken(userId, userId, lang, null, null, new List<string>() { admin[2] }, ip ?? Request.UserHostAddress, 20, extra);
                     }
                 }
                 else
@@ -45,7 +47,11 @@ namespace SSO.Web.Controllers
                     if (setting != null) lang = setting.Lang;
                     string[] departments = userBasic.DepartmentName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     string[] roles = userBasic.RoleName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    token = jwtManager.GenerateToken(userId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, ip ?? Request.UserHostAddress, 20);
+                    if (userBasic.LastLoginTime != null)
+                        extra.Add("LastLoginTime", userBasic.LastLoginTime.Value.ToString(AppSettings.DateTimeFormat));
+                    if (userBasic.CreateTime != null)
+                        extra.Add("CreateTime", userBasic.CreateTime.Value.ToString(AppSettings.DateTimeFormat));
+                    token = jwtManager.GenerateToken(userId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, ip ?? Request.UserHostAddress, 20, extra);
                 }
             }
             return new ResponseModel<string>(ErrorCode.success, token);
@@ -105,7 +111,12 @@ namespace SSO.Web.Controllers
             string[] roles = userBasic.RoleName.Split(',');
             string[] departments = userBasic.DepartmentName.Split(',');
             if (setting != null) lang = setting.Lang;
-            string token = jwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60);
+            Dictionary<string, string> extra = new Dictionary<string, string>();
+            if (userBasic.LastLoginTime != null)
+                extra.Add("LastLoginTime", userBasic.LastLoginTime.Value.ToString(AppSettings.DateTimeFormat));
+            if (userBasic.CreateTime != null)
+                extra.Add("CreateTime", userBasic.CreateTime.Value.ToString(AppSettings.DateTimeFormat));
+            string token = jwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60, extra);
             HttpCookie httpCookie = new HttpCookie(ssoCookieKey, token);
             if (ssoCookieTime != "session")
             {

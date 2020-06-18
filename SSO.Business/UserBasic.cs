@@ -157,7 +157,9 @@ namespace SSO.Business
                 DepartmentCode = departments.ToList(),
                 DepartmentName = userBasic.DepartmentName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList(),
                 Role = roles.ToList(),
-                CreateTime = userBasic.CreateTime
+                CreateTime = userBasic.CreateTime,
+                LastLoginTime = userBasic.LastLoginTime,
+                UpdateTime = userBasic.UpdateTime
             };
         }
         public int RemoveUser(IEnumerable<string> userIds)

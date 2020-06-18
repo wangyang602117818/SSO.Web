@@ -1,13 +1,13 @@
 <template>
   <div class="me">
     <div class="me_text">我的</div>
-    <div class="me_title" @click="$f7router.navigate('/personal/9')">
+    <div class="me_title" @click="$f7router.navigate('/personal/'+user.unique_name)">
       <div class="ico">
         <f7-icon f7="person" color="blue" size="35"></f7-icon>
       </div>
       <div class="desc">
-        <div class="name">Yang Xa Wang</div>
-        <div class="detail">reader | admin</div>
+        <div class="name" v-if="user">{{user.StaffName}}</div>
+        <div class="detail" v-if="user">{{user.role.join(',')}}</div>
       </div>
       <div class="arrow">
         <f7-icon f7="chevron_right" color="gray" size="25"></f7-icon>
@@ -24,14 +24,34 @@
       <div class="setting_line">
         <div class="setting_line_name">头像设置</div>
         <div class="setting_line_right">
-          <div class="setting_line_data">
-          </div>
+          <div class="setting_line_data"></div>
           <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
+        </div>
+      </div>
+      <div class="setting_line">
+        <div class="setting_line_name">修改密码</div>
+        <div class="setting_line_right">
+          <div class="setting_line_data"></div>
+          <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
+        </div>
+      </div>
+      <div class="setting_line">
+        <div class="setting_line_name">上次登录时间</div>
+        <div class="setting_line_right">
+          <div class="setting_line_data">{{user.LastLoginTime}}</div>
+         
+        </div>
+      </div>
+      <div class="setting_line">
+        <div class="setting_line_name">创建时间</div>
+        <div class="setting_line_right">
+          <div class="setting_line_data">{{user.CreateTime}}</div>
+          
         </div>
       </div>
     </div>
     <div class="me_bottom">
-      <f7-button large outline color="gray">退出</f7-button>
+      <f7-button large outline color="gray" @click="logOut">退出</f7-button>
     </div>
   </div>
 </template>
@@ -40,9 +60,19 @@
 export default {
   name: "me",
   data() {
-    return {};
+    return {
+      user: window.token_jwt_data
+    };
   },
-  methods: {}
+  created() {
+    window.console.log(window.token_jwt_data);
+  },
+  methods: {
+    logOut() {
+      window.location.href = this.$axios.defaults.baseURL + this.$urls.logout;
+    },
+    
+  }
 };
 </script>
 
@@ -113,7 +143,7 @@ export default {
   align-items: center;
   border-bottom: 0;
 }
-.me_bottom .button{
-  width:100%;
+.me_bottom .button {
+  width: 100%;
 }
 </style>

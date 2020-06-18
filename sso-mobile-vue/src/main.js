@@ -45,6 +45,7 @@ funtools.authorize(baseURL, cookieName);
 
 Vue.prototype.$urls = urls
 Vue.prototype.$axios = axios
+
 Vue.prototype.showSuccess = function () {
   this.$f7.toast.show({
     icon: '<i class="f7-icons">checkmark_alt_circle</i>',

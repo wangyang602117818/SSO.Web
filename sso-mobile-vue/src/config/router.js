@@ -181,7 +181,7 @@ var routes = [
     },
     {
         name:"personal",
-        path:"/personal/:id",
+        path:"/personal/:userId",
         component: Personal,
         options: {
             transition: 'f7-parallax',

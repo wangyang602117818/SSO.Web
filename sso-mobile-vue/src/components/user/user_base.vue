@@ -156,13 +156,8 @@ export default {
       });
     },
     getRoleData() {
-      //   if (this.$f7.roleData) {
-      //     this.roleData = this.$f7.roleData;
-      //     return;
-      //   }
       this.$axios.get(this.$urls.role.getall).then(response => {
         if (response.code === 0) {
-          //   this.$f7.roleData = response.result;
           this.roleData = response.result;
         }
       });
