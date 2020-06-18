@@ -14,11 +14,6 @@ namespace SSO.Web.Controllers
     public class HomeController : BaseController
     {
         Business.UserBasic user = new Business.UserBasic();
-        public ActionResult Index()
-        {
-           
-            return View();
-        }
         public ActionResult Ticket()
         {
             return Content(jwtManager.GenerateTicket("CN445379"));
