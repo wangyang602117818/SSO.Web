@@ -8,7 +8,7 @@ import { baseURL, cookieName, urls, axios } from './config/http';
 import 'framework7/css/framework7.bundle.css'
 import 'framework7-icons';
 
-import { f7App, f7Tabs, f7Tab, f7Toolbar, f7View, f7Page, f7Link, f7Navbar, f7NavRight, f7Icon, f7Row, f7Col, f7Searchbar, f7List, f7ListItem, f7Preloader, f7Block, f7SkeletonBlock, f7ListInput, f7SwipeoutActions, f7SwipeoutButton, f7Sheet, f7PageContent, f7BlockTitle, f7Button, f7Chip } from "framework7-vue"
+import { f7App, f7Tabs, f7Tab, f7Toolbar, f7View, f7Page, f7Link, f7Navbar, f7NavRight, f7Icon, f7Row, f7Col, f7Searchbar, f7List, f7ListItem, f7Preloader, f7Block, f7SkeletonBlock, f7ListInput, f7SwipeoutActions, f7SwipeoutButton, f7Sheet, f7PageContent, f7BlockTitle, f7Button, f7Chip, f7Popup } from "framework7-vue"
 
 Vue.component('f7-app', f7App);
 Vue.component('f7-view', f7View);
@@ -35,7 +35,8 @@ Vue.component('f7-sheet', f7Sheet);
 Vue.component('f7-page-content', f7PageContent);
 Vue.component('f7-block-title', f7BlockTitle);
 Vue.component('f7-button', f7Button);
-Vue.component("f7-chip", f7Chip)
+Vue.component("f7-chip", f7Chip);
+Vue.component("f7-popover", f7Popup);
 
 Framework7.use(Framework7Vue);
 
@@ -45,7 +46,7 @@ funtools.authorize(baseURL, cookieName);
 
 Vue.prototype.$urls = urls
 Vue.prototype.$axios = axios
-
+Vue.prototype.$cookieName = cookieName
 Vue.prototype.showSuccess = function () {
   this.$f7.toast.show({
     icon: '<i class="f7-icons">checkmark_alt_circle</i>',
