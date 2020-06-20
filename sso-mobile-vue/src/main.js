@@ -1,12 +1,13 @@
 import Vue from 'vue'
+import VueI18n from "vue-i18n"
 import App from './App.vue'
 import Framework7 from 'framework7/framework7-lite.esm.bundle'
 import Framework7Vue from 'framework7-vue'
-import funtools from 'sso-util';
-import { baseURL, cookieName, urls, axios } from './config/http';
+import funtools from 'sso-util'
+import { baseURL, cookieName, urls, axios } from './config/http'
 
 import 'framework7/css/framework7.bundle.css'
-import 'framework7-icons';
+import 'framework7-icons'
 
 import { f7App, f7Tabs, f7Tab, f7Toolbar, f7View, f7Page, f7Link, f7Navbar, f7NavRight, f7Icon, f7Row, f7Col, f7Searchbar, f7List, f7ListItem, f7Preloader, f7Block, f7SkeletonBlock, f7ListInput, f7SwipeoutActions, f7SwipeoutButton, f7Sheet, f7PageContent, f7BlockTitle, f7Button, f7Chip, f7Popup } from "framework7-vue"
 
@@ -41,8 +42,16 @@ Vue.component("f7-popover", f7Popup);
 Framework7.use(Framework7Vue);
 
 Vue.prototype.$funtools = funtools;
-
 funtools.authorize(baseURL, cookieName);
+//语言信息
+Vue.use(VueI18n);
+const i18n = new VueI18n({
+  locale: window.token_jwt_data.Lang,
+  messages: {
+      'zh-cn': require('./locales/zh-cn.json'),
+      'en-us': require('./locales/en-us.json')
+  }
+});
 
 Vue.prototype.$urls = urls
 Vue.prototype.$axios = axios
@@ -67,6 +76,7 @@ Vue.prototype.showInfo = function (info) {
 Vue.config.productionTip = false;
 
 var vue = new Vue({
+  i18n,
   render: h => h(App),
 });
 window.vue = vue;

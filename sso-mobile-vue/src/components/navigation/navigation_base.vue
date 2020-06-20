@@ -3,10 +3,10 @@
     <f7-list-input
       required
       validate
-      label="导航名称*"
+      :label="$t('common.navigator')+$t('common.name')+'*'"
       type="text"
-      placeholder="导航名称"
-      error-message="导航名称是必填项!"
+      :placeholder="$t('common.navigator')+$t('common.name')"
+      :error-message="$t('valid.navigator_name_required')"
       clear-button
       :value="navigation.title"
       @input="($event)=>{navigation.title=$event.target.value}"
@@ -14,10 +14,10 @@
     <f7-list-input
       required
       validate
-      label="链接*"
+      :label="$t('manage.link')+'*'"
       type="text"
-      placeholder="链接"
-      error-message="链接是必填项!"
+      :placeholder="$t('manage.link')"
+      :error-message="$t('valid.link_required')"
       clear-button
       :value="navigation.baseUrl"
       @input="($event)=>{navigation.baseUrl=$event.target.value}"

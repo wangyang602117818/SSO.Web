@@ -1,7 +1,7 @@
 <template>
   <f7-page name="user_add">
-    <f7-navbar title="用户添加" back-link="返回">
-      <f7-link slot="right" @click="saveUser">保存</f7-link>
+    <f7-navbar :title="$t('manage.add_user')" :back-link="$t('common.back')">
+      <f7-link slot="right" @click="saveUser">{{$t('common.save')}}</f7-link>
     </f7-navbar>
     <UserBase :user="user" />
   </f7-page>

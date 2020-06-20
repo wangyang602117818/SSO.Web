@@ -8,7 +8,7 @@
     :infinite-preloader="loading"
     @infinite="loadMore"
   >
-    <f7-navbar title="日志列表" back-link="返回">
+    <f7-navbar :title="$t('manage.log_list')" :back-link="$t('common.back')">
       <f7-nav-right>
         <f7-link icon-f7="hourglass_tophalf_fill" sheet-open=".sheet-top"></f7-link>
       </f7-nav-right>
@@ -17,11 +17,11 @@
       <f7-toolbar bottom>
         <div class="left"></div>
         <div class="right">
-          <f7-link sheet-close @click="onSearch">确定</f7-link>
+          <f7-link sheet-close @click="onSearch">{{$t('common.ok')}}</f7-link>
         </div>
       </f7-toolbar>
       <f7-page-content>
-        <f7-block-title>来源</f7-block-title>
+        <f7-block-title>{{$t('common.from')}}</f7-block-title>
         <f7-block strong>
           <f7-chip
             :color="item.from==fromcheck?'blue':''"
@@ -51,16 +51,36 @@
             @click="actionClick"
           ></f7-chip>
         </f7-block>
-        <f7-block-title>时间</f7-block-title>
+        <f7-block-title>{{$t('common.time')}}</f7-block-title>
         <f7-block strong>
-          <f7-chip :color="day==30?'blue':''" text="1个月内" data-day="30" @click="timeClick"></f7-chip>
-          <f7-chip :color="day==90?'blue':''" text="3个月内" data-day="90" @click="timeClick"></f7-chip>
-          <f7-chip :color="day==180?'blue':''" text="6个月内" data-day="180" @click="timeClick"></f7-chip>
-          <f7-chip :color="day==360?'blue':''" text="1年之内" data-day="360" @click="timeClick"></f7-chip>
+          <f7-chip
+            :color="day==30?'blue':''"
+            :text="$t('manage.one_month')"
+            data-day="30"
+            @click="timeClick"
+          ></f7-chip>
+          <f7-chip
+            :color="day==90?'blue':''"
+            :text="$t('manage.three_month')"
+            data-day="90"
+            @click="timeClick"
+          ></f7-chip>
+          <f7-chip
+            :color="day==180?'blue':''"
+            :text="$t('manage.six_month')"
+            data-day="180"
+            @click="timeClick"
+          ></f7-chip>
+          <f7-chip
+            :color="day==360?'blue':''"
+            :text="$t('manage.one_year')"
+            data-day="360"
+            @click="timeClick"
+          ></f7-chip>
         </f7-block>
       </f7-page-content>
     </f7-sheet>
-    <f7-searchbar disable-button-text placeholder="Search" :clear-button="true" @change="onSearch"></f7-searchbar>
+    <f7-searchbar disable-button-text :placeholder="$t('common.search')" :clear-button="true" @change="onSearch"></f7-searchbar>
     <f7-list media-list>
       <f7-list-item
         v-for="item in datas"
@@ -71,8 +91,8 @@
         :link="'/logdetail/'+item._id"
       ></f7-list-item>
     </f7-list>
-    <f7-block class="text-align-center" v-if="datas.length===0&&isEnd">没有数据</f7-block>
-    <f7-block class="text-align-center" v-if="datas.length>0&&isEnd">---end---</f7-block>
+    <f7-block class="text-align-center" v-if="datas.length===0&&isEnd">{{$t('common.no_data')}}</f7-block>
+    <f7-block class="text-align-center" v-if="datas.length>0&&isEnd">---{{$t('common.end')}}---</f7-block>
   </f7-page>
 </template>
 

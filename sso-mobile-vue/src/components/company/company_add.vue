@@ -1,7 +1,7 @@
 <template>
   <f7-page name="role_add">
-    <f7-navbar title="公司添加" back-link="返回">
-      <f7-link slot="right" @click="saveCompany">保存</f7-link>
+    <f7-navbar :title="$t('manage.add_company')" :back-link="$t('common.back')">
+      <f7-link slot="right" @click="saveCompany">{{$t('common.save')}}</f7-link>
     </f7-navbar>
     <CompanyBase :company="company" />
   </f7-page>

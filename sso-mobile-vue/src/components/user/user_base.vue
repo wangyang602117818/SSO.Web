@@ -3,60 +3,60 @@
     <f7-list-input
       required
       validate
-      label="编号*"
+      :label="$t('manage.user_id')+'*'"
       type="text"
-      placeholder="编号/登录名称"
-      error-message="编号是必填项!"
+      :placeholder="$t('common.id')+'/'+$t('manage.login_name')"
+      :error-message="$t('valid.id_required')"
       clear-button
       :value="user.UserId"
       @input="($event)=>{user.UserId=$event.target.value}"
     ></f7-list-input>
     <f7-list-input
-      label="用户名*"
+      :label="$t('manage.user_name')+'*'"
       type="text"
-      placeholder="用户名称"
-      error-message="用户名称是必填项!"
+      :placeholder="$t('manage.user_name')"
+      :error-message="$t('valid.user_name_required')"
       required
       validate
       clear-button
       :value="user.UserName"
       @input="($event)=>{user.UserName=$event.target.value}"
     ></f7-list-input>
-    <f7-list-item title="性别" smart-select :smart-select-params="{openIn: 'popover'}">
+    <f7-list-item :title="$t('common.sex')" smart-select :smart-select-params="{openIn: 'popover'}">
       <select name="sex" @change="($event)=>{user.Sex = $event.target.value}">
-        <option value="M" :selected="user.Sex==='M'">男</option>
-        <option value="F" :selected="user.Sex==='F'">女</option>
+        <option value="M" :selected="user.Sex==='M'">{{$t('common.male')}}</option>
+        <option value="F" :selected="user.Sex==='F'">{{$t('common.female')}}</option>
       </select>
     </f7-list-item>
     <f7-list-input
-      label="手机号码"
+      :label="$t('common.mobile')"
       validate
       pattern="[0-9]*"
       type="text"
-      placeholder="手机号码"
+      :placeholder="$t('common.mobile')"
       clear-button
       :value="user.Mobile"
       @input="($event)=>{user.Mobile=$event.target.value}"
     ></f7-list-input>
     <f7-list-input
-      label="邮箱"
+      :label="$t('common.email')"
       type="email"
       validate
-      placeholder="邮箱"
-      error-message="邮箱格式不正确!"
+      :placeholder="$t('common.email')"
+      :error-message="$t('valid.email_format_invalid')"
       clear-button
       :value="user.Email"
       @input="($event)=>{user.Email=$event.target.value}"
     ></f7-list-input>
     <f7-list-input
-      label="身份证号"
+      :label="$t('common.idCard')"
       type="text"
-      placeholder="身份证号"
+      :placeholder="$t('common.idCard')"
       clear-button
       :value="user.IdCard"
       @input="($event)=>{user.IdCard=$event.target.value}"
     ></f7-list-input>
-    <f7-list-item title="公司" smart-select :smart-select-params="{openIn: 'popover'}">
+    <f7-list-item :title="$t('common.company')" smart-select :smart-select-params="{openIn: 'popover'}">
       <select name="company" @change="changeCompany($event)">
         <option
           v-for="item in companyData"
@@ -68,7 +68,7 @@
     </f7-list-item>
     <f7-list-item
       link="#"
-      title="部门"
+      :title="$t('common.department')"
       smart-select
       :smart-select-params="{
           formatValueText:formatValueText,
@@ -84,7 +84,7 @@
         >{{getDepartmentShow(item)}}</option>
       </select>
     </f7-list-item>
-    <f7-list-item title="角色" smart-select :smart-select-params="{openIn: 'popover'}">
+    <f7-list-item :title="$t('common.role')" smart-select :smart-select-params="{openIn: 'popover'}">
       <select name="role" multiple @change="changeRole($event)">
         <option
           v-for="item in roleData"

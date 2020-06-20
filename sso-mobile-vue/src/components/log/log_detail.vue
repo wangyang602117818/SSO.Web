@@ -1,6 +1,6 @@
 <template>
   <f7-page name="log_detail" ptr @ptr:refresh="getData" :infinite-preloader="loading">
-    <f7-navbar title="日志详情" back-link="返回"></f7-navbar>
+    <f7-navbar :title="$t('manage.log_detail')" :back-link="$t('common.back')"></f7-navbar>
     <div class="list no-hairlines-md" v-if="log">
       <ul>
         <li class="item-content item-input item-input-with-info">
@@ -8,7 +8,7 @@
             <div class="item-input-wrap">
               <input type="text" :value="log.From" />
               <span class="input-clear-button"></span>
-              <div class="item-input-info">来源</div>
+              <div class="item-input-info">{{$t('common.from')}}</div>
             </div>
           </div>
         </li>
@@ -44,7 +44,7 @@
             <div class="item-input-wrap">
               <input type="text" :value="log.QueryString" />
               <span class="input-clear-button"></span>
-              <div class="item-input-info">查询</div>
+              <div class="item-input-info">{{$t('common.query')}}</div>
             </div>
           </div>
         </li>
@@ -53,7 +53,7 @@
             <div class="item-input-wrap">
               <input type="text" :value="log.Content" />
               <span class="input-clear-button"></span>
-              <div class="item-input-info">内容</div>
+              <div class="item-input-info">{{$t('common.content')}}</div>
             </div>
           </div>
         </li>
@@ -62,7 +62,7 @@
             <div class="item-input-wrap">
               <input type="text" :value="log.UserId" />
               <span class="input-clear-button"></span>
-              <div class="item-input-info">用户id</div>
+              <div class="item-input-info">{{$t('manage.user_id')}}</div>
             </div>
           </div>
         </li>
@@ -71,7 +71,16 @@
             <div class="item-input-wrap">
               <input type="text" :value="log.UserName" />
               <span class="input-clear-button"></span>
-              <div class="item-input-info">用户名称</div>
+              <div class="item-input-info">{{$t('manage.user_name')}}</div>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input item-input-with-info">
+          <div class="item-inner">
+            <div class="item-input-wrap">
+              <input type="text" :value="$funtools.getDeviceType(log.UserAgent)" />
+              <span class="input-clear-button"></span>
+              <div class="item-input-info">{{$t('manage.user_agent')}}</div>
             </div>
           </div>
         </li>
@@ -80,7 +89,7 @@
             <div class="item-input-wrap">
               <input type="text" :value="log.UserHost" />
               <span class="input-clear-button"></span>
-              <div class="item-input-info">用户代理</div>
+              <div class="item-input-info">Ip</div>
             </div>
           </div>
         </li>
@@ -89,7 +98,7 @@
             <div class="item-input-wrap">
               <input type="text" :value="log.CreateTime" />
               <span class="input-clear-button"></span>
-              <div class="item-input-info">创建时间</div>
+              <div class="item-input-info">{{$t('common.create_time')}}</div>
             </div>
           </div>
         </li>

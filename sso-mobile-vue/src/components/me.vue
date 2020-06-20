@@ -1,6 +1,6 @@
 <template>
   <div class="me">
-    <div class="me_text">我的</div>
+    <div class="me_text">{{ $t('common.me') }}</div>
     <div class="me_title" @click="$f7router.navigate('/personal')">
       <div class="ico">
         <f7-icon f7="person" color="blue" size="35"></f7-icon>
@@ -15,7 +15,7 @@
     </div>
     <div class="me_settings">
       <div class="setting_line item-link smart-select smart-select-init" data-open-in="popover">
-        <div class="setting_line_name">语言设置</div>
+        <div class="setting_line_name">{{ $t('common.language') }}</div>
         <div class="setting_line_right">
           <div class="setting_line_data">{{user.Lang=='zh-cn'?'中':'EN'}}</div>
           <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
@@ -26,34 +26,34 @@
         </select>
       </div>
       <div class="setting_line">
-        <div class="setting_line_name">头像设置</div>
+        <div class="setting_line_name">{{ $t('me.pic_setting') }}</div>
         <div class="setting_line_right">
           <div class="setting_line_data"></div>
           <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
         </div>
       </div>
       <div class="setting_line">
-        <div class="setting_line_name">修改密码</div>
+        <div class="setting_line_name">{{ $t('me.change_password') }}</div>
         <div class="setting_line_right">
           <div class="setting_line_data"></div>
           <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
         </div>
       </div>
       <div class="setting_line">
-        <div class="setting_line_name">上次登录时间</div>
+        <div class="setting_line_name">{{ $t('me.last_login_time') }}</div>
         <div class="setting_line_right">
           <div class="setting_line_data">{{user.LastLoginTime}}</div>
         </div>
       </div>
       <div class="setting_line">
-        <div class="setting_line_name">创建时间</div>
+        <div class="setting_line_name">{{$t('common.create_time')}}</div>
         <div class="setting_line_right">
           <div class="setting_line_data">{{user.CreateTime}}</div>
         </div>
       </div>
     </div>
     <div class="me_bottom">
-      <f7-button large outline color="gray" @click="logOut">退出</f7-button>
+      <f7-button large outline color="gray" @click="logOut">{{$t('common.logout')}}</f7-button>
     </div>
   </div>
 </template>
@@ -67,7 +67,7 @@ export default {
     };
   },
   created() {
-    window.console.log(window.token_jwt_data);
+    // window.console.log(window.token_jwt_data);
   },
   methods: {
     logOut() {
@@ -84,7 +84,9 @@ export default {
         .then(response => {
           if (response.code == 0) {
             this.$funtools.setCookie(this.$cookieName, response.result);
-            
+            this.$funtools.parseTokenSetMessage(response.result);
+            this.user = window.token_jwt_data;
+            this.$i18n.locale = lang;
           }
         });
     }

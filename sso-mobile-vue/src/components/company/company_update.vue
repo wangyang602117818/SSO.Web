@@ -1,7 +1,7 @@
 <template>
   <f7-page name="company_update">
-    <f7-navbar title="公司修改" back-link="返回">
-      <f7-link slot="right" @click="saveCompany">保存</f7-link>
+    <f7-navbar :title="$t('manage.update_company')" :back-link="$t('common.back')">
+      <f7-link slot="right" @click="saveCompany">{{$t('common.save')}}</f7-link>
     </f7-navbar>
     <CompanyBase v-if="company.id>=0" :company="company" />
   </f7-page>

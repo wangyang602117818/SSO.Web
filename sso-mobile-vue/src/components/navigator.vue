@@ -1,26 +1,22 @@
 <template>
   <div class="navigator">
     <div class="nav_top">
-      <input type="text" placeholder="search" />
+      <input type="text" :placeholder="$t('common.search')" />
     </div>
     <div class="nav_content">
-      <div class="sub_title">导航列表</div>
+      <div class="sub_title">{{ $t('navigator.navigators') }}</div>
       <f7-row no-gap>
         <f7-col>
           <div class="nav_wrap" @click="itemClick">
             <img class="nav_logo"  alt />
-            <div class="nav_title"><span>文件管理</span></div>
+            <div class="nav_title"><span>{{ $t('navigator.file_manage') }}</span></div>
           </div>
         </f7-col>
         <f7-col>
-          <div class="nav_wrap">
-            
-          </div>
+          
         </f7-col>
         <f7-col>
-          <div class="nav_wrap">
-           
-          </div>
+          
         </f7-col>
       </f7-row>
     </div>

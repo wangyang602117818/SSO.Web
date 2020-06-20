@@ -1,21 +1,20 @@
 <template>
   <div class="manage">
     <div class="man_top">
-      <div class="man_title">管理中心</div>
-      <!-- <div class="man_news">xx新增了一条用户信息</div> -->
+      <div class="man_title">{{ $t('common.manage') }}</div>
     </div>
     <div class="man_record">
       <div class="man_record_item">
         <div class="man_record_num">{{operation.all}}</div>
-        <div class="man_record_txt">总操作数</div>
+        <div class="man_record_txt">{{ $t('manage.all_logs') }}</div>
       </div>
       <div class="man_record_item">
         <div class="man_record_num">{{operation.lastMonth}}</div>
-        <div class="man_record_txt">上月操作数</div>
+        <div class="man_record_txt">{{ $t('manage.last_month_logs') }}</div>
       </div>
       <div class="man_record_item">
         <div class="man_record_num">{{operation.lastDay}}</div>
-        <div class="man_record_txt">昨日操作数</div>
+        <div class="man_record_txt">{{ $t('manage.last_day_logs') }}</div>
       </div>
     </div>
     <div class="man_content">
@@ -24,7 +23,7 @@
           <div class="nav_wrap" @click="$f7router.navigate('/users')">
             <f7-icon f7="person_2_fill" color="blue"></f7-icon>
             <div class="nav_title">
-              <span>用户管理</span>
+              <span>{{ $t('manage.user_manage') }}</span>
             </div>
           </div>
         </f7-col>
@@ -32,7 +31,7 @@
           <div class="nav_wrap" @click="$f7router.navigate('/roles')">
             <f7-icon f7="lock_circle" color="blue"></f7-icon>
             <div class="nav_title">
-              <span>角色管理</span>
+              <span>{{ $t('manage.role_manage') }}</span>
             </div>
           </div>
         </f7-col>
@@ -40,7 +39,7 @@
           <div class="nav_wrap" @click="$f7router.navigate('/company')">
             <f7-icon f7="building_2_fill" color="blue"></f7-icon>
             <div class="nav_title">
-              <span>公司管理</span>
+              <span>{{ $t('manage.company_manage') }}</span>
             </div>
           </div>
         </f7-col>
@@ -48,7 +47,7 @@
           <div class="nav_wrap" @click="$f7router.navigate('/coms')">
             <f7-icon f7="rectangle_3_offgrid_fill" color="blue"></f7-icon>
             <div class="nav_title">
-              <span>部门管理</span>
+              <span>{{ $t('manage.department_manage') }}</span>
             </div>
           </div>
         </f7-col>
@@ -58,7 +57,7 @@
           <div class="nav_wrap" @click="$f7router.navigate('/navigation')">
             <f7-icon f7="flag_circle" color="blue"></f7-icon>
             <div class="nav_title">
-              <span>导航管理</span>
+              <span>{{ $t('manage.navigator_manage') }}</span>
             </div>
           </div>
         </f7-col>
@@ -66,7 +65,7 @@
           <div class="nav_wrap" @click="$f7router.navigate('/logs')">
             <f7-icon f7="doc_text" color="blue"></f7-icon>
             <div class="nav_title">
-              <span>日志列表</span>
+              <span>{{ $t('manage.logs') }}</span>
             </div>
           </div>
         </f7-col>

@@ -1,41 +1,61 @@
 <template>
   <f7-page name="personal">
-    <f7-navbar title="个人信息" back-link="返回">
-      <f7-link slot="right" @click="save">保存</f7-link>
+    <f7-navbar :title="$t('manage.personal_info')" :back-link="$t('common.back')">
+      <f7-link slot="right" @click="save">{{$t('common.save')}}</f7-link>
     </f7-navbar>
     <f7-list inline-labels v-if="user.UserId && companyData &&departmentData">
-      <f7-list-item title="用户编号" :after="user.UserId"></f7-list-item>
-      <f7-list-item title="性别" smart-select :smart-select-params="{openIn: 'popover'}">
+      <f7-list-item :title="$t('manage.user_id')" :after="user.UserId"></f7-list-item>
+      <f7-list-input
+        :label="$t('manage.user_name')+'*'"
+        type="text"
+        :placeholder="$t('manage.user_name')"
+        :error-message="$t('valid.user_name_required')"
+        required
+        validate
+        clear-button
+        :value="user.UserName"
+        @input="($event)=>{user.UserName=$event.target.value}"
+      ></f7-list-input>
+      <f7-list-item
+        :title="$t('common.sex')"
+        smart-select
+        :smart-select-params="{openIn: 'popover'}"
+      >
         <select name="sex" @change="($event)=>{user.Sex = $event.target.value}">
-          <option value="M" :selected="user.Sex==='M'">男</option>
-          <option value="F" :selected="user.Sex==='F'">女</option>
+          <option value="M" :selected="user.Sex==='M'">{{$t('common.male')}}</option>
+          <option value="F" :selected="user.Sex==='F'">{{$t('common.female')}}</option>
         </select>
       </f7-list-item>
       <f7-list-input
-        label="手机号码"
+        :label="$t('common.mobile')"
         type="text"
         validate
         pattern="[0-9]*"
-        placeholder="手机号码"
+        :placeholder="$t('common.mobile')"
         :value="user.Mobile"
         @input="($event)=>{user.Mobile=$event.target.value}"
       ></f7-list-input>
       <f7-list-input
-        label="邮箱"
+        :label="$t('common.email')"
         type="email"
         validate
-        placeholder="邮箱"
-        error-message="邮箱格式不正确!"
+        :placeholder="$t('common.email')"
+        :error-message="$t('valid.email_format_invalid')"
         :value="user.Email"
         @input="($event)=>{user.Email=$event.target.value}"
       ></f7-list-input>
       <f7-list-input
-        label="证件号"
+        :label="$t('common.idCard')"
+        :placeholder="$t('common.idCard')"
         type="text"
         :value="user.IdCard"
         @input="($event)=>{user.IdCard=$event.target.value}"
       ></f7-list-input>
-      <f7-list-item title="公司" smart-select :smart-select-params="{openIn: 'popover'}">
+      <f7-list-item
+        :title="$t('common.company')"
+        smart-select
+        :smart-select-params="{openIn: 'popover'}"
+      >
         <select name="company" @change="changeCompany($event)">
           <option
             v-for="item in companyData"
@@ -47,7 +67,7 @@
       </f7-list-item>
       <f7-list-item
         link="#"
-        title="部门"
+        :title="$t('common.department')"
         smart-select
         :smart-select-params="{
           formatValueText:formatValueText,
@@ -63,8 +83,8 @@
           >{{getDepartmentShow(item)}}</option>
         </select>
       </f7-list-item>
-      <f7-list-item title="角色" :after="user.Role.join(',')"></f7-list-item>
-      <f7-list-item title="上次修改时间" :after="user.UpdateTime"></f7-list-item>
+      <f7-list-item :title="$t('common.role')" :after="user.Role.join(',')"></f7-list-item>
+      <f7-list-item :title="$t('manage.last_modified_time')" :after="user.UpdateTime"></f7-list-item>
     </f7-list>
     <f7-block class="text-align-center" v-else>
       <f7-preloader></f7-preloader>
@@ -87,8 +107,8 @@ export default {
         IdCard: "",
         CompanyCode: "",
         Departments: [],
-        UpdateTime:"",
-        Role:[]
+        UpdateTime: "",
+        Role: []
       },
       companyData: null,
       departmentData: null
@@ -101,25 +121,23 @@ export default {
   methods: {
     getUser() {
       var userId = this.$f7route.params.userId;
-      this.$axios
-        .get(this.$urls.user.getuser)
-        .then(response => {
-          if (response.code === 0) {
-            this.user = {
-              id: response.result.Id,
-              UserId: response.result.UserId,
-              UserName: response.result.UserName,
-              Sex: response.result.Sex,
-              Mobile: response.result.Mobile,
-              Email: response.result.Email,
-              IdCard: response.result.IdCard,
-              CompanyCode: response.result.CompanyCode,
-              Departments: response.result.DepartmentCode,
-              UpdateTime:response.result.UpdateTime,
-              Role:response.result.Role,
-            };
-          }
-        });
+      this.$axios.get(this.$urls.user.getuser).then(response => {
+        if (response.code === 0) {
+          this.user = {
+            id: response.result.Id,
+            UserId: response.result.UserId,
+            UserName: response.result.UserName,
+            Sex: response.result.Sex,
+            Mobile: response.result.Mobile,
+            Email: response.result.Email,
+            IdCard: response.result.IdCard,
+            CompanyCode: response.result.CompanyCode,
+            Departments: response.result.DepartmentCode,
+            UpdateTime: response.result.UpdateTime,
+            Role: response.result.Role
+          };
+        }
+      });
     },
     formatValueText(values) {
       var arr = [];
@@ -181,12 +199,14 @@ export default {
     save() {
       if (this.user.UserId.trim() == "") return;
       if (this.user.UserName.trim() == "") return;
-      this.$axios.post(this.$urls.user.updatebasicsetting, this.user).then(response => {
-        if (response.code === 0) {
-          this.$f7router.back();
-          this.showSuccess();
-        }
-      });
+      this.$axios
+        .post(this.$urls.user.updatebasicsetting, this.user)
+        .then(response => {
+          if (response.code === 0) {
+            this.$f7router.back();
+            this.showSuccess();
+          }
+        });
     }
   }
 };

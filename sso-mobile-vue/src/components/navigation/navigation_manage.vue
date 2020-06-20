@@ -8,7 +8,7 @@
     :infinite-preloader="loading"
     @infinite="loadMore"
   >
-    <f7-navbar title="导航管理" back-link="返回">
+    <f7-navbar :title="$t('manage.navigator_manage')" :back-link="$t('common.back')">
       <f7-nav-right>
         <f7-link icon-f7="plus_circle" href="/navigationadd/"></f7-link>
       </f7-nav-right>
@@ -25,12 +25,12 @@
       >
         <img slot="media" :src="item.LogoUrl" width="40" />
         <f7-swipeout-actions right>
-          <f7-swipeout-button color="red" @click="delNavigation(item.Id)">Delete</f7-swipeout-button>
+          <f7-swipeout-button color="red" @click="delNavigation(item.Id)">{{$t('common.delete')}}</f7-swipeout-button>
         </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>
-    <f7-block class="text-align-center" v-if="datas.length===0&&isEnd">没有数据</f7-block>
-    <f7-block class="text-align-center" v-if="datas.length>0&&isEnd">---end---</f7-block>
+    <f7-block class="text-align-center" v-if="datas.length===0&&isEnd">{{$t('common.no_data')}}</f7-block>
+    <f7-block class="text-align-center" v-if="datas.length>0&&isEnd">---{{$t('common.end')}}---</f7-block>
   </f7-page>
 </template>
 
@@ -57,13 +57,17 @@ export default {
     },
     delNavigation(id) {
       var that = this;
-      this.$f7.dialog.confirm("确定删除?", "提示", function() {
-        that.$axios
-          .post(that.$urls.navigation.delete, { ids: [id] })
-          .then(response => {
-            if (response.code === 0) that.removeItem(id);
-          });
-      });
+      this.$f7.dialog.confirm(
+        this.$t("confirm.sure_delete"),
+        this.$t("common.tips"),
+        function() {
+          that.$axios
+            .post(that.$urls.navigation.delete, { ids: [id] })
+            .then(response => {
+              if (response.code === 0) that.removeItem(id);
+            });
+        }
+      );
     }
   }
 };

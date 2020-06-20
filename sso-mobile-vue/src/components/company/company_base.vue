@@ -3,10 +3,10 @@
     <f7-list-input
       required
       validate
-      label="公司编号*"
+      :label="$t('common.company')+$t('common.code')+'*'"
       type="text"
-      placeholder="公司编号"
-      error-message="公司编号是必填项!"
+      :placeholder="$t('common.company')+$t('common.code')"
+      :error-message="$t('valid.company_code_required')"
       clear-button
       :value="company.code"
       @input="($event)=>{company.code=$event.target.value}"
@@ -14,18 +14,18 @@
     <f7-list-input
       required
       validate
-      label="公司名称*"
+      :label="$t('common.company')+$t('common.name')+'*'"
       type="text"
-      placeholder="公司名称"
-      error-message="公司名称是必填项!"
+      :placeholder="$t('common.company')+$t('common.name')"
+      :error-message="$t('valid.company_name_required')"
       clear-button
       :value="company.name"
       @input="($event)=>{company.name=$event.target.value}"
     ></f7-list-input>
     <f7-list-input
-      label="公司描述"
+      :label="$t('common.company')+$t('common.description')"
       type="textarea"
-      placeholder="公司描述"
+      :placeholder="$t('common.company')+$t('common.description')"
       clear-button
       :value="company.description"
       @input="($event)=>{company.description=$event.target.value}"

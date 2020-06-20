@@ -3,10 +3,10 @@
     <f7-list-input
       required
       validate
-      label="角色名称*"
+      :label="$t('common.role')+$t('common.name')+'*'"
       type="text"
-      placeholder="角色名称"
-      error-message="角色名称是必填项!"
+      :placeholder="$t('common.role')+$t('common.name')"
+      :error-message="$t('valid.role_name_required')"
       clear-button
       :value="role.name"
       @input="($event)=>{role.name=$event.target.value}"
@@ -14,10 +14,10 @@
     <f7-list-input
       required
       validate
-      label="角色描述"
+      :label="$t('common.role')+$t('common.description')"
       type="textarea"
-      placeholder="角色描述"
-      error-message="角色描述是必填项!"
+      :placeholder="$t('common.role')+$t('common.description')"
+      :error-message="$t('valid.role_description_required')"
       clear-button
       :value="role.description"
       @input="($event)=>{role.description=$event.target.value}"

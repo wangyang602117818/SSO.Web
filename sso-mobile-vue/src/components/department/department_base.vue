@@ -3,10 +3,10 @@
     <f7-list-input
       required
       validate
-      label="部门编号*"
+      :label="$t('common.department')+$t('common.code')+'*'"
       type="text"
-      placeholder="部门编号"
-      error-message="部门编号是必填项!"
+      :placeholder="$t('common.department')+$t('common.code')"
+      :error-message="$t('valid.department_code_required')"
       :value="department.code"
       @input="($event)=>{department.code=$event.target.value}"
       clear-button
@@ -14,16 +14,16 @@
     <f7-list-input
       required
       validate
-      label="部门名称*"
+      :label="$t('common.department')+$t('common.name')+'*'"
       type="text"
-      placeholder="部门名称"
-      error-message="部门名称是必填项!"
+      :placeholder="$t('common.department')+$t('common.name')"
+      :error-message="$t('valid.department_name_required')"
       :value="department.name"
       @input="($event)=>{department.name=$event.target.value}"
       clear-button
     ></f7-list-input>
     <f7-list-item
-      title="公司"
+      :title="$t('common.company')"
       smart-select
       :smart-select-params="{openIn: 'popover'}"
       v-if="companys.length>0"
@@ -39,7 +39,7 @@
     </f7-list-item>
     <f7-list-item
       link="#"
-      title="上级部门"
+      :title="$t('manage.sup_department')"
       v-if="departments.length>0"
       smart-select
       :smart-select-params="{
@@ -58,17 +58,17 @@
       </select>
     </f7-list-item>
     <f7-list-input
-      label="顺序"
+      :label="$t('common.order')"
       type="text"
-      placeholder="顺序"
+      :placeholder="$t('common.order')"
       clear-button
       :value="department.order"
       @input="($event)=>{department.order=$event.target.value}"
     ></f7-list-input>
     <f7-list-input
-      label="部门描述"
+      :label="$t('common.department')+$t('common.description')"
       type="textarea"
-      placeholder="部门描述"
+      :placeholder="$t('common.department')+$t('common.description')"
       clear-button
       :value="department.description"
       @input="($event)=>{department.description=$event.target.value}"
@@ -87,7 +87,7 @@ export default {
     };
   },
   created() {
-    if (this.department.id > 0) this.getCompanyData();  //修改部门才获取
+    if (this.department.id > 0) this.getCompanyData(); //修改部门才获取
   },
   methods: {
     formatValueText(values) {
