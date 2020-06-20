@@ -24,7 +24,7 @@
         :key="item.Id"
       >
         <f7-swipeout-actions right>
-          <f7-swipeout-button color="red" @click="delRole(item.Id)">Delete</f7-swipeout-button>
+          <f7-swipeout-button color="red" @click="delRole(item.Id)">{{$t('common.delete')}}</f7-swipeout-button>
         </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>
