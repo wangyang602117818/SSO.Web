@@ -63,6 +63,7 @@
           >{{getDepartmentShow(item)}}</option>
         </select>
       </f7-list-item>
+      <f7-list-item title="角色" :after="user.Role.join(',')"></f7-list-item>
       <f7-list-item title="上次修改时间" :after="user.UpdateTime"></f7-list-item>
     </f7-list>
     <f7-block class="text-align-center" v-else>
@@ -86,7 +87,8 @@ export default {
         IdCard: "",
         CompanyCode: "",
         Departments: [],
-        UpdateTime:""
+        UpdateTime:"",
+        Role:[]
       },
       companyData: null,
       departmentData: null
@@ -100,7 +102,7 @@ export default {
     getUser() {
       var userId = this.$f7route.params.userId;
       this.$axios
-        .get(this.$urls.user.getbyuserid + "?userid=" + userId)
+        .get(this.$urls.user.getuser)
         .then(response => {
           if (response.code === 0) {
             this.user = {
@@ -114,6 +116,7 @@ export default {
               CompanyCode: response.result.CompanyCode,
               Departments: response.result.DepartmentCode,
               UpdateTime:response.result.UpdateTime,
+              Role:response.result.Role,
             };
           }
         });

@@ -1,25 +1,29 @@
 <template>
   <div class="me">
     <div class="me_text">我的</div>
-    <div class="me_title" @click="$f7router.navigate('/personal/'+user.unique_name)">
+    <div class="me_title" @click="$f7router.navigate('/personal')">
       <div class="ico">
         <f7-icon f7="person" color="blue" size="35"></f7-icon>
       </div>
       <div class="desc">
         <div class="name" v-if="user">{{user.StaffName}}</div>
-        <div class="detail" v-if="user">{{user.role.join(',')}}</div>
+        <div class="detail" v-if="user">{{user.unique_name}}</div>
       </div>
       <div class="arrow">
         <f7-icon f7="chevron_right" color="gray" size="25"></f7-icon>
       </div>
     </div>
     <div class="me_settings">
-      <div class="setting_line">
+      <div class="setting_line item-link smart-select smart-select-init" data-open-in="popover">
         <div class="setting_line_name">语言设置</div>
         <div class="setting_line_right">
-          <div class="setting_line_data">中</div>
+          <div class="setting_line_data">{{user.Lang=='zh-cn'?'中':'EN'}}</div>
           <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
         </div>
+        <select name="language_select" @change="changeLang">
+          <option value="en-us" v-bind:selected="user.Lang=='en-us'">EN</option>
+          <option value="zh-cn" v-bind:selected="user.Lang=='zh-cn'">中</option>
+        </select>
       </div>
       <div class="setting_line">
         <div class="setting_line_name">头像设置</div>
@@ -62,7 +66,9 @@ export default {
       user: window.token_jwt_data
     };
   },
-  created() {},
+  created() {
+    window.console.log(window.token_jwt_data);
+  },
   methods: {
     logOut() {
       window.location.href =
@@ -70,6 +76,17 @@ export default {
         this.$urls.logout +
         "?returnUrl=" +
         window.location.href;
+    },
+    changeLang($event) {
+      var lang = $event.target.value;
+      this.$axios
+        .get(this.$urls.settings.setLang + "?lang=" + lang)
+        .then(response => {
+          if (response.code == 0) {
+            this.$funtools.setCookie(this.$cookieName, response.result);
+            
+          }
+        });
     }
   }
 };
