@@ -37,21 +37,14 @@ namespace SSO.Web.Controllers
                 {
                     if (userId == admin[0])
                     {
-                        extra.Add("LastLoginTime", DateTime.Now.ToString(AppSettings.DateTimeFormat));
-                        token = jwtManager.GenerateToken(userId, userId, lang, null, null, new List<string>() { admin[2] }, ip ?? Request.UserHostAddress, 20, extra);
+                        token = jwtManager.GenerateToken(userId, userId, lang, ip ?? Request.UserHostAddress, 20);
                     }
                 }
                 else
                 {
                     Settings setting = settings.GetSetting(userId);
                     if (setting != null) lang = setting.Lang;
-                    string[] departments = userBasic.DepartmentName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    string[] roles = userBasic.RoleName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (userBasic.LastLoginTime != null)
-                        extra.Add("LastLoginTime", userBasic.LastLoginTime.Value.ToString(AppSettings.DateTimeFormat));
-                    if (userBasic.CreateTime != null)
-                        extra.Add("CreateTime", userBasic.CreateTime.Value.ToString(AppSettings.DateTimeFormat));
-                    token = jwtManager.GenerateToken(userId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, ip ?? Request.UserHostAddress, 20, extra);
+                    token = jwtManager.GenerateToken(userId, userBasic.UserName, lang, ip ?? Request.UserHostAddress, 20);
                 }
             }
             return new ResponseModel<string>(ErrorCode.success, token);
@@ -98,8 +91,7 @@ namespace SSO.Web.Controllers
                 {
                     UserId = loginModel.UserId,
                     UserName = loginModel.UserId,
-                    RoleName = admin[2],
-                    DepartmentName = ""
+                    RoleName = admin[2]
                 };
             }
             else
@@ -112,15 +104,8 @@ namespace SSO.Web.Controllers
             }
             user.UpdateLoginTime(userBasic.Id);
             Settings setting = settings.GetSetting(User.Identity.Name);
-            string[] roles = userBasic.RoleName.Split(',');
-            string[] departments = userBasic.DepartmentName.Split(',');
             if (setting != null) lang = setting.Lang;
-            Dictionary<string, string> extra = new Dictionary<string, string>();
-            if (userBasic.LastLoginTime != null)
-                extra.Add("LastLoginTime", userBasic.LastLoginTime.Value.ToString(AppSettings.DateTimeFormat));
-            if (userBasic.CreateTime != null)
-                extra.Add("CreateTime", userBasic.CreateTime.Value.ToString(AppSettings.DateTimeFormat));
-            string token = jwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, lang, userBasic.CompanyName, departments, roles, Request.UserHostAddress, 24 * 60, extra);
+            string token = jwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, lang, Request.UserHostAddress, 24 * 60);
             HttpCookie httpCookie = new HttpCookie(ssoCookieKey, token);
             if (ssoCookieTime != "session")
             {
@@ -163,17 +148,15 @@ namespace SSO.Web.Controllers
         [JwtAuthorize]
         public ActionResult DecodeToken()
         {
-            var roles = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == ClaimTypes.Role).Select(s => s.Value);
             var userName = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "StaffName").Select(s => s.Value).FirstOrDefault();
             var lang = Request.Cookies["lang"] == null ? ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "Lang").Select(s => s.Value).FirstOrDefault() : Request.Cookies["lang"].Value;
-            object userRole = new
+            object user = new
             {
                 UserId = User.Identity.Name,
                 UserName = userName,
-                Role = roles,
                 Lang = lang
             };
-            return new ResponseModel<object>(ErrorCode.success, userRole);
+            return new ResponseModel<object>(ErrorCode.success, user);
         }
     }
 }

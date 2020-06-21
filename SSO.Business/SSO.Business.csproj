@@ -54,6 +54,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="UserBasic.cs" />
     <Compile Include="UserDepartmentMapping.cs" />
+    <Compile Include="UserRoleMapping.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Data\SSO.Data.csproj">
@@ -70,7 +71,7 @@
       <Version>6.4.4</Version>
     </PackageReference>
     <PackageReference Include="SSO.Util.Client">
-      <Version>1.5.0</Version>
+      <Version>1.5.2</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

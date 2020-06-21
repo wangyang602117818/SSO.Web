@@ -98,47 +98,26 @@ export default {
   data() {
     return {
       user: {
-        id: "",
-        UserId: "",
-        UserName: "",
-        Sex: "",
-        Mobile: "",
-        Email: "",
-        IdCard: "",
-        CompanyCode: "",
-        Departments: [],
-        UpdateTime: "",
-        Role: []
+        id: this.$store.state.currentUser.Id,
+        UserId: this.$store.state.currentUser.UserId,
+        UserName: this.$store.state.currentUser.UserName,
+        Sex: this.$store.state.currentUser.Sex,
+        Mobile: this.$store.state.currentUser.Mobile,
+        Email: this.$store.state.currentUser.Email,
+        IdCard: this.$store.state.currentUser.IdCard,
+        CompanyCode: this.$store.state.currentUser.CompanyCode,
+        Departments: this.$store.state.currentUser.DepartmentCode,
+        UpdateTime: this.$store.state.currentUser.UpdateTime,
+        Role: this.$store.state.currentUser.Role,
       },
       companyData: null,
       departmentData: null
     };
   },
   created() {
-    this.getUser();
     this.getCompanyData();
   },
   methods: {
-    getUser() {
-      var userId = this.$f7route.params.userId;
-      this.$axios.get(this.$urls.user.getuser).then(response => {
-        if (response.code === 0) {
-          this.user = {
-            id: response.result.Id,
-            UserId: response.result.UserId,
-            UserName: response.result.UserName,
-            Sex: response.result.Sex,
-            Mobile: response.result.Mobile,
-            Email: response.result.Email,
-            IdCard: response.result.IdCard,
-            CompanyCode: response.result.CompanyCode,
-            Departments: response.result.DepartmentCode,
-            UpdateTime: response.result.UpdateTime,
-            Role: response.result.Role
-          };
-        }
-      });
-    },
     formatValueText(values) {
       var arr = [];
       for (var i = 0; i < values.length; i++)
@@ -203,6 +182,7 @@ export default {
         .post(this.$urls.user.updatebasicsetting, this.user)
         .then(response => {
           if (response.code === 0) {
+            this.$store.commit("getUser");
             this.$f7router.back();
             this.showSuccess();
           }

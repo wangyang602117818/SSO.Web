@@ -7,6 +7,7 @@ using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Web;
@@ -59,7 +60,7 @@ namespace SSO.Web.Filters
                 try
                 {
                     filterContext.HttpContext.User = ParseToken(authorization);
-                    if (!CheckRole(filterContext)) filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
+                    if (!CheckRole(filterContext, filterContext.HttpContext.User.Identity.Name)) filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
                 }
                 catch (SecurityTokenInvalidAudienceException ex) //Audience Error 
                 {
@@ -137,7 +138,7 @@ namespace SSO.Web.Filters
                 httpContext.Response.Cookies.Add(cookie);
             }
         }
-        private bool CheckRole(AuthorizationContext filterContext)
+        private bool CheckRole(AuthorizationContext filterContext, string userId)
         {
             bool access = true;
             IEnumerable<CustomAttributeData> customAttributes = ((ReflectedActionDescriptor)filterContext.ActionDescriptor).MethodInfo.CustomAttributes;
@@ -149,11 +150,14 @@ namespace SSO.Web.Filters
                     access = false;
                     foreach (var item in c.NamedArguments)
                     {
-                        string[] name = item.TypedValue.Value.ToString().Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (string n in name)
-                        {
-                            if (filterContext.HttpContext.User.IsInRole(n)) access = true;
-                        }
+                        if (item.MemberName != "Roles") continue;
+                        UserRoleMapping userRoleMapping = new UserRoleMapping();
+                        //特性上的role
+                        string[] roles = item.TypedValue.Value.ToString().Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                        //数据库中的role
+                        var dataRoles = userRoleMapping.GetRolesByUserId(userId);
+                        //如果有交集,可以访问
+                        if (roles.Intersect(dataRoles).Count() > 0) access = true;
                     }
                 }
             }

@@ -72,7 +72,7 @@ namespace SSO.Business
             if (roles != null)
             {
                 var userRoleMappings = userCenterContext.UserRoleMappings.Where(w => w.UserId == userBasic.UserId);
-                foreach (UserRoleMapping urm in userRoleMappings)
+                foreach (Data.Models.UserRoleMapping urm in userRoleMappings)
                 {
                     userCenterContext.UserRoleMappings.Attach(urm);
                     userCenterContext.UserRoleMappings.Remove(urm);
@@ -166,7 +166,7 @@ namespace SSO.Business
         {
             //删除 role 信息
             var userRoleMappings = userCenterContext.UserRoleMappings.Where(w => userIds.Contains(w.UserId));
-            foreach (UserRoleMapping urm in userRoleMappings)
+            foreach (Data.Models.UserRoleMapping urm in userRoleMappings)
             {
                 userCenterContext.UserRoleMappings.Attach(urm);
                 userCenterContext.UserRoleMappings.Remove(urm);

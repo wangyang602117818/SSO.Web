@@ -1,13 +1,13 @@
 <template>
-  <div class="me">
+  <div class="me" v-if="$store.state.currentUser">
     <div class="me_text">{{ $t('common.me') }}</div>
     <div class="me_title" @click="$f7router.navigate('/personal')">
       <div class="ico">
         <f7-icon f7="person" color="blue" size="35"></f7-icon>
       </div>
       <div class="desc">
-        <div class="name" v-if="user">{{user.StaffName}}</div>
-        <div class="detail" v-if="user">{{user.unique_name}}</div>
+        <div class="name">{{$store.state.currentUser.UserName}}</div>
+        <div class="detail">{{$store.state.currentUser.UserId}}</div>
       </div>
       <div class="arrow">
         <f7-icon f7="chevron_right" color="gray" size="25"></f7-icon>
@@ -17,12 +17,12 @@
       <div class="setting_line item-link smart-select smart-select-init" data-open-in="popover">
         <div class="setting_line_name">{{ $t('common.language') }}</div>
         <div class="setting_line_right">
-          <div class="setting_line_data">{{user.Lang=='zh-cn'?'中':'EN'}}</div>
+          <div class="setting_line_data">{{lang=='zh-cn'?'中':'EN'}}</div>
           <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
         </div>
         <select name="language_select" @change="changeLang">
-          <option value="en-us" v-bind:selected="user.Lang=='en-us'">EN</option>
-          <option value="zh-cn" v-bind:selected="user.Lang=='zh-cn'">中</option>
+          <option value="en-us" v-bind:selected="lang=='en-us'">EN</option>
+          <option value="zh-cn" v-bind:selected="lang=='zh-cn'">中</option>
         </select>
       </div>
       <div class="setting_line">
@@ -42,13 +42,13 @@
       <div class="setting_line">
         <div class="setting_line_name">{{ $t('me.last_login_time') }}</div>
         <div class="setting_line_right">
-          <div class="setting_line_data">{{user.LastLoginTime}}</div>
+          <div class="setting_line_data">{{$store.state.currentUser.LastLoginTime}}</div>
         </div>
       </div>
       <div class="setting_line">
         <div class="setting_line_name">{{$t('common.create_time')}}</div>
         <div class="setting_line_right">
-          <div class="setting_line_data">{{user.CreateTime}}</div>
+          <div class="setting_line_data">{{$store.state.currentUser.CreateTime}}</div>
         </div>
       </div>
     </div>
@@ -63,11 +63,11 @@ export default {
   name: "me",
   data() {
     return {
-      user: window.token_jwt_data
+      lang: window.token_jwt_data.Lang
     };
   },
   created() {
-    // window.console.log(window.token_jwt_data);
+    this.$store.commit("getUser");
   },
   methods: {
     logOut() {
@@ -85,7 +85,7 @@ export default {
           if (response.code == 0) {
             this.$funtools.setCookie(this.$cookieName, response.result);
             this.$funtools.parseTokenSetMessage(response.result);
-            this.user = window.token_jwt_data;
+            this.lang = window.token_jwt_data.Lang;
             this.$i18n.locale = lang;
           }
         });

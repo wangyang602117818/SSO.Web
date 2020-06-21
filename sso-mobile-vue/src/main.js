@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueI18n from "vue-i18n"
+import store from './store'
 import App from './App.vue'
 import Framework7 from 'framework7/framework7-lite.esm.bundle'
 import Framework7Vue from 'framework7-vue'
@@ -77,6 +78,7 @@ Vue.config.productionTip = false;
 
 var vue = new Vue({
   i18n,
+  store,
   render: h => h(App),
 });
 window.vue = vue;

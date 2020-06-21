@@ -25,7 +25,9 @@ export default {
     };
   },
   components: {},
-  created() {},
+  created() {
+    
+  },
   mounted() {
     window.console.log(this.$device);
   }

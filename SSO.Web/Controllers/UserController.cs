@@ -1,6 +1,7 @@
 ﻿using SSO.Model;
 using SSO.Util;
 using SSO.Util.Client;
+using SSO.Web.Filters;
 using SSO.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace SSO.Web.Controllers
     public class UserController : BaseController
     {
         Business.UserBasic user = new Business.UserBasic();
+        Business.UserRoleMapping roleMapping = new Business.UserRoleMapping();
         public ActionResult Add(AddUserModel addUserModel)
         {
             if (user.GetUser(addUserModel.UserId) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
@@ -83,13 +85,12 @@ namespace SSO.Web.Controllers
             UserBasicData userBasicData = user.GetUserUpdate(User.Identity.Name);
             if (userBasicData == null)
             {
-                var roles = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == ClaimTypes.Role).Select(s => s.Value);
                 var userName = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "StaffName").Select(s => s.Value).FirstOrDefault();
                 userBasicData = new UserBasicData()
                 {
                     UserId = User.Identity.Name,
                     UserName = userName,
-                    Role = roles.ToList()
+                    Role = new List<string>() { admin[2] }
                 };
             }
             return new ResponseModel<UserBasicData>(ErrorCode.success, userBasicData);
@@ -98,6 +99,11 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<UserBasicData>(ErrorCode.success, user.GetUserUpdate(userId));
         }
-
+        [OutputCache(Duration = 60 * 60 * 4, VaryByParam = "*")]
+        public ActionResult GetRoles(string userId = null)
+        {
+            var roles = roleMapping.GetRolesByUserId(userId);
+            return new ResponseModel<IEnumerable<string>>(ErrorCode.success, roles);
+        }
     }
 }
