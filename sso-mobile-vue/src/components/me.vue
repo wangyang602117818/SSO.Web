@@ -32,7 +32,7 @@
           <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
         </div>
       </div>
-      <div class="setting_line">
+      <div class="setting_line" @click="$f7router.navigate('/changepassword')">
         <div class="setting_line_name">{{ $t('me.change_password') }}</div>
         <div class="setting_line_right">
           <div class="setting_line_data"></div>

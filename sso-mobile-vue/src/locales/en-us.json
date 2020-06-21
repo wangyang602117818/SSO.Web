@@ -10,7 +10,11 @@
         "role_name_required": "Role name required!",
         "role_description_required": "Role Description required!",
         "id_required":"Id required!",
-        "user_name_required":"User name required!"
+        "user_name_required":"User name required!",
+        "old_password_required":"Old password required!",
+        "new_password_required":"New password required!",
+        "new_password_confirm_required":"New password confirm required!",
+        "password_pattern_invalid":"Incorrect password rule!"
     },
     "confirm": {
         "sure_delete": "Confirm delete?"
@@ -55,7 +59,12 @@
     "me": {
         "pic_setting": "PicSetting",
         "change_password": "ChangePassword",
-        "last_login_time": "LastLoginTime"
+        "last_login_time": "LastLoginTime",
+        "old_password":"Old Password",
+        "new_password":"New Password",
+        "new_password_confirm":"New Password Confirm",
+        "two_passwords_not_match":"Two passwords not match",
+        "old_password_error":"Old password error"
     },
     "manage": {
         "user_manage": "Users",

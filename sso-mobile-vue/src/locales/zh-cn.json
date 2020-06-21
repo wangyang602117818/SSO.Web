@@ -10,7 +10,11 @@
         "role_name_required":"角色名称不能为空!",
         "role_description_required":"角色描述不能为空!",
         "id_required":"编号不能为空!",
-        "user_name_required":"用户名称不能为空!"
+        "user_name_required":"用户名称不能为空!",
+        "old_password_required":"旧密码不能为空!",
+        "new_password_required":"新密码不能为空!",
+        "new_password_confirm_required":"新密码确认不能为空!",
+        "password_pattern_invalid":"密码规则不符合要求!"
     },
     "confirm": {
         "sure_delete": "确定删除?"
@@ -55,7 +59,12 @@
     "me": {
         "pic_setting": "头像设置",
         "change_password": "修改密码",
-        "last_login_time": "上次登录时间"
+        "last_login_time": "上次登录时间",
+        "old_password":"旧密码",
+        "new_password":"新密码",
+        "new_password_confirm":"确认新密码",
+        "two_passwords_not_match":"两次密码不一致",
+        "old_password_error":"旧密码不正确"
     },
     "manage": {
         "user_manage": "用户管理",

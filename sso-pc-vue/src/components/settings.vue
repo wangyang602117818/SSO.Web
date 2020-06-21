@@ -268,7 +268,11 @@ export default {
                   newPassword2: ""
                 });
                 this.$message.warning(this.$lang.update_success);
-                window.location.href = this.$baseUrl + this.$urls.logout;
+                window.location.href =
+                  this.$baseUrl +
+                  this.$urls.logout +
+                  "?returnUrl=" +
+                  window.location.href;
               }
             });
         }

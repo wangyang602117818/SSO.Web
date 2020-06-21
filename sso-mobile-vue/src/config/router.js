@@ -18,6 +18,7 @@ import DepartmentManage from '../components/department/department_manage'
 import DepartmentAdd from '../components/department/department_add'
 import DepartmentUpdate from '../components/department/department_update'
 import Personal from '../components/me/personal'
+import ChangePassword from '../components/me/change_password'
 var routes = [
     {
         name: "tab",
@@ -183,6 +184,14 @@ var routes = [
         name:"personal",
         path:"/personal",
         component: Personal,
+        options: {
+            transition: 'f7-parallax',
+        }
+    },
+    {
+        name:"changepassword",
+        path:"/changepassword",
+        component: ChangePassword,
         options: {
             transition: 'f7-parallax',
         }
