@@ -54,7 +54,8 @@
         "mobile": "手机号",
         "email": "邮箱",
         "idCard": "身份证号",
-        "role": "角色"
+        "role": "角色",
+        "clear":"清空"
     },
     "me": {
         "pic_setting": "头像设置",

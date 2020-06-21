@@ -14,8 +14,10 @@ var ListBase = {
     },
     methods: {
         onSearch(event) {
-            var value = event.target.value;
-            this.filter = value;
+            if (event) {
+                var value = event.target.value;
+                this.filter = value;
+            }
             this.pageIndex = 1;
             this.isEnd = false;
             this.getData(null, true);
@@ -39,6 +41,7 @@ var ListBase = {
         },
         getData(callback, replace) {
             this.loading = true;
+            if (replace) this.datas = [];
             this.$axios
                 .get(this.getlist + this.getQuerystring())
                 .then(response => {
@@ -46,11 +49,7 @@ var ListBase = {
                     this.loading = false;
                     if (response.code === 0) {
                         if (response.result.length < this.pageSize) this.isEnd = true;
-                        if (replace) {
-                            this.datas = response.result;
-                        } else {
-                            this.datas = this.datas.concat(response.result);
-                        }
+                        this.datas = this.datas.concat(response.result);
                     }
                 });
         }

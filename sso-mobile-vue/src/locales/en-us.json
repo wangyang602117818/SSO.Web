@@ -54,7 +54,8 @@
         "mobile": "Mobile",
         "email": "Email",
         "idCard": "IdCard",
-        "role": "Role"
+        "role": "Role",
+        "clear":"Clear"
     },
     "me": {
         "pic_setting": "PicSetting",

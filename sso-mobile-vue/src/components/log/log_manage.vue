@@ -15,7 +15,9 @@
     </f7-navbar>
     <f7-sheet top backdrop class="sheet-top">
       <f7-toolbar bottom>
-        <div class="left"></div>
+        <div class="left">
+          <f7-link sheet-close @click="onClear">{{$t('common.clear')}}</f7-link>
+        </div>
         <div class="right">
           <f7-link sheet-close @click="onSearch">{{$t('common.ok')}}</f7-link>
         </div>
@@ -80,7 +82,12 @@
         </f7-block>
       </f7-page-content>
     </f7-sheet>
-    <f7-searchbar disable-button-text :placeholder="$t('common.search')" :clear-button="true" @change="onSearch"></f7-searchbar>
+    <f7-searchbar
+      disable-button-text
+      :placeholder="$t('common.search')"
+      :clear-button="true"
+      @change="onSearch"
+    ></f7-searchbar>
     <f7-list media-list>
       <f7-list-item
         v-for="item in datas"
@@ -117,6 +124,13 @@ export default {
     this.getFroms();
   },
   methods: {
+    onClear() {
+      this.fromcheck = "";
+      this.controllercheck = "";
+      this.actioncheck = "";
+      this.day = 30;
+      this.onSearch();
+    },
     getQuerystring() {
       var url = "?pageIndex=" + this.pageIndex + "&pageSize=" + this.pageSize;
       if (this.fromcheck) url += "&from=" + this.fromcheck;
