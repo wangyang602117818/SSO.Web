@@ -19,9 +19,9 @@ namespace SSO.Web.Controllers
         public static string issuer = AppSettings.GetValue("issuer");
         public static string ssoSecretKey = AppSettings.GetValue("ssoSecretKey");
         public static string ssoTicketTime = AppSettings.GetValue("ssoTicketTime");
-        public static string logBaseUrl = AppSettings.GetValue("logBaseUrl");
+        public static string messageBaseUrl = AppSettings.GetValue("messageBaseUrl");
         protected JwtManager jwtManager = new JwtManager(ssoSecretKey, issuer, int.Parse(ssoTicketTime));
-        protected LogCenterService logService = new LogCenterService(logBaseUrl);
+        protected LogService logService = new LogService(messageBaseUrl);
 
     }
 }
