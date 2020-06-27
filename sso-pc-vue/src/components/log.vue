@@ -44,6 +44,7 @@
       :dataSource="data"
       :loading="loading"
       :pagination="pagination"
+      :rowClassName="getRowClassName"
       @change="handleTableChange"
     >
       <span slot="RoleName" slot-scope="RoleName" v-if="RoleName">
@@ -64,7 +65,7 @@ export default {
         {
           title: this.$lang.source,
           dataIndex: "From",
-          width: "12%",
+          width: "10%",
           ellipsis: true
         },
         {
@@ -80,6 +81,12 @@ export default {
           ellipsis: true
         },
         {
+          title: this.$lang.time,
+          dataIndex: "Time",
+          width: "5%",
+          ellipsis: true
+        },
+        {
           title: this.$lang.query,
           dataIndex: "QueryString",
           width: "15%",
@@ -88,7 +95,7 @@ export default {
         {
           title: this.$lang.content,
           dataIndex: "Content",
-          width: "15%",
+          width: "12%",
           ellipsis: true
         },
         {
@@ -174,6 +181,10 @@ export default {
       this.$axios.get(this.$urls.log.getfromlist).then(response => {
         if (response.code === 0) this.fromlist = response.result;
       });
+    },
+    getRowClassName(record, index) {
+      if (record.Exception) return "error_tr";
+      return "";
     }
   }
 };
@@ -183,4 +194,5 @@ export default {
 .ant-input {
   margin: 10px 0px;
 }
+
 </style>

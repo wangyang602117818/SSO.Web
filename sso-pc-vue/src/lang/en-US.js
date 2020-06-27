@@ -67,6 +67,7 @@ export default {
     id: "Id",
     modify: "Modify",
     modified: "Modified",
+    time:"Time",
     create_time: "CreateTime",
     modify_time: "ModifyTime",
     update_time: "UpdateTime",

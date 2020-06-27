@@ -17,3 +17,6 @@
  .ant-table-thead > tr > th{
   border-width: 0.5px !important;
  }
+ .ant-table-tbody > tr.error_tr {
+  color: red !important;
+}

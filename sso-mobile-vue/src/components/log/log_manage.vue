@@ -92,7 +92,7 @@
       <f7-list-item
         v-for="item in datas"
         :title="item.Controller+'/'+item.Action"
-        :subtitle="item.CreateTime"
+        :subtitle="item.CreateTime+' | '+item.Time+'ms'"
         :key="item._id"
         :after="item.UserName"
         :link="'/logdetail/'+item._id"

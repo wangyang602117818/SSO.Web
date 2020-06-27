@@ -67,6 +67,7 @@ export default {
     id: "编号",
     modify:"修改",
     modified: "已修改",
+    time:"时间",
     create_time: "创建时间",
     modify_time: "修改时间",
     update_time:"修改时间",
