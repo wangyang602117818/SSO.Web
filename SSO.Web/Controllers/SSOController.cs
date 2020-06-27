@@ -32,7 +32,6 @@ namespace SSO.Web.Controllers
             if (!userId.IsNullOrEmpty())
             {
                 UserBasic userBasic = user.GetUser(userId);
-                Dictionary<string, string> extra = new Dictionary<string, string>();
                 if (userBasic == null)
                 {
                     if (userId == admin[0])
@@ -58,7 +57,7 @@ namespace SSO.Web.Controllers
             {
                 try
                 {
-                    var userId = JwtAuthorizeAttribute.ParseToken(authorization.Value).Identity.Name;
+                    var userId = JwtManager.ParseAuthorization(authorization.Value, ssoSecretKey).Identity.Name;
                     string ticket = jwtManager.GenerateTicket(userId);
                     returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
                     if (ssoCookieTime != "session")
@@ -132,13 +131,13 @@ namespace SSO.Web.Controllers
             var authorization = Request.Cookies[ssoCookieKey];
             if (authorization != null)
             {
-                authorization.Expires = DateTime.Now.AddDays(-1);
+                authorization.Expires = DateTime.Now.AddYears(-1);
                 Response.Cookies.Add(authorization);
             }
             var ssoUrlCookie = Request.Cookies["ssourls"];
             if (ssoUrlCookie != null)
             {
-                ssoUrlCookie.Expires = DateTime.Now.AddDays(-1);
+                ssoUrlCookie.Expires = DateTime.Now.AddYears(-1);
                 Response.Cookies.Add(ssoUrlCookie);
             }
             if (ssoUrlCookie == null) return RedirectToAction("Login", new { returnUrl = returnUrl });

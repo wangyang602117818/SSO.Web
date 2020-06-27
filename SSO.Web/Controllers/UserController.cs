@@ -99,10 +99,10 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<UserBasicData>(ErrorCode.success, user.GetUserUpdate(userId));
         }
-        [OutputCache(Duration = 60 * 60 * 4, VaryByParam = "*")]
-        public ActionResult GetRoles(string userId = null)
+        [OutputCache(Duration = 60 * 60 * 4, VaryByHeader = "Authorization")]
+        public ActionResult GetRoles()
         {
-            var roles = roleMapping.GetRolesByUserId(userId);
+            var roles = roleMapping.GetRolesByUserId(User.Identity.Name);
             return new ResponseModel<IEnumerable<string>>(ErrorCode.success, roles);
         }
     }

@@ -24,7 +24,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult DecodeToken(string token)
         {
-            var result = JwtAuthorizeAttribute.ParseToken(token);
+            var result = JwtManager.ParseAuthorization(token, ssoSecretKey);
             return Content(result.Identity.Name);
         }
     }

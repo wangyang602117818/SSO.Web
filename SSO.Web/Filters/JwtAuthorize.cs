@@ -23,30 +23,33 @@ namespace SSO.Web.Filters
         {
             var reflectedActionDescriptor = (ReflectedActionDescriptor)filterContext.ActionDescriptor;
             IEnumerable<CustomAttributeData> methodAttributes = reflectedActionDescriptor.MethodInfo.CustomAttributes;
-            var controllerAttributes = reflectedActionDescriptor.ControllerDescriptor.GetCustomAttributes(true);
+            IEnumerable<CustomAttributeData> controllerAttributes = reflectedActionDescriptor.ControllerDescriptor.ControllerType.CustomAttributes;
             bool isAuthorization = true;
-            foreach (var item in controllerAttributes)
+            List<string> roles = new List<string>();
+            foreach (CustomAttributeData item in controllerAttributes)
             {
-                if (item.GetType().Name == "AllowAnonymousAttribute") isAuthorization = false;
-                if (item.GetType().Name == "JwtAuthorizeAttribute") isAuthorization = true;
+                if (item.AttributeType.Name == "AllowAnonymousAttribute") isAuthorization = false;
+                if (item.AttributeType.Name == "JwtAuthorizeAttribute") isAuthorization = true;
+                foreach (var it in item.NamedArguments)
+                {
+                    if (it.MemberName != "Roles") continue;
+                    roles.AddRange(it.TypedValue.Value.ToString().Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries));
+                }
             }
-            foreach (CustomAttributeData c in methodAttributes)
+            foreach (CustomAttributeData item in methodAttributes)
             {
-                if (c.AttributeType.Name == "AllowAnonymousAttribute") isAuthorization = false;
-                if (c.AttributeType.Name == "JwtAuthorizeAttribute") isAuthorization = true;
+                if (item.AttributeType.Name == "AllowAnonymousAttribute") isAuthorization = false;
+                if (item.AttributeType.Name == "JwtAuthorizeAttribute") isAuthorization = true;
+                foreach (var it in item.NamedArguments)
+                {
+                    if (it.MemberName != "Roles") continue;
+                    roles.AddRange(it.TypedValue.Value.ToString().Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries));
+                }
             }
             //如果设置了匿名访问直接返回
             if (!isAuthorization) return;
             HttpRequestBase request = filterContext.HttpContext.Request;
-            string authorization = "";
-            if (request.Cookies[ssoCookieKey] != null)
-            {
-                authorization = request.Cookies[ssoCookieKey].Value;
-            }
-            if (string.IsNullOrEmpty(authorization))
-            {
-                authorization = request.Headers["Authorization"] ?? "";
-            }
+            string authorization = JwtManager.GetAuthorization(request, ssoCookieKey);
             if (string.IsNullOrEmpty(authorization))
             {
                 filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
@@ -59,8 +62,9 @@ namespace SSO.Web.Filters
                 }
                 try
                 {
-                    filterContext.HttpContext.User = ParseToken(authorization);
-                    if (!CheckRole(filterContext, filterContext.HttpContext.User.Identity.Name)) filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
+                    var principal = JwtManager.ParseAuthorization(authorization, ssoSecretKey);
+                    filterContext.HttpContext.User = principal;
+                    if (!CheckRole(roles, filterContext.HttpContext.User.Identity.Name)) filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
                 }
                 catch (SecurityTokenInvalidAudienceException ex) //Audience Error 
                 {
@@ -78,22 +82,6 @@ namespace SSO.Web.Filters
                     filterContext.Result = new ResponseModel<string>(ErrorCode.invalid_token, "");
                 }
             }
-        }
-        public static ClaimsPrincipal ParseToken(string authorization)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var symmetricKey = Convert.FromBase64String(ssoSecretKey);
-            var validationParameters = new TokenValidationParameters()
-            {
-                RequireExpirationTime = true,
-                ValidateLifetime = false,
-                ValidateIssuer = false,
-                ValidAudience = HttpContext.Current.Request.UserHostAddress,
-                ValidateAudience = true,
-                IssuerSigningKey = new SymmetricSecurityKey(symmetricKey)
-            };
-            SecurityToken securityToken;
-            return tokenHandler.ValidateToken(authorization, validationParameters, out securityToken);
         }
         public static string AppendTicket(string returnUrl, string ticket)
         {
@@ -120,7 +108,7 @@ namespace SSO.Web.Filters
             Uri uri = new Uri(returnUrl);
             if (uri.Query.Length > 0)
                 returnUrl = returnUrl.Replace(uri.Query, "");
-
+            returnUrl = returnUrl.TrimEnd('/');
             Data.Models.Navigation navigation = new Navigation().GetBaseUrl(returnUrl);
             if (navigation != null) returnUrl = navigation.BaseUrl;
             if (ssoUrlCookie == null)
@@ -138,30 +126,13 @@ namespace SSO.Web.Filters
                 httpContext.Response.Cookies.Add(cookie);
             }
         }
-        private bool CheckRole(AuthorizationContext filterContext, string userId)
+        private bool CheckRole(IEnumerable<string> roles, string userId)
         {
-            bool access = true;
-            IEnumerable<CustomAttributeData> customAttributes = ((ReflectedActionDescriptor)filterContext.ActionDescriptor).MethodInfo.CustomAttributes;
-            foreach (CustomAttributeData c in customAttributes)
-            {
-                if (c.AttributeType.Name == "JwtAuthorizeAttribute")
-                {
-                    if (c.NamedArguments.Count == 0) return access;
-                    access = false;
-                    foreach (var item in c.NamedArguments)
-                    {
-                        if (item.MemberName != "Roles") continue;
-                        UserRoleMapping userRoleMapping = new UserRoleMapping();
-                        //特性上的role
-                        string[] roles = item.TypedValue.Value.ToString().Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                        //数据库中的role
-                        var dataRoles = userRoleMapping.GetRolesByUserId(userId);
-                        //如果有交集,可以访问
-                        if (roles.Intersect(dataRoles).Count() > 0) access = true;
-                    }
-                }
-            }
-            return access;
+            if (roles.Count() == 0) return true;
+            var dataRoles = new UserRoleMapping().GetRolesByUserId(userId);
+            //如果有交集,可以访问
+            if (roles.Intersect(dataRoles).Count() > 0) return true;
+            return false;
         }
     }
 }
