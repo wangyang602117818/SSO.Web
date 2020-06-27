@@ -17,9 +17,6 @@ namespace SSO.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            var assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "bin\\SSO.Util.Client.dll");
-            var stream = assembly.GetManifestResourceStream("SSO.Util.Client.log4net.config");
-            log4net.Config.XmlConfigurator.Configure(stream);
         }
         protected void Application_BeginRequest()
         {
