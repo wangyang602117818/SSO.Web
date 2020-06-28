@@ -53,7 +53,7 @@
             @click="actionClick"
           ></f7-chip>
         </f7-block>
-        <f7-block-title>{{$t('common.time')}}</f7-block-title>
+        <f7-block-title>{{$t('common.create_time')}}</f7-block-title>
         <f7-block strong>
           <f7-chip
             :color="day==30?'blue':''"
@@ -80,11 +80,34 @@
             @click="timeClick"
           ></f7-chip>
         </f7-block>
+        <f7-block-title>{{$t('common.order')}}</f7-block-title>
+        <f7-block strong>
+          <f7-chip
+            :color="orderBy=='CreateTime'?'blue':''"
+            :text="$t('common.create_time')+getOrderSymbol('CreateTime')"
+            data-orderby="CreateTime"
+            @click="orderChange"
+          ></f7-chip>
+          <f7-chip
+            :color="orderBy=='Time'?'blue':''"
+            :text="$t('common.response_time')+getOrderSymbol('Time')"
+            data-orderby="Time"
+            @click="orderChange"
+          ></f7-chip>
+        </f7-block>
+        <f7-block-title>{{$t('common.exception')}}</f7-block-title>
+        <f7-block strong>
+          <f7-chip
+            :color="exception?'red':''"
+            :text="$t('common.exception')"
+            @click="exceptionChange"
+          ></f7-chip>
+        </f7-block>
       </f7-page-content>
     </f7-sheet>
     <f7-searchbar
       disable-button-text
-      :placeholder="$t('common.search')"
+      :placeholder="$t('manage.user_name')"
       :clear-button="true"
       @change="onSearch"
     ></f7-searchbar>
@@ -118,7 +141,10 @@ export default {
       controllers: [],
       actioncheck: "",
       actions: [],
-      day: 30
+      day: 30,
+      orderBy: "CreateTime",
+      orderType: "desc",
+      exception: null
     };
   },
   created() {
@@ -130,10 +156,21 @@ export default {
       this.controllercheck = "";
       this.actioncheck = "";
       this.day = 30;
+      this.orderBy = "CreateTime";
+      this.orderType = "desc";
+      this.exception = null;
       this.onSearch();
     },
     getQuerystring() {
-      var url = "?pageIndex=" + this.pageIndex + "&pageSize=" + this.pageSize;
+      var url =
+        "?pageIndex=" +
+        this.pageIndex +
+        "&pageSize=" +
+        this.pageSize +
+        "&sorts[0].key=" +
+        this.orderBy +
+        "&sorts[0].value=" +
+        this.orderType;
       if (this.fromcheck) url += "&from=" + this.fromcheck;
       if (this.controllercheck)
         url += "&controllerName=" + this.controllercheck;
@@ -143,6 +180,7 @@ export default {
         url +=
           "&startTime=" +
           this.$funtools.dateAddDays(new Date(), -this.day, "yyyy-MM-dd");
+      if (this.exception) url += "&exception=" + this.exception;
       return url;
     },
     getFroms() {
@@ -201,6 +239,30 @@ export default {
     timeClick($event) {
       var day = $event.currentTarget.dataset.day;
       this.day = day;
+    },
+    getOrderSymbol: function(orderBy) {
+      if (orderBy == this.orderBy) {
+        if (this.orderType == "asc") return "↑";
+        if (this.orderType == "desc") return "↓";
+      }
+      return "";
+    },
+    orderChange($event) {
+      var orderby = $event.currentTarget.dataset.orderby;
+      if (this.orderBy == orderby) {
+        this.orderBy = orderby;
+        this.orderType = this.orderType == "desc" ? "asc" : "desc";
+      } else {
+        this.orderBy = orderby;
+        this.orderType = "desc";
+      }
+    },
+    exceptionChange() {
+      if (this.exception == null) {
+        this.exception = true;
+      } else {
+        this.exception = null;
+      }
     }
   }
 };

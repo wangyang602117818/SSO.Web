@@ -46,6 +46,7 @@
         "content": "内容",
         "ok": "确定",
         "time": "时间",
+        "response_time":"响应时间",
         "month": "月",
         "year": "年",
         "sex": "性别",

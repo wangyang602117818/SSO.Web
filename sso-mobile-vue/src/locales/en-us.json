@@ -46,6 +46,7 @@
         "content": "Content",
         "ok": "Ok",
         "time": "Time",
+        "response_time":"ResponseTime",
         "month": "Month",
         "year": "Year",
         "sex": "Sex",
