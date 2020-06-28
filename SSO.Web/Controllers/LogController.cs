@@ -11,18 +11,14 @@ namespace SSO.Web.Controllers
     [NoneLogRecord]
     public class LogController : BaseController
     {
-        public ActionResult GetList(string from = "", string controllerName = "", string actionName = "", DateTime? startTime = null, DateTime? endTime = null, string userId = "", string userName = null, int pageIndex = 1, int pageSize = 10)
+        public ActionResult GetList(string from = "", string controllerName = "", string actionName = "", DateTime? startTime = null, DateTime? endTime = null, string userId = "", string userName = null, Dictionary<string, string> sorts = null, bool? exception = null, int pageIndex = 1, int pageSize = 10)
         {
-            Dictionary<string, string> sorts = new Dictionary<string, string>();
-            sorts.Add("CreateTime", "desc");
-            var result = logService.GetListJson(from, controllerName, actionName, startTime, endTime, userId, userName, sorts, pageIndex, pageSize);
+            var result = logService.GetListJson(from, controllerName, actionName, startTime, endTime, userId, userName, sorts, exception, pageIndex, pageSize);
             return Content(result, "application/json");
         }
-        public ActionResult GetListSimple(string from = "", string controllerName = "", string actionName = "", DateTime? startTime = null, DateTime? endTime = null, string userId = "", string userName = null, int pageIndex = 1, int pageSize = 10)
+        public ActionResult GetListSimple(string from = "", string controllerName = "", string actionName = "", DateTime? startTime = null, DateTime? endTime = null, string userId = "", string userName = null, Dictionary<string, string> sorts = null, bool? exception = null, int pageIndex = 1, int pageSize = 10)
         {
-            Dictionary<string, string> sorts = new Dictionary<string, string>();
-            sorts.Add("CreateTime", "desc");
-            var result = logService.GetListSimpleJson(from, controllerName, actionName, startTime, endTime, userId, userName, sorts, pageIndex, pageSize);
+            var result = logService.GetListSimpleJson(from, controllerName, actionName, startTime, endTime, userId, userName, sorts, exception, pageIndex, pageSize);
             return Content(result, "application/json");
         }
         public ActionResult Detail(string id)

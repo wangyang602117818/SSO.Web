@@ -68,6 +68,7 @@ export default {
     modify: "Modify",
     modified: "Modified",
     time:"Time",
+    response_time:"ResponseTime",
     create_time: "CreateTime",
     modify_time: "ModifyTime",
     update_time: "UpdateTime",

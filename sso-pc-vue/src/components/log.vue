@@ -1,21 +1,45 @@
 <template>
   <div>
-    <a-select :default-value="from" v-model="from" style="width: 150px" @change="fromChange">
-      <a-select-option value>{{this.$lang.all}}</a-select-option>
+    <a-select :default-value="from" v-model="from" style="width: 130px" @change="fromChange">
+      <a-select-option value>{{this.$lang.source}}</a-select-option>
       <a-select-option v-for="item in fromlist" :value="item.from" :key="item.from">{{item.from}}</a-select-option>
     </a-select>&nbsp;
-    <a-input
-      placeholder="controller"
-      style="width: 120px"
-      v-on:keyup.enter="onSearch"
+    <a-select
+      :default-value="from"
       v-model="controllerName"
-    />&nbsp;
-    <a-input
-      placeholder="action"
       style="width: 120px"
-      v-on:keyup.enter="onSearch"
+      @change="controllerChange"
+    >
+      <a-select-option value>controller</a-select-option>
+      <a-select-option
+        v-for="item in controllers"
+        :value="item.controller"
+        :key="item.controller"
+      >{{item.controller}}</a-select-option>
+    </a-select>&nbsp;
+    <a-select
+      :default-value="from"
       v-model="actionName"
-    />&nbsp;
+      style="width: 120px"
+      @change="actionChange"
+    >
+      <a-select-option value>action</a-select-option>
+      <a-select-option
+        v-for="item in actions"
+        :value="item.action"
+        :key="item.action"
+      >{{item.action}}</a-select-option>
+    </a-select>&nbsp;
+    <a-select v-model="orderBy" style="width: 100px">
+      <a-select-option
+        value="Time"
+        @click="orderChange"
+      >{{this.$lang.response_time+this.getOrderSymbol('Time')}}</a-select-option>
+      <a-select-option
+        value="CreateTime"
+        @click="orderChange"
+      >{{this.$lang.create_time+this.getOrderSymbol('CreateTime')}}</a-select-option>
+    </a-select>&nbsp;
     <a-input
       :placeholder="this.$lang.us"
       style="width: 100px"
@@ -36,8 +60,9 @@
       :placeholder="this.$lang.end_time"
       style="width: 120px"
     />&nbsp;
-    <a-button @click="handleReset">Clear</a-button>
-    <a-button type="default" icon="redo" @click="reload"></a-button>
+    <a-button @click="handleReset">Clear</a-button>&nbsp;
+    <a-button v-bind:type="exception?'danger':''" @click="showError">Error</a-button>&nbsp;
+    <a-button icon="redo" @click="reload"></a-button>
     <a-table
       :columns="columns"
       :rowKey="record => record._id"
@@ -81,15 +106,15 @@ export default {
           ellipsis: true
         },
         {
-          title: this.$lang.time,
+          title: this.$lang.response_time,
           dataIndex: "Time",
-          width: "5%",
+          width: "8%",
           ellipsis: true
         },
         {
           title: this.$lang.query,
           dataIndex: "QueryString",
-          width: "15%",
+          width: "12%",
           ellipsis: true
         },
         {
@@ -130,11 +155,16 @@ export default {
       ],
       fromlist: [],
       from: "",
+      controllers: [],
       controllerName: "",
+      actions: [],
       actionName: "",
+      orderBy: "CreateTime",
+      orderType: "desc",
       startTime: null,
       endTime: null,
       userName: "",
+      exception: null,
       getlist: this.$urls.log.getlist
     };
   },
@@ -142,7 +172,15 @@ export default {
     this.getFromList();
   },
   methods: {
+    getOrderSymbol: function(orderBy) {
+      if (orderBy == this.orderBy) {
+        if (this.orderType == "asc") return "↑";
+        if (this.orderType == "desc") return "↓";
+      }
+      return "";
+    },
     handleReset() {
+      this.pagination.current = 1;
       this.from = "";
       this.controllerName = "";
       this.actionName = "";
@@ -153,6 +191,30 @@ export default {
     },
     fromChange(item) {
       this.from = item;
+      this.controllerName = "";
+      this.actionName = "";
+      this.getData();
+      this.getControllers();
+    },
+    controllerChange(item) {
+      this.controllerName = item;
+      this.actionName = "";
+      this.getData();
+      this.getActions();
+    },
+    actionChange(item) {
+      this.actionName = item;
+      this.getData();
+    },
+    orderChange(item) {
+      var key = item.key;
+      if (this.orderBy == key) {
+        this.orderBy = key;
+        this.orderType = this.orderType == "desc" ? "asc" : "desc";
+      } else {
+        this.orderBy = key;
+        this.orderType = "desc";
+      }
       this.getData();
     },
     onStartChange(date, dateString) {
@@ -163,18 +225,56 @@ export default {
       this.endTime = dateString;
       this.getData();
     },
+    showError() {
+      if (this.exception == null) {
+        this.exception = true;
+      } else {
+        this.exception = null;
+      }
+      this.pagination.current = 1;
+      this.getData();
+    },
+    getControllers() {
+      this.$axios
+        .get(this.$urls.log.getControllersByFrom + "?from=" + this.from)
+        .then(response => {
+          if (response.code == 0) {
+            this.controllers = response.result;
+          }
+        });
+    },
+    getActions() {
+      this.$axios
+        .get(
+          this.$urls.log.getActionsByController +
+            "?from=" +
+            this.from +
+            "&controllerName=" +
+            this.controllerName
+        )
+        .then(response => {
+          if (response.code == 0) {
+            this.actions = response.result;
+          }
+        });
+    },
     getQuerystring() {
       var url =
         "?pageIndex=" +
         this.pagination.current +
         "&pageSize=" +
-        this.pagination.pageSize;
+        this.pagination.pageSize +
+        "&sorts[0].key=" +
+        this.orderBy +
+        "&sorts[0].value=" +
+        this.orderType;
       if (this.from) url += "&from=" + this.from;
       if (this.controllerName) url += "&controllerName=" + this.controllerName;
       if (this.actionName) url += "&actionName=" + this.actionName;
       if (this.userName) url += "&userName=" + this.userName;
       if (this.startTime) url += "&startTime=" + this.startTime;
       if (this.endTime) url += "&endTime=" + this.endTime;
+      if (this.exception) url += "&exception=" + this.exception;
       return url;
     },
     getFromList() {
@@ -194,5 +294,7 @@ export default {
 .ant-input {
   margin: 10px 0px;
 }
-
+.ant-btn-danger {
+  margin-left: 0 !important;
+}
 </style>

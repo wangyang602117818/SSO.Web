@@ -96,6 +96,7 @@
         :key="item._id"
         :after="item.UserName"
         :link="'/logdetail/'+item._id"
+        :style="item.Exception?'color:red':''"
       ></f7-list-item>
     </f7-list>
     <f7-block class="text-align-center" v-if="datas.length===0&&isEnd">{{$t('common.no_data')}}</f7-block>

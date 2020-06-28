@@ -55,7 +55,8 @@
         "email": "Email",
         "idCard": "IdCard",
         "role": "Role",
-        "clear":"Clear"
+        "clear":"Clear",
+        "exception":"Exception"
     },
     "me": {
         "pic_setting": "PicSetting",

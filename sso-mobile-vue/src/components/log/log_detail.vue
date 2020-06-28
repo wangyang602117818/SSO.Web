@@ -42,6 +42,15 @@
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
             <div class="item-input-wrap">
+              <input type="text" :value="log.Time" />
+              <span class="input-clear-button"></span>
+              <div class="item-input-info">{{$t('common.time')}}(ms)</div>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input item-input-with-info">
+          <div class="item-inner">
+            <div class="item-input-wrap">
               <input type="text" :value="log.QueryString" />
               <span class="input-clear-button"></span>
               <div class="item-input-info">{{$t('common.query')}}</div>
@@ -99,6 +108,15 @@
               <input type="text" :value="log.CreateTime" />
               <span class="input-clear-button"></span>
               <div class="item-input-info">{{$t('common.create_time')}}</div>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input item-input-with-info">
+          <div class="item-inner">
+            <div class="item-input-wrap">
+              <input type="text" :value="log.Exception" />
+              <span class="input-clear-button"></span>
+              <div class="item-input-info">{{$t('common.exception')}}</div>
             </div>
           </div>
         </li>

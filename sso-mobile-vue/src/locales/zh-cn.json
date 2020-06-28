@@ -55,7 +55,8 @@
         "email": "邮箱",
         "idCard": "身份证号",
         "role": "角色",
-        "clear":"清空"
+        "clear":"清空",
+        "exception":"异常"
     },
     "me": {
         "pic_setting": "头像设置",
