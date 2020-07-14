@@ -126,12 +126,12 @@ export default {
         {
           title: this.$lang.us,
           dataIndex: "UserName",
-          width: "10%"
+          width: "11%"
         },
         {
-          title: this.$lang.ip,
-          dataIndex: "UserHost",
-          width: "9%",
+          title: this.$lang.count+"/"+this.$lang.minute,
+          dataIndex: "CountPerMinute",
+          width: "8%",
           ellipsis: true
         },
         {

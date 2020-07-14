@@ -25,10 +25,12 @@ namespace SSO.Web.Controllers
         {
             return View();
         }
-        public ActionResult GetToken(string ticket, string ip)
+        public ActionResult GetToken(string from, string ticket, string ip)
         {
             string token = "";
             string userId = jwtManager.DecodeTicket(ticket);
+            Dictionary<string, string> extra = new Dictionary<string, string>();
+            extra.Add("from", from);
             if (!userId.IsNullOrEmpty())
             {
                 UserBasic userBasic = user.GetUser(userId);
@@ -36,14 +38,14 @@ namespace SSO.Web.Controllers
                 {
                     if (userId == admin[0])
                     {
-                        token = jwtManager.GenerateToken(userId, userId, lang, ip ?? Request.UserHostAddress, 20);
+                        token = jwtManager.GenerateToken(userId, userId, lang, ip ?? Request.UserHostAddress, 20, extra);
                     }
                 }
                 else
                 {
                     Settings setting = settings.GetSetting(userId);
                     if (setting != null) lang = setting.Lang;
-                    token = jwtManager.GenerateToken(userId, userBasic.UserName, lang, ip ?? Request.UserHostAddress, 20);
+                    token = jwtManager.GenerateToken(userId, userBasic.UserName, lang, ip ?? Request.UserHostAddress, 20, extra);
                 }
             }
             return new ResponseModel<string>(ErrorCode.success, token);
@@ -104,7 +106,9 @@ namespace SSO.Web.Controllers
             user.UpdateLoginTime(userBasic.Id);
             Settings setting = settings.GetSetting(User.Identity.Name);
             if (setting != null) lang = setting.Lang;
-            string token = jwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, lang, Request.UserHostAddress, 24 * 60);
+            Dictionary<string, string> extra = new Dictionary<string, string>();
+            extra.Add("from", issuer);
+            string token = jwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, lang, Request.UserHostAddress, 24 * 60, extra);
             HttpCookie httpCookie = new HttpCookie(ssoCookieKey, token);
             if (ssoCookieTime != "session")
             {

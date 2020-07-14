@@ -143,5 +143,7 @@ export default {
     path:"路径",
     all:"全部",
     start_time:"开始时间",
-    end_time:"结束时间"
+    end_time:"结束时间",
+    count:"次数",
+    minute:"分"
 }

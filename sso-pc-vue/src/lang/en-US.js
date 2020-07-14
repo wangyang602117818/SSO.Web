@@ -142,6 +142,8 @@ export default {
     query:"Query",
     path:"Path",
     all:"All",
-    start_time:"start time",
-    end_time:"end time"
+    start_time:"Start time",
+    end_time:"End time",
+    count:"Count",
+    minute:"Minute"
 }
