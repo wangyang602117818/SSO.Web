@@ -57,7 +57,9 @@
         "idCard": "身份证号",
         "role": "角色",
         "clear":"清空",
-        "exception":"异常"
+        "exception":"异常",
+        "count":"次数",
+        "minute":"分"
     },
     "me": {
         "pic_setting": "头像设置",

@@ -57,7 +57,9 @@
         "idCard": "IdCard",
         "role": "Role",
         "clear":"Clear",
-        "exception":"Exception"
+        "exception":"Exception",
+        "count":"Count",
+        "minute":"Minute"
     },
     "me": {
         "pic_setting": "PicSetting",

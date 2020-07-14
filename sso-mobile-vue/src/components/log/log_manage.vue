@@ -115,7 +115,7 @@
       <f7-list-item
         v-for="item in datas"
         :title="item.Controller+'/'+item.Action"
-        :subtitle="item.CreateTime+' | '+item.Time+'ms'"
+        :subtitle="item.CreateTime+' | '+item.Time+'ms'+' | '+item.CountPerMinute"
         :key="item._id"
         :after="item.UserName"
         :link="'/logdetail/'+item._id"

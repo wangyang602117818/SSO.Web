@@ -5,118 +5,113 @@
       <ul>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">{{$t('common.from')}} :</div>
             <div class="item-input-wrap">
-              <input type="text" :value="log.From" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">{{$t('common.from')}}</div>
+              <input type="text" :value="log.From"/>
             </div>
           </div>
         </li>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">Controller :</div>
             <div class="item-input-wrap">
               <input type="text" :value="log.Controller" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">Controller</div>
             </div>
           </div>
         </li>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">Action :</div>
             <div class="item-input-wrap">
               <input type="text" :value="log.Action" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">Action</div>
             </div>
           </div>
         </li>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">Route :</div>
             <div class="item-input-wrap">
               <input type="text" :value="log.Route||''" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">Route</div>
             </div>
           </div>
         </li>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">{{$t('common.time')}}(ms) :</div>
             <div class="item-input-wrap">
               <input type="text" :value="log.Time" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">{{$t('common.time')}}(ms)</div>
             </div>
           </div>
         </li>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">{{$t('common.query')}} :</div>
             <div class="item-input-wrap">
               <input type="text" :value="log.QueryString" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">{{$t('common.query')}}</div>
             </div>
           </div>
         </li>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">{{$t('common.content')}} :</div>
             <div class="item-input-wrap">
               <input type="text" :value="log.Content" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">{{$t('common.content')}}</div>
             </div>
           </div>
         </li>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">{{$t('manage.user_id')}} :</div>
             <div class="item-input-wrap">
               <input type="text" :value="log.UserId" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">{{$t('manage.user_id')}}</div>
             </div>
           </div>
         </li>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">{{$t('manage.user_name')}} :</div>
             <div class="item-input-wrap">
               <input type="text" :value="log.UserName" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">{{$t('manage.user_name')}}</div>
             </div>
           </div>
         </li>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">{{$t('manage.user_agent')}} :</div>
             <div class="item-input-wrap">
               <input type="text" :value="$funtools.getDeviceType(log.UserAgent)" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">{{$t('manage.user_agent')}}</div>
             </div>
           </div>
         </li>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">Ip</div>
             <div class="item-input-wrap">
               <input type="text" :value="log.UserHost" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">Ip</div>
             </div>
           </div>
         </li>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">{{$t('common.create_time')}} :</div>
             <div class="item-input-wrap">
               <input type="text" :value="log.CreateTime" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">{{$t('common.create_time')}}</div>
             </div>
           </div>
         </li>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">{{$t('common.count')+'/'+$t('common.minute')}} :</div>
+            <div class="item-input-wrap">
+              <input type="text" :value="log.CountPerMinute" />
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input item-input-with-info">
+          <div class="item-inner">
+            <div class="item-title item-label">{{$t('common.exception')}} :</div>
             <div class="item-input-wrap">
               <input type="text" :value="log.Exception" />
-              <span class="input-clear-button"></span>
-              <div class="item-input-info">{{$t('common.exception')}}</div>
             </div>
           </div>
         </li>
