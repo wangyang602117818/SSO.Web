@@ -21,6 +21,8 @@ namespace SSO.Web.Controllers
     {
         Business.UserBasic user = new Business.UserBasic();
         Business.Settings settings = new Business.Settings();
+        Business.Company company = new Business.Company();
+        Business.Department department = new Business.Department();
         public ActionResult Index()
         {
             return View();
@@ -160,6 +162,19 @@ namespace SSO.Web.Controllers
                 Lang = lang
             };
             return new ResponseModel<object>(ErrorCode.success, user);
+        }
+        [OutputCache(Duration = 60 * 25)]
+        [NoneLogRecord]
+        public ActionResult GetAllCompany()
+        {
+            var result = company.GetAll("");
+            return new ResponseModel<IEnumerable<Company>>(ErrorCode.success, result, result.Count());
+        }
+        [NoneLogRecord]
+        [OutputCache(Duration = 60 * 25, VaryByParam = "id")]
+        public ActionResult GetAllDepartment(string id)
+        {
+            return new ResponseModel<List<DepartmentData>>(ErrorCode.success, department.GetDepartment(id));
         }
     }
 }

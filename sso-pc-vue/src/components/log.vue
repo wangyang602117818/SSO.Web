@@ -90,7 +90,7 @@ export default {
         {
           title: this.$lang.source,
           dataIndex: "From",
-          width: "10%",
+          width: "12%",
           ellipsis: true
         },
         {
@@ -126,7 +126,7 @@ export default {
         {
           title: this.$lang.us,
           dataIndex: "UserName",
-          width: "11%"
+          width: "10%"
         },
         {
           title: this.$lang.count+"/"+this.$lang.minute,
@@ -146,7 +146,7 @@ export default {
         {
           title: this.$lang.create_time,
           dataIndex: "CreateTime",
-          width: "13%",
+          width: "12%",
           ellipsis: true,
           customRender: val => {
             return this.$funtools.parseIsoDateTime(val);
