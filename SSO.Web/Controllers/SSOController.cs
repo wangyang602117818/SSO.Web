@@ -23,6 +23,7 @@ namespace SSO.Web.Controllers
         Business.Settings settings = new Business.Settings();
         Business.Company company = new Business.Company();
         Business.Department department = new Business.Department();
+        Business.Role role = new Business.Role();
         public ActionResult Index()
         {
             return View();
@@ -175,6 +176,26 @@ namespace SSO.Web.Controllers
         public ActionResult GetAllDepartment(string id)
         {
             return new ResponseModel<List<DepartmentData>>(ErrorCode.success, department.GetDepartment(id));
+        }
+        [NoneLogRecord]
+        public ActionResult GetUserList(string companyCode = "", string filter = "", int pageIndex = 1, int pageSize = 10)
+        {
+            int count = 0;
+            var result = user.GetBasic2(ref count, companyCode, filter, false, pageIndex, pageSize);
+            return new ResponseModel<IEnumerable<UserBasic>>(ErrorCode.success, result, count);
+        }
+        [NoneLogRecord]
+        public ActionResult GetRoleList(string filter = "", int pageIndex = 1, int pageSize = 10)
+        {
+            int count = 0;
+            var result = role.GetList(ref count, filter, pageIndex, pageSize);
+            return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, count);
+        }
+        [NoneLogRecord]
+        [OutputCache(Duration = 60 * 25, VaryByParam = "id")]
+        public ActionResult GetUser(string id)
+        {
+            return new ResponseModel<UserBasicData>(ErrorCode.success, user.GetUserUpdate(id));
         }
     }
 }

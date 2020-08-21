@@ -4,6 +4,7 @@ using SSO.Util.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 
 namespace SSO.Business
 {
@@ -208,9 +209,17 @@ namespace SSO.Business
         public List<Data.Models.UserBasic> GetBasic(ref int count, string keyword = "", bool delete = false, int pageIndex = 1, int pageSize = 15)
         {
             var query = from userBasic in userCenterContext.UserBasics where userBasic.Delete == delete select userBasic;
-            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.UserName.ToLower().Contains(keyword.ToLower()) || w.UserId.ToLower().Contains(keyword.ToLower()));
+            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.UserName.ToLower().Contains(keyword.ToLower()));
             count = query.Count();
             return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+        }
+        public List<Data.Models.UserBasic> GetBasic2(ref int count, string companyCode = "", string keyword = "", bool delete = false, int pageIndex = 1, int pageSize = 15)
+        {
+            var query = from userBasic in userCenterContext.UserBasics where userBasic.Delete == delete select userBasic;
+            if (!string.IsNullOrEmpty(companyCode)) query = query.Where(w => w.CompanyCode.Contains(companyCode));
+            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.UserName.ToLower().Contains(keyword.ToLower()));
+            count = query.Count();
+            return query.OrderBy(o => o.UserName).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }
         public Data.Models.UserBasic Login(string userId, string password)
         {
