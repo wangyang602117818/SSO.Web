@@ -73,9 +73,7 @@ Vue.prototype.showInfo = function (info) {
     closeTimeout: 1500
   });
 }
-
 Vue.config.productionTip = false;
-
 var vue = new Vue({
   i18n,
   store,

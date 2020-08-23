@@ -55,6 +55,18 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Login(string returnUrl)
         {
+            foreach(string key in Request.QueryString.Keys)
+            {
+                if (key == "returnUrl") continue;
+                if (returnUrl.Contains("?"))
+                {
+                    returnUrl += "&"+ key + "=" + Request.QueryString[key];
+                }
+                else
+                {
+                    returnUrl += "?"+ key + "=" + Request.QueryString[key].ToString();
+                }
+            }
             if (!returnUrl.IsNullOrEmpty())
                 returnUrl = HttpUtility.UrlDecode(returnUrl);
             var authorization = Request.Cookies[ssoCookieKey];
