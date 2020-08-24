@@ -55,20 +55,22 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Login(string returnUrl)
         {
-            foreach(string key in Request.QueryString.Keys)
-            {
-                if (key == "returnUrl") continue;
-                if (returnUrl.Contains("?"))
-                {
-                    returnUrl += "&"+ key + "=" + Request.QueryString[key];
-                }
-                else
-                {
-                    returnUrl += "?"+ key + "=" + Request.QueryString[key].ToString();
-                }
-            }
             if (!returnUrl.IsNullOrEmpty())
+            {
+                foreach (string key in Request.QueryString.Keys)
+                {
+                    if (key == "returnUrl") continue;
+                    if (returnUrl.Contains("?"))
+                    {
+                        returnUrl += "&" + key + "=" + Request.QueryString[key];
+                    }
+                    else
+                    {
+                        returnUrl += "?" + key + "=" + Request.QueryString[key].ToString();
+                    }
+                }
                 returnUrl = HttpUtility.UrlDecode(returnUrl);
+            }
             var authorization = Request.Cookies[ssoCookieKey];
             if (authorization != null)  //sso login
             {
@@ -99,7 +101,21 @@ namespace SSO.Web.Controllers
         public ActionResult Login(LoginModel loginModel, string returnUrl)
         {
             if (!returnUrl.IsNullOrEmpty())
+            {
+                foreach (string key in Request.QueryString.Keys)
+                {
+                    if (key == "returnUrl") continue;
+                    if (returnUrl.Contains("?"))
+                    {
+                        returnUrl += "&" + key + "=" + Request.QueryString[key];
+                    }
+                    else
+                    {
+                        returnUrl += "?" + key + "=" + Request.QueryString[key].ToString();
+                    }
+                }
                 returnUrl = HttpUtility.UrlDecode(returnUrl);
+            }
             UserBasic userBasic = null;
             if (loginModel.UserId == admin[0] && loginModel.PassWord == admin[1])
             {
