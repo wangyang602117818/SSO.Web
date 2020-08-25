@@ -25,7 +25,14 @@
           <option value="zh-cn" v-bind:selected="lang=='zh-cn'">中</option>
         </select>
       </div>
-      <div class="setting_line">
+      <div class="setting_line" @click="clickFile">
+        <input
+          type="file"
+          ref="fileinput"
+          accept="image/*"
+          style="width:0px;height:0px"
+          @change="uploadFile"
+        />
         <div class="setting_line_name">{{ $t('me.pic_setting') }}</div>
         <div class="setting_line_right">
           <div class="setting_line_data"></div>
@@ -63,7 +70,7 @@ export default {
   name: "me",
   data() {
     return {
-      lang: window.token_jwt_data.Lang
+      lang: window.token_jwt_data.Lang,
     };
   },
   created() {
@@ -77,11 +84,37 @@ export default {
         "?returnUrl=" +
         window.location.href;
     },
+    uploadFile(e) {
+      var files = e.target.files;
+      if (files && files.length > 0) {
+        const param = new FormData();
+        param.append("files", files[0]);
+        // this.$axios
+        //   .post(this.$urls.resources.uploadFile, param, {
+        //     onUploadProgress: function (progressEvent) {
+        //       var precent =
+        //         ((progressEvent.loaded / progressEvent.total) * 100).toFixed() +
+        //         "%";
+        //       that.buttonValue = precent;
+        //     },
+        //   })
+        //   .then((response) => {
+        //     this.access = [];
+        //     this.buttonDisabled = false;
+        //     this.buttonValue = this.$t("upload");
+        //     this.$refs.files.value = "";
+        //     this.$emit("uploadOk");
+        //   });
+      }
+    },
+    clickFile(e) {
+      this.$refs.fileinput.click();
+    },
     changeLang($event) {
       var lang = $event.target.value;
       this.$axios
         .get(this.$urls.settings.setLang + "?lang=" + lang)
-        .then(response => {
+        .then((response) => {
           if (response.code == 0) {
             this.$funtools.setCookie(this.$cookieName, response.result);
             this.$funtools.parseTokenSetMessage(response.result);
@@ -89,8 +122,8 @@ export default {
             this.$i18n.locale = lang;
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
