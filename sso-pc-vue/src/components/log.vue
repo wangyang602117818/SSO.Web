@@ -1,13 +1,13 @@
 <template>
   <div>
-    <a-select :default-value="from" v-model="from" style="width: 130px" @change="fromChange">
+    <a-select :default-value="from" v-model="from" style="width: 200px" @change="fromChange">
       <a-select-option value>{{this.$lang.source}}</a-select-option>
       <a-select-option v-for="item in fromlist" :value="item.from" :key="item.from">{{item.from}}</a-select-option>
     </a-select>&nbsp;
     <a-select
       :default-value="from"
       v-model="controllerName"
-      style="width: 120px"
+      style="width: 150px"
       @change="controllerChange"
     >
       <a-select-option value>controller</a-select-option>
@@ -20,7 +20,7 @@
     <a-select
       :default-value="from"
       v-model="actionName"
-      style="width: 120px"
+      style="width: 150px"
       @change="actionChange"
     >
       <a-select-option value>action</a-select-option>
