@@ -29,6 +29,10 @@ namespace SSO.Data.Models
         public string Sex { get; set; }
         public bool IsModified { get; set; }
         public bool Delete { get; set; }
+        [StringLength(24)]
+        public string FileId { get; set; }
+        [StringLength(512)]
+        public string FileName { get; set; }
         public DateTime? DeleteTime { get; set; }
         public DateTime? LastLoginTime { get; set; }
         /// <summary>

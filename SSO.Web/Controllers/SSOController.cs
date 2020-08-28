@@ -33,7 +33,7 @@ namespace SSO.Web.Controllers
             string token = "";
             string userId = jwtManager.DecodeTicket(ticket);
             Dictionary<string, string> extra = new Dictionary<string, string>();
-            extra.Add("from", from);
+            extra.Add("from", from.ReplaceHttpPrefix().ToLower());
             if (!userId.IsNullOrEmpty())
             {
                 UserBasic userBasic = user.GetUser(userId);
@@ -138,7 +138,7 @@ namespace SSO.Web.Controllers
             Settings setting = settings.GetSetting(User.Identity.Name);
             if (setting != null) lang = setting.Lang;
             Dictionary<string, string> extra = new Dictionary<string, string>();
-            extra.Add("from", issuer);
+            extra.Add("from", issuer.ReplaceHttpPrefix().ToLower());
             string token = jwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, lang, Request.UserHostAddress, 24 * 60, extra);
             HttpCookie httpCookie = new HttpCookie(ssoCookieKey, token);
             if (ssoCookieTime != "session")

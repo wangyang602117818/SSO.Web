@@ -1,7 +1,7 @@
 import ax from 'axios';
 import funtools from 'sso-util';
 
-export const baseURL = "http://www.sso.com:8030/";
+export const baseURL = "http://www.ssoapi.com:8030/";
 export const cookieName = "sso.mobile.auth";
 export const urls = {
     role: {
@@ -42,12 +42,12 @@ export const urls = {
     },
     log: {
         getlist: 'log/getlist',
-        getlistsimple:'log/getlistsimple',
-        detail:'log/detail',
-        getfromlist:'log/getfromlist',
-        getControllersByFrom:'log/getcontrollersbyfrom',
-        getActionsByController:'log/getactionsbycontroller',
-        getOperations:'log/getoperations'
+        getlistsimple: 'log/getlistsimple',
+        detail: 'log/detail',
+        getfromlist: 'log/getfromlist',
+        getControllersByFrom: 'log/getcontrollersbyfrom',
+        getActionsByController: 'log/getactionsbycontroller',
+        getOperations: 'log/getoperations'
     },
     overview: {
         total: 'overview/total',
@@ -67,6 +67,11 @@ export const urls = {
     },
     settings: {
         setLang: 'settings/setlang'
+    },
+    file: {
+        upload: "file/upload",
+        downloadPic:"file/downloadpic",
+        fileState:"file/fileState"
     },
     decodeToken: 'sso/decodetoken',
     login: 'sso/login',
@@ -102,7 +107,7 @@ ax.interceptors.response.use(
         return response.data;
     },
     error => {
-        if(error.message.includes('timeout')){
+        if (error.message.includes('timeout')) {
             window.vue.showInfo("请求超时!");
             return;
         }

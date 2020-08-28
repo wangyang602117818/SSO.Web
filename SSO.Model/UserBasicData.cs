@@ -19,6 +19,8 @@ namespace SSO.Model
         public string Sex { get; set; }
         public bool IsModified { get; set; }
         public bool Delete { get; set; }
+        public string FileId { get; set; }
+        public string FileName { get; set; }
         public List<string> DepartmentCode { get; set; }
         public List<string> DepartmentName { get; set; }
         public List<string> Role { get; set; }

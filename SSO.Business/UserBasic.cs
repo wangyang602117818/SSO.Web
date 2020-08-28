@@ -155,6 +155,8 @@ namespace SSO.Business
                 Sex = userBasic.Sex,
                 IsModified = userBasic.IsModified,
                 Delete = userBasic.Delete,
+                FileId = userBasic.FileId,
+                FileName = userBasic.FileName,
                 DepartmentCode = departments.ToList(),
                 DepartmentName = userBasic.DepartmentName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList(),
                 Role = roles.ToList(),
@@ -242,6 +244,15 @@ namespace SSO.Business
             if (userBasic.PassWord != olpassword.GetSha256()) return -1;
             if (userBasic == null) return 0;
             userBasic.PassWord = password.GetSha256();
+            return userCenterContext.SaveChanges();
+        }
+        public int UpdateFileId(string userId, string fileId, string fileName)
+        {
+            Data.Models.UserBasic userBasic = GetUser(userId);
+            if (userBasic == null) return 0;
+            userBasic.FileId = fileId;
+            userBasic.FileName = fileName;
+            userBasic.UpdateTime = DateTime.Now;
             return userCenterContext.SaveChanges();
         }
         public int ResetPassword(IEnumerable<string> userIds)

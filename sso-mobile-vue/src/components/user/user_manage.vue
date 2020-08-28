@@ -28,7 +28,12 @@
         :key="item.Id"
         swipeout
       >
-        <f7-skeleton-block style="width: 40px; height: 40px;border-radius: 50%" slot="media"></f7-skeleton-block>
+        <f7-skeleton-block style="width: 40px; height: 40px;border-radius: 50%" slot="media">
+          <img
+            :src="$axios.defaults.baseURL+$urls.file.downloadPic+'/'+item.FileId+'/'+item.FileName"
+            v-if="item.FileId"
+          />
+        </f7-skeleton-block>
         <f7-swipeout-actions right>
           <f7-swipeout-button color="red" @click="removeUser(item.Id,item.UserId)">Delete</f7-swipeout-button>
         </f7-swipeout-actions>
@@ -46,7 +51,7 @@ export default {
   mixins: [ListBase],
   data() {
     return {
-      getlist: this.$urls.user.getbasic
+      getlist: this.$urls.user.getbasic,
     };
   },
   methods: {
@@ -65,18 +70,23 @@ export default {
       this.$f7.dialog.confirm(
         this.$t("confirm.sure_delete"),
         this.$t("common.tips"),
-        function() {
+        function () {
           that.$axios
             .post(that.$urls.user.remove, { userIds: [userId] })
-            .then(response => {
+            .then((response) => {
               if (response.code === 0) that.removeItem(id);
             });
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
+img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
 </style>

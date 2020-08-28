@@ -7,24 +7,36 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    public class FileController : Controller
+    public class FileController : BaseController
     {
         public static string fileServiceUrl = AppSettings.GetValue("fileServiceUrl");
+        Business.UserBasic user = new Business.UserBasic();
         public ActionResult Upload(HttpPostedFileBase file)
         {
             FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));
             var result = fileClientService.Upload(file.FileName, file.ContentType, file.InputStream);
+            if (result.code != 0) return new ResponseModel<string>(ErrorCode.server_exception, result.message);
+            if (user.UpdateFileId(User.Identity.Name, result.result.FileId, result.result.FileName) > 0)
 
-            return View();
+            {
+                return new ResponseModel<string>(ErrorCode.success, result.result.FileId);
+            }
+            else
+            {
+                return new ResponseModel<string>(ErrorCode.server_exception, "");
+            }
         }
-        public ActionResult DownloadFile(string id, string filename)
+        public ActionResult DownloadPic(string id, string filename)
         {
-
-            return null;
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));
+            var fileItem = fileClientService.DownloadFileIcon(id, filename);
+            return File(fileItem.FileStream, fileItem.ContentType);
         }
-        public ActionResult DownloadFileIcon(string id, string filename)
+        public ActionResult FileState(string id)
         {
-            return null;
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));
+            var fileItem = fileClientService.FileState(id);
+            return Json(fileItem, JsonRequestBehavior.AllowGet);
         }
     }
 }

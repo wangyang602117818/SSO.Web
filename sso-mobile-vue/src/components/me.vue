@@ -3,7 +3,11 @@
     <div class="me_text">{{ $t('common.me') }}</div>
     <div class="me_title" @click="$f7router.navigate('/personal')">
       <div class="ico">
-        <f7-icon f7="person" color="blue" size="35"></f7-icon>
+        <img
+          :src="$axios.defaults.baseURL+$urls.file.downloadPic+'/'+$store.state.currentUser.FileId+'/'+$store.state.currentUser.FileName"
+          v-if="$store.state.currentUser.FileId"
+        />
+        <f7-icon f7="person" color="blue" size="35" v-else></f7-icon>
       </div>
       <div class="desc">
         <div class="name">{{$store.state.currentUser.UserName}}</div>
@@ -71,6 +75,8 @@ export default {
   data() {
     return {
       lang: window.token_jwt_data.Lang,
+      uploading: false,
+      fileId: null,
     };
   },
   created() {
@@ -88,24 +94,29 @@ export default {
       var files = e.target.files;
       if (files && files.length > 0) {
         const param = new FormData();
-        param.append("files", files[0]);
-        // this.$axios
-        //   .post(this.$urls.resources.uploadFile, param, {
-        //     onUploadProgress: function (progressEvent) {
-        //       var precent =
-        //         ((progressEvent.loaded / progressEvent.total) * 100).toFixed() +
-        //         "%";
-        //       that.buttonValue = precent;
-        //     },
-        //   })
-        //   .then((response) => {
-        //     this.access = [];
-        //     this.buttonDisabled = false;
-        //     this.buttonValue = this.$t("upload");
-        //     this.$refs.files.value = "";
-        //     this.$emit("uploadOk");
-        //   });
+        param.append("file", files[0]);
+        this.uploading = true;
+        this.$axios.post(this.$urls.file.upload, param).then((response) => {
+          if (response.code == 0) {
+            this.getFileState(response.result);
+          }
+          this.$refs.fileinput.value = "";
+          this.uploading = false;
+        });
       }
+    },
+    getFileState(fileId) {
+      var that = this;
+      var interval = window.setInterval(function () {
+        that.$axios
+          .get(that.$urls.file.fileState + "/" + fileId)
+          .then((response) => {
+            if (response.code == 0 && response.result == 100) {
+              that.$store.commit("getUser");
+              window.clearInterval(interval);
+            }
+          });
+      }, 500);
     },
     clickFile(e) {
       this.$refs.fileinput.click();
@@ -157,6 +168,7 @@ export default {
 }
 .me_title .ico {
   width: 45px;
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -196,5 +208,10 @@ export default {
 }
 .me_bottom .button {
   width: 100%;
+}
+img {
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
 }
 </style>
