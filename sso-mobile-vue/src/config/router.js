@@ -19,6 +19,7 @@ import DepartmentAdd from '../components/department/department_add'
 import DepartmentUpdate from '../components/department/department_update'
 import Personal from '../components/me/personal'
 import ChangePassword from '../components/me/change_password'
+import FileManage from "../components/file/file_manage"
 var routes = [
     {
         name: "tab",
@@ -149,7 +150,7 @@ var routes = [
         }
     },
     {
-        name:"coms",
+        name: "coms",
         path: "/coms",
         component: Companys,
         options: {
@@ -157,7 +158,7 @@ var routes = [
         }
     },
     {
-        name:"departmentmanage",
+        name: "departmentmanage",
         path: "/departmentmanage/:id/:name",
         component: DepartmentManage,
         options: {
@@ -165,33 +166,40 @@ var routes = [
         }
     },
     {
-        name:"departmentadd",
-        path:"/departmentadd/:companyCode/:parentCode",
+        name: "departmentadd",
+        path: "/departmentadd/:companyCode/:parentCode",
         component: DepartmentAdd,
         options: {
             transition: 'f7-parallax',
         }
     },
     {
-        name:"departmentupdate",
-        path:"/departmentupdate/:companyCode/:code",
+        name: "departmentupdate",
+        path: "/departmentupdate/:companyCode/:code",
         component: DepartmentUpdate,
         options: {
             transition: 'f7-parallax',
         }
     },
     {
-        name:"personal",
-        path:"/personal",
+        name: "personal",
+        path: "/personal",
         component: Personal,
         options: {
             transition: 'f7-parallax',
         }
     },
     {
-        name:"changepassword",
-        path:"/changepassword",
+        name: "changepassword",
+        path: "/changepassword",
         component: ChangePassword,
+        options: {
+            transition: 'f7-parallax',
+        }
+    }, {
+        name: "filemanage",
+        path: "/filemanage",
+        component: FileManage,
         options: {
             transition: 'f7-parallax',
         }

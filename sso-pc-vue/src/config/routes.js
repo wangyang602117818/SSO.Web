@@ -9,7 +9,7 @@ import Navigation from '@/components/navigation'
 import Log from '@/components/log'
 import Settings from '@/components/settings'
 const routes = new VueRouter({
-    mode: 'history',
+    // mode: 'history',
     routes: [
         {
             path: '/',

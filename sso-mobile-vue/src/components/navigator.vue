@@ -7,8 +7,8 @@
       <div class="sub_title">{{ $t('navigator.navigators') }}</div>
       <f7-row no-gap>
         <f7-col>
-          <div class="nav_wrap" @click="itemClick">
-            <img class="nav_logo"  alt />
+          <div class="nav_wrap" @click="$f7router.navigate('/filemanage')">
+            <img class="nav_logo" src="../assets/file.png"  alt />
             <div class="nav_title"><span>{{ $t('navigator.file_manage') }}</span></div>
           </div>
         </f7-col>
@@ -35,9 +35,6 @@ export default {
     
   },
   methods: {
-    itemClick($event) {
-      window.open($event.currentTarget.dataset.url);
-    }
   }
 };
 </script>

@@ -87,12 +87,12 @@
               <span>{{this.$lang.department}}</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="navigation">
+          <!-- <a-menu-item key="navigation">
             <router-link to="/navigation">
               <a-icon type="compass" />
               <span>{{this.$lang.navigations}}</span>
             </router-link>
-          </a-menu-item>
+          </a-menu-item> -->
           <a-menu-item key="log">
             <router-link to="/log">
               <a-icon type="align-left" />

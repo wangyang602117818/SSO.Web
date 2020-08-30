@@ -134,7 +134,7 @@ export default {
   mixins: [ListBase],
   data() {
     return {
-      getlist: this.$urls.log.getlistsimple,
+      getlist: this.$urls.log.getlist,
       fromcheck: "",
       froms: [],
       controllercheck: "",

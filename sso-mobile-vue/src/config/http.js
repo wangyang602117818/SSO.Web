@@ -42,7 +42,6 @@ export const urls = {
     },
     log: {
         getlist: 'log/getlist',
-        getlistsimple: 'log/getlistsimple',
         detail: 'log/detail',
         getfromlist: 'log/getfromlist',
         getControllersByFrom: 'log/getcontrollersbyfrom',
@@ -69,6 +68,7 @@ export const urls = {
         setLang: 'settings/setlang'
     },
     file: {
+        getlist:"",
         upload: "file/upload",
         downloadPic:"file/downloadpic",
         fileState:"file/fileState"

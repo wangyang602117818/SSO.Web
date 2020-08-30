@@ -109,8 +109,6 @@ namespace SSO.Web.Filters
             if (uri.Query.Length > 0)
                 returnUrl = returnUrl.Replace(uri.Query, "");
             returnUrl = returnUrl.TrimEnd('/');
-            Data.Models.Navigation navigation = new Navigation().GetBaseUrl(returnUrl);
-            if (navigation != null) returnUrl = navigation.BaseUrl;
             if (ssoUrlCookie == null)
             {
                 string returnUrls = JsonConvert.SerializeObject(new List<string>() { returnUrl });

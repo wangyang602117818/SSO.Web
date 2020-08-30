@@ -38,8 +38,8 @@ namespace SSO.Web.Controllers
         /// <returns></returns>
         public ActionResult OpRecord(int last = 30)
         {
-            var result = logService.GetOpRecordByDayJson(last);
-            return Content(result, "application/json");
+            var result = logService.GetOpRecordByDay(last);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// 用户录入删除操作记录
