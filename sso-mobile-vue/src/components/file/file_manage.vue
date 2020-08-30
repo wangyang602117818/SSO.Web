@@ -19,6 +19,25 @@
       :clear-button="true"
       @change="onSearch"
     ></f7-searchbar>
+    <f7-list media-list>
+      <f7-list-item
+        v-for="item in datas"
+        :key="item._id"
+        link="#"
+        :title="item.FileName"
+        :after="''"
+        :subtitle="item.CreateTime+' | '+item.Percent+'%'"
+        :text="$funtools.convertFileSize(item.Length)+' | ' +item.Download+' | ' + item.From"
+      >
+        <img
+          slot="media"
+          :src="$axios.defaults.baseURL+$urls.file.downloadPic+'/'+item._id+'/'+item.FileName"
+          width="80"
+        />
+      </f7-list-item>
+    </f7-list>
+    <f7-block class="text-align-center" v-if="datas.length===0&&isEnd">{{$t('common.no_data')}}</f7-block>
+    <f7-block class="text-align-center" v-if="datas.length>0&&isEnd">---{{$t('common.end')}}---</f7-block>
   </f7-page>
 </template>
 
@@ -29,7 +48,14 @@ export default {
   mixins: [ListBase],
   data() {
     return {
-      getlist: this.$urls.company.getlist,
+      getlist: this.$urls.file.getlist,
+      orderBy: "CreateTime",
+      orderType: "desc",
+      from: "",
+      startTime: "",
+      endTime: "",
+      filterFileType: "",
+      fileDelete: false,
     };
   },
   methods: {
@@ -39,8 +65,16 @@ export default {
         this.pageIndex +
         "&pageSize=" +
         this.pageSize +
-        "&filter=" +
-        this.filter;
+        "&sorts[0].key=" +
+        this.orderBy +
+        "&sorts[0].value=" +
+        this.orderType;
+      if (this.from) url += "&from=" + this.from;
+      if (this.filter) url += "&filter=" + this.filter;
+      if (this.startTime) url += "&startTime=" + this.startTime;
+      if (this.endTime) url += "&endTime=" + this.endTime;
+      if (this.filterFileType) url += "&fileType=" + this.filterFileType;
+      url += "&delete=" + this.fileDelete;
       return url;
     },
   },

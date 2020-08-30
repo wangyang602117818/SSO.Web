@@ -68,7 +68,7 @@ export const urls = {
         setLang: 'settings/setlang'
     },
     file: {
-        getlist:"",
+        getlist:"file/getfilelist",
         upload: "file/upload",
         downloadPic:"file/downloadpic",
         fileState:"file/fileState"
