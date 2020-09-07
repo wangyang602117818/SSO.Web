@@ -9,11 +9,11 @@
         <div class="man_record_txt">{{ $t('manage.all_logs') }}</div>
       </div>
       <div class="man_record_item">
-        <div class="man_record_num">{{operation.lastMonth}}</div>
+        <div class="man_record_num">{{operation.lastmonth}}</div>
         <div class="man_record_txt">{{ $t('manage.last_month_logs') }}</div>
       </div>
       <div class="man_record_item">
-        <div class="man_record_num">{{operation.lastDay}}</div>
+        <div class="man_record_num">{{operation.lastday}}</div>
         <div class="man_record_txt">{{ $t('manage.last_day_logs') }}</div>
       </div>
     </div>

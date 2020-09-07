@@ -20,6 +20,7 @@ import DepartmentUpdate from '../components/department/department_update'
 import Personal from '../components/me/personal'
 import ChangePassword from '../components/me/change_password'
 import FileManage from "../components/file/file_manage"
+import FileAdd from "../components/file/file_add"
 var routes = [
     {
         name: "tab",
@@ -200,6 +201,14 @@ var routes = [
         name: "filemanage",
         path: "/filemanage",
         component: FileManage,
+        options: {
+            transition: 'f7-parallax',
+        }
+    },
+    {
+        name: "fileadd",
+        path: "/fileadd",
+        component: FileAdd,
         options: {
             transition: 'f7-parallax',
         }

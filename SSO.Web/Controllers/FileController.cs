@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
+    [NoneLogRecord]
     public class FileController : BaseController
     {
         public static string fileServiceUrl = AppSettings.GetValue("fileServiceUrl");
@@ -43,6 +44,18 @@ namespace SSO.Web.Controllers
             FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));
             var filelist = fileClientService.GetFileList(pageIndex, pageSize, from, filter, fileType, startTime, endTime, sorts, delete);
             return Content(JsonSerializerHelper.Serialize(filelist));
+        }
+        public ActionResult DownloadFile(string id, string filename)
+        {
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));
+            var fileItem = fileClientService.DownloadFile(id, filename);
+            return File(fileItem.FileStream, fileItem.ContentType);
+        }
+        public ActionResult GetFromList()
+        {
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));
+            var froms = fileClientService.GetFromList();
+            return Content(JsonSerializerHelper.Serialize(froms));
         }
     }
 }

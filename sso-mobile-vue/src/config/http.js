@@ -28,6 +28,7 @@ export const urls = {
         delete: "department/delete"
     },
     user: {
+        getUrl:"sso/getUserList",
         add: "user/add",
         getbasic: "user/getbasic",
         remove: "user/remove",
@@ -68,10 +69,12 @@ export const urls = {
         setLang: 'settings/setlang'
     },
     file: {
-        getlist:"file/getfilelist",
+        getlist: "file/getfilelist",
         upload: "file/upload",
-        downloadPic:"file/downloadpic",
-        fileState:"file/fileState"
+        downloadPic: "file/downloadpic",
+        downloadFile: "file/downloadFile",
+        fileState: "file/fileState",
+        getFromList: "file/getFromList"
     },
     decodeToken: 'sso/decodetoken',
     login: 'sso/login',

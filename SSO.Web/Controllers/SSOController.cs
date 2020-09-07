@@ -16,7 +16,6 @@ using System.Web.Razor.Parser;
 
 namespace SSO.Web.Controllers
 {
-    [AllowAnonymous]
     public class SSOController : BaseController
     {
         Business.UserBasic user = new Business.UserBasic();
@@ -24,10 +23,12 @@ namespace SSO.Web.Controllers
         Business.Company company = new Business.Company();
         Business.Department department = new Business.Department();
         Business.Role role = new Business.Role();
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
         }
+        [AllowAnonymous]
         public ActionResult GetToken(string from, string ticket, string ip)
         {
             string token = "";
@@ -53,6 +54,7 @@ namespace SSO.Web.Controllers
             }
             return new ResponseModel<string>(ErrorCode.success, token);
         }
+        [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             if (!returnUrl.IsNullOrEmpty())
@@ -96,6 +98,7 @@ namespace SSO.Web.Controllers
             }
             return View();
         }
+        [AllowAnonymous]
         [HttpPost]
         [LogRecord(RecordContent = false)]
         public ActionResult Login(LoginModel loginModel, string returnUrl)
@@ -158,7 +161,6 @@ namespace SSO.Web.Controllers
         /// </summary>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
-        [JwtAuthorize]
         public ActionResult LogOut(string returnUrl)
         {
             if (!returnUrl.IsNullOrEmpty())
@@ -179,7 +181,6 @@ namespace SSO.Web.Controllers
             List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlCookie.Value.Base64ToStr());
             return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrlCookie.Value + "&returnUrl=" + returnUrl);
         }
-        [JwtAuthorize]
         public ActionResult DecodeToken()
         {
             var userName = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "StaffName").Select(s => s.Value).FirstOrDefault();
@@ -193,33 +194,28 @@ namespace SSO.Web.Controllers
             return new ResponseModel<object>(ErrorCode.success, user);
         }
         [OutputCache(Duration = 60 * 25)]
-        [NoneLogRecord]
         public ActionResult GetAllCompany()
         {
             var result = company.GetAll("");
             return new ResponseModel<IEnumerable<Company>>(ErrorCode.success, result, result.Count());
         }
-        [NoneLogRecord]
         [OutputCache(Duration = 60 * 25, VaryByParam = "id")]
         public ActionResult GetAllDepartment(string id)
         {
             return new ResponseModel<List<DepartmentData>>(ErrorCode.success, department.GetDepartment(id));
         }
-        [NoneLogRecord]
         public ActionResult GetUserList(string companyCode = "", string filter = "", int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
             var result = user.GetBasic2(ref count, companyCode, filter, false, pageIndex, pageSize);
             return new ResponseModel<IEnumerable<UserBasic>>(ErrorCode.success, result, count);
         }
-        [NoneLogRecord]
         public ActionResult GetRoleList(string filter = "", int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
             var result = role.GetList(ref count, filter, pageIndex, pageSize);
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, count);
         }
-        [NoneLogRecord]
         [OutputCache(Duration = 60 * 25, VaryByParam = "id")]
         public ActionResult GetUser(string id)
         {

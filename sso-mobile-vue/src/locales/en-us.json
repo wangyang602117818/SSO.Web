@@ -9,12 +9,12 @@
         "link_required": "Link required!",
         "role_name_required": "Role name required!",
         "role_description_required": "Role Description required!",
-        "id_required":"Id required!",
-        "user_name_required":"User name required!",
-        "old_password_required":"Old password required!",
-        "new_password_required":"New password required!",
-        "new_password_confirm_required":"New password confirm required!",
-        "password_pattern_invalid":"Incorrect password rule!"
+        "id_required": "Id required!",
+        "user_name_required": "User name required!",
+        "old_password_required": "Old password required!",
+        "new_password_required": "New password required!",
+        "new_password_confirm_required": "New password confirm required!",
+        "password_pattern_invalid": "Incorrect password rule!"
     },
     "confirm": {
         "sure_delete": "Confirm delete?"
@@ -45,8 +45,10 @@
         "query": "Query",
         "content": "Content",
         "ok": "Ok",
+        "close": "Close",
+        "add": "Add",
         "time": "Time",
-        "response_time":"ResponseTime",
+        "response_time": "ResponseTime",
         "month": "Month",
         "year": "Year",
         "sex": "Sex",
@@ -56,20 +58,21 @@
         "email": "Email",
         "idCard": "IdCard",
         "role": "Role",
-        "clear":"Clear",
-        "exception":"Exception",
-        "count":"Count",
-        "minute":"Minute"
+        "clear": "Clear",
+        "exception": "Exception",
+        "count": "Count",
+        "minute": "Minute",
+        "user":"User"
     },
     "me": {
         "pic_setting": "PicSetting",
         "change_password": "ChangePassword",
         "last_login_time": "LastLoginTime",
-        "old_password":"Old Password",
-        "new_password":"New Password",
-        "new_password_confirm":"New Password Confirm",
-        "two_passwords_not_match":"Two passwords not match",
-        "old_password_error":"Old password error"
+        "old_password": "Old Password",
+        "new_password": "New Password",
+        "new_password_confirm": "New Password Confirm",
+        "two_passwords_not_match": "Two passwords not match",
+        "old_password_error": "Old password error"
     },
     "manage": {
         "user_manage": "Users",
@@ -105,10 +108,25 @@
         "update_role": "UpdateRole",
         "add_user": "AddUser",
         "update_user": "UpdateUser",
-        "login_name":"LoginName"
+        "login_name": "LoginName"
     },
     "navigator": {
         "navigators": "Navigators",
-        "file_manage": "FileManage"
+        "file_manage": "FileManage",
+        "upload_time": "UploadTime",
+        "file_name": "FileName",
+        "file_size": "FileSize",
+        "download_count": "Downloads",
+        "file_type": "FileType",
+        "all": "All",
+        "video": "Video",
+        "image": "Image",
+        "audio": "Audio",
+        "office": "Office",
+        "pdf": "Pdf",
+        "text": "Text",
+        "attachment": "Attachment",
+        "add_file": "AddFile",
+        "access_authority": "AccessAuthority"
     }
 }

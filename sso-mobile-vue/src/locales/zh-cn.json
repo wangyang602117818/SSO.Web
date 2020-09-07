@@ -5,16 +5,16 @@
         "department_code_required": "部门编号不能为空!",
         "department_name_required": "部门名称不能为空!",
         "email_format_invalid": "邮箱格式不正确!",
-        "navigator_name_required":"导航名称不能为空!",
-        "link_required":"链接不能为空!",
-        "role_name_required":"角色名称不能为空!",
-        "role_description_required":"角色描述不能为空!",
-        "id_required":"编号不能为空!",
-        "user_name_required":"用户名称不能为空!",
-        "old_password_required":"旧密码不能为空!",
-        "new_password_required":"新密码不能为空!",
-        "new_password_confirm_required":"新密码确认不能为空!",
-        "password_pattern_invalid":"密码规则不符合要求!"
+        "navigator_name_required": "导航名称不能为空!",
+        "link_required": "链接不能为空!",
+        "role_name_required": "角色名称不能为空!",
+        "role_description_required": "角色描述不能为空!",
+        "id_required": "编号不能为空!",
+        "user_name_required": "用户名称不能为空!",
+        "old_password_required": "旧密码不能为空!",
+        "new_password_required": "新密码不能为空!",
+        "new_password_confirm_required": "新密码确认不能为空!",
+        "password_pattern_invalid": "密码规则不符合要求!"
     },
     "confirm": {
         "sure_delete": "确定删除?"
@@ -45,8 +45,10 @@
         "query": "查询",
         "content": "内容",
         "ok": "确定",
+        "close": "关闭",
+        "add": "添加",
         "time": "时间",
-        "response_time":"响应时间",
+        "response_time": "响应时间",
         "month": "月",
         "year": "年",
         "sex": "性别",
@@ -56,20 +58,21 @@
         "email": "邮箱",
         "idCard": "身份证号",
         "role": "角色",
-        "clear":"清空",
-        "exception":"异常",
-        "count":"次数",
-        "minute":"分"
+        "clear": "清空",
+        "exception": "异常",
+        "count": "次数",
+        "minute": "分",
+        "user":"用户"
     },
     "me": {
         "pic_setting": "头像设置",
         "change_password": "修改密码",
         "last_login_time": "上次登录时间",
-        "old_password":"旧密码",
-        "new_password":"新密码",
-        "new_password_confirm":"确认新密码",
-        "two_passwords_not_match":"两次密码不一致",
-        "old_password_error":"旧密码不正确"
+        "old_password": "旧密码",
+        "new_password": "新密码",
+        "new_password_confirm": "确认新密码",
+        "two_passwords_not_match": "两次密码不一致",
+        "old_password_error": "旧密码不正确"
     },
     "manage": {
         "user_manage": "用户管理",
@@ -98,17 +101,32 @@
         "one_year": "1 年",
         "personal_info": "个人信息",
         "last_modified_time": "上次修改时间",
-        "link":"链接",
+        "link": "链接",
         "add_navigator": "添加导航",
         "update_navigator": "修改导航",
-        "add_role":"添加角色",
-        "update_role":"修改角色",
+        "add_role": "添加角色",
+        "update_role": "修改角色",
         "add_user": "添加用户",
         "update_user": "修改用户",
-        "login_name":"登录名称"
+        "login_name": "登录名称"
     },
     "navigator": {
         "navigators": "导航列表",
-        "file_manage": "文件管理"
+        "file_manage": "文件管理",
+        "upload_time": "上传时间",
+        "file_name": "文件名称",
+        "file_size": "文件大小",
+        "download_count": "下载量",
+        "file_type": "文件类型",
+        "all": "所有",
+        "video": "视频",
+        "image": "图片",
+        "audio": "音频",
+        "office": "文档",
+        "pdf": "Pdf",
+        "text": "文本",
+        "attachment": "附件",
+        "add_file": "添加文件",
+        "access_authority": "访问权限"
     }
 }
