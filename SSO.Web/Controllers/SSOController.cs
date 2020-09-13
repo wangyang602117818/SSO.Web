@@ -204,19 +204,18 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<List<DepartmentData>>(ErrorCode.success, department.GetDepartment(id));
         }
-        public ActionResult GetUserList(string companyCode = "", string filter = "", int pageIndex = 1, int pageSize = 10)
+        public ActionResult GetUserList(string companyCode = "", string filter = "", int pageIndex = 1, int pageSize = 15)
         {
             int count = 0;
             var result = user.GetBasic2(ref count, companyCode, filter, false, pageIndex, pageSize);
             return new ResponseModel<IEnumerable<UserBasic>>(ErrorCode.success, result, count);
         }
-        public ActionResult GetRoleList(string filter = "", int pageIndex = 1, int pageSize = 10)
+        public ActionResult GetRoleList(string filter = "", int pageIndex = 1, int pageSize = 15)
         {
             int count = 0;
             var result = role.GetList(ref count, filter, pageIndex, pageSize);
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, count);
         }
-        [OutputCache(Duration = 60 * 25, VaryByParam = "id")]
         public ActionResult GetUser(string id)
         {
             return new ResponseModel<UserBasicData>(ErrorCode.success, user.GetUserUpdate(id));
