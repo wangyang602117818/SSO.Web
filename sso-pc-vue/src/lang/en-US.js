@@ -111,6 +111,7 @@ export default {
     delete_dept: "Delete department",
     sure_delete_dept: "Delete this department?",
     source: "Source",
+    to:"To",
     type: "Type",
     content: "Content",
     remark: "Remark",

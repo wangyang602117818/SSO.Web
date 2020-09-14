@@ -42,6 +42,7 @@
         "department": "部门",
         "order": "顺序",
         "from": "来源",
+        "to":"到",
         "query": "查询",
         "content": "内容",
         "ok": "确定",

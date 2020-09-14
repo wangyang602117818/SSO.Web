@@ -1,8 +1,16 @@
 <template>
   <div>
-    <a-select :default-value="from" v-model="from" style="width: 200px" @change="fromChange">
+    <a-select :default-value="from" v-model="from" style="width: 180px" @change="fromChange">
       <a-select-option value>{{this.$lang.source}}</a-select-option>
-      <a-select-option v-for="item in fromlist" :value="item.from" :key="item.from">{{item.from}}</a-select-option>
+      <a-select-option
+        v-for="item in fromlist"
+        :value="item.from||'anonymous'"
+        :key="item.from||'anonymous'"
+      >{{item.from||'anonymous'}}</a-select-option>
+    </a-select>&nbsp;
+    <a-select :default-value="to" v-model="to" style="width: 180px" @change="toChange">
+      <a-select-option value>{{this.$lang.to}}</a-select-option>
+      <a-select-option v-for="item in tolist" :value="item.to" :key="item.to">{{item.to}}</a-select-option>
     </a-select>&nbsp;
     <a-select
       :default-value="from"
@@ -20,7 +28,7 @@
     <a-select
       :default-value="from"
       v-model="actionName"
-      style="width: 150px"
+      style="width: 120px"
       @change="actionChange"
     >
       <a-select-option value>action</a-select-option>
@@ -91,70 +99,78 @@ export default {
           title: this.$lang.source,
           dataIndex: "From",
           width: "12%",
-          ellipsis: true
+          ellipsis: true,
+        },
+        {
+          title: this.$lang.to,
+          dataIndex: "To",
+          width: "12%",
+          ellipsis: true,
         },
         {
           title: "controller",
           dataIndex: "Controller",
-          width: "10%",
-          ellipsis: true
+          width: "8%",
+          ellipsis: true,
         },
         {
           title: "action",
           dataIndex: "Action",
-          width: "10%",
-          ellipsis: true
+          width: "8%",
+          ellipsis: true,
         },
         {
           title: this.$lang.response_time,
           dataIndex: "Time",
-          width: "8%",
-          ellipsis: true
+          width: "6%",
+          ellipsis: true,
         },
         {
           title: this.$lang.query,
           dataIndex: "QueryString",
-          width: "12%",
-          ellipsis: true
+          width: "10%",
+          ellipsis: true,
         },
         {
           title: this.$lang.content,
           dataIndex: "Content",
-          width: "12%",
-          ellipsis: true
+          width: "10%",
+          ellipsis: true,
         },
         {
           title: this.$lang.us,
           dataIndex: "UserName",
-          width: "10%"
+          width: "10%",
         },
         {
-          title: this.$lang.count+"/"+this.$lang.minute,
+          title: this.$lang.count + "/" + this.$lang.minute,
           dataIndex: "CountPerMinute",
-          width: "8%",
-          ellipsis: true
+          width: "6%",
+          ellipsis: true,
         },
         {
           title: this.$lang.agent,
           dataIndex: "UserAgent",
           width: "6%",
           ellipsis: true,
-          customRender: val => {
+          customRender: (val) => {
             return this.$funtools.getDeviceType(val);
-          }
+          },
         },
         {
           title: this.$lang.create_time,
           dataIndex: "CreateTime",
           width: "12%",
           ellipsis: true,
-          customRender: val => {
+          customRender: (val) => {
             return this.$funtools.parseIsoDateTime(val);
-          }
-        }
+          },
+        },
       ],
       fromlist: [],
       from: "",
+      tolist: [],
+      to: "",
       controllers: [],
       controllerName: "",
       actions: [],
@@ -165,14 +181,15 @@ export default {
       endTime: null,
       userName: "",
       exception: null,
-      getlist: this.$urls.log.getlist
+      getlist: this.$urls.log.getlist,
     };
   },
   mounted() {
     this.getFromList();
+    this.getToList();
   },
   methods: {
-    getOrderSymbol: function(orderBy) {
+    getOrderSymbol: function (orderBy) {
       if (orderBy == this.orderBy) {
         if (this.orderType == "asc") return "↑";
         if (this.orderType == "desc") return "↓";
@@ -182,6 +199,7 @@ export default {
     handleReset() {
       this.pagination.current = 1;
       this.from = "";
+      this.to = "";
       this.controllerName = "";
       this.actionName = "";
       this.startTime = null;
@@ -191,8 +209,12 @@ export default {
     },
     fromChange(item) {
       this.from = item;
+      this.getData();
+    },
+    toChange(item) {
       this.controllerName = "";
       this.actionName = "";
+      this.to = item;
       this.getData();
       this.getControllers();
     },
@@ -236,8 +258,8 @@ export default {
     },
     getControllers() {
       this.$axios
-        .get(this.$urls.log.getControllersByFrom + "?from=" + this.from)
-        .then(response => {
+        .get(this.$urls.log.getControllersByTo + "?to=" + this.to)
+        .then((response) => {
           if (response.code == 0) {
             this.controllers = response.result;
           }
@@ -247,12 +269,12 @@ export default {
       this.$axios
         .get(
           this.$urls.log.getActionsByController +
-            "?from=" +
-            this.from +
+            "?to=" +
+            this.to +
             "&controllerName=" +
             this.controllerName
         )
-        .then(response => {
+        .then((response) => {
           if (response.code == 0) {
             this.actions = response.result;
           }
@@ -269,6 +291,7 @@ export default {
         "&sorts[0].value=" +
         this.orderType;
       if (this.from) url += "&from=" + this.from;
+      if (this.to) url += "&to=" + this.to;
       if (this.controllerName) url += "&controllerName=" + this.controllerName;
       if (this.actionName) url += "&actionName=" + this.actionName;
       if (this.userName) url += "&userName=" + this.userName;
@@ -278,15 +301,20 @@ export default {
       return url;
     },
     getFromList() {
-      this.$axios.get(this.$urls.log.getfromlist).then(response => {
+      this.$axios.get(this.$urls.log.getfromlist).then((response) => {
         if (response.code === 0) this.fromlist = response.result;
+      });
+    },
+    getToList() {
+      this.$axios.get(this.$urls.log.gettolist).then((response) => {
+        if (response.code === 0) this.tolist = response.result;
       });
     },
     getRowClassName(record, index) {
       if (record.Exception) return "error_tr";
       return "";
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

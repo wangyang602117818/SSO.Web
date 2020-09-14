@@ -42,6 +42,7 @@
         "department": "Department",
         "order": "Order",
         "from": "From",
+        "to":"To",
         "query": "Query",
         "content": "Content",
         "ok": "Ok",

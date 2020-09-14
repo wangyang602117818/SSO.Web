@@ -45,7 +45,8 @@ export const urls = {
         getlist: 'log/getlist',
         detail: 'log/detail',
         getfromlist: 'log/getfromlist',
-        getControllersByFrom: 'log/getcontrollersbyfrom',
+        gettolist:'log/gettolist',
+        getControllersByTo: 'log/getcontrollersbyto',
         getActionsByController: 'log/getactionsbycontroller',
         getOperations: 'log/getoperations'
     },

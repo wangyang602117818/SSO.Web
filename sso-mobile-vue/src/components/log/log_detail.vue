@@ -13,6 +13,14 @@
         </li>
         <li class="item-content item-input item-input-with-info">
           <div class="item-inner">
+            <div class="item-title item-label">{{$t('common.to')}} :</div>
+            <div class="item-input-wrap">
+              <input type="text" :value="log.To"/>
+            </div>
+          </div>
+        </li>
+        <li class="item-content item-input item-input-with-info">
+          <div class="item-inner">
             <div class="item-title item-label">Controller :</div>
             <div class="item-input-wrap">
               <input type="text" :value="log.Controller" />

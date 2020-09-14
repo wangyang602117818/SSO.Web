@@ -33,6 +33,16 @@
             @click="fromClick"
           ></f7-chip>
         </f7-block>
+        <f7-block-title>{{$t('common.to')}}</f7-block-title>
+        <f7-block strong>
+          <f7-chip
+            :color="item.to==tocheck?'blue':''"
+            :text="item.to"
+            v-for="item in tos"
+            :key="item.to"
+            @click="toClick"
+          ></f7-chip>
+        </f7-block>
         <f7-block-title>Controller</f7-block-title>
         <f7-block strong>
           <f7-chip
@@ -138,17 +148,20 @@ export default {
       fromcheck: "",
       froms: [],
       controllercheck: "",
+      tocheck: "",
+      tos: [],
       controllers: [],
       actioncheck: "",
       actions: [],
       day: 30,
       orderBy: "CreateTime",
       orderType: "desc",
-      exception: null
+      exception: null,
     };
   },
   created() {
     this.getFroms();
+    this.getTos();
   },
   methods: {
     onClear() {
@@ -184,27 +197,38 @@ export default {
       return url;
     },
     getFroms() {
-      this.$axios.get(this.$urls.log.getfromlist).then(response => {
-        if (response.code === 0) this.froms = response.result;
+      this.$axios.get(this.$urls.log.getfromlist).then((response) => {
+        if (response.code === 0) {
+          for (var i = 0; i < response.result.length; i++) {
+            if (response.result[i].from == null)
+              response.result[i].from = "anonymous";
+          }
+          this.froms = response.result;
+        }
       });
     },
-    getControllers(from) {
+    getTos() {
+      this.$axios.get(this.$urls.log.gettolist).then((response) => {
+        if (response.code === 0) this.tos = response.result;
+      });
+    },
+    getControllers(to) {
       this.$axios
-        .get(this.$urls.log.getControllersByFrom + "?from=" + from)
-        .then(response => {
+        .get(this.$urls.log.getControllersByTo + "?to=" + to)
+        .then((response) => {
           if (response.code === 0) this.controllers = response.result;
         });
     },
-    getActions(from, controller) {
+    getActions(to, controller) {
       this.$axios
         .get(
           this.$urls.log.getActionsByController +
-            "?from=" +
-            from +
+            "?to=" +
+            to +
             "&controllerName=" +
             controller
         )
-        .then(response => {
+        .then((response) => {
           if (response.code === 0) this.actions = response.result;
         });
     },
@@ -215,8 +239,16 @@ export default {
         return;
       }
       this.fromcheck = from;
+    },
+    toClick($event) {
+      var to = $event.currentTarget.innerText;
+      if (this.tocheck == to) {
+        this.tocheck = "";
+        return;
+      }
+      this.tocheck = to;
       this.actions = [];
-      this.getControllers(from);
+      this.getControllers(to);
     },
     controllerClick($event) {
       var controller = $event.currentTarget.innerText;
@@ -226,7 +258,7 @@ export default {
       }
       this.controllercheck = controller;
       this.actions = [];
-      this.getActions(this.fromcheck, controller);
+      this.getActions(this.tocheck, controller);
     },
     actionClick($event) {
       var action = $event.currentTarget.innerText;
@@ -240,7 +272,7 @@ export default {
       var day = $event.currentTarget.dataset.day;
       this.day = day;
     },
-    getOrderSymbol: function(orderBy) {
+    getOrderSymbol: function (orderBy) {
       if (orderBy == this.orderBy) {
         if (this.orderType == "asc") return "↑";
         if (this.orderType == "desc") return "↓";
@@ -263,8 +295,8 @@ export default {
       } else {
         this.exception = null;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

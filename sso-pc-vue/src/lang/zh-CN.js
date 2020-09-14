@@ -111,6 +111,7 @@ export default {
     delete_dept:"删除部门",
     sure_delete_dept:"确定删除部门?",
     source:"来源",
+    to:"到",
     type:"类型",
     content:"内容",
     remark:"备注",
