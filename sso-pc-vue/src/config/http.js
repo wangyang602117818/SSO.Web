@@ -71,7 +71,7 @@ export const urls = {
 };
 ax.defaults.baseURL = baseURL;
 // 配置
-ax.defaults.timeout = 5000;
+ax.defaults.timeout = 7000;
 ax.defaults.headers.post['Content-Type'] = 'application/json';
 ax.defaults.headers.get['Content-Type'] = 'application/json';
 ax.defaults.headers.delete['Content-Type'] = 'application/json';

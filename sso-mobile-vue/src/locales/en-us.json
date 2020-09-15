@@ -128,6 +128,7 @@
         "text": "Text",
         "attachment": "Attachment",
         "add_file": "AddFile",
-        "access_authority": "AccessAuthority"
+        "access_authority": "AccessAuthority",
+        "role_select":"RoleSelect"
     }
 }

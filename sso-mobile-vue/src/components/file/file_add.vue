@@ -27,14 +27,14 @@
         </div>
       </div>
       <div class="access_wrap">
-        <div class="setting_line" @click="addDepartment">
-          <div class="setting_line_name bold">{{$t("navigator.access_authority")}}</div>
+        <div class="setting_line" @click="addRole">
+          <div class="setting_line_name bold">{{$t("common.role")}}</div>
           <div class="setting_line_data">
             <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
           </div>
         </div>
-        <div class="setting_line" @click="updateDepartment">
-          <div class="setting_line_name">xx</div>
+        <div class="setting_line">
+          <div class="setting_line_name">{{$t("common.user")}}</div>
           <div class="setting_line_right">
             <div class="setting_line_data"></div>
             <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
@@ -43,21 +43,29 @@
       </div>
       <f7-button large fill>{{$t("common.add")}}</f7-button>
     </div>
-    <access-component :show="accessShow" @opened="accessOpened" @closed="accessClosed" />
+    <role-select
+      :show="roleShow"
+      @opened="accessOpened"
+      @closed="accessClosed"
+      @select="selectItem"
+      :selected="roles"
+    />
   </f7-page>
 </template>
 
 <script>
-import AccessComponent from "../access-component";
+import RoleSelectComponent from "../role-select-component";
 export default {
   name: "file_add",
   components: {
-    "access-component": AccessComponent,
+    "role-select": RoleSelectComponent,
   },
   data() {
     return {
       imageUrls: [],
-      accessShow: false,
+      roleShow: false,
+      roles: [],
+      users: [],
     };
   },
   created() {},
@@ -66,16 +74,25 @@ export default {
     chooseImage() {
       this.$refs.fileinput.click();
     },
-    addDepartment() {
-      this.accessShow = true;
-      // this.$f7.popup.open(".popup-add-access");
-    },
-    updateDepartment() {},
     accessOpened() {
       window.console.log("x");
     },
     accessClosed() {
-      this.accessShow = false;
+      this.roleShow = false;
+    },
+    addRole() {
+      this.roleShow = true;
+    },
+    selectItem(item) {
+      var index = -1;
+      for (var i = 0; i < this.roles.length; i++) {
+        if (this.roles[i].Name == item.Name) index = i;
+      }
+      if (index == -1) {
+        this.roles.push(item);
+      } else {
+        this.roles.splice(index, 1);
+      }
     },
     uploadFile(e) {
       var files = e.target.files;

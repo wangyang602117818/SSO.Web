@@ -41,15 +41,18 @@ var ListBase = {
         },
         getData(callback, replace) {
             this.loading = true;
-            if (replace) this.datas = [];
             this.$axios
                 .get(this.getlist + this.getQuerystring())
                 .then(response => {
                     if (callback) callback();
                     this.loading = false;
                     if (response.code === 0) {
-                        if (response.result.length < this.pageSize) this.isEnd = true;
-                        this.datas = this.datas.concat(response.result);
+                        this.isEnd = response.result.length < this.pageSize ? true : false;
+                        if (replace) {
+                            this.datas = response.result;
+                        } else {
+                            this.datas = this.datas.concat(response.result);
+                        }
                     }
                 });
         }

@@ -128,6 +128,7 @@
         "text": "文本",
         "attachment": "附件",
         "add_file": "添加文件",
-        "access_authority": "访问权限"
+        "access_authority": "访问权限",
+        "role_select":"角色选取"
     }
 }
