@@ -87,7 +87,12 @@
       :pagination="pagination"
       @change="handleTableChange"
     >
-      <a-tag :key="CompanyName" slot="CompanyName" slot-scope="CompanyName" color="#108ee9">{{CompanyName}}</a-tag>
+      <a-tag
+        :key="CompanyName"
+        slot="CompanyName"
+        slot-scope="CompanyName"
+        color="#108ee9"
+      >{{CompanyName}}</a-tag>
       <span slot="DepartmentName" slot-scope="DepartmentName" v-if="DepartmentName">
         <a-tag v-for="tag in DepartmentName.split(',')" :key="tag" color="#87d068">{{tag}}</a-tag>
       </span>
@@ -218,82 +223,84 @@ export default {
         {
           title: this.$lang.id,
           dataIndex: "Id",
-          width: "5%"
+          width: "5%",
         },
         {
           title: this.$lang.userId,
           dataIndex: "UserId",
-          width: "7%",ellipsis: true
+          width: "7%",
+          ellipsis: true,
         },
         {
           title: this.$lang.user_name,
           dataIndex: "UserName",
-          width: "10%",ellipsis: true
+          width: "10%",
+          ellipsis: true,
         },
         {
           title: this.$lang.mobile,
           dataIndex: "Mobile",
           width: "11%",
-          ellipsis: true
+          ellipsis: true,
         },
         {
           title: this.$lang.email,
           dataIndex: "Email",
           width: "10%",
-          ellipsis: true
+          ellipsis: true,
         },
         {
           title: this.$lang.sex,
           dataIndex: "Sex",
           width: "5%",
           ellipsis: true,
-          customRender: val => {
+          customRender: (val) => {
             return val == "F" ? this.$lang.female : this.$lang.male;
-          }
+          },
         },
         {
           title: this.$lang.comp,
           dataIndex: "CompanyName",
           width: "10%",
           ellipsis: false,
-          scopedSlots: { customRender: "CompanyName" }
+          scopedSlots: { customRender: "CompanyName" },
         },
         {
           title: this.$lang.dept,
           dataIndex: "DepartmentName",
           width: "13%",
           ellipsis: false,
-          scopedSlots: { customRender: "DepartmentName" }
+          scopedSlots: { customRender: "DepartmentName" },
         },
         {
           title: this.$lang.rol,
           dataIndex: "RoleName",
           width: "12%",
           ellipsis: false,
-          scopedSlots: { customRender: "RoleName" }
+          scopedSlots: { customRender: "RoleName" },
         },
         {
           title: this.$lang.modified,
           dataIndex: "IsModified",
           width: "7%",
           ellipsis: true,
-          scopedSlots: { customRender: "IsModified" }
+          scopedSlots: { customRender: "IsModified" },
         },
         {
           title: this.$lang.create_time,
           dataIndex: "CreateTime",
           ellipsis: true,
           width: "10%",
-          customRender: val => {
+          customRender: (val) => {
             return this.$funtools.parseIsoDateTime(val);
-          }
-        }
+          },
+        },
       ],
       drawerVisible: false,
       pagination: { current: 1, pageSize: 10, size: "small" },
       loading: false,
       isUpdate: false,
-      showDelete: false
+      showDelete: false,
     };
   },
   created() {
@@ -322,7 +329,7 @@ export default {
       this.loading = true;
       this.$axios
         .post(this.$urls.user.resetpassword, { userIds: this.selectedRowKeys })
-        .then(response => {
+        .then((response) => {
           if (response.code == 0) {
             this.selectedRowKeys = [];
             this.selectedRows = [];
@@ -345,7 +352,7 @@ export default {
       });
     },
     addUser(user) {
-      this.$axios.post(this.$urls.user.add, user).then(response => {
+      this.$axios.post(this.$urls.user.add, user).then((response) => {
         if (response.code == 400) {
           this.$message.warning(this.$lang.record_exists);
         }
@@ -356,7 +363,7 @@ export default {
     },
     updateUser(user) {
       user.id = this.selectedRows[0].Id;
-      this.$axios.post(this.$urls.user.update, user).then(response => {
+      this.$axios.post(this.$urls.user.update, user).then((response) => {
         if (response.code == 0) {
           this.getData();
           this.$message.warning(this.$lang.modify_success);
@@ -366,19 +373,21 @@ export default {
     editUser() {
       this.$axios
         .get(this.$urls.user.getbyuserid + "?userid=" + this.selectedRowKeys[0])
-        .then(response => {
+        .then((response) => {
           if (response.code == 0) {
             this.showDrawer(response.result.CompanyCode);
-            this.form.setFieldsValue({
-              userId: response.result.UserId,
-              userName: response.result.UserName,
-              sex: response.result.Sex,
-              mobile: response.result.Mobile,
-              email: response.result.Email,
-              idCard: response.result.IdCard,
-              companyCode: response.result.CompanyCode,
-              departments: response.result.DepartmentCode,
-              roles: response.result.Role
+            this.$nextTick(function () {
+              this.form.setFieldsValue({
+                userId: response.result.UserId,
+                userName: response.result.UserName,
+                sex: response.result.Sex,
+                mobile: response.result.Mobile,
+                email: response.result.Email,
+                idCard: response.result.IdCard,
+                companyCode: response.result.CompanyCode,
+                departments: response.result.DepartmentCode,
+                roles: response.result.Role,
+              });
             });
           }
         });
@@ -387,7 +396,7 @@ export default {
       this.loading = true;
       this.$axios
         .post(this.$urls.user.remove, { userIds: this.selectedRowKeys })
-        .then(response => {
+        .then((response) => {
           if (response.code == 0) {
             this.selectedRowKeys = [];
             this.selectedRows = [];
@@ -400,7 +409,7 @@ export default {
       this.loading = true;
       this.$axios
         .post(this.$urls.user.delete, { userIds: this.selectedRowKeys })
-        .then(response => {
+        .then((response) => {
           if (response.code == 0) {
             this.selectedRowKeys = [];
             this.selectedRows = [];
@@ -413,7 +422,7 @@ export default {
       this.loading = true;
       this.$axios
         .post(this.$urls.user.restore, { userIds: this.selectedRowKeys })
-        .then(response => {
+        .then((response) => {
           if (response.code == 0) {
             this.selectedRowKeys = [];
             this.selectedRows = [];
@@ -429,18 +438,18 @@ export default {
           title: this.$lang.delete_time,
           dataIndex: "DeleteTime",
           width: "15%",
-          customRender: val => {
+          customRender: (val) => {
             return this.$funtools.parseIsoDateTime(val);
-          }
+          },
         });
       } else {
         this.columns.splice(len - 1, 1, {
           title: this.$lang.create_time,
           dataIndex: "CreateTime",
           width: "15%",
-          customRender: val => {
+          customRender: (val) => {
             return this.$funtools.parseIsoDateTime(val);
-          }
+          },
         });
       }
     },
@@ -459,7 +468,7 @@ export default {
             "&delete=" +
             this.showDelete
         )
-        .then(response => {
+        .then((response) => {
           this.loading = false;
           const pagination = { ...this.pagination };
           pagination.total = response.count;
@@ -471,7 +480,7 @@ export default {
         });
     },
     getCompanyData() {
-      this.$axios.get(this.$urls.company.getall).then(response => {
+      this.$axios.get(this.$urls.company.getall).then((response) => {
         if (response.code == 0) {
           this.companyData = response.result;
         }
@@ -482,7 +491,7 @@ export default {
         .get(
           this.$urls.department.getdepartments + "?companyCode=" + companyCode
         )
-        .then(response => {
+        .then((response) => {
           if (response.code == 0) {
             if (response.result.length > 0) {
               this.departmentData = response.result;
@@ -493,7 +502,7 @@ export default {
         });
     },
     getRoleData() {
-      this.$axios.get(this.$urls.role.getall).then(response => {
+      this.$axios.get(this.$urls.role.getall).then((response) => {
         if (response.code == 0) {
           this.roleData = response.result;
         } else {
@@ -522,8 +531,8 @@ export default {
     },
     onClose() {
       this.drawerVisible = false;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scope>

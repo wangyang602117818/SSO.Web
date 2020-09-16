@@ -137,7 +137,8 @@ namespace SSO.Web.Controllers
             {
                 return new ResponseModel<string>(ErrorCode.login_fault, "");
             }
-            user.UpdateLoginTime(userBasic.Id);
+            if (userBasic.Id != 0)
+                user.UpdateLoginTime(userBasic.Id);
             Settings setting = settings.GetSetting(User.Identity.Name);
             if (setting != null) lang = setting.Lang;
             Dictionary<string, string> extra = new Dictionary<string, string>();
