@@ -8,7 +8,7 @@
     @popup:closed="$emit('closed')"
   >
     <f7-page
-      name="role-select-component"
+      name="user-select-component"
       ptr
       @ptr:refresh="refresh"
       infinite
@@ -16,7 +16,7 @@
       :infinite-preloader="loading"
       @infinite="loadMore"
     >
-      <f7-navbar :title="$t('navigator.role_select')" class="swipe-handler">
+      <f7-navbar :title="$t('navigator.user_select')" class="swipe-handler">
         <f7-nav-right>
           <f7-link popup-close>{{$t("common.save")}}</f7-link>
         </f7-nav-right>
@@ -29,8 +29,8 @@
       ></f7-searchbar>
       <f7-list media-list>
         <f7-list-item
-          :title="item.Name"
-          :subtitle="item.Description"
+          :title="item.UserName"
+          :subtitle="item.UserId"
           v-for="(item,index) in datas"
           :key="index"
           link="#"
@@ -41,7 +41,7 @@
             f7="checkmark_alt_circle_fill"
             color="#1890ff"
             size="24"
-            v-if="roles.indexOf(item.Name)>-1"
+            v-if="users.indexOf(item.UserId)>-1"
           ></f7-icon>
           <f7-icon slot="media" f7="circle" color="gray" size="24" v-else></f7-icon>
         </f7-list-item>
@@ -55,22 +55,21 @@
 <script>
 import ListBase from "./ListBase";
 export default {
-  name: "role-select-component",
+  name: "user-select-component",
   props: { show: { type: Boolean }, selected: { type: Array } },
   mixins: [ListBase],
   data() {
     return {
-      getlist: this.$urls.role.getlist,
+      getlist: this.$urls.user.getUrl,
     };
   },
-  created() {},
   computed: {
-    roles: function () {
-      var roles = [];
+    users: function () {
+      var users = [];
       for (var i = 0; i < this.selected.length; i++) {
-        roles.push(this.selected[i].Name);
+        users.push(this.selected[i].UserId);
       }
-      return roles;
+      return users;
     },
   },
   methods: {

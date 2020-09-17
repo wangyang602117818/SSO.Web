@@ -235,8 +235,14 @@ export default {
     },
     itemClick(e) {
       var index = e.currentTarget.parentElement.id;
-      this.$refs.standaloneDark.f7PhotoBrowser.activeIndex = parseInt(index);
-      this.$refs.standaloneDark.open();
+      var item = this.datas[index];
+      if (item.FileType == "pdf") {
+        var url = this.$urls.preview + "/" + item._id + "/" + item.FileName;
+        window.open(url);
+      } else {
+        this.$refs.standaloneDark.f7PhotoBrowser.activeIndex = parseInt(index);
+        this.$refs.standaloneDark.open();
+      }
     },
     onClear() {
       this.from = "";

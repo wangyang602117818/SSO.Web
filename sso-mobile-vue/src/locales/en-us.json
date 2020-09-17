@@ -129,6 +129,9 @@
         "attachment": "Attachment",
         "add_file": "AddFile",
         "access_authority": "AccessAuthority",
-        "role_select":"RoleSelect"
+        "role_select":"RoleSelect",
+        "user_select":"UserSelect",
+        "upload":"Upload",
+        "no_file_selected":"Please select file"
     }
 }

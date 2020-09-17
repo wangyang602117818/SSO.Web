@@ -1,9 +1,13 @@
 import ax from 'axios';
 import funtools from 'sso-util';
-
+export const fileBaseURL = "http://localhost/FileService.ApiCore/";
 export const baseURL = "http://www.ssoapi.com:8030/";
 export const cookieName = "sso.mobile.auth";
 export const urls = {
+    decodeToken: 'sso/decodetoken',
+    login: 'sso/login',
+    logout: 'sso/logout',
+    preview: fileBaseURL + "file",
     role: {
         add: "role/add",
         update: "role/update",
@@ -28,7 +32,7 @@ export const urls = {
         delete: "department/delete"
     },
     user: {
-        getUrl:"sso/getUserList",
+        getUrl: "sso/getUserList",
         add: "user/add",
         getbasic: "user/getbasic",
         remove: "user/remove",
@@ -45,7 +49,7 @@ export const urls = {
         getlist: 'log/getlist',
         detail: 'log/detail',
         getfromlist: 'log/getfromlist',
-        gettolist:'log/gettolist',
+        gettolist: 'log/gettolist',
         getControllersByTo: 'log/getcontrollersbyto',
         getActionsByController: 'log/getactionsbycontroller',
         getOperations: 'log/getoperations'
@@ -72,14 +76,14 @@ export const urls = {
     file: {
         getlist: "file/getfilelist",
         upload: "file/upload",
+        uploads:"file/uploads",
         downloadPic: "file/downloadpic",
         downloadFile: "file/downloadFile",
         fileState: "file/fileState",
-        getFromList: "file/getFromList"
-    },
-    decodeToken: 'sso/decodetoken',
-    login: 'sso/login',
-    logout: 'sso/logout',
+        getFromList: "file/getFromList",
+        getFileTypeMapping:"file/getFileTypeMapping"
+    }
+
 };
 
 ax.defaults.baseURL = baseURL;

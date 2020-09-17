@@ -93,4 +93,7 @@ export default {
   display: flex;
   align-items: flex-end;
 }
+.bold{
+  font-weight: bold;
+}
 </style>

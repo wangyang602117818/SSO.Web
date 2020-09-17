@@ -129,6 +129,9 @@
         "attachment": "附件",
         "add_file": "添加文件",
         "access_authority": "访问权限",
-        "role_select":"角色选取"
+        "role_select":"角色选取",
+        "user_select":"用户选取",
+        "upload":"上传",
+        "no_file_selected":"未选择文件"
     }
 }

@@ -1,4 +1,5 @@
 ﻿using SSO.Util.Client;
+using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,26 @@ namespace SSO.Web.Controllers
             {
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
+        }
+        public ActionResult Uploads(UploadFileModel uploadFileModel)
+        {
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));
+            List<UploadFileItem> files = new List<UploadFileItem>();
+            foreach(var item in uploadFileModel.Files)
+            {
+                files.Add(new UploadFileItem()
+                {
+                    FileName = item.FileName,
+                    FileStream = item.InputStream,
+                    ContentType = item.ContentType
+                });
+            }
+            Dictionary<string, string> paras = new Dictionary<string, string>();
+            paras.Add("roles", uploadFileModel.Roles);
+            paras.Add("users", uploadFileModel.Users);
+            paras.Add("usersDisplay", uploadFileModel.UsersDisplay);
+            var result = fileClientService.Uploads(files, paras);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
         public ActionResult DownloadPic(string id, string filename)
         {
@@ -56,6 +77,12 @@ namespace SSO.Web.Controllers
             FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));
             var froms = fileClientService.GetFromList();
             return Content(JsonSerializerHelper.Serialize(froms));
+        }
+        public ActionResult GetFileTypeMapping()
+        {
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));
+            var mappings = fileClientService.GetExtensionMap();
+            return Content(JsonSerializerHelper.Serialize(mappings));
         }
     }
 }
