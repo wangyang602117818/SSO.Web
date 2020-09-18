@@ -83,7 +83,7 @@ export default {
   name: "file_add",
   components: {
     "role-select": RoleSelectComponent,
-    "user-select": UserSelectComponent,
+    "user-select": UserSelectComponent
   },
   data() {
     return {

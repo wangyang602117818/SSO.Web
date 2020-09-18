@@ -110,14 +110,18 @@
     <f7-fab position="right-bottom" href="/fileadd">
       <f7-icon ios="f7:plus" aurora="f7:plus" md="material:add"></f7-icon>
     </f7-fab>
+    
+    <pdf src="http://www.ssoapi.com:8030/file/downloadFile/5f632222852681662a77f601/CN Bronze Packages Comparison Table.pdf?Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNONDQ1Mzc5IiwiU3RhZmZOYW1lIjoiWmhhbmcgTGFvIERhIiwiTGFuZyI6InpoLWNuIiwiZnJvbSI6ImxvY2FsaG9zdDo4MDgwIiwibmJmIjoxNjAwMzk0ODU0LCJleHAiOjE2MDAzOTYwNTQsImlhdCI6MTYwMDM5NDg1NCwiaXNzIjoid3d3LnNzby5hcGkiLCJhdWQiOiIxMjcuMC4wLjEifQ.pu6rgnLMXs2OyMXUlKMa_-2ge7atOBsDj0SyL6O1L9M" style="width:0;height:0" class=""></pdf>
   </f7-page>
 </template>
 
 <script>
 import ListBase from "../ListBase";
+import pdf from "vue-pdf";
 export default {
   name: "file_manage",
   mixins: [ListBase],
+  components: { pdf },
   data() {
     return {
       getlist: this.$urls.file.getlist,
@@ -169,25 +173,19 @@ export default {
     photos: function () {
       var photos = [];
       this.datas.forEach((item, index) => {
+        var url =
+          this.$axios.defaults.baseURL +
+          this.$urls.file.downloadFile +
+          "/" +
+          item._id +
+          "/" +
+          item.FileName;
         if (item.FileType == "image") {
           photos.push({
-            url:
-              this.$axios.defaults.baseURL +
-              this.$urls.file.downloadFile +
-              "/" +
-              item._id +
-              "/" +
-              item.FileName,
+            url: url,
             caption: item.FileName,
           });
         } else if (item.FileType == "video") {
-          var url =
-            this.$axios.defaults.baseURL +
-            this.$urls.file.downloadFile +
-            "/" +
-            item._id +
-            "/" +
-            item.FileName;
           photos.push({
             html:
               "<video controls width='99%' height='80%'><source src='" +
@@ -235,14 +233,17 @@ export default {
     },
     itemClick(e) {
       var index = e.currentTarget.parentElement.id;
-      var item = this.datas[index];
-      if (item.FileType == "pdf") {
-        var url = this.$urls.preview + "/" + item._id + "/" + item.FileName;
-        window.open(url);
-      } else {
-        this.$refs.standaloneDark.f7PhotoBrowser.activeIndex = parseInt(index);
-        this.$refs.standaloneDark.open();
-      }
+      // var item = this.datas[index];
+      // if (item.FileType == "pdf") {
+      //   var url = this.$urls.preview + "/" + item._id + "/" + item.FileName;
+      //   window.open(url);
+      // } else {
+      this.$refs.standaloneDark.f7PhotoBrowser.activeIndex = parseInt(index);
+      this.$refs.standaloneDark.open();
+      // }
+    },
+    loaded(){
+alert('x');
     },
     onClear() {
       this.from = "";
