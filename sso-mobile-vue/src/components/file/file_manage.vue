@@ -111,7 +111,7 @@
       <f7-icon ios="f7:plus" aurora="f7:plus" md="material:add"></f7-icon>
     </f7-fab>
     
-    <pdf src="http://www.ssoapi.com:8030/file/downloadFile/5f632222852681662a77f601/CN Bronze Packages Comparison Table.pdf?Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNONDQ1Mzc5IiwiU3RhZmZOYW1lIjoiWmhhbmcgTGFvIERhIiwiTGFuZyI6InpoLWNuIiwiZnJvbSI6ImxvY2FsaG9zdDo4MDgwIiwibmJmIjoxNjAwMzk0ODU0LCJleHAiOjE2MDAzOTYwNTQsImlhdCI6MTYwMDM5NDg1NCwiaXNzIjoid3d3LnNzby5hcGkiLCJhdWQiOiIxMjcuMC4wLjEifQ.pu6rgnLMXs2OyMXUlKMa_-2ge7atOBsDj0SyL6O1L9M" style="width:0;height:0" class=""></pdf>
+    <pdf src="" style="width:0;height:0" class=""></pdf>
   </f7-page>
 </template>
 
