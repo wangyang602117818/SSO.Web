@@ -169,14 +169,16 @@ namespace SSO.Web.Controllers
             var authorization = Request.Cookies[ssoCookieKey];
             if (authorization != null)
             {
-                authorization.Expires = DateTime.Now.AddYears(-1);
-                Response.Cookies.Add(authorization);
+                HttpCookie cookie = new HttpCookie(ssoCookieKey);
+                cookie.Expires = DateTime.Now.AddYears(-1);
+                Response.Cookies.Add(cookie);
             }
             var ssoUrlCookie = Request.Cookies["ssourls"];
             if (ssoUrlCookie != null)
             {
-                ssoUrlCookie.Expires = DateTime.Now.AddYears(-1);
-                Response.Cookies.Add(ssoUrlCookie);
+                HttpCookie cookieUrl = new HttpCookie("ssourls");
+                cookieUrl.Expires = DateTime.Now.AddYears(-1);
+                Response.Cookies.Add(cookieUrl);
             }
             if (ssoUrlCookie == null) return RedirectToAction("Login", new { returnUrl = returnUrl });
             List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlCookie.Value.Base64ToStr());
