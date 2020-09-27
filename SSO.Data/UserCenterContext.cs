@@ -21,6 +21,9 @@ namespace SSO.Data
         public DbSet<UserDepartmentMapping> UserDepartmentMappings { get; set; }
         public DbSet<UserRoleMapping> UserRoleMappings { get; set; }
         public DbSet<Settings> Settings { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<PermissionRoleMapping> PermissionRoleMappings { get; set; }
+        public DbSet<PermissionUserMapping> PermissionUserMappings { get; set; }
     }
 
 }

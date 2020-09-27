@@ -188,21 +188,16 @@ export default {
     },
     addCompany(company) {
       this.$axios.post(this.$urls.company.add, company).then(response => {
-        if (response.code == 400) {
-          this.$message.warning(this.$lang.record_exists);
-        }
         if (response.code == 0) {
           this.form.resetFields();
           this.getData();
+          this.getRandomCode();
         }
       });
     },
     updateCompany(company) {
       company.id = this.selectedRowKeys[0];
       this.$axios.post(this.$urls.company.update, company).then(response => {
-        if (response.code == 400) {
-          this.$message.warning(this.$lang.record_exists);
-        }
         if (response.code == 0) {
           this.form.resetFields();
           this.getData();

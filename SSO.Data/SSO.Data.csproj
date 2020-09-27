@@ -47,9 +47,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\202009270645507_InitialCreate.cs" />
+    <Compile Include="Migrations\202009270645507_InitialCreate.designer.cs">
+      <DependentUpon>202009270645507_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009270710035_AddMapping.cs" />
+    <Compile Include="Migrations\202009270710035_AddMapping.designer.cs">
+      <DependentUpon>202009270710035_AddMapping.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Permission.cs" />
+    <Compile Include="Models\PermissionRoleMapping.cs" />
+    <Compile Include="Models\PermissionUserMapping.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\UserBasic.cs" />
@@ -76,8 +88,16 @@
       <Version>4.1.4</Version>
     </PackageReference>
     <PackageReference Include="SSO.Util.Client">
-      <Version>2.0.7</Version>
+      <Version>2.0.9</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202009270645507_InitialCreate.resx">
+      <DependentUpon>202009270645507_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009270710035_AddMapping.resx">
+      <DependentUpon>202009270710035_AddMapping.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -46,9 +46,11 @@ namespace SSO.Business
         {
             foreach (int id in ids)
             {
-                Data.Models.Company company = new Data.Models.Company() { Id = id };
-                DbEntityEntry<Data.Models.Company> entry = userCenterContext.Entry<Data.Models.Company>(company);
-                entry.State = EntityState.Deleted;
+                Data.Models.Company com = new Company().GetById(id);
+                int count = new Department().CountDepartmentByCompanyCode(com.Code);
+                if (count > 0) continue;
+                userCenterContext.Companies.Attach(com);
+                userCenterContext.Companies.Remove(com);
             }
             return userCenterContext.SaveChanges();
         }

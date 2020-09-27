@@ -48,6 +48,7 @@
     <Compile Include="Company.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="ModelBase.cs" />
+    <Compile Include="Permission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="Settings.cs" />
@@ -70,7 +71,7 @@
       <Version>6.4.4</Version>
     </PackageReference>
     <PackageReference Include="SSO.Util.Client">
-      <Version>2.0.7</Version>
+      <Version>2.0.9</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
