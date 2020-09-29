@@ -13,7 +13,7 @@ namespace SSO.Business
         public int DeleteMany(string origin)
         {
             var query = from permission in userCenterContext.Permissions where permission.Origin == origin select permission;
-            foreach(var item in query)
+            foreach (var item in query)
             {
                 userCenterContext.Permissions.Attach(item);
                 userCenterContext.Permissions.Remove(item);
@@ -33,6 +33,10 @@ namespace SSO.Business
                 });
             }
             return userCenterContext.SaveChanges();
+        }
+        public List<Data.Models.Permission> GetList()
+        {
+            return userCenterContext.Permissions.ToList();
         }
     }
 }

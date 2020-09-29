@@ -24,5 +24,16 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
+        public ActionResult GetPermission()
+        {
+            var list = permission.GetList();
+            Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
+            foreach (var item in list)
+            {
+                if (!result.ContainsKey(item.Origin)) result.Add(item.Origin, new List<string>());
+                result[item.Origin].Add(item.Name);
+            }
+            return new ResponseModel<Dictionary<string, List<string>>>(ErrorCode.success, result);
+        }
     }
 }

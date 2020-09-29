@@ -3,7 +3,7 @@
     <div class="total_con">
       <div class="total_item total_item_80">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{this.$lang.companys}}</div>
+          <div class="total_item_txt">{{$t('companys')}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getData" />
@@ -16,7 +16,7 @@
       </div>
       <div class="total_item total_item_80">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{this.$lang.departments}}</div>
+          <div class="total_item_txt">{{$t('departments')}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getData" />
@@ -29,7 +29,7 @@
       </div>
       <div class="total_item total_item_80">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{this.$lang.roles}}</div>
+          <div class="total_item_txt">{{$t('roles')}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getData" />
@@ -42,7 +42,7 @@
       </div>
       <div class="total_item total_item_80">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{this.$lang.users}}</div>
+          <div class="total_item_txt">{{$t('users')}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getData" />
@@ -57,7 +57,7 @@
     <div class="total_con">
       <div class="total_item total_item_240">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{this.$lang.op_record}}</div>
+          <div class="total_item_txt">{{$t('op_record')}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getOpRecord" />
@@ -68,12 +68,12 @@
       </div>
       <div class="total_item total_item_240">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{this.$lang.user_record}}</div>
+          <div class="total_item_txt">{{$t('user_record')}}</div>
           <div class="total_item_title">
             <span class="line line_0053FE"></span>
-            {{this.$lang.input}}
+            {{$t('input')}}
             <span class="line line_00C782"></span>
-            {{this.$lang.delete}}
+            {{$t('delete')}}
           </div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getUserRecord" />
@@ -86,7 +86,7 @@
     <div class="total_con">
       <div class="total_item total_item_260">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{this.$lang.sex_ratio}}</div>
+          <div class="total_item_txt">{{$t('sex_ratio')}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getUserRatio" />
@@ -97,7 +97,7 @@
       </div>
       <div class="total_item total_item_260">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{this.$lang.company_ratio}}</div>
+          <div class="total_item_txt">{{$t('company_ratio')}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getUserCompanyRatio" />
@@ -108,7 +108,7 @@
       </div>
       <div class="total_item total_item_260">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{this.$lang.department_ratio}}</div>
+          <div class="total_item_txt">{{$t('department_ratio')}}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getUserDepartmentRatio" />
@@ -271,7 +271,7 @@ export default {
           var options = this.getEchartOptionsLine(dateList);
           options.series = [
             {
-              name: this.$lang.input,
+              name: this.$t('input'),
               type: "line",
               symbol: "circle",
               lineStyle: {
@@ -280,7 +280,7 @@ export default {
               data: addList
             },
             {
-              name: this.$lang.delete,
+              name: this.$t('delete'),
               type: "line",
               symbol: "circle",
               lineStyle: {
@@ -307,9 +307,9 @@ export default {
           var that = this;
           response.result.forEach(function(currentValue) {
             if (currentValue["type"] == "M") {
-              data.push({ value: currentValue.count, name: that.$lang.male });
+              data.push({ value: currentValue.count, name: that.$t("male") });
             } else {
-              data.push({ value: currentValue.count, name: that.$lang.female });
+              data.push({ value: currentValue.count, name: that.$t("female") });
             }
           });
           options.series = [

@@ -10,6 +10,7 @@ namespace SSO.Web.Controllers
     public class RoleController : BaseController
     {
         Business.Role role = new Business.Role();
+        [PermissionDescription("AddRole")]
         public ActionResult Add(RoleModel roleModel)
         {
             if (role.GetByRoleName(roleModel.Name) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
@@ -22,6 +23,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
+        [PermissionDescription("UpdateRole")]
         public ActionResult Update(UpdateRoleModel updateRoleModel)
         {
             if (role.Update(updateRoleModel.Id, updateRoleModel.Name, updateRoleModel.Description) > 0)
@@ -33,21 +35,25 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.record_exist, "");
             }
         }
+        [PermissionDescription("GetRole")]
         public ActionResult GetById(int id)
         {
             return new ResponseModel<Data.Models.Role>(ErrorCode.success, role.GetById(id));
         }
+        [PermissionDescription("GetRole")]
         public ActionResult GetList(string filter = "", int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
             var result = role.GetList(ref count, filter, pageIndex, pageSize);
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, count);
         }
+        [PermissionDescription("GetRole")]
         public ActionResult GetAll()
         {
             var result = role.GetAll();
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, result.Count());
         }
+        [PermissionDescription("DeleteRole")]
         public ActionResult Delete(IEnumerable<int> ids)
         {
             if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);

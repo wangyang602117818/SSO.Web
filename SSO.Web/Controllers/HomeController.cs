@@ -16,15 +16,15 @@ using System.Web.UI.WebControls.WebParts;
 
 namespace SSO.Web.Controllers
 {
-    [AllowAnonymous]
     public class HomeController : BaseController
     {
-        [PermissionDescription("Index")]
         public ActionResult Index()
         {
             var assembly = Assembly.GetExecutingAssembly();
             var controllers = assembly.GetTypes().Where(w => w.FullName.Contains("SSO.Web.Controllers"));
             var actions = PermissionDescriptionAttribute.GetPermissionDescription(controllers);
+            SSOClientService sSOClientService = new SSOClientService("http://www.ssoapi.com:8030/", JwtManager.GetAuthorization(Request));
+            sSOClientService.ReplacePermissions(AppSettings.GetApplicationUrlTrimHttpPrefix(Request), actions);
             return Json(actions, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Ticket()

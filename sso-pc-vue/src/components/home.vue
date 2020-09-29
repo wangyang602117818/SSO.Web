@@ -54,55 +54,49 @@
           <a-menu-item key="overview">
             <router-link to="/overview">
               <a-icon type="pie-chart" />
-              <span>{{this.$lang.overview}}</span>
+              <span>{{ $t("overview") }}</span>
             </router-link>
           </a-menu-item>
           <a-sub-menu key="user">
             <span slot="title">
               <a-icon type="user" />
-              <span>{{this.$lang.user}}</span>
+              <span>{{ $t("user") }}</span>
             </span>
             <a-menu-item key="userbasic">
               <router-link to="/userbasic">
                 <a-icon type="info-circle" />
-                <span>{{this.$lang.basic}}</span>
+                <span>{{ $t("basic") }}</span>
               </router-link>
             </a-menu-item>
           </a-sub-menu>
           <a-menu-item key="role">
             <router-link to="/role">
-              <a-icon type="lock" />
-              <span>{{this.$lang.role}}</span>
+              <a-icon type="team" />
+              <span>{{ $t("role") }}</span>
             </router-link>
           </a-menu-item>
           <a-menu-item key="company">
             <router-link to="/company">
               <a-icon type="home" />
-              <span>{{this.$lang.company}}</span>
+              <span>{{ $t("company") }}</span>
             </router-link>
           </a-menu-item>
           <a-menu-item key="department">
             <router-link to="/department">
               <a-icon type="cluster" />
-              <span>{{this.$lang.department}}</span>
+              <span>{{ $t("department") }}</span>
             </router-link>
           </a-menu-item>
-          <!-- <a-menu-item key="navigation">
-            <router-link to="/navigation">
-              <a-icon type="compass" />
-              <span>{{this.$lang.navigations}}</span>
-            </router-link>
-          </a-menu-item> -->
           <a-menu-item key="log">
             <router-link to="/log">
               <a-icon type="align-left" />
-              <span>{{this.$lang.log}}</span>
+              <span>{{ $t("log") }}</span>
             </router-link>
           </a-menu-item>
           <a-menu-item key="settings">
             <router-link to="/settings">
               <a-icon type="setting" />
-              <span>{{this.$lang.system_settings}}</span>
+              <span>{{ $t("system_settings") }}</span>
             </router-link>
           </a-menu-item>
         </a-menu>
@@ -115,31 +109,29 @@
                 <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
               </a-button>
             </a-col>
-            <a-col :span="12" style="text-align:right;">
+            <a-col :span="12" style="text-align: right">
               <a-dropdown :trigger="['click']">
                 <a-button size="small">
-                  {{this.user.StaffName}}
+                  {{ this.user.StaffName }}
                   <a-icon type="down" />
                 </a-button>
                 <a-menu slot="overlay">
                   <a-menu-item key="0">
-                    <a target="_self" href="/settings">{{this.$lang.settings}}</a>
+                    <a target="_self" href="/settings">{{ $t("settings") }}</a>
                   </a-menu-item>
                   <a-menu-item key="1">
-                    <a
-                      target="_self"
-                      :href="logOutUrl"
-                    >{{this.$lang.logout}}</a>
+                    <a target="_self" :href="logOutUrl">{{ $t("logout") }}</a>
                   </a-menu-item>
-                </a-menu>
-              </a-dropdown>&nbsp;
+                </a-menu> </a-dropdown
+              >&nbsp;
               <a-button
                 size="small"
                 @click="changeLang"
-                :id="this.$lang.lang"
-              >{{this.$lang.lang=="en-us"?'中':'EN'}}</a-button>&nbsp;
+                :data-lang="lang == 'zh-cn' ? 'en-us' : 'zh-cn'"
+                >{{ $t("lang") }}</a-button
+              >&nbsp;
               <a-button size="small">
-                <a target="_self" :href="this.$baseUrl">{{this.$lang.home}}</a>
+                <a target="_self" :href="this.$baseUrl">{{ $t("home") }}</a>
               </a-button>
             </a-col>
           </a-row>
@@ -166,7 +158,8 @@ export default {
         this.$urls.logout +
         "?returnUrl=" +
         window.location.href,
-      user: window.token_jwt_data
+      user: window.token_jwt_data,
+      lang: window.token_jwt_data.Lang,
     };
   },
   created() {
@@ -183,18 +176,21 @@ export default {
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
     },
-    changeLang() {
-      var lang = this.$lang.lang == "en-us" ? "zh-cn" : "en-us";
+    changeLang($event) {
+      var lang = $event.currentTarget.dataset.lang;
       this.$axios
         .get(this.$urls.settings.setLang + "?lang=" + lang)
-        .then(response => {
+        .then((response) => {
           if (response.code == 0) {
             this.$funtools.setCookie(this.$cookieName, response.result);
-            this.$router.go();
+            this.$funtools.parseTokenSetMessage(response.result);
+            this.lang = window.token_jwt_data.Lang;
+            this.$i18n.locale = lang;
+            //this.$i18n.setLocaleMessage(lang);
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

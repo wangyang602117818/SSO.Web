@@ -10,6 +10,7 @@ namespace SSO.Web.Controllers
     public class DepartmentController : BaseController
     {
         Business.Department department = new Business.Department();
+        [PermissionDescription("AddDepartment")]
         public ActionResult Add(DepartmentModel departmentModel)
         {
             if (department.GetByCode(departmentModel.Code) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
@@ -31,10 +32,12 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
+        [PermissionDescription("GetDepartment")]
         public ActionResult GetDepartments(string companyCode)
         {
             return new ResponseModel<List<DepartmentData>>(ErrorCode.success, department.GetDepartment(companyCode));
         }
+        [PermissionDescription("GetDepartment")]
         public ActionResult Get(string code)
         {
             var dept = department.GetByCode(code);
@@ -50,6 +53,7 @@ namespace SSO.Web.Controllers
             };
             return new ResponseModel<DepartmentData>(ErrorCode.success, departmentData);
         }
+        [PermissionDescription("UpdateDepartment")]
         public ActionResult Update(UpdateDepartmentModel updateDepartmentModel)
         {
             if (updateDepartmentModel.ParentCode == null) updateDepartmentModel.ParentCode = "";
@@ -70,6 +74,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
+        [PermissionDescription("DeleteDepartment")]
         public ActionResult Delete(int id)
         {
             return new ResponseModel<int>(ErrorCode.success, department.Delete(id));

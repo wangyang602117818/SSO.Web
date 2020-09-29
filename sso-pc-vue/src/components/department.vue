@@ -2,7 +2,7 @@
   <a-layout>
     <a-layout-sider theme="light">
       <a-input-search
-        :placeholder="this.$lang.search"
+        :placeholder="$t('search')"
         v-model="companySearchValue"
         @search="onSearchCompany"
       />
@@ -17,16 +17,16 @@
     </a-layout-sider>
     <a-layout-content>
       <a-input-search
-        :placeholder="this.$lang.search"
+        :placeholder="$t('search')"
         style="width:50%"
         @change="onSearchDepartment"
       />
-      <a-button type="default" icon="plus" @click="showDrawer" :title="this.$lang.add_top_dept"></a-button>
+      <a-button type="default" icon="plus" @click="showDrawer" :title="$t('add_top_dept')"></a-button>
       <a-button
         type="default"
         :icon="expandedAll?'fullscreen-exit':'fullscreen'"
         @click="expandAll"
-        :title="this.$lang.expand_collapse"
+        :title="$t('expand_collapse')"
       ></a-button>
       <div class="department_wrap">
         <a-spin size="small" v-if="department_loading" style=" width:100%" />
@@ -53,80 +53,80 @@
     </a-layout-content>
     <a-layout-sider theme="light" :width="400" :collapsed="collapsedLeft" :collapsedWidth="0">
       <a-tabs defaultActiveKey="1" @change="changeTab">
-        <a-tab-pane :tab="this.$lang.add_sub_dept" key="1" forceRender>
+        <a-tab-pane :tab="$t('add_sub_dept')" key="1" forceRender>
           <a-form :form="addform" @submit.prevent="addSubDept">
             <a-form-item
-              :label="this.$lang.code"
+              :label="$t('code')"
               :label-col="{ span: 6 }"
               :wrapper-col="{ span: 12 }"
             >
               <a-input
-                v-decorator="['code', {rules: [{ required: true, message: this.$lang.dept_code_required}]}]"
+                v-decorator="['code', {rules: [{ required: true, message: $t('dept_code_required')}]}]"
               >
                 <a-icon slot="addonAfter" type="reload" @click="getRandomCodeSub" />
               </a-input>
             </a-form-item>
             <a-form-item
-              :label="this.$lang.name"
+              :label="$t('name')"
               :label-col="{ span: 6 }"
               :wrapper-col="{ span: 12 }"
             >
               <a-input
-                v-decorator="['Name', {rules: [{ required: true, message: this.$lang.dept_name_required }]}]"
+                v-decorator="['Name', {rules: [{ required: true, message: $t('dept_name_required') }]}]"
               ></a-input>
             </a-form-item>
             <a-form-item
-              :label="this.$lang.order"
+              :label="$t('order')"
               :label-col="{ span: 6 }"
               :wrapper-col="{ span: 12 }"
             >
               <a-input-number v-decorator="['order', { initialValue: 0 }]" />
             </a-form-item>
             <a-form-item
-              :label="this.$lang.description"
+              :label="$t('description')"
               :label-col="{ span: 6 }"
               :wrapper-col="{ span: 12 }"
             >
               <a-textarea
                 :autoSize="{ minRows: 3, maxRows: 5 }"
-                v-decorator="['description',{rules: [{ required: false, message: this.$lang.dept_description_required }]}]"
+                v-decorator="['description',{rules: [{ required: false, message: $t('dept_description_required') }]}]"
               />
             </a-form-item>
             <a-form-item :wrapper-col="{ span: 12, offset: 6 }">
-              <a-button @click="addform.resetFields();">{{this.$lang.reset}}</a-button>
-              <a-button type="primary" html-type="submit">{{this.$lang.submit}}</a-button>
+              <a-button @click="addform.resetFields();">{{$t('reset')}}</a-button>
+              <a-button type="primary" html-type="submit">{{$t('submit')}}</a-button>
             </a-form-item>
           </a-form>
         </a-tab-pane>
-        <a-tab-pane :tab="this.$lang.update" key="2" forceRender>
+        <a-tab-pane :tab="$t('update')" key="2" forceRender>
           <a-form :form="updateform" @submit.prevent="updateSubDept">
             <a-form-item
-              :label="this.$lang.code"
+              :label="$t('code')"
               :label-col="{ span: 8 }"
               :wrapper-col="{ span: 12 }"
             >
               <a-input
-                v-decorator="['code', {rules: [{ required: true, message: this.$lang.dept_code_required }]}]"
+                v-decorator="['code', {rules: [{ required: true, message: $t('dept_code_required') }]}]"
               >
                 <a-icon slot="addonAfter" type="reload" @click="getRandomCodeUpdate" />
               </a-input>
             </a-form-item>
             <a-form-item
-              :label="this.$lang.name"
+              :label="$t('name')"
               :label-col="{ span: 8 }"
               :wrapper-col="{ span: 12 }"
             >
               <a-input
-                v-decorator="['name', {rules: [{ required: true, message: this.$lang.dept_name_required }]}]"
+                v-decorator="['name', {rules: [{ required: true, message: $t('dept_name_required') }]}]"
               ></a-input>
             </a-form-item>
             <a-form-item
-              :label="this.$lang.comp"
+              :label="$t('comp')"
               :label-col="{ span: 8 }"
               :wrapper-col="{ span: 12 }"
             >
               <a-select
-                v-decorator="[ 'companyCode', {rules: [{ required: true, message: this.$lang.company_required }]}]"
+                v-decorator="[ 'companyCode', {rules: [{ required: true, message: $t('company_required') }]}]"
                 @change="changeCompany"
                 disabled
               >
@@ -138,7 +138,7 @@
               </a-select>
             </a-form-item>
             <a-form-item
-              :label="this.$lang.sup_dept"
+              :label="$t('sup_dept')"
               :label-col="{ span: 8}"
               :wrapper-col="{ span: 12 }"
             >
@@ -150,41 +150,41 @@
               ></a-tree-select>
             </a-form-item>
             <a-form-item
-              :label="this.$lang.order"
+              :label="$t('order')"
               :label-col="{ span: 8 }"
               :wrapper-col="{ span: 12 }"
             >
               <a-input-number v-decorator="['order', { initialValue: 0 }]" />
             </a-form-item>
             <a-form-item
-              :label="this.$lang.description"
+              :label="$t('description')"
               :label-col="{ span: 8 }"
               :wrapper-col="{ span: 12 }"
             >
               <a-textarea
                 :autoSize="{ minRows: 3, maxRows: 5 }"
-                v-decorator="['description',{rules: [{ required: false, message: this.$lang.dept_description_required}]}]"
+                v-decorator="['description',{rules: [{ required: false, message: $t('dept_description_required')}]}]"
               />
             </a-form-item>
             <a-form-item :wrapper-col="{ span: 8, offset: 6 }">
-              <a-button type="primary" html-type="submit">{{this.$lang.submit}}</a-button>
+              <a-button type="primary" html-type="submit">{{$t('submit')}}</a-button>
             </a-form-item>
           </a-form>
         </a-tab-pane>
-        <a-tab-pane :tab="this.$lang.delete" key="3" forceRender>
+        <a-tab-pane :tab="$t('delete')" key="3" forceRender>
           <a-popconfirm
-            :title="this.$lang.sure_delete_dept"
+            :title="$t('sure_delete_dept')"
             @confirm="delDept"
-            :okText="this.$lang.yes"
-            :cancelText="this.$lang.no"
+            :okText="$t('yes')"
+            :cancelText="$t('no')"
           >
-            <a-button type="danger">{{this.$lang.delete}}</a-button>
+            <a-button type="danger">{{$t('delete')}}</a-button>
           </a-popconfirm>
         </a-tab-pane>
       </a-tabs>
     </a-layout-sider>
     <a-drawer
-      :title="this.$lang.add_top_dept"
+      :title="$t('add_top_dept')"
       :width="360"
       @close="drawerVisible=false"
       :visible="drawerVisible"
@@ -192,9 +192,9 @@
       <a-form :form="form" layout="vertical" @submit.prevent="handleTopSubmit">
         <a-row :gutter="0">
           <a-col :span="24">
-            <a-form-item :label="this.$lang.code">
+            <a-form-item :label="$t('code')">
               <a-input
-                v-decorator="['code',{rules: [{ required: true, message: this.$lang.dept_code_required }]}]"
+                v-decorator="['code',{rules: [{ required: true, message: $t('dept_code_required') }]}]"
               >
                 <a-icon slot="addonAfter" type="reload" @click="getRandomCode" />
               </a-input>
@@ -203,34 +203,34 @@
         </a-row>
         <a-row :gutter="0">
           <a-col :span="24">
-            <a-form-item :label="this.$lang.name">
+            <a-form-item :label="$t('name')">
               <a-input
-                v-decorator="['name',{rules: [{ required: true, message: this.$lang.dept_name_required}]}]"
+                v-decorator="['name',{rules: [{ required: true, message: $t('dept_name_required')}]}]"
               />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="0">
           <a-col :span="24">
-            <a-form-item :label="this.$lang.order">
+            <a-form-item :label="$t('order')">
               <a-input-number v-decorator="['order', { initialValue: 0 }]" />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="0">
           <a-col :span="24">
-            <a-form-item :label="this.$lang.description">
+            <a-form-item :label="$t('description')">
               <a-textarea
                 :autoSize="{ minRows: 4, maxRows: 6 }"
-                v-decorator="['description',{rules: [{ required: false, message: this.$lang.dept_description_required }]}]"
+                v-decorator="['description',{rules: [{ required: false, message: $t('dept_description_required') }]}]"
               />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="0">
           <a-col :span="24">
-            <a-button @click="form.resetFields();">{{this.$lang.reset}}</a-button>
-            <a-button type="primary" html-type="submit">{{this.$lang.submit}}</a-button>
+            <a-button @click="form.resetFields();">{{$t('reset')}}</a-button>
+            <a-button type="primary" html-type="submit">{{$t('submit')}}</a-button>
           </a-col>
         </a-row>
       </a-form>
@@ -449,7 +449,7 @@ export default {
             if (response.code == 0) {
               this.getDepartmentData(this.selectedCompany);
             } else {
-              this.$message.warning(this.$lang.record_exists);
+              this.$message.warning(this.$t('record_exists'));
             }
           });
         }
@@ -467,7 +467,7 @@ export default {
               if (response.code == 0) {
                 this.getDepartmentData(this.selectedCompany);
               } else {
-                this.$message.warning(this.$lang.record_exists);
+                this.$message.warning(this.$t('record_exists'));
               }
             });
         }
@@ -494,7 +494,7 @@ export default {
           values.parentCode = "";
           this.$axios.post(this.$urls.department.add, values).then(response => {
             if (response.code == 400) {
-              this.$message.warning(this.$lang.record_exists);
+              this.$message.warning(this.$t('record_exists'));
             }
             if (response.code == 0) {
               this.form.resetFields();

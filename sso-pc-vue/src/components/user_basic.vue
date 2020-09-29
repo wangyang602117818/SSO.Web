@@ -3,74 +3,74 @@
     <a-row type="flex" align="middle">
       <a-col :span="12">
         <a-input-search
-          :placeholder="this.$lang.search"
+          :placeholder="$t('search')"
           style="width: 200px"
           @search="onSearch"
           v-model="searchValue"
         />
-        <a-button type="primary" icon="plus" :title="this.$lang.add" @click="showDrawer()"></a-button>
-        <a-button type="default" icon="redo" @click="reload" :title="this.$lang.refresh"></a-button>
+        <a-button type="primary" icon="plus" :title="$t('add')" @click="showDrawer()"></a-button>
+        <a-button type="default" icon="redo" @click="reload" :title="$t('refresh')"></a-button>
         <a-button
           type="default"
           icon="edit"
           @click="editUser"
           :disabled="selectedRowKeys.length!=1"
-          :title="this.$lang.edit"
+          :title="$t('edit')"
         ></a-button>
         <a-popconfirm
-          :title="this.$lang.sure_reset_password"
+          :title="$t('sure_reset_password')"
           @confirm="resetPassword"
-          :okText="this.$lang.yes"
-          :cancelText="this.$lang.no"
+          :okText="$t('yes')"
+          :cancelText="$t('no')"
         >
-          <a-button type="default" icon="unlock" :title="this.$lang.reset_password"></a-button>
+          <a-button type="default" icon="unlock" :title="$t('reset_password')"></a-button>
         </a-popconfirm>
         <a-popconfirm
-          :title="this.$lang.confirm_delete"
+          :title="$t('confirm_delete')"
           @confirm="removeUser"
-          :okText="this.$lang.yes"
-          :cancelText="this.$lang.no"
+          :okText="$t('yes')"
+          :cancelText="$t('no')"
           v-if="this.showDelete==false"
         >
           <a-button
             type="danger"
             icon="delete"
-            :title="this.$lang.delete"
+            :title="$t('delete')"
             :disabled="selectedRowKeys.length==0"
           ></a-button>
         </a-popconfirm>
         <a-popconfirm
-          :title="this.$lang.sure_restore_user"
+          :title="$t('sure_restore_user')"
           @confirm="restoreUser"
-          :okText="this.$lang.yes"
-          :cancelText="this.$lang.no"
+          :okText="$t('yes')"
+          :cancelText="$t('no')"
           v-if="this.showDelete==true"
         >
           <a-button
             type="default"
             icon="rollback"
-            :title="this.$lang.restore"
+            :title="$t('restore')"
             :disabled="selectedRowKeys.length==0"
           ></a-button>
         </a-popconfirm>
         <a-popconfirm
-          :title="this.$lang.sure_permanent_delete_user"
+          :title="$t('sure_permanent_delete_user')"
           @confirm="deleteUser"
-          :okText="this.$lang.yes"
-          :cancelText="this.$lang.no"
+          :okText="$t('yes')"
+          :cancelText="$t('no')"
           v-if="this.showDelete==true"
         >
           <a-button
             type="default"
             icon="close"
-            :title="this.$lang.permanent_delete"
+            :title="$t('permanent_delete')"
             :disabled="selectedRowKeys.length==0"
           ></a-button>
         </a-popconfirm>
       </a-col>
       <a-col :span="12" align="right">
         <a-tooltip
-          :title="this.showDelete?this.$lang.show_normal_user:this.$lang.show_delete_user"
+          :title="this.showDelete?$t('show_normal_user'):$t('show_delete_user')"
           placement="left"
         >
           <a-switch :defaultChecked="showDelete" @change="changeDeleteShow" />
@@ -107,66 +107,66 @@
       </span>
     </a-table>
     <a-drawer
-      :title="isUpdate?this.$lang.update_user:this.$lang.add_user"
+      :title="isUpdate?$t('update_user'):$t('add_user')"
       :width="400"
       @close="drawerVisible=false"
       :visible="drawerVisible"
     >
       <a-form :form="form" @submit.prevent="handleSubmit">
         <a-form-item
-          :label="this.$lang.userId"
+          :label="$t('userId')"
           :label-col="{ span: 6 }"
           :wrapper-col="{ span: 12 }"
         >
           <a-input
-            :placeholder="this.$lang.userId+'/'+this.$lang.loginId"
-            v-decorator="['userId',{rules: [{ required: true, message: this.$lang.user_id_required }]}]"
+            :placeholder="$t('userId')+'/'+$t('loginId')"
+            v-decorator="['userId',{rules: [{ required: true, message: $t('user_id_required') }]}]"
           />
         </a-form-item>
         <a-form-item
-          :label="this.$lang.user_name"
+          :label="$t('user_name')"
           :label-col="{ span: 6 }"
           :wrapper-col="{ span: 15 }"
         >
           <a-input
-            v-decorator="['userName',{rules: [{ required: true, message: this.$lang.user_name_required }]}]"
+            v-decorator="['userName',{rules: [{ required: true, message: $t('user_name_required') }]}]"
           />
         </a-form-item>
-        <a-form-item :label="this.$lang.sex" :label-col="{ span: 6 }" :wrapper-col="{ span: 8 }">
+        <a-form-item :label="$t('sex')" :label-col="{ span: 6 }" :wrapper-col="{ span: 8 }">
           <a-select
-            v-decorator="['sex',{rules: [{ required: true, message:this.$lang.sex_required }]}]"
+            v-decorator="['sex',{rules: [{ required: true, message:$t('sex_required') }]}]"
           >
-            <a-select-option value="M">{{this.$lang.male}}</a-select-option>
-            <a-select-option value="F">{{this.$lang.female}}</a-select-option>
+            <a-select-option value="M">{{$t('male')}}</a-select-option>
+            <a-select-option value="F">{{$t('female')}}</a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item
-          :label="this.$lang.mobile"
+          :label="$t('mobile')"
           :label-col="{ span: 6 }"
           :wrapper-col="{ span: 15 }"
         >
           <a-input
-            v-decorator="['mobile',{rules: [{ required: false, message: this.$lang.mobile_required }]}]"
+            v-decorator="['mobile',{rules: [{ required: false, message: $t('mobile_required') }]}]"
           />
         </a-form-item>
-        <a-form-item :label="this.$lang.email" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item :label="$t('email')" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
           <a-input
-            v-decorator="['email',{rules: [{ required: false, message:this.$lang.email_required }]}]"
+            v-decorator="['email',{rules: [{ required: false, message:$t('email_required') }]}]"
           />
         </a-form-item>
         <a-form-item
-          :label="this.$lang.id_card"
+          :label="$t('id_card')"
           :label-col="{ span: 6 }"
           :wrapper-col="{ span: 15 }"
         >
           <a-input
-            v-decorator="['idCard',{rules: [{ required: false, message: this.$lang.id_card_required }]}]"
+            v-decorator="['idCard',{rules: [{ required: false, message: $t('id_card_required') }]}]"
           />
         </a-form-item>
-        <a-form-item :label="this.$lang.comp" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item :label="$t('comp')" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
           <a-select
             allowClear
-            v-decorator="[ 'companyCode', {rules: [{ required: true, message: this.$lang.company_required }]}]"
+            v-decorator="[ 'companyCode', {rules: [{ required: true, message: $t('company_required') }]}]"
             @change="changeCompany"
           >
             <a-select-option
@@ -176,7 +176,7 @@
             >{{item.Name}}</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item :label="this.$lang.dept" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item :label="$t('dept')" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
           <a-tree-select
             :treeData="departmentData"
             multiple
@@ -185,11 +185,11 @@
             allowClear
           ></a-tree-select>
         </a-form-item>
-        <a-form-item :label="this.$lang.rol" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item :label="$t('rol')" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
           <a-select
             allowClear
             mode="multiple"
-            v-decorator="[ 'roles', {rules: [{ required: false, message: this.$lang.rol_required }]}]"
+            v-decorator="[ 'roles', {rules: [{ required: false, message: $t('rol_required') }]}]"
           >
             <a-select-option
               :value="item.Name"
@@ -199,8 +199,8 @@
           </a-select>
         </a-form-item>
         <a-divider />
-        <a-button @click="form.resetFields();">{{this.$lang.reset}}</a-button>
-        <a-button type="primary" html-type="submit">{{this.$lang.submit}}</a-button>
+        <a-button @click="form.resetFields();">{{$t('reset')}}</a-button>
+        <a-button type="primary" html-type="submit">{{$t('submit')}}</a-button>
       </a-form>
     </a-drawer>
   </div>
@@ -221,73 +221,73 @@ export default {
       confirmDirty: false,
       columns: [
         {
-          title: this.$lang.id,
+          title: this.$t('id'),
           dataIndex: "Id",
           width: "5%",
         },
         {
-          title: this.$lang.userId,
+          title: this.$t('userId'),
           dataIndex: "UserId",
           width: "7%",
           ellipsis: true,
         },
         {
-          title: this.$lang.user_name,
+          title: this.$t('user_name'),
           dataIndex: "UserName",
           width: "10%",
           ellipsis: true,
         },
         {
-          title: this.$lang.mobile,
+          title: this.$t('mobile'),
           dataIndex: "Mobile",
           width: "11%",
           ellipsis: true,
         },
         {
-          title: this.$lang.email,
+          title: this.$t('email'),
           dataIndex: "Email",
           width: "10%",
           ellipsis: true,
         },
         {
-          title: this.$lang.sex,
+          title: this.$t('sex'),
           dataIndex: "Sex",
           width: "5%",
           ellipsis: true,
           customRender: (val) => {
-            return val == "F" ? this.$lang.female : this.$lang.male;
+            return val == "F" ? this.$t('female') : this.$t('male');
           },
         },
         {
-          title: this.$lang.comp,
+          title: this.$t('comp'),
           dataIndex: "CompanyName",
           width: "10%",
           ellipsis: false,
           scopedSlots: { customRender: "CompanyName" },
         },
         {
-          title: this.$lang.dept,
+          title: this.$t('dept'),
           dataIndex: "DepartmentName",
           width: "13%",
           ellipsis: false,
           scopedSlots: { customRender: "DepartmentName" },
         },
         {
-          title: this.$lang.rol,
+          title: this.$t('rol'),
           dataIndex: "RoleName",
           width: "12%",
           ellipsis: false,
           scopedSlots: { customRender: "RoleName" },
         },
         {
-          title: this.$lang.modified,
+          title: this.$t('modified'),
           dataIndex: "IsModified",
           width: "7%",
           ellipsis: true,
           scopedSlots: { customRender: "IsModified" },
         },
         {
-          title: this.$lang.create_time,
+          title: this.$t('create_time'),
           dataIndex: "CreateTime",
           ellipsis: true,
           width: "10%",
@@ -334,7 +334,7 @@ export default {
             this.selectedRowKeys = [];
             this.selectedRows = [];
             this.getData();
-            this.$message.warning(this.$lang.reset_success);
+            this.$message.warning(this.$t('reset_success'));
           }
           this.loading = false;
         });
@@ -353,9 +353,6 @@ export default {
     },
     addUser(user) {
       this.$axios.post(this.$urls.user.add, user).then((response) => {
-        if (response.code == 400) {
-          this.$message.warning(this.$lang.record_exists);
-        }
         if (response.code == 0) {
           this.getData();
         }
@@ -366,7 +363,7 @@ export default {
       this.$axios.post(this.$urls.user.update, user).then((response) => {
         if (response.code == 0) {
           this.getData();
-          this.$message.warning(this.$lang.modify_success);
+          this.$message.warning(this.$t('modify_success'));
         }
       });
     },
@@ -435,7 +432,7 @@ export default {
       var len = this.columns.length;
       if (this.showDelete) {
         this.columns.splice(len - 1, 1, {
-          title: this.$lang.delete_time,
+          title: this.$t('delete_time'),
           dataIndex: "DeleteTime",
           width: "15%",
           customRender: (val) => {
@@ -444,7 +441,7 @@ export default {
         });
       } else {
         this.columns.splice(len - 1, 1, {
-          title: this.$lang.create_time,
+          title: this.$t('create_time'),
           dataIndex: "CreateTime",
           width: "15%",
           customRender: (val) => {

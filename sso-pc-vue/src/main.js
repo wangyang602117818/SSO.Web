@@ -1,16 +1,15 @@
 import Vue from 'vue'
+import VueI18n from "vue-i18n"
 import VueRouter from 'vue-router'
 import funtools from 'sso-util'
 import { baseURL, cookieName, urls, axios } from './config/http';
 import routes from "./config/routes";
-
-import langEn from './lang/en-US'
-import langZh from './lang/zh-CN'
 import "./css/index.css"
 
-import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown, Spin, DatePicker } from 'ant-design-vue'
+import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown, Spin, DatePicker, Modal, Checkbox } from 'ant-design-vue'
 
 Vue.use(VueRouter)
+Vue.use(VueI18n);
 
 Vue.use(Button)
 Vue.use(Icon)
@@ -36,6 +35,8 @@ Vue.use(Dropdown)
 Vue.use(Card)
 Vue.use(Spin)
 Vue.use(DatePicker)
+Vue.use(Modal)
+Vue.use(Checkbox)
 
 Vue.prototype.$message = message
 Vue.prototype.$notification = notification
@@ -46,10 +47,17 @@ Vue.prototype.$urls = urls
 Vue.prototype.$axios = axios
 
 funtools.authorize(baseURL, cookieName);
-Vue.prototype.$lang = (window.token_jwt_data.Lang == "en-us") ? langEn : langZh
+const i18n = new VueI18n({
+  locale: window.token_jwt_data.Lang,
+  messages: {
+    'zh-cn': require('./locales/zh-cn.json'),
+    'en-us': require('./locales/en-us.json')
+  }
+});
 
 Vue.config.productionTip = false
 var vue = new Vue({
+  i18n,
   el: "#app",
   router: routes
 })

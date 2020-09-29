@@ -65,6 +65,9 @@ export const urls = {
     settings: {
         setLang: 'settings/setlang'
     },
+    permission:{
+        getlist: 'permission/getpermission',
+    },
     decodeToken: 'sso/decodetoken',
     login: 'sso/login',
     logout: 'sso/logout',

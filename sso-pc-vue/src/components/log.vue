@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-select :default-value="from" v-model="from" style="width: 180px" @change="fromChange">
-      <a-select-option value>{{this.$lang.source}}</a-select-option>
+      <a-select-option value>{{$t('source')}}</a-select-option>
       <a-select-option
         v-for="item in fromlist"
         :value="item.from||'anonymous'"
@@ -9,7 +9,7 @@
       >{{item.from||'anonymous'}}</a-select-option>
     </a-select>&nbsp;
     <a-select :default-value="to" v-model="to" style="width: 180px" @change="toChange">
-      <a-select-option value>{{this.$lang.to}}</a-select-option>
+      <a-select-option value>{{$t('to')}}</a-select-option>
       <a-select-option v-for="item in tolist" :value="item.to" :key="item.to">{{item.to}}</a-select-option>
     </a-select>&nbsp;
     <a-select
@@ -42,14 +42,14 @@
       <a-select-option
         value="Time"
         @click="orderChange"
-      >{{this.$lang.response_time+this.getOrderSymbol('Time')}}</a-select-option>
+      >{{$t('response_time')+this.getOrderSymbol('Time')}}</a-select-option>
       <a-select-option
         value="CreateTime"
         @click="orderChange"
-      >{{this.$lang.create_time+this.getOrderSymbol('CreateTime')}}</a-select-option>
+      >{{$t('create_time')+this.getOrderSymbol('CreateTime')}}</a-select-option>
     </a-select>&nbsp;
     <a-input
-      :placeholder="this.$lang.us"
+      :placeholder="$t('us')"
       style="width: 100px"
       v-on:keyup.enter="onSearch"
       v-model="userName"
@@ -58,14 +58,14 @@
       valueFormat="YYYY-MM-DD"
       :value="startTime"
       @change="onStartChange"
-      :placeholder="this.$lang.start_time"
+      :placeholder="$t('start_time')"
       style="width: 120px"
     />&nbsp;
     <a-date-picker
       valueFormat="YYYY-MM-DD"
       :value="endTime"
       @change="onEndChange"
-      :placeholder="this.$lang.end_time"
+      :placeholder="$t('end_time')"
       style="width: 120px"
     />&nbsp;
     <a-button @click="handleReset">Clear</a-button>&nbsp;
@@ -96,13 +96,13 @@ export default {
     return {
       columns: [
         {
-          title: this.$lang.source,
+          title: this.$t('source'),
           dataIndex: "From",
           width: "12%",
           ellipsis: true,
         },
         {
-          title: this.$lang.to,
+          title: this.$t('to'),
           dataIndex: "To",
           width: "12%",
           ellipsis: true,
@@ -120,36 +120,36 @@ export default {
           ellipsis: true,
         },
         {
-          title: this.$lang.response_time,
+          title: this.$t('response_time'),
           dataIndex: "Time",
           width: "6%",
           ellipsis: true,
         },
         {
-          title: this.$lang.query,
+          title: this.$t('query'),
           dataIndex: "QueryString",
           width: "10%",
           ellipsis: true,
         },
         {
-          title: this.$lang.content,
+          title: this.$t('content'),
           dataIndex: "Content",
           width: "10%",
           ellipsis: true,
         },
         {
-          title: this.$lang.us,
+          title: this.$t('us'),
           dataIndex: "UserName",
           width: "10%",
         },
         {
-          title: this.$lang.count + "/" + this.$lang.minute,
+          title: this.$t('count') + "/" + this.$t('minute'),
           dataIndex: "CountPerMinute",
           width: "6%",
           ellipsis: true,
         },
         {
-          title: this.$lang.agent,
+          title: this.$t('agent'),
           dataIndex: "UserAgent",
           width: "6%",
           ellipsis: true,
@@ -158,7 +158,7 @@ export default {
           },
         },
         {
-          title: this.$lang.create_time,
+          title: this.$t('create_time'),
           dataIndex: "CreateTime",
           width: "12%",
           ellipsis: true,

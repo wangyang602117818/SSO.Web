@@ -1,30 +1,30 @@
 <template>
   <div>
     <a-input-search
-      :placeholder="this.$lang.search"
+      :placeholder="$t('search')"
       style="width: 200px"
       @search="onSearch"
       v-model="searchValue"
     />
-    <a-button type="primary" icon="plus" :title="this.$lang.add" @click="showDrawer"></a-button>
-    <a-button type="default" icon="redo" :title="this.$lang.refresh" @click="reload"></a-button>
+    <a-button type="primary" icon="plus" :title="$t('add')" @click="showDrawer"></a-button>
+    <a-button type="default" icon="redo" :title="$t('refresh')" @click="reload"></a-button>
     <a-button
       type="default"
       icon="edit"
-      :title="this.$lang.edit"
+      :title="$t('edit')"
       @click="eidtCompany"
       :disabled="selectedRowKeys.length!=1"
     ></a-button>
     <a-popconfirm
-      :title="this.$lang.sure_delete_company"
+      :title="$t('sure_delete_company')"
       @confirm="deleteCompany"
-      :okText="this.$lang.yes"
-      :cancelText="this.$lang.no"
+      :okText="$t('yes')"
+      :cancelText="$t('no')"
     >
       <a-button
         type="danger"
         icon="delete"
-        :title="this.$lang.delete"
+        :title="$t('delete')"
         :disabled="selectedRowKeys.length==0"
       ></a-button>
     </a-popconfirm>
@@ -38,7 +38,7 @@
       @change="handleTableChange"
     />
     <a-drawer
-      :title="isUpdate?this.$lang.update_company:this.$lang.add_company"
+      :title="isUpdate?$t('update_company'):$t('add_company')"
       :width="360"
       @close="drawerVisible=false"
       :visible="drawerVisible"
@@ -46,9 +46,9 @@
       <a-form :form="form" layout="vertical" @submit.prevent="handleSubmit">
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-form-item :label="this.$lang.company_code">
+            <a-form-item :label="$t('company_code')">
               <a-input
-                v-decorator="['code',{rules: [{ required: true, message:this.$lang.company_code_required }]}]"
+                v-decorator="['code',{rules: [{ required: true, message:$t('company_code_required') }]}]"
               >
                 <a-icon slot="addonAfter" type="reload" @click="getRandomCode" />
               </a-input>
@@ -57,27 +57,27 @@
         </a-row>
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-form-item :label="this.$lang.company_name">
+            <a-form-item :label="$t('company_name')">
               <a-input
-                v-decorator="['name',{rules: [{ required: true, message: this.$lang.company_name_required}]}]"
+                v-decorator="['name',{rules: [{ required: true, message: $t('company_name_required')}]}]"
               />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-form-item :label="this.$lang.company_description">
+            <a-form-item :label="$t('company_description')">
               <a-textarea
                 :autoSize="{ minRows: 4, maxRows: 6 }"
-                v-decorator="['description',{rules: [{ required: false, message: this.$lang.company_description_required }]}]"
+                v-decorator="['description',{rules: [{ required: false, message: $t('company_description_required') }]}]"
               />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-button @click="form.resetFields();">{{this.$lang.reset}}</a-button>
-            <a-button type="primary" html-type="submit">{{this.$lang.submit}}</a-button>
+            <a-button @click="form.resetFields();">{{$t('reset')}}</a-button>
+            <a-button type="primary" html-type="submit">{{$t('submit')}}</a-button>
           </a-col>
         </a-row>
       </a-form>
@@ -93,31 +93,31 @@ export default {
     return {
       columns: [
         {
-          title: this.$lang.id,
+          title: this.$t('id'),
           dataIndex: "Id",
           width: "7%",
           ellipsis: true
         },
         {
-          title: this.$lang.company_code,
+          title: this.$t('company_code'),
           dataIndex: "Code",
           width: "15%",
           ellipsis: true
         },
         {
-          title: this.$lang.company_name,
+          title: this.$t('company_name'),
           dataIndex: "Name",
           width: "13%",
           ellipsis: true
         },
         {
-          title: this.$lang.company_description,
+          title: this.$t('company_description'),
           dataIndex: "Description",
           width: "35%",
           ellipsis: true
         },
         {
-          title: this.$lang.update_time,
+          title: this.$t('update_time'),
           dataIndex: "UpdateTime",
           width: "15%",
           ellipsis: true,
@@ -126,7 +126,7 @@ export default {
           }
         },
         {
-          title: this.$lang.create_time,
+          title: this.$t('create_time'),
           dataIndex: "CreateTime",
           width: "15%",
           ellipsis: true,

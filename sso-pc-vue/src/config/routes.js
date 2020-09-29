@@ -5,7 +5,6 @@ import UserBasic from '@/components/user_basic'
 import Role from '@/components/role'
 import Company from '@/components/company'
 import Department from '@/components/department'
-import Navigation from '@/components/navigation'
 import Log from '@/components/log'
 import Settings from '@/components/settings'
 const routes = new VueRouter({
@@ -47,11 +46,6 @@ const routes = new VueRouter({
                     path: 'department',
                     name: "department",
                     component: Department
-                },
-                {
-                    path: 'navigation',
-                    name: "navigation",
-                    component: Navigation
                 },
                 {
                     path: 'log',
