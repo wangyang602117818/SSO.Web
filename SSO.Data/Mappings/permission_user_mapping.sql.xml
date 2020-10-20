@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  <delete-many>
+    delete from PermissionUserMapping where UserId=@UserId
+  </delete-many>
+  <insert-many>
+    insert into PermissionUserMapping(Origin,Name)
+  </insert-many>
+  <get-by-user>
+    select * from PermissionUserMapping where UserId=@UserId
+  </get-by-user>
+</sql>

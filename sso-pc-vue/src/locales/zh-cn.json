@@ -161,7 +161,7 @@
         "UpdateDepartment": "更新部门",
         "DeleteDepartment": "删除部门",
         "AddRole": "添加角色",
-        "UpdateRole": "修改角色",
+        "UpdateRole": "更新角色",
         "GetRole": "获取角色",
         "DeleteRole": "删除角色",
         "GetUser": "获取用户",
@@ -170,7 +170,7 @@
         "DeleteUser": "删除用户",
         "RestoreUser": "恢复用户",
         "UploadFile": "上传文件",
-        "FileAnalysis": "文件分析",
+        "GetFileAnalysis": "获取文件分析",
         "GetHandler": "获取处理器",
         "GetFile": "获取文件",
         "EmptyTaskCount": "清空任务总数",
@@ -188,7 +188,7 @@
         "UpdateSetting": "更新配置",
         "DeleteSetting": "删除配置",
         "UpdateFile": "更新文件",
-        "ServerStatus": "服务器状态",
+        "GetServerStatus": "获取服务器状态",
         "GetCacheFiles": "获取缓存文件",
         "DeleteCacheFiles": "删除缓存文件"
     }

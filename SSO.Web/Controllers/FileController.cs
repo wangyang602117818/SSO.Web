@@ -2,7 +2,6 @@
 using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -32,7 +31,7 @@ namespace SSO.Web.Controllers
         {
             FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));
             List<UploadFileItem> files = new List<UploadFileItem>();
-            foreach(var item in uploadFileModel.Files)
+            foreach (var item in uploadFileModel.Files)
             {
                 files.Add(new UploadFileItem()
                 {

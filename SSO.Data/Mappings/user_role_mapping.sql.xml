@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  <insert>
+    INSERT INTO UserRoleMapping (
+    UserId,
+    Role,
+    CreateTime
+    ) VALUES (
+    @UserId,
+    @Role,
+    @CreateTime
+    )
+  </insert>
+  <get-by-userId>
+    select * from UserRoleMapping where UserId=@UserId
+  </get-by-userId>
+  <delete-by-userId>
+    delete from UserRoleMapping where UserId=@UserId
+  </delete-by-userId>
+</sql>

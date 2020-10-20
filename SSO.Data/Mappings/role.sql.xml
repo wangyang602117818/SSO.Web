@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  <insert>
+    INSERT INTO Role (
+    Name,
+    CreateTime
+    <isNotEmpty property="Description" prepend=",">
+      Description
+    </isNotEmpty>
+    ) VALUES (
+    @Name,
+    @CreateTime
+    <isNotEmpty property="Description" prepend=",">
+      @Description
+    </isNotEmpty>
+    )
+  </insert>
+  <update>
+    UPDATE Role SET
+    Name=@Name,
+    UpdateTime=@UpdateTime
+    <isNotEmpty property="Description" prepend=",">
+      Description=@Description
+    </isNotEmpty>
+    WHERE Id = @Id
+  </update>
+  <delete>
+    delete from Role where Id in (<iterate conjunction="," property="Ids"></iterate>)
+  </delete>
+  <count>
+    select count(*) from Role
+  </count>
+  <get-by-name>
+    select * from Role where Name = @Name
+  </get-by-name>
+  <get-by-id>
+    select * from Role where Id = @Id
+  </get-by-id>
+  <get-page-list>
+    select * from(
+    select *,row_number() over(order by Id desc) uid,(select count(1) from [Role]) total from [Role]
+    <isNotEmpty property="Name" prepend="where">
+      Name like '%'+@Name+'%'
+    </isNotEmpty>
+    ) as tbl
+    where uid between (@PageIndex-1)*@PageSize+1 and @PageIndex*@PageSize
+  </get-page-list>
+  <get-all>
+    select * from [Role] order by Name 
+  </get-all>
+</sql>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  <insert>
+    INSERT INTO UserDepartmentMapping (
+    UserId,
+    DepartmentCode,
+    CreateTime
+    ) VALUES (
+    @UserId,
+    @DepartmentCode,
+    @CreateTime
+    )
+  </insert>
+  <get-by-userId>
+    select * from UserDepartmentMapping where UserId=@UserId
+  </get-by-userId>
+  <delete-by-userId>
+    delete from UserDepartmentMapping where UserId=@UserId
+  </delete-by-userId>
+  <group-by-department>
+    select d.Name [type],count(*) count from UserDepartmentMapping udp left join Department d
+    on udp.DepartmentCode=d.Code
+    group by d.Name
+  </group-by-department>
+</sql>

@@ -8,26 +8,25 @@ using System.Security.Policy;
 
 namespace SSO.Business
 {
-    public class UserBasic : ModelBase
+    public class UserBasic : ModelBase<Data.Models.UserBasic>
     {
+        public UserBasic() : base(new Data.Models.UserBasic()) { }
         public string defaultPassword = AppSettings.GetValue("defaultPassword");
+        Company company = new Company();
+        Department department = new Department();
+        UserDepartmentMapping departmentMapping = new UserDepartmentMapping();
+        UserRoleMapping roleMapping = new UserRoleMapping();
         public int Insert(string userId, string userName, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
         {
             string companyName = "", departmentName = "", roleName = "";
-            companyName = userCenterContext.Companies.Where(w => w.Code == companyCode).FirstOrDefault().Name;
+            companyName = company.GetByCode(companyCode).Name;
             if (departments != null)
             {
-                foreach (string department in departments)
+                foreach (string dept in departments)
                 {
-                    if (department.IsNullOrEmpty()) continue;
-                    departmentName += userCenterContext.Departments.Where(w => w.Code == department).FirstOrDefault().Name + ",";
-                    userCenterContext.UserDepartmentMappings.Add(new Data.Models.UserDepartmentMapping()
-                    {
-                        UserId = userId,
-                        DepartmentCode = department,
-                        UpdateTime = DateTime.Now,
-                        CreateTime = DateTime.Now
-                    });
+                    if (dept.IsNullOrEmpty()) continue;
+                    departmentName += department.GetByCode(dept).Name + ",";
+                    departmentMapping.Insert(userId, dept);
                 }
             }
             if (roles != null)
@@ -36,16 +35,10 @@ namespace SSO.Business
                 {
                     if (role.IsNullOrEmpty()) continue;
                     roleName += role + ",";
-                    userCenterContext.UserRoleMappings.Add(new Data.Models.UserRoleMapping()
-                    {
-                        UserId = userId,
-                        Role = role,
-                        UpdateTime = DateTime.Now,
-                        CreateTime = DateTime.Now
-                    });
+                    roleMapping.Insert(userId, role);
                 }
             }
-            userCenterContext.UserBasics.Add(new Data.Models.UserBasic()
+            return instance.Insert(new Data.Models.UserBasic()
             {
                 UserId = userId,
                 UserName = userName,
@@ -57,49 +50,37 @@ namespace SSO.Business
                 Sex = sex.ToString(),
                 IsModified = false,
                 Delete = false,
-                UpdateTime = DateTime.Now,
                 CreateTime = DateTime.Now,
                 CompanyName = companyName,
                 DepartmentName = departmentName.TrimEnd(','),
                 RoleName = roleName.TrimEnd(','),
             });
-            return userCenterContext.SaveChanges();
         }
         public int Update(int id, string userId, string userName, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
         {
             //获取原始 user 信息
-            Data.Models.UserBasic userBasic = userCenterContext.UserBasics.Where(r => r.Id == id).FirstOrDefault();
+            Data.Models.UserBasic user = instance.GetById<Data.Models.UserBasic>(id);
             //删除原始 role 信息
             if (roles != null)
             {
-                var userRoleMappings = userCenterContext.UserRoleMappings.Where(w => w.UserId == userBasic.UserId);
-                foreach (Data.Models.UserRoleMapping urm in userRoleMappings)
-                {
-                    userCenterContext.UserRoleMappings.Attach(urm);
-                    userCenterContext.UserRoleMappings.Remove(urm);
-                }
+                roleMapping.DeleteByUserId(user.UserId);
             }
             //删除原始 department 信息
-            var userDepartmentMappings = userCenterContext.UserDepartmentMappings.Where(w => w.UserId == userBasic.UserId);
-            foreach (Data.Models.UserDepartmentMapping udm in userDepartmentMappings)
+            if (department != null)
             {
-                userCenterContext.UserDepartmentMappings.Attach(udm);
-                userCenterContext.UserDepartmentMappings.Remove(udm);
+                departmentMapping.DeleteByUserId(user.UserId);
             }
             string companyName = "", departmentName = "", roleName = "";
             //获取新公司名称
-            companyName = userCenterContext.Companies.Where(w => w.Code == companyCode).FirstOrDefault().Name;
+            companyName = company.GetByCode(companyCode).Name;
             //添加新 department
-            foreach (string department in departments)
+            if (departments != null)
             {
-                departmentName += userCenterContext.Departments.Where(w => w.Code == department).FirstOrDefault().Name + ",";
-                userCenterContext.UserDepartmentMappings.Add(new Data.Models.UserDepartmentMapping()
+                foreach (string dept in departments)
                 {
-                    UserId = userId,
-                    DepartmentCode = department,
-                    UpdateTime = DateTime.Now,
-                    CreateTime = DateTime.Now
-                });
+                    departmentName += department.GetByCode(dept).Name + ",";
+                    departmentMapping.Insert(userId, dept);
+                }
             }
             //添加新 role
             if (roles != null)
@@ -107,286 +88,109 @@ namespace SSO.Business
                 foreach (string role in roles)
                 {
                     roleName += role + ",";
-                    userCenterContext.UserRoleMappings.Add(new Data.Models.UserRoleMapping()
-                    {
-                        UserId = userId,
-                        Role = role,
-                        UpdateTime = DateTime.Now,
-                        CreateTime = DateTime.Now
-                    });
+                    roleMapping.Insert(userId, role);
                 }
             }
             //修改 user
-            if (userBasic.UserId != userId && GetUser(userId) != null) return 0;
-            userBasic.UserId = userId;
-            userBasic.UserName = userName;
-            userBasic.Mobile = mobile;
-            userBasic.Email = email;
-            userBasic.CompanyCode = companyCode;
-            userBasic.IdCard = idCard;
-            userBasic.Sex = sex.ToString();
-            userBasic.CompanyName = companyName;
-            userBasic.DepartmentName = departmentName.TrimEnd(',');
-            if (roles != null) userBasic.RoleName = roleName.TrimEnd(',');
-            userBasic.IsModified = true;
-            userBasic.UpdateTime = DateTime.Now;
-            return userCenterContext.SaveChanges();
+            if (user.UserId != userId && GetUser(userId) != null) return 0;
+            user.UserId = userId;
+            user.UserName = userName;
+            user.Mobile = mobile;
+            user.Email = email;
+            user.CompanyCode = companyCode;
+            user.IdCard = idCard;
+            user.Sex = sex.ToString();
+            user.CompanyName = companyName;
+            user.DepartmentName = departmentName.TrimEnd(',');
+            if (roles != null) user.RoleName = roleName.TrimEnd(',');
+            user.IsModified = true;
+            user.UpdateTime = DateTime.Now;
+            return instance.Update(user);
         }
         public Data.Models.UserBasic GetUser(string userId)
         {
-            return userCenterContext.UserBasics.Where(r => r.UserId == userId).FirstOrDefault();
+            return instance.GetByUserId(userId);
         }
         public SSO.Model.UserBasicData GetUserUpdate(string userId)
         {
-            Data.Models.UserBasic userBasic = userCenterContext.UserBasics.Where(r => r.UserId == userId).FirstOrDefault();
-            if (userBasic == null) return null;
-            IQueryable<string> departments = userCenterContext.UserDepartmentMappings.Where(w => w.UserId == userId).Select(s => s.DepartmentCode);
-            IQueryable<string> roles = userCenterContext.UserRoleMappings.Where(w => w.UserId == userId).Select(s => s.Role);
+            Data.Models.UserBasic user = instance.GetByUserId(userId);
+            if (user == null) return null;
+            IEnumerable<string> departments = departmentMapping.GetByUserId(userId);
+            IEnumerable<string> roles = roleMapping.GetByUserId(userId);
+            var departmentName = user.DepartmentName == null ? new string[] { } : user.DepartmentName.Split(new char[] { ',' },
+                StringSplitOptions.RemoveEmptyEntries);
             return new Model.UserBasicData()
             {
-                Id = userBasic.Id,
-                UserId = userBasic.UserId,
-                UserName = userBasic.UserName,
-                CompanyName = userBasic.CompanyName,
-                CompanyCode = userBasic.CompanyCode,
-                Mobile = userBasic.Mobile,
-                Email = userBasic.Email,
-                IdCard = userBasic.IdCard,
-                Sex = userBasic.Sex,
-                IsModified = userBasic.IsModified,
-                Delete = userBasic.Delete,
-                FileId = userBasic.FileId,
-                FileName = userBasic.FileName,
+                Id = user.Id,
+                UserId = user.UserId,
+                UserName = user.UserName,
+                CompanyName = user.CompanyName,
+                CompanyCode = user.CompanyCode,
+                Mobile = user.Mobile,
+                Email = user.Email,
+                IdCard = user.IdCard,
+                Sex = user.Sex,
+                IsModified = user.IsModified,
+                Delete = user.Delete,
+                FileId = user.FileId,
+                FileName = user.FileName,
                 DepartmentCode = departments.ToList(),
-                DepartmentName = userBasic.DepartmentName.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList(),
+                DepartmentName = departmentName.ToList(),
                 Role = roles.ToList(),
-                CreateTime = userBasic.CreateTime,
-                LastLoginTime = userBasic.LastLoginTime,
-                UpdateTime = userBasic.UpdateTime
+                CreateTime = user.CreateTime,
+                LastLoginTime = user.LastLoginTime,
+                UpdateTime = user.UpdateTime
             };
         }
         public int RemoveUser(IEnumerable<string> userIds)
         {
-            //删除 role 信息
-            var userRoleMappings = userCenterContext.UserRoleMappings.Where(w => userIds.Contains(w.UserId));
-            foreach (Data.Models.UserRoleMapping urm in userRoleMappings)
+            foreach (string userId in userIds)
             {
-                userCenterContext.UserRoleMappings.Attach(urm);
-                userCenterContext.UserRoleMappings.Remove(urm);
+                //删除 role 信息
+                roleMapping.DeleteByUserId(userId);
+                //删除 department 信息
+                departmentMapping.DeleteByUserId(userId);
             }
-            //删除 department 信息
-            var userDepartmentMappings = userCenterContext.UserDepartmentMappings.Where(w => userIds.Contains(w.UserId));
-            foreach (Data.Models.UserDepartmentMapping udm in userDepartmentMappings)
-            {
-                userCenterContext.UserDepartmentMappings.Attach(udm);
-                userCenterContext.UserDepartmentMappings.Remove(udm);
-            }
-            var userBasics = userCenterContext.UserBasics.Where(w => userIds.Contains(w.UserId));
-            foreach (var item in userBasics)
-            {
-                item.Delete = true;
-                item.DeleteTime = DateTime.Now;
-            }
-            return userCenterContext.SaveChanges();
+            return instance.RemoveUser(userIds);
         }
         public int RestoreUser(IEnumerable<string> userIds)
         {
-            var userBasics = userCenterContext.UserBasics.Where(w => userIds.Contains(w.UserId));
-            foreach (var item in userBasics)
-            {
-                item.Delete = false;
-            }
-            return userCenterContext.SaveChanges();
+            return instance.RestoreUser(userIds);
         }
         public int DeleteUser(IEnumerable<string> userIds)
         {
-            var userBasics = userCenterContext.UserBasics.Where(w => userIds.Contains(w.UserId));
-            foreach (var item in userBasics)
-            {
-                userCenterContext.UserBasics.Attach(item);
-                userCenterContext.UserBasics.Remove(item);
-            }
-            return userCenterContext.SaveChanges();
-        }
-        public List<Data.Models.UserBasic> GetBasic(ref int count, string keyword = "", bool delete = false, int pageIndex = 1, int pageSize = 15)
-        {
-            var query = from userBasic in userCenterContext.UserBasics where userBasic.Delete == delete select userBasic;
-            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.UserName.ToLower().Contains(keyword.ToLower()));
-            count = query.Count();
-            return query.OrderByDescending(o => o.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-        }
-        public List<Data.Models.UserBasic> GetBasic2(ref int count, string companyCode = "", string keyword = "", bool delete = false, int pageIndex = 1, int pageSize = 15)
-        {
-            var query = from userBasic in userCenterContext.UserBasics where userBasic.Delete == delete select userBasic;
-            if (!string.IsNullOrEmpty(companyCode)) query = query.Where(w => w.CompanyCode.Contains(companyCode));
-            if (!string.IsNullOrEmpty(keyword)) query = query.Where(w => w.UserName.ToLower().Contains(keyword.ToLower()));
-            count = query.Count();
-            return query.OrderBy(o => o.UserName).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            return instance.DeleteUser(userIds);
         }
         public Data.Models.UserBasic Login(string userId, string password)
         {
-            var res = from user in userCenterContext.UserBasics
-                      join company in userCenterContext.Companies
-                      on user.CompanyCode equals company.Code
-                      where user.UserId == userId && user.PassWord == password
-                      select user;
-            return res.ToList().FirstOrDefault();
+            return instance.Login(userId, password);
         }
-        public int UpdateLoginTime(int id)
+        public int UpdatePassword(string userId, string oldPassword, string password)
         {
-            var user = userCenterContext.UserBasics.Where(w => w.Id == id).FirstOrDefault();
-            user.LastLoginTime = DateTime.Now;
-            return userCenterContext.SaveChanges();
-        }
-        public int UpdatePassword(string userId, string olpassword, string password)
-        {
-            Data.Models.UserBasic userBasic = GetUser(userId);
-            if (userBasic.PassWord != olpassword.GetSha256()) return -1;
-            if (userBasic == null) return 0;
-            userBasic.PassWord = password.GetSha256();
-            return userCenterContext.SaveChanges();
+            Data.Models.UserBasic user = instance.GetByUserId(userId);
+            if (user.PassWord != oldPassword.GetSha256()) return -1;
+            if (user == null) return 0;
+            return instance.UpdatePassword(new List<string>() { userId }, password.GetSha256());
         }
         public int UpdateFileId(string userId, string fileId, string fileName)
         {
-            Data.Models.UserBasic userBasic = GetUser(userId);
-            if (userBasic == null) return 0;
-            userBasic.FileId = fileId;
-            userBasic.FileName = fileName;
-            userBasic.UpdateTime = DateTime.Now;
-            return userCenterContext.SaveChanges();
+            return instance.UpdateFile(userId, fileId, fileName);
         }
         public int ResetPassword(IEnumerable<string> userIds)
         {
-            var userBasics = userCenterContext.UserBasics.Where(w => userIds.Contains(w.UserId));
-            foreach (var item in userBasics)
-            {
-                item.PassWord = defaultPassword.GetSha256();
-                item.IsModified = true;
-            }
-            return userCenterContext.SaveChanges();
+            return instance.UpdatePassword(userIds, defaultPassword.GetSha256());
         }
-        public IQueryable<DateCountItem> UserRecordInByDay(DateTime minDateTime, bool delete)
+        public List<DateCountItem> UserRecordInByDay(DateTime minDateTime, bool delete)
         {
-            if (delete)
-            {
-                return userCenterContext.UserBasics.Where(w => (w.DeleteTime >= minDateTime.Date && w.Delete == delete)).Select(s => new
-                {
-                    s.DeleteTime.Value.Year,
-                    s.DeleteTime.Value.Month,
-                    s.DeleteTime.Value.Day,
-                }).GroupBy(x => new { x.Year, x.Month, x.Day }, (key, group) => new
-                  DateCountItem
-                {
-                    date = key.Year + "-" + key.Month + "-" + key.Day,
-                    count = group.Count(),
-                    type = "delete"
-                });
-            }
-            else
-            {
-                return userCenterContext.UserBasics.Where(w => (w.CreateTime >= minDateTime.Date && w.Delete == delete)).Select(s => new
-                {
-                    s.CreateTime.Value.Year,
-                    s.CreateTime.Value.Month,
-                    s.CreateTime.Value.Day
-                }).GroupBy(x => new { x.Year, x.Month, x.Day }, (key, group) => new
-                  DateCountItem
-                {
-                    date = key.Year + "-" + key.Month + "-" + key.Day,
-                    count = group.Count(),
-                    type = "insert"
-                })
-                .OrderBy(o => o.date);
-            }
+            return instance.GroupByDate(new { Delete = delete, CreateTime = minDateTime });
         }
-        public IQueryable<DateCountItem> UserRecordByMonth(DateTime minDateTime, bool delete)
+        public List<DateCountItem> GetUserRatio()
         {
-            if (delete)
-            {
-                return userCenterContext.UserBasics.Where(w => (w.DeleteTime >= minDateTime.Date && w.Delete == delete)).Select(k => new
-                {
-                    k.DeleteTime.Value.Year,
-                    k.DeleteTime.Value.Month
-                }).GroupBy(x => new { x.Year, x.Month }, (key, group) => new
-                       DateCountItem
-                {
-                    date = key.Year + "-" + key.Month,
-                    count = group.Count(),
-                    type = "delete"
-                });
-            }
-            else
-            {
-                return userCenterContext.UserBasics.Where(w => (w.CreateTime >= minDateTime.Date && w.Delete == delete)).Select(k => new
-                {
-                    k.CreateTime.Value.Year,
-                    k.CreateTime.Value.Month
-                })
-                    .GroupBy(x => new { x.Year, x.Month }, (key, group) => new
-                      DateCountItem
-                    {
-                        date = key.Year + "-" + key.Month,
-                        count = group.Count(),
-                        type = "insert"
-                    })
-                .OrderBy(o => o.date);
-            }
+            return instance.GroupBySex();
         }
-        public IQueryable<DateCountItem> UserRecordByYear(DateTime minDateTime, bool delete)
+        public List<DateCountItem> GetUserCompanyRatio()
         {
-            if (delete)
-            {
-                return userCenterContext.UserBasics
-                 .Where(w => (w.DeleteTime >= minDateTime.Date && w.Delete == delete))
-                 .Select(k => new
-                 {
-                     k.DeleteTime.Value.Year
-                 })
-                 .GroupBy(x => new { x.Year }, (key, group) => new
-                   DateCountItem
-                 {
-                     date = key.Year.ToString(),
-                     count = group.Count(),
-                     type = "delete"
-                 });
-            }
-            else
-            {
-                return userCenterContext.UserBasics
-                 .Where(w => (w.CreateTime >= minDateTime.Date && w.Delete == delete))
-                 .Select(k => new
-                 {
-                     k.CreateTime.Value.Year
-                 })
-                 .GroupBy(x => new { x.Year }, (key, group) => new
-                    DateCountItem
-                 {
-                     date = key.Year.ToString(),
-                     count = group.Count(),
-                     type = "insert"
-                 })
-                 .OrderBy(o => o.date);
-            }
-        }
-        public IQueryable<DateCountItem> GetUserRatio()
-        {
-            return userCenterContext.UserBasics
-                 .Where(w => w.Delete == false)
-                 .GroupBy(x => new { x.Sex }, (key, group) => new DateCountItem
-                 {
-                     type = key.Sex,
-                     count = group.Count()
-                 });
-        }
-        public IQueryable<DateCountItem> GetUserCompanyRatio()
-        {
-            return userCenterContext.UserBasics
-                 .Where(w => w.Delete == false)
-                 .GroupBy(x => new { x.CompanyName }, (key, group) => new DateCountItem
-                 {
-                     type = key.CompanyName,
-                     count = group.Count()
-                 });
+            return instance.GroupByCompany();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using SSO.Data.Models;
-using SSO.Model;
+﻿using SSO.Model;
 using SSO.Util.Client;
 using SSO.Web.Models;
 using System.Collections.Generic;
@@ -23,7 +22,17 @@ namespace SSO.Web.Controllers
                 var dept = department.GetByCode(departmentModel.ParentCode);
                 departmentModel.Layer = dept.Layer + 1;
             }
-            if (department.Insert(departmentModel.Code, departmentModel.Name, departmentModel.Description, departmentModel.CompanyCode, departmentModel.Order, departmentModel.Layer, departmentModel.ParentCode ?? "") > 0)
+            Data.Models.Department d = new Data.Models.Department()
+            {
+                Code = departmentModel.Code,
+                Name = departmentModel.Name,
+                Description = departmentModel.Description,
+                CompanyCode = departmentModel.CompanyCode,
+                Order = departmentModel.Order,
+                Layer = departmentModel.Layer,
+                ParentCode = departmentModel.ParentCode ?? "",
+            };
+            if (department.Insert(d) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
@@ -71,7 +80,7 @@ namespace SSO.Web.Controllers
             }
             else
             {
-                return new ResponseModel<string>(ErrorCode.server_exception, "");
+                return new ResponseModel<string>(ErrorCode.record_not_exist, "");
             }
         }
         [PermissionDescription("DeleteDepartment")]

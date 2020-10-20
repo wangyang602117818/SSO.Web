@@ -1,18 +1,16 @@
 ﻿using Newtonsoft.Json;
+using SSO.Data;
 using SSO.Data.Models;
 using SSO.Model;
-using SSO.Util;
 using SSO.Util.Client;
 using SSO.Web.Filters;
 using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Razor.Parser;
 
 namespace SSO.Web.Controllers
 {
@@ -26,6 +24,7 @@ namespace SSO.Web.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+
             return View();
         }
         [AllowAnonymous]
@@ -137,8 +136,6 @@ namespace SSO.Web.Controllers
             {
                 return new ResponseModel<string>(ErrorCode.login_fault, "");
             }
-            if (userBasic.Id != 0)
-                user.UpdateLoginTime(userBasic.Id);
             Settings setting = settings.GetSetting(User.Identity.Name);
             if (setting != null) lang = setting.Lang;
             Dictionary<string, string> extra = new Dictionary<string, string>();
@@ -200,7 +197,7 @@ namespace SSO.Web.Controllers
         [OutputCache(Duration = 60 * 25)]
         public ActionResult GetAllCompany()
         {
-            var result = company.GetAll("");
+            var result = company.GetAll(null);
             return new ResponseModel<IEnumerable<Company>>(ErrorCode.success, result, result.Count());
         }
         [PermissionDescription("GetDepartment")]
@@ -210,17 +207,32 @@ namespace SSO.Web.Controllers
             return new ResponseModel<List<DepartmentData>>(ErrorCode.success, department.GetDepartment(id));
         }
         [PermissionDescription("GetUser")]
-        public ActionResult GetUserList(string companyCode = "", string filter = "", int pageIndex = 1, int pageSize = 15)
+        public ActionResult GetUserList(string companyCode = "", string filter = "", string orderField = "UserName", string orderType = "asc", int pageIndex = 1, int pageSize = 15)
         {
             int count = 0;
-            var result = user.GetBasic2(ref count, companyCode, filter, false, pageIndex, pageSize);
+            Data.Models.UserBasic page = new Data.Models.UserBasic()
+            {
+                CompanyCode = companyCode,
+                UserName = filter,
+                Delete = false,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            object replacement = new { OrderField = orderField, OrderType = orderType };
+            var result = user.GetPageList(ref count, page, replacement);
             return new ResponseModel<IEnumerable<UserBasic>>(ErrorCode.success, result, count);
         }
         [PermissionDescription("GetRole")]
         public ActionResult GetRoleList(string filter = "", int pageIndex = 1, int pageSize = 15)
         {
             int count = 0;
-            var result = role.GetList(ref count, filter, pageIndex, pageSize);
+            var r = new Data.Models.Role()
+            {
+                Name = filter,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            var result = role.GetPageList(ref count, r);
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, count);
         }
         [PermissionDescription("GetUser")]

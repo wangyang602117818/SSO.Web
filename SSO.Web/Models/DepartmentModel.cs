@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SSO.Web.Models
 {
@@ -19,7 +15,7 @@ namespace SSO.Web.Models
         public int Layer { get; set; }
         public string ParentCode { get; set; }
     }
-    public class UpdateDepartmentModel: DepartmentModel
+    public class UpdateDepartmentModel : DepartmentModel
     {
         [Required]
         public int Id { get; set; }

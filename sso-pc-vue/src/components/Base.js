@@ -6,6 +6,7 @@ var BaseComponent = {
       loading: false,
       pagination: { current: 1, pageSize: 10, size: "small" },
       selectedRowKeys: [],
+      selectedRows: [],
       drawerVisible: false,
       isUpdate: false,
       form: this.$form.createForm(this)
@@ -43,8 +44,9 @@ var BaseComponent = {
       this.selectedRowKeys = [];
       this.getData();
     },
-    onSelectChange(selectedRowKeys) {
+    onSelectChange(selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys;
+      this.selectedRows = selectedRows;
     },
     handleTableChange(pagination) {
       this.pagination.current = pagination.current;

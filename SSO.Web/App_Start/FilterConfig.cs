@@ -1,6 +1,5 @@
 ﻿using SSO.Util.Client;
 using SSO.Web.Filters;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SSO.Web

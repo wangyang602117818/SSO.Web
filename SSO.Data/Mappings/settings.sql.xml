@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  <insert>
+    INSERT INTO Settings (
+    UserId,
+    CreateTime,
+    Lang
+    ) VALUES (
+    @UserId,
+    @CreateTime
+    @Lang
+    )
+  </insert>
+  <update>
+    UPDATE Settings SET
+    Lang=@Lang,
+    UpdateTime=@UpdateTime,
+    WHERE UserId = @UserId
+  </update>
+  <get-by-userId>
+    select * from [Settings] where UserId=@UserId
+  </get-by-userId>
+</sql>

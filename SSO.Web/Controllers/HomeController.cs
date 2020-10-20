@@ -1,18 +1,7 @@
-﻿using SSO.Business;
-using SSO.Data.Models;
-using SSO.Util;
-using SSO.Util.Client;
-using SSO.Web.Filters;
-using SSO.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using SSO.Util.Client;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls.WebParts;
 
 namespace SSO.Web.Controllers
 {
@@ -40,5 +29,6 @@ namespace SSO.Web.Controllers
             var result = JwtManager.ParseAuthorization(token, ssoSecretKey);
             return Content(result.Identity.Name);
         }
+
     }
 }

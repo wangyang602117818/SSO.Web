@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  <insert>
+    INSERT INTO UserBasic (
+    UserId,
+    UserName,
+    IsModified,
+    [Delete],
+    CreateTime
+    <isNotEmpty property="PassWord" prepend=",">
+      PassWord
+    </isNotEmpty>
+    <isNotEmpty property="CompanyCode" prepend=",">
+      CompanyCode
+    </isNotEmpty>
+    <isNotEmpty property="Mobile" prepend=",">
+      Mobile
+    </isNotEmpty>
+    <isNotEmpty property="Email" prepend=",">
+      Email
+    </isNotEmpty>
+    <isNotEmpty property="IdCard" prepend=",">
+      IdCard
+    </isNotEmpty>
+    <isNotEmpty property="Sex" prepend=",">
+      Sex
+    </isNotEmpty>
+    <isNotEmpty property="CompanyName" prepend=",">
+      CompanyName
+    </isNotEmpty>
+    <isNotEmpty property="DepartmentName" prepend=",">
+      DepartmentName
+    </isNotEmpty>
+    <isNotEmpty property="RoleName" prepend=",">
+      RoleName
+    </isNotEmpty>
+    ) VALUES (
+    @UserId,
+    @UserName,
+    @IsModified,
+    @Delete,
+    @CreateTime
+    <isNotEmpty property="PassWord" prepend=",">
+      @PassWord
+    </isNotEmpty>
+    <isNotEmpty property="CompanyCode" prepend=",">
+      @CompanyCode
+    </isNotEmpty>
+    <isNotEmpty property="Mobile" prepend=",">
+      @Mobile
+    </isNotEmpty>
+    <isNotEmpty property="Email" prepend=",">
+      @Email
+    </isNotEmpty>
+    <isNotEmpty property="IdCard" prepend=",">
+      @IdCard
+    </isNotEmpty>
+    <isNotEmpty property="Sex" prepend=",">
+      @Sex
+    </isNotEmpty>
+    <isNotEmpty property="CompanyName" prepend=",">
+      @CompanyName
+    </isNotEmpty>
+    <isNotEmpty property="DepartmentName" prepend=",">
+      @DepartmentName
+    </isNotEmpty>
+    <isNotEmpty property="RoleName" prepend=",">
+      @RoleName
+    </isNotEmpty>
+    )
+  </insert>
+  <update>
+    update UserBasic set
+    UserId = @UserId,
+    UserName=@UserName,
+    Sex=@Sex,
+    CompanyCode=@CompanyCode,
+    IsModified=@IsModified,
+    UpdateTime=@UpdateTime
+    <isNotNull property="Mobile" prepend=",">
+      Mobile=@Mobile
+    </isNotNull>
+    <isNotNull property="Email" prepend=",">
+      Email=@Email
+    </isNotNull>
+    <isNotNull property="IdCard" prepend=",">
+      IdCard=@IdCard
+    </isNotNull>
+    <isNotNull property="CompanyName" prepend=",">
+      CompanyName=@CompanyName
+    </isNotNull>
+    <isNotNull property="DepartmentName" prepend=",">
+      DepartmentName=@DepartmentName
+    </isNotNull>
+    <isNotNull property="RoleName" prepend=",">
+      RoleName=@RoleName
+    </isNotNull>
+    where Id = @Id
+  </update>
+  <count>
+    select count(*) from UserBasic where [Delete]=0
+  </count>
+  <remove-user>
+    update UserBasic set [Delete]=1,DeleteTime=@DeleteTime where UserId in(<iterate conjunction="," property="UserIds"></iterate>)
+  </remove-user>
+  <restore-user>
+    update UserBasic set [Delete]=0 where UserId in(<iterate conjunction="," property="UserIds"></iterate>)
+  </restore-user>
+  <delete-user>
+    delete UserBasic where UserId in(<iterate conjunction="," property="UserIds"></iterate>)
+  </delete-user>
+  <get-by-id>
+    select * from UserBasic where Id = @Id
+  </get-by-id>
+  <get-by-userId>
+    select * from UserBasic where UserId = @UserId
+  </get-by-userId>
+  <get-not-delete>
+    select * from UserBasic where [Delete] = 1
+  </get-not-delete>
+  <get-page-list>
+    select * from(
+    select *,row_number() over(order by #OrderField# #OrderType#) uid,(select count(1) from [UserBasic]) total from [UserBasic]
+    where [Delete]=@Delete
+    <isNotEmpty property="CompanyCode" prepend="and">
+      CompanyCode = @CompanyCode
+    </isNotEmpty>
+    <isNotEmpty property="UserName" prepend="and">
+      UserName like '%'+@UserName+'%'
+    </isNotEmpty>
+    ) as tbl
+    where uid between (@PageIndex-1)*@PageSize+1 and @PageIndex*@PageSize
+  </get-page-list>
+  <login>
+    update UserBasic set LastLoginTime=@LastLoginTime where UserId=@UserId
+    select * from UserBasic where UserId=@UserId and PassWord=@PassWord
+  </login>
+  <update-password>
+    update UserBasic set PassWord=@PassWord,IsModified=1 where UserId in(<iterate conjunction="," property="UserIds"></iterate>)
+  </update-password>
+  <update-file>
+    update UserBasic set FileId=@FileId,FileName=@FileName,UpdateTime=@UpdateTime where UserId=@UserId
+  </update-file>
+  <group-by-sex>
+    select sex [type],count(*) count from UserBasic where [delete] = 0
+    group by Sex
+  </group-by-sex>
+  <group-by-company>
+    select c.Name [type],count(*) count from UserBasic ub left join Company c
+    on ub.CompanyCode=c.Code
+    where [delete] = 0
+    group by c.Name
+  </group-by-company>
+  <group-by-date>
+    <![CDATA[select CONVERT(varchar(100), CreateTime, 23) [date],count(*) count from [UserBasic]
+    where [Delete]=@Delete and CreateTime >= @CreateTime
+    group by CONVERT(varchar(100), CreateTime, 23)]]>
+  </group-by-date>
+</sql>

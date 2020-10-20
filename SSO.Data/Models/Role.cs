@@ -1,16 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SSO.Data.Models
 {
-    public class Role : BaseModel
+    public class Role : SqlBase
     {
-        [Index(IsUnique = true)]
-        [StringLength(50)]
-        [Required]
+        public Role() : base("role.sql.xml") { }
         public string Name { get; set; }
-        [StringLength(512)]
         public string Description { get; set; }
 
+        public Role GetByName(string name)
+        {
+            int count = 0;
+            return base.QueryObject<Role>("get-by-name", new { Name = name }, ref count);
+        }
     }
 }

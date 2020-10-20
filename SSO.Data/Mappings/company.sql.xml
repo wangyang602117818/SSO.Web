@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  <insert>
+    INSERT INTO Company (
+    Code,
+    Name,
+    [Order],
+    CreateTime
+    <isNotEmpty property="Description" prepend=",">
+      Description
+    </isNotEmpty>
+    ) VALUES (
+    @Code,
+    @Name,
+    @Order,
+    @CreateTime
+    <isNotEmpty property="Description" prepend=",">
+      @Description
+    </isNotEmpty>
+    )
+  </insert>
+  <update>
+    UPDATE Company SET
+    Code = @Code,
+    Name=@Name,
+    UpdateTime=@UpdateTime,
+    [Order]=@Order
+    <isNotEmpty property="Description" prepend=",">
+      Description=@Description
+    </isNotEmpty>
+    WHERE Id = @Id
+  </update>
+  <delete>
+    delete from Company where Id in (<iterate conjunction="," property="Ids"></iterate>)
+  </delete>
+  <count>
+    select count(*) from Company
+  </count>
+  <get-by-code>
+    select * from Company where Code = @Code
+  </get-by-code>
+  <get-by-id>
+    select * from Company where Id = @Id
+  </get-by-id>
+  <get-page-list>
+    select * from(
+    select *,row_number() over(order by Id desc) uid,(select count(1) from [Company]) total from [Company]
+    <isNotEmpty property="Name" prepend="where">
+      Name like '%'+@Name+'%'
+    </isNotEmpty>
+    ) as tbl
+    where uid between (@PageIndex-1)*@PageSize+1 and @PageIndex*@PageSize
+  </get-page-list>
+  <get-all>
+    select * from [Company]
+    <isNotEmpty property="Name" prepend="where">
+      Name like '%'+@Name+'%'
+    </isNotEmpty>
+  </get-all>
+</sql>

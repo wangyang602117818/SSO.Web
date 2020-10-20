@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace SSO.Web.Models
 {
@@ -10,6 +7,18 @@ namespace SSO.Web.Models
     {
         [Required]
         public string Origin { get; set; }
+        public List<string> Names { get; set; }
+    }
+    public class RolePermissionModel
+    {
+        [Required]
+        public string Role { get; set; }
+        public List<string> Names { get; set; }
+    }
+    public class UserPermissionModel
+    {
+        [Required]
+        public string User { get; set; }
         public List<string> Names { get; set; }
     }
 }

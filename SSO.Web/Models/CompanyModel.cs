@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SSO.Web.Models
 {
@@ -15,7 +11,7 @@ namespace SSO.Web.Models
         public string Description { get; set; }
         public int Order { get; set; }
     }
-    public class UpdateCompanyModel: CompanyModel
+    public class UpdateCompanyModel : CompanyModel
     {
         [Required]
         public int Id { get; set; }

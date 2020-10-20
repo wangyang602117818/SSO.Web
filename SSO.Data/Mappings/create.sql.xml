@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='Settings')
+  create table Settings (
+  Id INT IDENTITY NOT NULL,
+  UserId NVARCHAR(50) NOT NULL,
+  Lang NVARCHAR(8) NOT NULL,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME null,
+  primary key (Id),
+  unique (UserId)
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='Company')
+  create table Company (
+  Id INT IDENTITY NOT NULL,
+  Code NVARCHAR(30) not null,
+  Name NVARCHAR(50) not null,
+  Description NVARCHAR(512) null,
+  [Order] INT null,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME null,
+  primary key (Id),
+  unique (Code)
+  )
+  
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='Department')
+  create table Department (
+  Id INT IDENTITY NOT NULL,
+  Code NVARCHAR(30) not null,
+  Name NVARCHAR(50) not null,
+  Description NVARCHAR(512) null,
+  [Order] INT null,
+  Layer INT null,
+  ParentCode NVARCHAR(30) null,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME null,
+  CompanyCode NVARCHAR(30) not null,
+  primary key (Id),
+  unique (Code),
+  CONSTRAINT FK_Company_Department FOREIGN KEY (CompanyCode)
+  REFERENCES Company(Code)
+  ON UPDATE CASCADE
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='Role')
+  create table Role (
+  Id INT IDENTITY NOT NULL,
+  Name NVARCHAR(50) not null,
+  Description NVARCHAR(512) null,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME null,
+  primary key (Id),
+  unique (Name)
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='UserBasic')
+  create table UserBasic(
+  [Id] [int] IDENTITY(1,1) NOT NULL,
+  [UserId] [nvarchar](50) NOT NULL,
+  [UserName] [nvarchar](50) NOT NULL,
+  [PassWord] [nvarchar](64) NULL,
+  [CompanyCode] [nvarchar](30) NULL,
+  [Mobile] [nvarchar](50) NULL,
+  [Email] [nvarchar](50) NULL,
+  [IdCard] [nvarchar](20) NULL,
+  [Sex] [nvarchar](1) NULL,
+  [IsModified] [bit] NOT NULL,
+  [Delete] [bit] NOT NULL,
+  [FileId] [nvarchar](24) NULL,
+  [FileName] [nvarchar](512) NULL,
+  [DeleteTime] [datetime] NULL,
+  [LastLoginTime] [datetime] NULL,
+  [CompanyName] [nvarchar](max) NULL,
+  [DepartmentName] [nvarchar](max) NULL,
+  [RoleName] [nvarchar](max) NULL,
+  [UpdateTime] [datetime] NULL,
+  [CreateTime] [datetime] NULL,
+  primary key (Id),
+  unique (UserId),
+  CONSTRAINT FK_Company_UserBasic FOREIGN KEY (CompanyCode)
+  REFERENCES Company(Code)
+  ON UPDATE CASCADE
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='UserRoleMapping')
+  create table UserRoleMapping (
+  Id INT IDENTITY NOT NULL,
+  UserId NVARCHAR(50) not null,
+  Role NVARCHAR(50) null,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME null,
+  primary key (Id),
+  CONSTRAINT FK_Role_Role FOREIGN KEY (Role)
+  REFERENCES Role(Name)
+  ON UPDATE CASCADE
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='UserDepartmentMapping')
+  create table UserDepartmentMapping (
+  Id INT IDENTITY NOT NULL,
+  UserId NVARCHAR(50) not null,
+  DepartmentCode NVARCHAR(30) not null,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME null,
+  primary key (Id),
+  CONSTRAINT FK_Department_Department FOREIGN KEY (DepartmentCode)
+  REFERENCES Department(Code)
+  ON UPDATE CASCADE,
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='Permission')
+  create table Permission (
+  Id INT IDENTITY NOT NULL,
+  Origin NVARCHAR(512) not null,
+  Name NVARCHAR(50) null,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME null,
+  primary key (Id),
+  unique (Name),
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='PermissionRoleMapping')
+  create table PermissionRoleMapping (
+  Id INT IDENTITY NOT NULL,
+  Role NVARCHAR(50) not null,
+  Permission NVARCHAR(50) null,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME null,
+  primary key (Id),
+  CONSTRAINT FK_Permission_Role FOREIGN KEY (Role)
+  REFERENCES Role(Name)
+  ON UPDATE CASCADE
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='PermissionUserMapping')
+  create table PermissionUserMapping (
+  Id INT IDENTITY NOT NULL,
+  UserId NVARCHAR(50) not null,
+  Permission NVARCHAR(50) null,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME null,
+  primary key (Id),
+  CONSTRAINT FK_Permission_User FOREIGN KEY (UserId)
+  REFERENCES UserBasic(UserId)
+  ON UPDATE CASCADE
+  )
+</sql>

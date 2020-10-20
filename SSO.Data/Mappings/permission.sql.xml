@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  <delete-many>
+    delete from Permission where Origin=@Origin
+  </delete-many>
+  <get-all>
+    select * from Permission
+  </get-all>
+  <insert-many>
+    insert into Permission(Origin,Name)
+  </insert-many>
+</sql>

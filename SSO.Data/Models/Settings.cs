@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SSO.Data.Models
 {
-    public class Settings : BaseModel
+    public class Settings : SqlBase
     {
-        [Index(IsUnique = true)]
-        [StringLength(50)]
-        [Required]
+        public Settings() : base("settings.sql.xml") { }
         public string UserId { get; set; }
-        [StringLength(8)]
-        [Required]
         public string Lang { get; set; }
+
+        public Settings GetByUserId(string userId)
+        {
+            int count = 0;
+            return base.QueryObject<Settings>("get-by-userId", new { UserId = userId }, ref count);
+        }
     }
 }

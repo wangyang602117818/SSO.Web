@@ -1,7 +1,5 @@
 ﻿using SSO.Model;
-using SSO.Util;
 using SSO.Util.Client;
-using SSO.Web.Filters;
 using SSO.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,10 +63,18 @@ namespace SSO.Web.Controllers
             return new ResponseModel<int>(ErrorCode.success, user.ResetPassword(userIds));
         }
         [PermissionDescription("GetUser")]
-        public ActionResult GetBasic(string filter, int pageIndex = 1, int pageSize = 10, bool delete = false)
+        public ActionResult GetBasic(string filter, string orderField = "Id", string orderType = "desc", int pageIndex = 1, int pageSize = 10, bool delete = false)
         {
             int count = 0;
-            var result = user.GetBasic(ref count, filter, delete, pageIndex, pageSize);
+            Data.Models.UserBasic page = new Data.Models.UserBasic()
+            {
+                UserName = filter,
+                Delete = delete,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            object replacement = new { OrderField = orderField, OrderType = orderType };
+            var result = user.GetPageList(ref count, page, replacement);
             return new ResponseModel<IEnumerable<Data.Models.UserBasic>>(ErrorCode.success, result, count);
         }
         [PermissionDescription("RemoveUser")]
@@ -114,7 +120,7 @@ namespace SSO.Web.Controllers
         [OutputCache(Duration = 60 * 60 * 4, VaryByHeader = "Authorization")]
         public ActionResult GetRoles()
         {
-            var roles = roleMapping.GetRolesByUserId(User.Identity.Name);
+            var roles = roleMapping.GetByUserId(User.Identity.Name);
             return new ResponseModel<IEnumerable<string>>(ErrorCode.success, roles);
         }
     }

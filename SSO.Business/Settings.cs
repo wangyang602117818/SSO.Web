@@ -6,31 +6,35 @@ using System.Threading.Tasks;
 
 namespace SSO.Business
 {
-    public class Settings : ModelBase
+    public class Settings : ModelBase<Data.Models.Settings>
     {
+        public Settings() : base(new Data.Models.Settings()) { }
         public int UpdateLang(string userId, string lang)
         {
-            var setting = userCenterContext.Settings.Where(r => r.UserId == userId).FirstOrDefault();
+            var setting = instance.GetByUserId(userId);
             if (setting == null)
             {
-                userCenterContext.Settings.Add(new Data.Models.Settings()
+                return instance.Insert(new Data.Models.Settings()
                 {
                     UserId = userId,
                     Lang = lang,
-                    UpdateTime = DateTime.Now,
                     CreateTime = DateTime.Now
                 });
             }
             else
             {
-                setting.Lang = lang;
-                setting.UpdateTime = DateTime.Now;
+                return instance.Update(
+                    new Data.Models.Settings()
+                    {
+                        UserId = userId,
+                        Lang = lang,
+                        UpdateTime = DateTime.Now
+                    });
             }
-            return userCenterContext.SaveChanges();
         }
         public Data.Models.Settings GetSetting(string userId)
         {
-            return userCenterContext.Settings.Where(r => r.UserId == userId).FirstOrDefault();
+            return instance.GetByUserId(userId);
         }
     }
 }

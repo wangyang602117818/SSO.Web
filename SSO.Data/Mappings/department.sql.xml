@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  <insert>
+    INSERT INTO Department (
+    Code,
+    Name,
+    [Order],
+    CreateTime,
+    CompanyCode
+    <isNotEmpty property="Description" prepend=",">
+      Description
+    </isNotEmpty>
+    <isNotEmpty property="Layer" prepend=",">
+      Layer
+    </isNotEmpty>
+    <isNotEmpty property="ParentCode" prepend=",">
+      ParentCode
+    </isNotEmpty>
+    ) VALUES (
+    @Code,
+    @Name,
+    @Order,
+    @CreateTime,
+    @CompanyCode
+    <isNotEmpty property="Description" prepend=",">
+      @Description
+    </isNotEmpty>
+    <isNotEmpty property="Layer" prepend=",">
+      @Layer
+    </isNotEmpty>
+    <isNotEmpty property="ParentCode" prepend=",">
+      @ParentCode
+    </isNotEmpty>
+    )
+  </insert>
+  <update>
+    UPDATE Department SET
+    Code = @Code,
+    Name=@Name,
+    UpdateTime=@UpdateTime,
+    [Order]=@Order
+    <isNotEmpty property="Description" prepend=",">
+      Description=@Description
+    </isNotEmpty>
+    <isNotEmpty property="ParentCode" prepend=",">
+      ParentCode=@ParentCode
+    </isNotEmpty>
+    <isNotEmpty property="CompanyCode" prepend=",">
+      CompanyCode=@CompanyCode
+    </isNotEmpty>
+    <isNotEmpty property="Layer" prepend=",">
+      Layer=@Layer
+    </isNotEmpty>
+    WHERE Id = @Id
+  </update>
+  <update-department-parent-code>
+    update Department set ParentCode=@ParentCode where ParentCode=@Code
+  </update-department-parent-code>
+  <delete>
+    delete from Department where Id in (<iterate conjunction="," property="Ids"></iterate>)
+  </delete>
+  <count>
+    select count(*) from Department
+  </count>
+  <get-by-code>
+    select * from Department where Code = @Code
+  </get-by-code>
+  <get-by-id>
+    select * from Department where Id = @Id
+  </get-by-id>
+  <get-by-parentCode>
+    select * from Department where ParentCode = @ParentCode
+  </get-by-parentCode>
+  <get-department>
+    select * from Department where CompanyCode = @CompanyCode
+  </get-department>
+  <count-department>
+    select count(*) from Department where CompanyCode = @CompanyCode
+  </count-department>
+</sql>

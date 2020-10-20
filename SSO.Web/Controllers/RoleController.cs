@@ -1,6 +1,6 @@
 ﻿using SSO.Util.Client;
-using SSO.Web.Filters;
 using SSO.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -13,8 +13,14 @@ namespace SSO.Web.Controllers
         [PermissionDescription("AddRole")]
         public ActionResult Add(RoleModel roleModel)
         {
-            if (role.GetByRoleName(roleModel.Name) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
-            if (role.Insert(roleModel.Name, roleModel.Description) > 0)
+            if (role.GetByName(roleModel.Name) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
+            Data.Models.Role r = new Data.Models.Role()
+            {
+                Name = roleModel.Name,
+                Description = roleModel.Description,
+                CreateTime = DateTime.Now
+            };
+            if (role.Insert(r) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
@@ -26,7 +32,14 @@ namespace SSO.Web.Controllers
         [PermissionDescription("UpdateRole")]
         public ActionResult Update(UpdateRoleModel updateRoleModel)
         {
-            if (role.Update(updateRoleModel.Id, updateRoleModel.Name, updateRoleModel.Description) > 0)
+            Data.Models.Role r = new Data.Models.Role()
+            {
+                Id = updateRoleModel.Id,
+                Name = updateRoleModel.Name,
+                Description = updateRoleModel.Description,
+                UpdateTime = DateTime.Now
+            };
+            if (role.Update(r) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
@@ -44,13 +57,19 @@ namespace SSO.Web.Controllers
         public ActionResult GetList(string filter = "", int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
-            var result = role.GetList(ref count, filter, pageIndex, pageSize);
+            var r = new Data.Models.Role()
+            {
+                Name = filter,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            var result = role.GetPageList(ref count, r);
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, count);
         }
         [PermissionDescription("GetRole")]
         public ActionResult GetAll()
         {
-            var result = role.GetAll();
+            var result = role.GetAll(null);
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, result.Count());
         }
         [PermissionDescription("DeleteRole")]

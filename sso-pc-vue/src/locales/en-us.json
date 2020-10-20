@@ -170,7 +170,7 @@
         "DeleteUser": "DeleteUser",
         "RestoreUser": "RestoreUser",
         "UploadFile": "UploadFile",
-        "FileAnalysis": "FileAnalysis",
+        "GetFileAnalysis": "FileAnalysis",
         "GetHandler": "GetHandler",
         "GetFile": "GetFile",
         "EmptyTaskCount": "EmptyTaskCount",
@@ -188,7 +188,7 @@
         "UpdateSetting": "UpdateSetting",
         "DeleteSetting": "DeleteSetting",
         "UpdateFile": "UpdateFile",
-        "ServerStatus": "ServerStatus",
+        "GetServerStatus": "ServerStatus",
         "GetCacheFiles": "GetCacheFiles",
         "DeleteCacheFiles": "DeleteCacheFiles"
     }

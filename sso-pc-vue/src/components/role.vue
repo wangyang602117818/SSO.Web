@@ -75,9 +75,7 @@
                 v-decorator="[
                   'name',
                   {
-                    rules: [
-                      { required: true, message: $t('name_required') },
-                    ],
+                    rules: [{ required: true, message: $t('name_required') }],
                   },
                 ]"
               />
@@ -107,11 +105,9 @@
         </a-row>
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-button @click="form.resetFields()">{{
-              $t('reset')
-            }}</a-button>
+            <a-button @click="form.resetFields()">{{ $t("reset") }}</a-button>
             <a-button type="primary" html-type="submit">{{
-              $t('submit')
+              $t("submit")
             }}</a-button>
           </a-col>
         </a-row>
@@ -133,14 +129,14 @@
             :tab="name"
             v-for="(value, name, index) in permissions"
           >
-            <a-checkbox-group @change="onChange">
-              <a-checkbox
-                v-for="(item, index) in value"
-                :key="index"
-                :value="item"
-                >{{ item }}</a-checkbox
-              >
-            </a-checkbox-group>
+            <a-checkbox
+              :default-checked="rolepermissions.indexOf(item) > -1"
+              @change="onChange"
+              v-for="(item, index) in value"
+              :key="index"
+              :id="item"
+              >{{ $t("permissions." + item) }}</a-checkbox
+            >
           </a-tab-pane>
         </a-tabs>
       </div>
@@ -156,22 +152,22 @@ export default {
     return {
       columns: [
         {
-          title: this.$t('id'),
+          title: this.$t("id"),
           dataIndex: "Id",
           width: "7%",
         },
         {
-          title: this.$t('role_name'),
+          title: this.$t("role_name"),
           dataIndex: "Name",
           width: "13%",
         },
         {
-          title: this.$t('role_description'),
+          title: this.$t("role_description"),
           dataIndex: "Description",
           width: "50%",
         },
         {
-          title: this.$t('update_time'),
+          title: this.$t("update_time"),
           dataIndex: "UpdateTime",
           width: "15%",
           customRender: (val) => {
@@ -179,7 +175,7 @@ export default {
           },
         },
         {
-          title: this.$t('create_time'),
+          title: this.$t("create_time"),
           dataIndex: "CreateTime",
           width: "15%",
           customRender: (val) => {
@@ -191,6 +187,7 @@ export default {
       confirmLoading: false,
       getlist: this.$urls.role.getlist,
       permissions: null,
+      rolepermissions: [],
     };
   },
   methods: {
@@ -206,23 +203,56 @@ export default {
     },
     handleOk() {
       this.confirmLoading = true;
-      this.permissionVisible = false;
+      this.loading = true;
+      this.$axios
+        .post(this.$urls.permission.addRolePermission, {
+          role: this.selectedRows[0].Name,
+          names: this.rolepermissions,
+        })
+        .then((response) => {
+          if (response.code == 0) {
+            this.confirmLoading = false;
+            this.loading = false;
+            this.handleCancel();
+          }
+        });
     },
     handleCancel() {
+      this.permissions = [];
+      this.rolepermissions = [];
       this.permissionVisible = false;
     },
     eidtPermission() {
-      this.getPermissions();
-      this.permissionVisible = true;
+      var that = this;
+      this.$axios
+        .all([this.getPermissions(), this.getRolePermissions()])
+        .then(function (results) {
+          if (results[0].code == 0 && results[1].code == 0) {
+            that.permissions = results[0].result;
+            that.rolepermissions = results[1].result;
+          }
+          that.permissionVisible = true;
+        });
     },
     getPermissions() {
-      this.$axios.get(this.$urls.permission.getlist).then((response) => {
-        if (response.code == 0) {
-          this.permissions = response.result;
-        }
-      });
+      return this.$axios.get(this.$urls.permission.getlist);
     },
-    onChange() {},
+    getRolePermissions() {
+      var role = this.selectedRows[0].Name;
+      return this.$axios.get(
+        this.$urls.permission.getRolePermission + "?role=" + role
+      );
+    },
+    onChange(e) {
+      var value = e.target.id;
+      var index = this.rolepermissions.indexOf(value);
+      if (index == -1) {
+        this.rolepermissions.push(value);
+      } else {
+        this.rolepermissions.splice(index, 1);
+      }
+      window.console.log(this.rolepermissions);
+    },
     eidtRole() {
       this.isUpdate = true;
       this.drawerVisible = true;
@@ -246,14 +276,11 @@ export default {
             this.selectedRowKeys = [];
             this.getData();
           }
+          this.loading = false;
         });
-      this.loading = false;
     },
     addRole(role) {
       this.$axios.post(this.$urls.role.add, role).then((response) => {
-        if (response.code == 400) {
-          this.$message.warning(this.$t('record_exists'));
-        }
         if (response.code == 0) {
           this.form.resetFields();
           this.getData();
@@ -263,9 +290,6 @@ export default {
     updateRole(role) {
       role.id = this.selectedRowKeys[0];
       this.$axios.post(this.$urls.role.update, role).then((response) => {
-        if (response.code == 400) {
-          this.$message.warning(this.$t('record_exists'));
-        }
         if (response.code == 0) {
           this.form.resetFields();
           this.getData();
@@ -300,7 +324,7 @@ export default {
 
 .card-container > .ant-tabs-card > .ant-tabs-content > .ant-tabs-tabpane {
   background: #fff;
-  padding: 8px;
+  padding: 4px;
 }
 
 .card-container > .ant-tabs-card > .ant-tabs-bar {
@@ -319,8 +343,9 @@ export default {
 .ant-checkbox-wrapper + .ant-checkbox-wrapper {
   margin-left: 0px;
 }
-.ant-checkbox-group .ant-checkbox-wrapper {
-  height: 30px;
-  line-height: 30px;
+.ant-tabs-tabpane .ant-checkbox-wrapper {
+  height: 35px;
+  line-height: 35px;
+  padding: 0 5px;
 }
 </style>

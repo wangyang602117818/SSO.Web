@@ -1,21 +1,27 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using SSO.Util.Client;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SSO.Data.Models
 {
-    public class Company : BaseModel
+    public class Company : SqlBase
     {
-        [Index(IsUnique = true)]
-        [StringLength(30)]
-        [Required]
+        public Company() : base("company.sql.xml") { }
         public string Code { get; set; }
-        [StringLength(50)]
-        [Required]
         public string Name { get; set; }
-        [StringLength(512)]
         public string Description { get; set; }
         public int Order { get; set; }
 
+        public Company GetByCode(string code)
+        {
+            int count = 0;
+            return base.QueryObject<Company>("get-by-code", new { Code = code }, ref count);
+        }
     }
 }

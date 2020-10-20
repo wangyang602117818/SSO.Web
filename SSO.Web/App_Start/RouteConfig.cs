@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace SSO.Web
@@ -14,14 +10,14 @@ namespace SSO.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "SSO", action = "Login", id = UrlParameter.Optional }
-            );
+               name: "Default",
+               url: "{controller}/{action}/{id}",
+               defaults: new { controller = "SSO", action = "Login", id = UrlParameter.Optional }
+           );
             routes.MapRoute(
                 name: "file",
                 url: "{controller}/{action}/{id}/{filename}",
-                defaults: new { controller = "File", action = "DownloadPic", id = UrlParameter.Optional, filename = UrlParameter.Optional}
+                defaults: new { controller = "File", action = "DownloadPic", id = UrlParameter.Optional, filename = UrlParameter.Optional }
             );
             routes.MapMvcAttributeRoutes();
         }

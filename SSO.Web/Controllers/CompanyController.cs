@@ -1,6 +1,6 @@
-﻿using SSO.Util;
-using SSO.Util.Client;
+﻿using SSO.Util.Client;
 using SSO.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -14,7 +14,14 @@ namespace SSO.Web.Controllers
         public ActionResult Add(CompanyModel companyModel)
         {
             if (company.GetByCode(companyModel.Code) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
-            if (company.Insert(companyModel.Code, companyModel.Name, companyModel.Description, companyModel.Order) > 0)
+            Data.Models.Company com = new Data.Models.Company()
+            {
+                Code = companyModel.Code,
+                Name = companyModel.Name,
+                Description = companyModel.Description,
+                Order = companyModel.Order
+            };
+            if (company.Insert(com) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
@@ -26,7 +33,16 @@ namespace SSO.Web.Controllers
         [PermissionDescription("UpdateCompany")]
         public ActionResult Update(UpdateCompanyModel updateCompanyModel)
         {
-            if (company.Update(updateCompanyModel.Id, updateCompanyModel.Code, updateCompanyModel.Name, updateCompanyModel.Description, updateCompanyModel.Order) > 0)
+            Data.Models.Company com = new Data.Models.Company()
+            {
+                Id = updateCompanyModel.Id,
+                Code = updateCompanyModel.Code,
+                Name = updateCompanyModel.Name,
+                Description = updateCompanyModel.Description,
+                Order = updateCompanyModel.Order,
+                UpdateTime = DateTime.Now
+            };
+            if (company.Update(com) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
@@ -44,13 +60,23 @@ namespace SSO.Web.Controllers
         public ActionResult GetList(string filter = "", int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
-            var result = company.GetList(ref count, filter, pageIndex, pageSize);
+            Data.Models.Company com = new Data.Models.Company()
+            {
+                Name = filter,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            var result = company.GetPageList(ref count, com);
             return new ResponseModel<IEnumerable<Data.Models.Company>>(ErrorCode.success, result, count);
         }
         [PermissionDescription("GetCompany")]
         public ActionResult GetAll(string filter = "")
         {
-            var result = company.GetAll(filter);
+            Data.Models.Company com = new Data.Models.Company()
+            {
+                Name = filter
+            };
+            var result = company.GetAll(com);
             return new ResponseModel<IEnumerable<Data.Models.Company>>(ErrorCode.success, result, result.Count());
         }
         [PermissionDescription("DeleteCompany")]

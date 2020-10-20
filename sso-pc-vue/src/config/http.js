@@ -65,8 +65,10 @@ export const urls = {
     settings: {
         setLang: 'settings/setlang'
     },
-    permission:{
+    permission: {
         getlist: 'permission/getpermission',
+        addRolePermission: 'permission/addRolePermission',
+        getRolePermission: "permission/getRolePermission"
     },
     decodeToken: 'sso/decodetoken',
     login: 'sso/login',

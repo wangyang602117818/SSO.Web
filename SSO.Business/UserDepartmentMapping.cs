@@ -7,17 +7,30 @@ using System.Threading.Tasks;
 
 namespace SSO.Business
 {
-    public class UserDepartmentMapping : ModelBase
+    public class UserDepartmentMapping : ModelBase<Data.Models.UserDepartmentMapping>
     {
-        public IQueryable<DateCountItem> GetUserDepartmentRatio()
+        public UserDepartmentMapping() : base(new Data.Models.UserDepartmentMapping()) { }
+        public List<DateCountItem> GetUserDepartmentRatio()
         {
-            return from udm in userCenterContext.UserDepartmentMappings
-                   join dept in userCenterContext.Departments
-                   on udm.DepartmentCode equals dept.Code into t1
-                   from t2 in t1.DefaultIfEmpty()
-                   select new DateCountItem { type = t2.Name, count = 1 } into t3
-                   group t3 by t3.type into grouped
-                   select new DateCountItem() { type = grouped.Key, count = grouped.Count() };
+            return instance.GroupByDepartment();
+        }
+        public int Insert(string userId, string departmentCode)
+        {
+            return instance.Insert(new Data.Models.UserDepartmentMapping()
+            {
+                UserId = userId,
+                DepartmentCode = departmentCode,
+                CreateTime = DateTime.Now
+            });
+        }
+        public IEnumerable<string> GetByUserId(string userId)
+        {
+            IEnumerable<string> roles = instance.GetByUserId(userId).Select(s => s.DepartmentCode);
+            return roles;
+        }
+        public int DeleteByUserId(string userId)
+        {
+            return instance.DeleteByUserId(userId);
         }
     }
 }
