@@ -7,6 +7,7 @@
     select * from Permission
   </get-all>
   <insert-many>
-    insert into Permission(Origin,Name)
+    insert into Permission(Origin,Name)values
+    <iterate conjunction="," property="Names">(@Origin,@Names{{index}})</iterate>
   </insert-many>
 </sql>

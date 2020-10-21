@@ -31,7 +31,7 @@
     WHERE Id = @Id
   </update>
   <delete>
-    delete from Company where Id in (<iterate conjunction="," property="Ids"></iterate>)
+    delete from Company where Id in (<iterate conjunction="," property="Ids">@Ids{{index}}</iterate>)
   </delete>
   <count>
     select count(*) from Company

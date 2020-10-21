@@ -101,13 +101,13 @@
     select count(*) from UserBasic where [Delete]=0
   </count>
   <remove-user>
-    update UserBasic set [Delete]=1,DeleteTime=@DeleteTime where UserId in(<iterate conjunction="," property="UserIds"></iterate>)
+    update UserBasic set [Delete]=1,DeleteTime=@DeleteTime where UserId in(<iterate conjunction="," property="UserIds">@UserIds{{index}}</iterate>)
   </remove-user>
   <restore-user>
-    update UserBasic set [Delete]=0 where UserId in(<iterate conjunction="," property="UserIds"></iterate>)
+    update UserBasic set [Delete]=0 where UserId in(<iterate conjunction="," property="UserIds">@UserIds{{index}}</iterate>)
   </restore-user>
   <delete-user>
-    delete UserBasic where UserId in(<iterate conjunction="," property="UserIds"></iterate>)
+    delete UserBasic where UserId in(<iterate conjunction="," property="UserIds">@UserIds{{index}}</iterate>)
   </delete-user>
   <get-by-id>
     select * from UserBasic where Id = @Id
@@ -136,7 +136,7 @@
     select * from UserBasic where UserId=@UserId and PassWord=@PassWord
   </login>
   <update-password>
-    update UserBasic set PassWord=@PassWord,IsModified=1 where UserId in(<iterate conjunction="," property="UserIds"></iterate>)
+    update UserBasic set PassWord=@PassWord,IsModified=1 where UserId in(<iterate conjunction="," property="UserIds">@UserIds{{index}}</iterate>)
   </update-password>
   <update-file>
     update UserBasic set FileId=@FileId,FileName=@FileName,UpdateTime=@UpdateTime where UserId=@UserId

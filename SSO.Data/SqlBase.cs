@@ -216,13 +216,13 @@ namespace SSO.Data
                                 if (countInt != null)
                                 {
                                     for (var i = 0; i < countInt.Count; i++)
-                                        insql.Add("@" + propertyName + i);
+                                        insql.Add(xNode.Value.Replace("{{index}}", i.ToString()));
                                 }
                                 var countString = value as List<string>;
                                 if (countString != null)
                                 {
                                     for (var i = 0; i < countString.Count; i++)
-                                        insql.Add("@" + propertyName + i);
+                                        insql.Add(xNode.Value.Replace("{{index}}", i.ToString()));
                                 }
                                 sql += string.Join(conjunction, insql);
                             }
