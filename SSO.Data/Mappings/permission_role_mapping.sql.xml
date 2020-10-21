@@ -4,7 +4,8 @@
     delete from PermissionRoleMapping where Role=@Role
   </delete-many>
   <insert-many>
-    insert into Permission(Origin,Name)
+    insert into PermissionRoleMapping(Role,Permission)values
+    <iterate conjunction="," property="Permissions">(@Role,@Permissions{{index}})</iterate>
   </insert-many>
   <get-by-role>
     select * from PermissionRoleMapping where Role=@Role

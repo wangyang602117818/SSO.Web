@@ -119,8 +119,8 @@
       :confirm-loading="confirmLoading"
       :okText="$t('submit')"
       :cancelText="$t('cancel')"
-      @ok="handleOk"
-      @cancel="handleCancel"
+      @ok="submitPermission"
+      @cancel="cancelPermission"
     >
       <div class="card-container" v-if="permissions">
         <a-tabs :default-active-key="0" size="small" type="card">
@@ -131,7 +131,7 @@
           >
             <a-checkbox
               :default-checked="rolepermissions.indexOf(item) > -1"
-              @change="onChange"
+              @change="permissionChange"
               v-for="(item, index) in value"
               :key="index"
               :id="item"
@@ -201,7 +201,7 @@ export default {
         this.searchValue
       );
     },
-    handleOk() {
+    submitPermission() {
       this.confirmLoading = true;
       this.loading = true;
       this.$axios
@@ -213,11 +213,11 @@ export default {
           if (response.code == 0) {
             this.confirmLoading = false;
             this.loading = false;
-            this.handleCancel();
+            this.cancelPermission();
           }
         });
     },
-    handleCancel() {
+    cancelPermission() {
       this.permissions = [];
       this.rolepermissions = [];
       this.permissionVisible = false;
@@ -229,7 +229,7 @@ export default {
         .then(function (results) {
           if (results[0].code == 0 && results[1].code == 0) {
             that.permissions = results[0].result;
-            that.rolepermissions = results[1].result;
+            that.rolepermissions = Array.from(new Set(results[1].result));
           }
           that.permissionVisible = true;
         });
@@ -243,7 +243,7 @@ export default {
         this.$urls.permission.getRolePermission + "?role=" + role
       );
     },
-    onChange(e) {
+    permissionChange(e) {
       var value = e.target.id;
       var index = this.rolepermissions.indexOf(value);
       if (index == -1) {
@@ -251,7 +251,6 @@ export default {
       } else {
         this.rolepermissions.splice(index, 1);
       }
-      window.console.log(this.rolepermissions);
     },
     eidtRole() {
       this.isUpdate = true;

@@ -23,7 +23,7 @@
   primary key (Id),
   unique (Code)
   )
-  
+
   if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='Department')
   create table Department (
   Id INT IDENTITY NOT NULL,
@@ -128,9 +128,10 @@
   UpdateTime DATETIME null,
   CreateTime DATETIME null,
   primary key (Id),
+  unique (Role,Permission),
   CONSTRAINT FK_Permission_Role FOREIGN KEY (Role)
   REFERENCES Role(Name)
-  ON UPDATE CASCADE
+  ON UPDATE CASCADE,
   )
 
   if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='PermissionUserMapping')
@@ -141,6 +142,7 @@
   UpdateTime DATETIME null,
   CreateTime DATETIME null,
   primary key (Id),
+  unique (UserId,Permission),
   CONSTRAINT FK_Permission_User FOREIGN KEY (UserId)
   REFERENCES UserBasic(UserId)
   ON UPDATE CASCADE

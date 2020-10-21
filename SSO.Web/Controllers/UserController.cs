@@ -63,11 +63,12 @@ namespace SSO.Web.Controllers
             return new ResponseModel<int>(ErrorCode.success, user.ResetPassword(userIds));
         }
         [PermissionDescription("GetUser")]
-        public ActionResult GetBasic(string filter, string orderField = "Id", string orderType = "desc", int pageIndex = 1, int pageSize = 10, bool delete = false)
+        public ActionResult GetBasic(string companyCode = "", string filter = "", string orderField = "Id", string orderType = "desc", int pageIndex = 1, int pageSize = 10, bool delete = false)
         {
             int count = 0;
             Data.Models.UserBasic page = new Data.Models.UserBasic()
             {
+                CompanyCode = companyCode,
                 UserName = filter,
                 Delete = delete,
                 PageIndex = pageIndex,

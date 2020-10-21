@@ -68,7 +68,9 @@ export const urls = {
     permission: {
         getlist: 'permission/getpermission',
         addRolePermission: 'permission/addRolePermission',
-        getRolePermission: "permission/getRolePermission"
+        getRolePermission: "permission/getRolePermission",
+        addUserPermission: "permission/addUserPermission",
+        getUserPermission: "permission/getUserPermission"
     },
     decodeToken: 'sso/decodetoken',
     login: 'sso/login',

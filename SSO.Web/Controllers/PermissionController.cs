@@ -33,7 +33,6 @@ namespace SSO.Web.Controllers
                 if (!result.ContainsKey(item.Origin)) result.Add(item.Origin, new List<string>());
                 result[item.Origin].Add(item.Name);
             }
-
             return new ResponseModel<Dictionary<string, List<string>>>(ErrorCode.success, result);
         }
         public ActionResult AddRolePermission(RolePermissionModel rolePermissionModel)
@@ -55,6 +54,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult AddUserPermission(UserPermissionModel userPermissionModel)
         {
+            userMapping.DeleteMany(userPermissionModel.User);
             if (userMapping.InsertMany(userPermissionModel.User, userPermissionModel.Names) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -63,6 +63,11 @@ namespace SSO.Web.Controllers
             {
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
+        }
+        public ActionResult GetUserPermission(string userId)
+        {
+            var result = userMapping.GetByUser(userId).Select(s => s.Permission);
+            return new ResponseModel<IEnumerable<string>>(ErrorCode.success, result);
         }
     }
 }

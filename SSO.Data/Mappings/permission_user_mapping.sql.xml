@@ -4,7 +4,8 @@
     delete from PermissionUserMapping where UserId=@UserId
   </delete-many>
   <insert-many>
-    insert into PermissionUserMapping(Origin,Name)
+    insert into PermissionUserMapping(UserId,Permission)values
+    <iterate conjunction="," property="Permissions">(@UserId,@Permissions{{index}})</iterate>
   </insert-many>
   <get-by-user>
     select * from PermissionUserMapping where UserId=@UserId

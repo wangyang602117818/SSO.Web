@@ -8,35 +8,56 @@
           @search="onSearch"
           v-model="searchValue"
         />
-        <a-button type="primary" icon="plus" :title="$t('add')" @click="showDrawer()"></a-button>
-        <a-button type="default" icon="redo" @click="reload" :title="$t('refresh')"></a-button>
+        <a-button
+          type="primary"
+          icon="plus"
+          :title="$t('add')"
+          @click="showDrawer()"
+        ></a-button>
+        <a-button
+          type="default"
+          icon="redo"
+          @click="reload"
+          :title="$t('refresh')"
+        ></a-button>
         <a-button
           type="default"
           icon="edit"
           @click="editUser"
-          :disabled="selectedRowKeys.length!=1"
+          :disabled="selectedRowKeys.length != 1"
           :title="$t('edit')"
         ></a-button>
+        <a-button
+          type="default"
+          icon="key"
+          :title="$t('permission')"
+          @click="eidtPermission"
+          :disabled="selectedRowKeys.length != 1"
+        />
         <a-popconfirm
           :title="$t('sure_reset_password')"
           @confirm="resetPassword"
           :okText="$t('yes')"
           :cancelText="$t('no')"
         >
-          <a-button type="default" icon="unlock" :title="$t('reset_password')"></a-button>
+          <a-button
+            type="default"
+            icon="unlock"
+            :title="$t('reset_password')"
+          ></a-button>
         </a-popconfirm>
         <a-popconfirm
           :title="$t('confirm_delete')"
           @confirm="removeUser"
           :okText="$t('yes')"
           :cancelText="$t('no')"
-          v-if="this.showDelete==false"
+          v-if="this.showDelete == false"
         >
           <a-button
             type="danger"
             icon="delete"
             :title="$t('delete')"
-            :disabled="selectedRowKeys.length==0"
+            :disabled="selectedRowKeys.length == 0"
           ></a-button>
         </a-popconfirm>
         <a-popconfirm
@@ -44,13 +65,13 @@
           @confirm="restoreUser"
           :okText="$t('yes')"
           :cancelText="$t('no')"
-          v-if="this.showDelete==true"
+          v-if="this.showDelete == true"
         >
           <a-button
             type="default"
             icon="rollback"
             :title="$t('restore')"
-            :disabled="selectedRowKeys.length==0"
+            :disabled="selectedRowKeys.length == 0"
           ></a-button>
         </a-popconfirm>
         <a-popconfirm
@@ -58,19 +79,21 @@
           @confirm="deleteUser"
           :okText="$t('yes')"
           :cancelText="$t('no')"
-          v-if="this.showDelete==true"
+          v-if="this.showDelete == true"
         >
           <a-button
             type="default"
             icon="close"
             :title="$t('permanent_delete')"
-            :disabled="selectedRowKeys.length==0"
+            :disabled="selectedRowKeys.length == 0"
           ></a-button>
         </a-popconfirm>
       </a-col>
       <a-col :span="12" align="right">
         <a-tooltip
-          :title="this.showDelete?$t('show_normal_user'):$t('show_delete_user')"
+          :title="
+            this.showDelete ? $t('show_normal_user') : $t('show_delete_user')
+          "
           placement="left"
         >
           <a-switch :defaultChecked="showDelete" @change="changeDeleteShow" />
@@ -80,9 +103,12 @@
 
     <a-table
       :columns="columns"
-      :rowKey="record => record.UserId"
+      :rowKey="(record) => record.UserId"
       :dataSource="data"
-      :rowSelection="{selectedRowKeys:selectedRowKeys,onChange:onSelectChange}"
+      :rowSelection="{
+        selectedRowKeys: selectedRowKeys,
+        onChange: onSelectChange,
+      }"
       :loading="loading"
       :pagination="pagination"
       @change="handleTableChange"
@@ -92,24 +118,35 @@
         slot="CompanyName"
         slot-scope="CompanyName"
         color="#108ee9"
-      >{{CompanyName}}</a-tag>
-      <span slot="DepartmentName" slot-scope="DepartmentName" v-if="DepartmentName">
-        <a-tag v-for="tag in DepartmentName.split(',')" :key="tag" color="#87d068">{{tag}}</a-tag>
+        >{{ CompanyName }}</a-tag
+      >
+      <span
+        slot="DepartmentName"
+        slot-scope="DepartmentName"
+        v-if="DepartmentName"
+      >
+        <a-tag
+          v-for="tag in DepartmentName.split(',')"
+          :key="tag"
+          color="#87d068"
+          >{{ tag }}</a-tag
+        >
       </span>
       <span slot="RoleName" slot-scope="RoleName" v-if="RoleName">
-        <a-tag v-for="tag in RoleName.split(',')" :key="tag">{{tag}}</a-tag>
+        <a-tag v-for="tag in RoleName.split(',')" :key="tag">{{ tag }}</a-tag>
       </span>
       <span slot="IsModified" slot-scope="text, record">
         <a-tooltip
           placement="top"
           :title="$funtools.parseIsoDateTime(record.UpdateTime)"
-        >{{record.IsModified}}</a-tooltip>
+          >{{ record.IsModified }}</a-tooltip
+        >
       </span>
     </a-table>
     <a-drawer
-      :title="isUpdate?$t('update_user'):$t('add_user')"
+      :title="isUpdate ? $t('update_user') : $t('add_user')"
       :width="400"
-      @close="drawerVisible=false"
+      @close="drawerVisible = false"
       :visible="drawerVisible"
     >
       <a-form :form="form" @submit.prevent="handleSubmit">
@@ -119,8 +156,11 @@
           :wrapper-col="{ span: 12 }"
         >
           <a-input
-            :placeholder="$t('userId')+'/'+$t('loginId')"
-            v-decorator="['userId',{rules: [{ required: true, message: $t('user_id_required') }]}]"
+            :placeholder="$t('userId') + '/' + $t('loginId')"
+            v-decorator="[
+              'userId',
+              { rules: [{ required: true, message: $t('user_id_required') }] },
+            ]"
           />
         </a-form-item>
         <a-form-item
@@ -129,15 +169,27 @@
           :wrapper-col="{ span: 15 }"
         >
           <a-input
-            v-decorator="['userName',{rules: [{ required: true, message: $t('user_name_required') }]}]"
+            v-decorator="[
+              'userName',
+              {
+                rules: [{ required: true, message: $t('user_name_required') }],
+              },
+            ]"
           />
         </a-form-item>
-        <a-form-item :label="$t('sex')" :label-col="{ span: 6 }" :wrapper-col="{ span: 8 }">
+        <a-form-item
+          :label="$t('sex')"
+          :label-col="{ span: 6 }"
+          :wrapper-col="{ span: 8 }"
+        >
           <a-select
-            v-decorator="['sex',{rules: [{ required: true, message:$t('sex_required') }]}]"
+            v-decorator="[
+              'sex',
+              { rules: [{ required: true, message: $t('sex_required') }] },
+            ]"
           >
-            <a-select-option value="M">{{$t('male')}}</a-select-option>
-            <a-select-option value="F">{{$t('female')}}</a-select-option>
+            <a-select-option value="M">{{ $t("male") }}</a-select-option>
+            <a-select-option value="F">{{ $t("female") }}</a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item
@@ -146,12 +198,22 @@
           :wrapper-col="{ span: 15 }"
         >
           <a-input
-            v-decorator="['mobile',{rules: [{ required: false, message: $t('mobile_required') }]}]"
+            v-decorator="[
+              'mobile',
+              { rules: [{ required: false, message: $t('mobile_required') }] },
+            ]"
           />
         </a-form-item>
-        <a-form-item :label="$t('email')" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item
+          :label="$t('email')"
+          :label-col="{ span: 6 }"
+          :wrapper-col="{ span: 15 }"
+        >
           <a-input
-            v-decorator="['email',{rules: [{ required: false, message:$t('email_required') }]}]"
+            v-decorator="[
+              'email',
+              { rules: [{ required: false, message: $t('email_required') }] },
+            ]"
           />
         </a-form-item>
         <a-form-item
@@ -160,49 +222,102 @@
           :wrapper-col="{ span: 15 }"
         >
           <a-input
-            v-decorator="['idCard',{rules: [{ required: false, message: $t('id_card_required') }]}]"
+            v-decorator="[
+              'idCard',
+              { rules: [{ required: false, message: $t('id_card_required') }] },
+            ]"
           />
         </a-form-item>
-        <a-form-item :label="$t('comp')" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item
+          :label="$t('comp')"
+          :label-col="{ span: 6 }"
+          :wrapper-col="{ span: 15 }"
+        >
           <a-select
             allowClear
-            v-decorator="[ 'companyCode', {rules: [{ required: true, message: $t('company_required') }]}]"
+            v-decorator="[
+              'companyCode',
+              { rules: [{ required: true, message: $t('company_required') }] },
+            ]"
             @change="changeCompany"
           >
             <a-select-option
               :value="item.Code"
               v-for="item in companyData"
               v-bind:key="item.Id"
-            >{{item.Name}}</a-select-option>
+              >{{ item.Name }}</a-select-option
+            >
           </a-select>
         </a-form-item>
-        <a-form-item :label="$t('dept')" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item
+          :label="$t('dept')"
+          :label-col="{ span: 6 }"
+          :wrapper-col="{ span: 15 }"
+        >
           <a-tree-select
             :treeData="departmentData"
             multiple
-            v-decorator="[ 'departments', {rules: [{ required: false }]}]"
+            v-decorator="['departments', { rules: [{ required: false }] }]"
             treeDefaultExpandAll
             allowClear
           ></a-tree-select>
         </a-form-item>
-        <a-form-item :label="$t('rol')" :label-col="{ span: 6 }" :wrapper-col="{ span: 15 }">
+        <a-form-item
+          :label="$t('rol')"
+          :label-col="{ span: 6 }"
+          :wrapper-col="{ span: 15 }"
+        >
           <a-select
             allowClear
             mode="multiple"
-            v-decorator="[ 'roles', {rules: [{ required: false, message: $t('rol_required') }]}]"
+            v-decorator="[
+              'roles',
+              { rules: [{ required: false, message: $t('rol_required') }] },
+            ]"
           >
             <a-select-option
               :value="item.Name"
               v-for="item in roleData"
               v-bind:key="item.Id"
-            >{{item.Name}}</a-select-option>
+              >{{ item.Name }}</a-select-option
+            >
           </a-select>
         </a-form-item>
         <a-divider />
-        <a-button @click="form.resetFields();">{{$t('reset')}}</a-button>
-        <a-button type="primary" html-type="submit">{{$t('submit')}}</a-button>
+        <a-button @click="form.resetFields()">{{ $t("reset") }}</a-button>
+        <a-button type="primary" html-type="submit">{{
+          $t("submit")
+        }}</a-button>
       </a-form>
     </a-drawer>
+    <a-modal
+      :title="$t('role_permission')"
+      :visible="permissionVisible"
+      :confirm-loading="confirmLoading"
+      :okText="$t('submit')"
+      :cancelText="$t('cancel')"
+      @ok="submitPermission"
+      @cancel="cancelPermission"
+    >
+      <div class="card-container" v-if="permissions">
+        <a-tabs :default-active-key="0" size="small" type="card">
+          <a-tab-pane
+            :key="index"
+            :tab="name"
+            v-for="(value, name, index) in permissions"
+          >
+            <a-checkbox
+              :default-checked="userpermissions.indexOf(item) > -1"
+              @change="permissionChange"
+              v-for="(item, index) in value"
+              :key="index"
+              :id="item"
+              >{{ $t("permissions." + item) }}</a-checkbox
+            >
+          </a-tab-pane>
+        </a-tabs>
+      </div>
+    </a-modal>
   </div>
 </template>
 <script>
@@ -221,73 +336,73 @@ export default {
       confirmDirty: false,
       columns: [
         {
-          title: this.$t('id'),
+          title: this.$t("id"),
           dataIndex: "Id",
           width: "5%",
         },
         {
-          title: this.$t('userId'),
+          title: this.$t("userId"),
           dataIndex: "UserId",
           width: "7%",
           ellipsis: true,
         },
         {
-          title: this.$t('user_name'),
+          title: this.$t("user_name"),
           dataIndex: "UserName",
           width: "10%",
           ellipsis: true,
         },
         {
-          title: this.$t('mobile'),
+          title: this.$t("mobile"),
           dataIndex: "Mobile",
           width: "11%",
           ellipsis: true,
         },
         {
-          title: this.$t('email'),
+          title: this.$t("email"),
           dataIndex: "Email",
           width: "10%",
           ellipsis: true,
         },
         {
-          title: this.$t('sex'),
+          title: this.$t("sex"),
           dataIndex: "Sex",
           width: "5%",
           ellipsis: true,
           customRender: (val) => {
-            return val == "F" ? this.$t('female') : this.$t('male');
+            return val == "F" ? this.$t("female") : this.$t("male");
           },
         },
         {
-          title: this.$t('comp'),
+          title: this.$t("comp"),
           dataIndex: "CompanyName",
           width: "10%",
           ellipsis: false,
           scopedSlots: { customRender: "CompanyName" },
         },
         {
-          title: this.$t('dept'),
+          title: this.$t("dept"),
           dataIndex: "DepartmentName",
           width: "13%",
           ellipsis: false,
           scopedSlots: { customRender: "DepartmentName" },
         },
         {
-          title: this.$t('rol'),
+          title: this.$t("rol"),
           dataIndex: "RoleName",
           width: "12%",
           ellipsis: false,
           scopedSlots: { customRender: "RoleName" },
         },
         {
-          title: this.$t('modified'),
+          title: this.$t("modified"),
           dataIndex: "IsModified",
           width: "7%",
           ellipsis: true,
           scopedSlots: { customRender: "IsModified" },
         },
         {
-          title: this.$t('create_time'),
+          title: this.$t("create_time"),
           dataIndex: "CreateTime",
           ellipsis: true,
           width: "10%",
@@ -301,6 +416,10 @@ export default {
       loading: false,
       isUpdate: false,
       showDelete: false,
+      permissionVisible: false,
+      confirmLoading: false,
+      permissions: null,
+      userpermissions: [],
     };
   },
   created() {
@@ -334,7 +453,7 @@ export default {
             this.selectedRowKeys = [];
             this.selectedRows = [];
             this.getData();
-            this.$message.warning(this.$t('reset_success'));
+            this.$message.warning(this.$t("reset_success"));
           }
           this.loading = false;
         });
@@ -363,7 +482,7 @@ export default {
       this.$axios.post(this.$urls.user.update, user).then((response) => {
         if (response.code == 0) {
           this.getData();
-          this.$message.warning(this.$t('modify_success'));
+          this.$message.warning(this.$t("modify_success"));
         }
       });
     },
@@ -432,7 +551,7 @@ export default {
       var len = this.columns.length;
       if (this.showDelete) {
         this.columns.splice(len - 1, 1, {
-          title: this.$t('delete_time'),
+          title: this.$t("delete_time"),
           dataIndex: "DeleteTime",
           width: "15%",
           customRender: (val) => {
@@ -441,7 +560,7 @@ export default {
         });
       } else {
         this.columns.splice(len - 1, 1, {
-          title: this.$t('create_time'),
+          title: this.$t("create_time"),
           dataIndex: "CreateTime",
           width: "15%",
           customRender: (val) => {
@@ -528,6 +647,57 @@ export default {
     },
     onClose() {
       this.drawerVisible = false;
+    },
+    eidtPermission() {
+      var that = this;
+      this.$axios
+        .all([this.getPermissions(), this.getUserPermissions()])
+        .then(function (results) {
+          if (results[0].code == 0 && results[1].code == 0) {
+            that.permissions = results[0].result;
+            that.userpermissions = Array.from(new Set(results[1].result));
+          }
+          that.permissionVisible = true;
+        });
+    },
+    getPermissions() {
+      return this.$axios.get(this.$urls.permission.getlist);
+    },
+    getUserPermissions() {
+      var userId = this.selectedRows[0].UserId;
+      return this.$axios.get(
+        this.$urls.permission.getUserPermission + "?userId=" + userId
+      );
+    },
+    submitPermission() {
+      this.confirmLoading = true;
+      this.loading = true;
+      this.$axios
+        .post(this.$urls.permission.addUserPermission, {
+          user: this.selectedRows[0].UserId,
+          names: this.userpermissions,
+        })
+        .then((response) => {
+          if (response.code == 0) {
+            this.confirmLoading = false;
+            this.loading = false;
+            this.cancelPermission();
+          }
+        });
+    },
+    cancelPermission() {
+      this.permissions = [];
+      this.userpermissions = [];
+      this.permissionVisible = false;
+    },
+    permissionChange(e) {
+      var value = e.target.id;
+      var index = this.userpermissions.indexOf(value);
+      if (index == -1) {
+        this.userpermissions.push(value);
+      } else {
+        this.userpermissions.splice(index, 1);
+      }
     },
   },
 };

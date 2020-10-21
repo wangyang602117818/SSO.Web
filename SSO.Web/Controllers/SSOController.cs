@@ -18,9 +18,6 @@ namespace SSO.Web.Controllers
     {
         Business.UserBasic user = new Business.UserBasic();
         Business.Settings settings = new Business.Settings();
-        Business.Company company = new Business.Company();
-        Business.Department department = new Business.Department();
-        Business.Role role = new Business.Role();
         [AllowAnonymous]
         public ActionResult Index()
         {
@@ -193,52 +190,6 @@ namespace SSO.Web.Controllers
             };
             return new ResponseModel<object>(ErrorCode.success, user);
         }
-        [PermissionDescription("GetCompany")]
-        [OutputCache(Duration = 60 * 25)]
-        public ActionResult GetAllCompany()
-        {
-            var result = company.GetAll(null);
-            return new ResponseModel<IEnumerable<Company>>(ErrorCode.success, result, result.Count());
-        }
-        [PermissionDescription("GetDepartment")]
-        [OutputCache(Duration = 60 * 25, VaryByParam = "id")]
-        public ActionResult GetAllDepartment(string id)
-        {
-            return new ResponseModel<List<DepartmentData>>(ErrorCode.success, department.GetDepartment(id));
-        }
-        [PermissionDescription("GetUser")]
-        public ActionResult GetUserList(string companyCode = "", string filter = "", string orderField = "UserName", string orderType = "asc", int pageIndex = 1, int pageSize = 15)
-        {
-            int count = 0;
-            Data.Models.UserBasic page = new Data.Models.UserBasic()
-            {
-                CompanyCode = companyCode,
-                UserName = filter,
-                Delete = false,
-                PageIndex = pageIndex,
-                PageSize = pageSize
-            };
-            object replacement = new { OrderField = orderField, OrderType = orderType };
-            var result = user.GetPageList(ref count, page, replacement);
-            return new ResponseModel<IEnumerable<UserBasic>>(ErrorCode.success, result, count);
-        }
-        [PermissionDescription("GetRole")]
-        public ActionResult GetRoleList(string filter = "", int pageIndex = 1, int pageSize = 15)
-        {
-            int count = 0;
-            var r = new Data.Models.Role()
-            {
-                Name = filter,
-                PageIndex = pageIndex,
-                PageSize = pageSize
-            };
-            var result = role.GetPageList(ref count, r);
-            return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, count);
-        }
-        [PermissionDescription("GetUser")]
-        public ActionResult GetUser(string id)
-        {
-            return new ResponseModel<UserBasicData>(ErrorCode.success, user.GetUserUpdate(id));
-        }
+       
     }
 }
