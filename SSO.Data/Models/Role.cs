@@ -11,6 +11,7 @@ namespace SSO.Data.Models
         public Role() : base("role.sql.xml") { }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int PermissionCount { get; set; }
 
         public Role GetByName(string name)
         {

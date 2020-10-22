@@ -5,6 +5,7 @@
     "basic": "基本信息",
     "role": "角色信息",
     "permission": "权限管理",
+    "permission_count": "权限数",
     "company": "公司管理",
     "department": "部门管理",
     "role_permission": "角色权限",

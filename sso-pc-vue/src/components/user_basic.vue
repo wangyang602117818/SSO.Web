@@ -397,15 +397,21 @@ export default {
         {
           title: this.$t("modified"),
           dataIndex: "IsModified",
-          width: "7%",
+          width: "5%",
           ellipsis: true,
           scopedSlots: { customRender: "IsModified" },
+        },
+        {
+          title: this.$t("permission_count"),
+          dataIndex: "PermissionCount",
+          ellipsis: true,
+          width: "5%",
         },
         {
           title: this.$t("create_time"),
           dataIndex: "CreateTime",
           ellipsis: true,
-          width: "10%",
+          width: "7%",
           customRender: (val) => {
             return this.$funtools.parseIsoDateTime(val);
           },

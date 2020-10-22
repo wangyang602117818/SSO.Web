@@ -7,6 +7,9 @@
     insert into PermissionUserMapping(UserId,Permission)values
     <iterate conjunction="," property="Permissions">(@UserId,@Permissions{{index}})</iterate>
   </insert-many>
+  <update-user-count>
+    update UserBasic set PermissionCount=@PermissionCount where UserId=@UserId
+  </update-user-count>
   <get-by-user>
     select * from PermissionUserMapping where UserId=@UserId
   </get-by-user>

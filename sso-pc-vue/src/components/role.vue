@@ -164,7 +164,12 @@ export default {
         {
           title: this.$t("role_description"),
           dataIndex: "Description",
-          width: "50%",
+          width: "40%",
+        },
+        {
+          title: this.$t("permission_count"),
+          dataIndex: "PermissionCount",
+          width: "10%",
         },
         {
           title: this.$t("update_time"),
@@ -214,6 +219,7 @@ export default {
             this.confirmLoading = false;
             this.loading = false;
             this.cancelPermission();
+            this.getData();
           }
         });
     },

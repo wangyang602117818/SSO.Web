@@ -64,5 +64,36 @@ namespace SSO.Data
             cmd.Parameters.AddRange(parameters);
             return cmd.ExecuteReader(CommandBehavior.CloseConnection);
         }
+        public int ExecuteNonQueryTransaction(IEnumerable<string> sqls, IEnumerable<SqlParameter[]> parameters)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                using (SqlTransaction transaction = conn.BeginTransaction())
+                {
+                    using (SqlCommand command = conn.CreateCommand())
+                    {
+                        command.Transaction = transaction;
+                        int count = 0;
+                        try
+                        {
+                            for (var i = 0; i < sqls.Count(); i++)
+                            {
+                                command.CommandText = sqls.ElementAt(i);
+                                command.Parameters.AddRange(parameters.ElementAt(i));
+                                count = command.ExecuteNonQuery();
+                            }
+                            transaction.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            Log4Net.ErrorLog(ex);
+                            transaction.Rollback();
+                        }
+                        return count;
+                    }
+                }
+            }
+        }
     }
 }

@@ -103,6 +103,19 @@ namespace SSO.Data
             SqlParameter[] sqlParameters = ParseSqlParameter(paras);
             return sqlHelper.ExecuteNonQuery(sql, sqlParameters);
         }
+        protected int ExecuteNonQueryTransaction(IEnumerable<string> nodeNames, IEnumerable<object> paras, IEnumerable<object> replacements = null)
+        {
+            List<string> sqls = new List<string>();
+            List<SqlParameter[]> sqlParameters = new List<SqlParameter[]>();
+            for (var i = 0; i < nodeNames.Count(); i++)
+            {
+                string sql = ParseStatements(nodeNames.ElementAt(i), paras.ElementAt(i), replacements == null ? null : replacements.ElementAt(i));
+                SqlParameter[] parameters = ParseSqlParameter(paras.ElementAt(i));
+                sqls.Add(sql);
+                sqlParameters.Add(parameters);
+            }
+            return sqlHelper.ExecuteNonQueryTransaction(sqls, sqlParameters);
+        }
         protected List<T> QueryList<T>(string nodeName, object paras, ref int count, object replacement = null) where T : class
         {
             var result = Execute(nodeName, paras, ref count, replacement);
@@ -168,7 +181,7 @@ namespace SSO.Data
         /// <param name="paras">要防止注入的参数列表</param>
         /// <param name="replacement">要替换的对象</param>
         /// <returns></returns>
-        private string ParseStatements(string nodeName, object paras, object replacement)
+        protected string ParseStatements(string nodeName, object paras, object replacement)
         {
             string sql = "";
             var nodes = sqlXml.Root.Element(nodeName).Nodes();
@@ -252,7 +265,7 @@ namespace SSO.Data
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        private SqlParameter[] ParseSqlParameter(object obj)
+        protected SqlParameter[] ParseSqlParameter(object obj)
         {
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
             if (obj == null) return sqlParameters.ToArray();

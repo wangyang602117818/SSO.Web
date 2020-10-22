@@ -3,12 +3,14 @@
   <insert>
     INSERT INTO Role (
     Name,
+    PermissionCount,
     CreateTime
     <isNotEmpty property="Description" prepend=",">
       Description
     </isNotEmpty>
     ) VALUES (
     @Name,
+    @PermissionCount,
     @CreateTime
     <isNotEmpty property="Description" prepend=",">
       @Description

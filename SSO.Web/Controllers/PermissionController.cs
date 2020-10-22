@@ -37,18 +37,18 @@ namespace SSO.Web.Controllers
         }
         public ActionResult AddRolePermission(RolePermissionModel rolePermissionModel)
         {
-            roleMapping.DeleteMany(rolePermissionModel.Role);
             if (rolePermissionModel.Names == null || rolePermissionModel.Names.Count == 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
-            if (roleMapping.InsertMany(rolePermissionModel.Role, rolePermissionModel.Names) > 0)
+            int count = roleMapping.DeleteAndInsertMany(rolePermissionModel.Role, rolePermissionModel.Names);
+            if (count > 0)
             {
-                return new ResponseModel<string>(ErrorCode.success, "");
+                return new ResponseModel<string>(ErrorCode.success, "", count);
             }
             else
             {
-                return new ResponseModel<string>(ErrorCode.server_exception, "");
+                return new ResponseModel<string>(ErrorCode.server_exception, "", count);
             }
         }
         public ActionResult GetRolePermission(string role)
@@ -58,18 +58,18 @@ namespace SSO.Web.Controllers
         }
         public ActionResult AddUserPermission(UserPermissionModel userPermissionModel)
         {
-            userMapping.DeleteMany(userPermissionModel.User);
             if (userPermissionModel.Names == null || userPermissionModel.Names.Count == 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
-            if (userMapping.InsertMany(userPermissionModel.User, userPermissionModel.Names) > 0)
+            int count = userMapping.DeleteAndInsertMany(userPermissionModel.User, userPermissionModel.Names);
+            if (count > 0)
             {
-                return new ResponseModel<string>(ErrorCode.success, "");
+                return new ResponseModel<string>(ErrorCode.success, "", count);
             }
             else
             {
-                return new ResponseModel<string>(ErrorCode.server_exception, "");
+                return new ResponseModel<string>(ErrorCode.server_exception, "", count);
             }
         }
         public ActionResult GetUserPermission(string userId)

@@ -9,13 +9,9 @@ namespace SSO.Business
     public class PermissionRoleMapping : ModelBase<Data.Models.PermissionRoleMapping>
     {
         public PermissionRoleMapping() : base(new Data.Models.PermissionRoleMapping()) { }
-        public int DeleteMany(string role)
+        public int DeleteAndInsertMany(string role, IEnumerable<string> permissions)
         {
-            return instance.DeleteMany(role);
-        }
-        public int InsertMany(string role, IEnumerable<string> permissions)
-        {
-            return instance.InsertMany(role, permissions);
+            return instance.DeleteAndInsertMany(role, permissions);
         }
         public IEnumerable<Data.Models.PermissionRoleMapping> GetByRole(string role)
         {

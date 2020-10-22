@@ -5,6 +5,7 @@
     "basic": "Basic",
     "role": "Role",
     "permission": "Permission",
+    "permission_count": "PermissionCount",
     "company": "Company",
     "department": "Department",
     "role_permission": "RolePermission",

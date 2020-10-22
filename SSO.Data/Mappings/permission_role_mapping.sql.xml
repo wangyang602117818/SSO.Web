@@ -7,6 +7,9 @@
     insert into PermissionRoleMapping(Role,Permission)values
     <iterate conjunction="," property="Permissions">(@Role,@Permissions{{index}})</iterate>
   </insert-many>
+  <update-role-count>
+    update role set PermissionCount=@PermissionCount where Name=@Name
+  </update-role-count>
   <get-by-role>
     select * from PermissionRoleMapping where Role=@Role
   </get-by-role>

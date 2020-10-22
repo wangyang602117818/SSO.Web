@@ -7,14 +7,14 @@
     Lang
     ) VALUES (
     @UserId,
-    @CreateTime
+    @CreateTime,
     @Lang
     )
   </insert>
   <update>
     UPDATE Settings SET
     Lang=@Lang,
-    UpdateTime=@UpdateTime,
+    UpdateTime=@UpdateTime
     WHERE UserId = @UserId
   </update>
   <get-by-userId>

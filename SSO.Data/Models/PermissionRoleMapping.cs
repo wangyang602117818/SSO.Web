@@ -16,9 +16,9 @@ namespace SSO.Data.Models
         {
             return base.ExecuteNonQuery("delete-many", new { Role = role });
         }
-        public int InsertMany(string role, IEnumerable<string> permissions)
+        public int DeleteAndInsertMany(string role, IEnumerable<string> permissions)
         {
-            return base.ExecuteNonQuery("insert-many", new { Role = role, Permissions = permissions });
+            return base.ExecuteNonQueryTransaction(new List<string>() { "delete-many", "update-role-count", "insert-many" }, new List<object>() { new { Role = role }, new { Name = role, PermissionCount = permissions.Count() }, new { Permissions = permissions } }, null);
         }
         public List<PermissionRoleMapping> GetByRole(string role)
         {

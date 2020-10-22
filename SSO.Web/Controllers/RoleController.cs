@@ -18,6 +18,7 @@ namespace SSO.Web.Controllers
             Data.Models.Role r = new Data.Models.Role()
             {
                 Name = roleModel.Name,
+                PermissionCount = 0,
                 Description = roleModel.Description,
                 CreateTime = DateTime.Now
             };
