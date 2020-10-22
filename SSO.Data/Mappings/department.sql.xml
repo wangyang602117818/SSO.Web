@@ -54,7 +54,7 @@
     WHERE Id = @Id
   </update>
   <update-department-parent-code>
-    update Department set ParentCode=@ParentCode where ParentCode=@Code
+    update Department set ParentCode=@NewParentCode where ParentCode=@OldParentCode
   </update-department-parent-code>
   <delete>
     delete from Department where Id in (<iterate conjunction="," property="Ids">@Ids{{index}}</iterate>)

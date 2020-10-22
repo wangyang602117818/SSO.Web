@@ -27,6 +27,20 @@ namespace SSO.Data.Models
             int count = 0;
             return base.QueryList<Department>("get-department", new { CompanyCode = companyCode }, ref count);
         }
+        public int UpdateDepartment(string oldParentCode, Department department)
+        {
+            List<string> nodes = new List<string>() { };
+            List<object> objs = new List<object>() { };
+            if (oldParentCode != department.Code)
+            {
+                nodes.Add("update-department-parent-code");
+                objs.Add(
+                    new { OldParentCode = oldParentCode, NewParentCode = department.Code });
+            }
+            nodes.Add("update");
+            objs.Add(department);
+            return base.ExecuteNonQueryTransaction(nodes, objs, null);
+        }
         public int CountDepartmentByCompanyCode(string companyCode)
         {
             return base.ExecuteNonQuery("count-department", new { CompanyCode = companyCode });

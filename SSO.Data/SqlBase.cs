@@ -103,6 +103,13 @@ namespace SSO.Data
             SqlParameter[] sqlParameters = ParseSqlParameter(paras);
             return sqlHelper.ExecuteNonQuery(sql, sqlParameters);
         }
+        /// <summary>
+        /// 执行事务,返回最后一个sql影响的行数
+        /// </summary>
+        /// <param name="nodeNames"></param>
+        /// <param name="paras"></param>
+        /// <param name="replacements"></param>
+        /// <returns></returns>
         protected int ExecuteNonQueryTransaction(IEnumerable<string> nodeNames, IEnumerable<object> paras, IEnumerable<object> replacements = null)
         {
             List<string> sqls = new List<string>();

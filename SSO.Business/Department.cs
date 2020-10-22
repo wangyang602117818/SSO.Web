@@ -13,11 +13,7 @@ namespace SSO.Business
         {
             Data.Models.Department dept = GetById(id);
             if (dept == null) return 0;
-            if (dept.Code != code && GetByCode(code) != null) return 0;
-            if (dept.Code != code)
-            {
-                instance.UpdateDepartmentParentCode(dept.Code, code);
-            }
+            string oldCode = dept.Code;
             dept.Code = code;
             dept.Name = name;
             dept.Description = description;
@@ -26,7 +22,7 @@ namespace SSO.Business
             dept.CompanyCode = companyCode;
             dept.Layer = layer;
             dept.UpdateTime = DateTime.Now;
-            return instance.Update(dept);
+            return instance.UpdateDepartment(oldCode, dept);
         }
         public Data.Models.Department GetByCode(string code)
         {
