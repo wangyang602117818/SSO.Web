@@ -10,4 +10,13 @@
     insert into Permission(Origin,Name)values
     <iterate conjunction="," property="Names">(@Origin,@Names{{index}})</iterate>
   </insert-many>
+  <check-permission>
+    select count(*) from(
+      select UserId,Permission from [dbo].[UserRoleMapping] urm left join [dbo].[PermissionRoleMapping] prm
+      on urm.Role=prm.Role
+      where urm.UserId=@UserId and prm.Permission=@Permission
+      union
+      select UserId,Permission from [dbo].[PermissionUserMapping] where UserId=@UserId and Permission=@Permission
+    ) tb1
+  </check-permission>
 </sql>

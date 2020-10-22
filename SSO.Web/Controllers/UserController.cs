@@ -1,5 +1,6 @@
 ﻿using SSO.Model;
 using SSO.Util.Client;
+using SSO.Web.Filters;
 using SSO.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace SSO.Web.Controllers
     {
         Business.UserBasic user = new Business.UserBasic();
         Business.UserRoleMapping roleMapping = new Business.UserRoleMapping();
-        [PermissionDescription("GetUser")]
+        [JwtAuthorize("GetUser")]
         public ActionResult Add(AddUserModel addUserModel)
         {
             if (user.GetUser(addUserModel.UserId) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
@@ -25,7 +26,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
-        [PermissionDescription("UpdateUser")]
+        [JwtAuthorize("UpdateUser")]
         public ActionResult Update(UpdateUserModel updateUserModel)
         {
             if (updateUserModel.Departments == null) updateUserModel.Departments = new List<string>();
@@ -34,7 +35,7 @@ namespace SSO.Web.Controllers
             if (count == 0) return new ResponseModel<string>(ErrorCode.record_exist, "");
             return new ResponseModel<string>(ErrorCode.success, "");
         }
-        [PermissionDescription("UpdateUser")]
+        [JwtAuthorize("UpdateUser")]
         public ActionResult UpdateBasicSetting(UpdateUserModel updateUserModel)
         {
             if (updateUserModel.Departments == null) updateUserModel.Departments = new List<string>();
@@ -42,7 +43,7 @@ namespace SSO.Web.Controllers
             if (count == 0) return new ResponseModel<string>(ErrorCode.record_exist, "");
             return new ResponseModel<string>(ErrorCode.success, "");
         }
-        [PermissionDescription("UpdateUser")]
+        [JwtAuthorize("UpdateUser")]
         [LogRecord(RecordContent = false)]
         public ActionResult UpdatePassword(UpdatePasswordModel updatePasswordModel)
         {
@@ -57,12 +58,12 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
-        [PermissionDescription("UpdateUser")]
+        [JwtAuthorize("UpdateUser")]
         public ActionResult ResetPassword(IEnumerable<string> userIds)
         {
             return new ResponseModel<int>(ErrorCode.success, user.ResetPassword(userIds));
         }
-        [PermissionDescription("GetUser")]
+        [JwtAuthorize("GetUser")]
         public ActionResult GetBasic(string companyCode = "", string filter = "", string orderField = "Id", string orderType = "desc", int pageIndex = 1, int pageSize = 10, bool delete = false)
         {
             int count = 0;
@@ -78,25 +79,25 @@ namespace SSO.Web.Controllers
             var result = user.GetPageList(ref count, page, replacement);
             return new ResponseModel<IEnumerable<Data.Models.UserBasic>>(ErrorCode.success, result, count);
         }
-        [PermissionDescription("RemoveUser")]
+        [JwtAuthorize("RemoveUser")]
         public ActionResult Remove(IEnumerable<string> userIds)
         {
             if (userIds == null || userIds.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
             return new ResponseModel<int>(ErrorCode.success, user.RemoveUser(userIds));
         }
-        [PermissionDescription("DeleteUser")]
+        [JwtAuthorize("DeleteUser")]
         public ActionResult Delete(IEnumerable<string> userIds)
         {
             if (userIds == null || userIds.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
             return new ResponseModel<int>(ErrorCode.success, user.DeleteUser(userIds));
         }
-        [PermissionDescription("RestoreUser")]
+        [JwtAuthorize("RestoreUser")]
         public ActionResult Restore(IEnumerable<string> userIds)
         {
             if (userIds == null || userIds.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
             return new ResponseModel<int>(ErrorCode.success, user.RestoreUser(userIds));
         }
-        [PermissionDescription("GetUser")]
+        [JwtAuthorize("GetUser")]
         public ActionResult GetUser()
         {
             UserBasicData userBasicData = user.GetUserUpdate(User.Identity.Name);
@@ -112,17 +113,10 @@ namespace SSO.Web.Controllers
             }
             return new ResponseModel<UserBasicData>(ErrorCode.success, userBasicData);
         }
-        [PermissionDescription("GetUser")]
+        [JwtAuthorize("GetUser")]
         public ActionResult GetByUserId(string userId)
         {
             return new ResponseModel<UserBasicData>(ErrorCode.success, user.GetUserUpdate(userId));
-        }
-        [PermissionDescription("GetRole")]
-        [OutputCache(Duration = 60 * 60 * 4, VaryByHeader = "Authorization")]
-        public ActionResult GetRoles()
-        {
-            var roles = roleMapping.GetByUserId(User.Identity.Name);
-            return new ResponseModel<IEnumerable<string>>(ErrorCode.success, roles);
         }
     }
 }

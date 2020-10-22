@@ -21,5 +21,9 @@ namespace SSO.Business
         {
             return instance.GetAll();
         }
+        public int CheckPermission(string userId, string permission)
+        {
+            return (int)instance.CheckPermission(userId, permission);
+        }
     }
 }

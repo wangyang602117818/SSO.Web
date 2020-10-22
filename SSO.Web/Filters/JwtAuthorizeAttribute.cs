@@ -1,6 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using SSO.Util.Client;
+using SSO.Web.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -9,35 +10,48 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Filters
 {
-    public class JwtAuthorizeAttribute : AuthorizeAttribute
+    public class JwtAuthorizeAttribute : Attribute, IAuthorizationFilter
     {
         public static string ssoCookieKey = AppSettings.GetValue("ssoCookieKey");
         public static string ssoSecretKey = AppSettings.GetValue("ssoSecretKey");
-        public override void OnAuthorization(AuthorizationContext filterContext)
+        public string Name = "";
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name">权限名称,到数据库查询是否有权限</param>
+        public JwtAuthorizeAttribute(string name = "")
+        {
+            Name = name;
+        }
+        public void OnAuthorization(AuthorizationContext filterContext)
         {
             var reflectedActionDescriptor = (ReflectedActionDescriptor)filterContext.ActionDescriptor;
             IEnumerable<CustomAttributeData> methodAttributes = reflectedActionDescriptor.MethodInfo.CustomAttributes;
             IEnumerable<CustomAttributeData> controllerAttributes = reflectedActionDescriptor.ControllerDescriptor.ControllerType.CustomAttributes;
             bool isAuthorization = true;
-            List<string> roles = new List<string>();
+            string permissionName = "";
             foreach (CustomAttributeData item in controllerAttributes)
             {
                 if (item.AttributeType.Name == "AllowAnonymousAttribute") isAuthorization = false;
-                if (item.AttributeType.Name == "JwtAuthorizeAttribute") isAuthorization = true;
-                foreach (var it in item.NamedArguments)
+                if (item.AttributeType.Name == "JwtAuthorizeAttribute")
                 {
-                    if (it.MemberName != "Roles") continue;
-                    roles.AddRange(it.TypedValue.Value.ToString().Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries));
+                    isAuthorization = true;
+                    if (item.ConstructorArguments.Count > 0)
+                    {
+                        permissionName = item.ConstructorArguments[0].Value.ToString();
+                    }
                 }
             }
             foreach (CustomAttributeData item in methodAttributes)
             {
                 if (item.AttributeType.Name == "AllowAnonymousAttribute") isAuthorization = false;
-                if (item.AttributeType.Name == "JwtAuthorizeAttribute") isAuthorization = true;
-                foreach (var it in item.NamedArguments)
+                if (item.AttributeType.Name == "JwtAuthorizeAttribute")
                 {
-                    if (it.MemberName != "Roles") continue;
-                    roles.AddRange(it.TypedValue.Value.ToString().Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries));
+                    isAuthorization = true;
+                    if (item.ConstructorArguments.Count > 0)
+                    {
+                        permissionName = item.ConstructorArguments[0].Value.ToString();
+                    }
                 }
             }
             //如果设置了匿名访问直接返回
@@ -58,7 +72,7 @@ namespace SSO.Web.Filters
                 {
                     var principal = JwtManager.ParseAuthorization(authorization, ssoSecretKey);
                     filterContext.HttpContext.User = principal;
-                    if (!CheckRole(roles, filterContext.HttpContext.User.Identity.Name)) filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
+                    if (!CheckPermission(permissionName, filterContext.HttpContext.User.Identity.Name)) filterContext.Result = new ResponseModel<string>(ErrorCode.error_permission, "");
                 }
                 catch (SecurityTokenInvalidAudienceException ex) //Audience Error 
                 {
@@ -118,13 +132,36 @@ namespace SSO.Web.Filters
                 httpContext.Response.Cookies.Add(cookie);
             }
         }
-        private bool CheckRole(IEnumerable<string> roles, string userId)
+        private bool CheckPermission(string permission, string userId)
         {
-            //if (roles.Count() == 0) return true;
-            //var dataRoles = new UserRoleMapping().GetRolesByUserId(userId);
-            ////如果有交集,可以访问
-            //if (roles.Intersect(dataRoles).Count() > 0) return true;
-            return true;
+            if (permission.IsNullOrEmpty()) return true;
+            if (userId == BaseController.admin[0]) return true;
+            Business.Permission per = new Business.Permission();
+            if (per.CheckPermission(userId, permission) > 0) return true;
+            return false;
+        }
+        /// <summary>
+        /// 获取程序集所有带有 SSOAuthorizeAttribute 的名称列表
+        /// </summary>
+        /// <param name="types"></param>
+        /// <returns></returns>
+        public static List<string> GetPermissionDescription(IEnumerable<Type> types)
+        {
+            List<string> actions = new List<string>();
+            foreach (var item in types)
+            {
+                var methods = item.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+                foreach (var method in methods)
+                {
+                    var attributes = method.GetCustomAttributes(typeof(JwtAuthorizeAttribute));
+                    foreach (Attribute att in attributes)
+                    {
+                        var name = ((JwtAuthorizeAttribute)att).Name;
+                        if (!actions.Contains(name)) actions.Add(name);
+                    }
+                }
+            }
+            return actions;
         }
     }
 }

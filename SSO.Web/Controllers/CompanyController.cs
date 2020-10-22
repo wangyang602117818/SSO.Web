@@ -1,4 +1,5 @@
 ﻿using SSO.Util.Client;
+using SSO.Web.Filters;
 using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace SSO.Web.Controllers
     public class CompanyController : BaseController
     {
         Business.Company company = new Business.Company();
-        [PermissionDescription("AddCompany")]
+        [JwtAuthorize("AddCompany")]
         public ActionResult Add(CompanyModel companyModel)
         {
             if (company.GetByCode(companyModel.Code) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
@@ -30,7 +31,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
-        [PermissionDescription("UpdateCompany")]
+        [JwtAuthorize("UpdateCompany")]
         public ActionResult Update(UpdateCompanyModel updateCompanyModel)
         {
             Data.Models.Company com = new Data.Models.Company()
@@ -51,12 +52,12 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.record_exist, "");
             }
         }
-        [PermissionDescription("GetCompany")]
+        [JwtAuthorize("GetCompany")]
         public ActionResult GetById(int id)
         {
             return new ResponseModel<Data.Models.Company>(ErrorCode.success, company.GetById(id));
         }
-        [PermissionDescription("GetCompany")]
+        [JwtAuthorize("GetCompany")]
         public ActionResult GetList(string filter = "", int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
@@ -69,7 +70,7 @@ namespace SSO.Web.Controllers
             var result = company.GetPageList(ref count, com);
             return new ResponseModel<IEnumerable<Data.Models.Company>>(ErrorCode.success, result, count);
         }
-        [PermissionDescription("GetCompany")]
+        [JwtAuthorize("GetCompany")]
         public ActionResult GetAll(string filter = "")
         {
             Data.Models.Company com = new Data.Models.Company()
@@ -79,7 +80,7 @@ namespace SSO.Web.Controllers
             var result = company.GetAll(com);
             return new ResponseModel<IEnumerable<Data.Models.Company>>(ErrorCode.success, result, result.Count());
         }
-        [PermissionDescription("DeleteCompany")]
+        [JwtAuthorize("DeleteCompany")]
         public ActionResult Delete(IEnumerable<int> ids)
         {
             if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);

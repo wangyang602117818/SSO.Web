@@ -38,6 +38,10 @@ namespace SSO.Web.Controllers
         public ActionResult AddRolePermission(RolePermissionModel rolePermissionModel)
         {
             roleMapping.DeleteMany(rolePermissionModel.Role);
+            if (rolePermissionModel.Names == null || rolePermissionModel.Names.Count == 0)
+            {
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
             if (roleMapping.InsertMany(rolePermissionModel.Role, rolePermissionModel.Names) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -55,6 +59,10 @@ namespace SSO.Web.Controllers
         public ActionResult AddUserPermission(UserPermissionModel userPermissionModel)
         {
             userMapping.DeleteMany(userPermissionModel.User);
+            if (userPermissionModel.Names == null || userPermissionModel.Names.Count == 0)
+            {
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
             if (userMapping.InsertMany(userPermissionModel.User, userPermissionModel.Names) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -68,6 +76,18 @@ namespace SSO.Web.Controllers
         {
             var result = userMapping.GetByUser(userId).Select(s => s.Permission);
             return new ResponseModel<IEnumerable<string>>(ErrorCode.success, result);
+        }
+        [OutputCache(Duration = 60 * 25, VaryByParam = "*", VaryByHeader = "Authorization")]
+        public ActionResult CheckPermission(string permissionName)
+        {
+            if (permission.CheckPermission(User.Identity.Name, permissionName) > 0)
+            {
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            else
+            {
+                return new ResponseModel<string>(ErrorCode.error_permission, "");
+            }
         }
     }
 }

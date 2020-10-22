@@ -1,4 +1,5 @@
 ﻿using SSO.Util.Client;
+using SSO.Web.Filters;
 using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace SSO.Web.Controllers
     public class RoleController : BaseController
     {
         Business.Role role = new Business.Role();
-        [PermissionDescription("AddRole")]
+        [JwtAuthorize("AddRole")]
         public ActionResult Add(RoleModel roleModel)
         {
             if (role.GetByName(roleModel.Name) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
@@ -29,7 +30,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
-        [PermissionDescription("UpdateRole")]
+        [JwtAuthorize("UpdateRole")]
         public ActionResult Update(UpdateRoleModel updateRoleModel)
         {
             Data.Models.Role r = new Data.Models.Role()
@@ -48,12 +49,12 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.record_exist, "");
             }
         }
-        [PermissionDescription("GetRole")]
+        [JwtAuthorize("GetRole")]
         public ActionResult GetById(int id)
         {
             return new ResponseModel<Data.Models.Role>(ErrorCode.success, role.GetById(id));
         }
-        [PermissionDescription("GetRole")]
+        [JwtAuthorize("GetRole")]
         public ActionResult GetList(string filter = "", int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
@@ -66,13 +67,13 @@ namespace SSO.Web.Controllers
             var result = role.GetPageList(ref count, r);
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, count);
         }
-        [PermissionDescription("GetRole")]
+        [JwtAuthorize("GetRole")]
         public ActionResult GetAll()
         {
             var result = role.GetAll(null);
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, result.Count());
         }
-        [PermissionDescription("DeleteRole")]
+        [JwtAuthorize("DeleteRole")]
         public ActionResult Delete(IEnumerable<int> ids)
         {
             if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);

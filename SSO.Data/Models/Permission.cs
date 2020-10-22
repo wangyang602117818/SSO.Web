@@ -25,5 +25,9 @@ namespace SSO.Data.Models
         {
             return base.ExecuteNonQuery("insert-many", new { Origin = origin, Names = names });
         }
+        public object CheckPermission(string userId, string permission)
+        {
+            return base.ExecuteScalar("check-permission", new { UserId = userId, Permission = permission });
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SSO.Model;
 using SSO.Util.Client;
+using SSO.Web.Filters;
 using SSO.Web.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -9,7 +10,7 @@ namespace SSO.Web.Controllers
     public class DepartmentController : BaseController
     {
         Business.Department department = new Business.Department();
-        [PermissionDescription("AddDepartment")]
+        [JwtAuthorize("AddDepartment")]
         public ActionResult Add(DepartmentModel departmentModel)
         {
             if (department.GetByCode(departmentModel.Code) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
@@ -41,12 +42,12 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
-        [PermissionDescription("GetDepartment")]
+        [JwtAuthorize("GetDepartment")]
         public ActionResult GetDepartments(string companyCode)
         {
             return new ResponseModel<List<DepartmentData>>(ErrorCode.success, department.GetDepartment(companyCode));
         }
-        [PermissionDescription("GetDepartment")]
+        [JwtAuthorize("GetDepartment")]
         public ActionResult Get(string code)
         {
             var dept = department.GetByCode(code);
@@ -62,7 +63,7 @@ namespace SSO.Web.Controllers
             };
             return new ResponseModel<DepartmentData>(ErrorCode.success, departmentData);
         }
-        [PermissionDescription("UpdateDepartment")]
+        [JwtAuthorize("UpdateDepartment")]
         public ActionResult Update(UpdateDepartmentModel updateDepartmentModel)
         {
             if (updateDepartmentModel.ParentCode == null) updateDepartmentModel.ParentCode = "";
@@ -83,7 +84,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.record_not_exist, "");
             }
         }
-        [PermissionDescription("DeleteDepartment")]
+        [JwtAuthorize("DeleteDepartment")]
         public ActionResult Delete(int id)
         {
             return new ResponseModel<int>(ErrorCode.success, department.Delete(id));
