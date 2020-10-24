@@ -11,13 +11,12 @@ namespace SSO.Web.Controllers
 {
     public class UserController : BaseController
     {
-        Business.UserBasic user = new Business.UserBasic();
-        Business.UserRoleMapping roleMapping = new Business.UserRoleMapping();
+        Business.User user = new Business.User();
         [JwtAuthorize("GetUser")]
         public ActionResult Add(AddUserModel addUserModel)
         {
             if (user.GetUser(addUserModel.UserId) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
-            if (user.Insert(addUserModel.UserId, addUserModel.UserName, addUserModel.Mobile, addUserModel.Email, addUserModel.CompanyCode, addUserModel.IdCard, addUserModel.Sex, addUserModel.Departments, addUserModel.Roles) > 0)
+            if (user.InsertUserDepartmentRole(addUserModel.UserId, addUserModel.UserName, addUserModel.Mobile, addUserModel.Email, addUserModel.CompanyCode, addUserModel.IdCard, addUserModel.Sex, addUserModel.Departments, addUserModel.Roles) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
@@ -31,7 +30,7 @@ namespace SSO.Web.Controllers
         {
             if (updateUserModel.Departments == null) updateUserModel.Departments = new List<string>();
             if (updateUserModel.Roles == null) updateUserModel.Roles = new List<string>();
-            int count = user.Update(updateUserModel.Id, updateUserModel.UserId, updateUserModel.UserName, updateUserModel.Mobile, updateUserModel.Email, updateUserModel.CompanyCode, updateUserModel.IdCard, updateUserModel.Sex, updateUserModel.Departments, updateUserModel.Roles);
+            int count = user.UpdateUserDepartmentRole(updateUserModel.Id, updateUserModel.UserId, updateUserModel.UserName, updateUserModel.Mobile, updateUserModel.Email, updateUserModel.CompanyCode, updateUserModel.IdCard, updateUserModel.Sex, updateUserModel.Departments, updateUserModel.Roles);
             if (count == 0) return new ResponseModel<string>(ErrorCode.record_exist, "");
             return new ResponseModel<string>(ErrorCode.success, "");
         }
@@ -39,7 +38,7 @@ namespace SSO.Web.Controllers
         public ActionResult UpdateBasicSetting(UpdateUserModel updateUserModel)
         {
             if (updateUserModel.Departments == null) updateUserModel.Departments = new List<string>();
-            int count = user.Update(updateUserModel.Id, User.Identity.Name, updateUserModel.UserName, updateUserModel.Mobile, updateUserModel.Email, updateUserModel.CompanyCode, updateUserModel.IdCard, updateUserModel.Sex, updateUserModel.Departments, null);
+            int count = user.UpdateUserDepartmentRole(updateUserModel.Id, User.Identity.Name, updateUserModel.UserName, updateUserModel.Mobile, updateUserModel.Email, updateUserModel.CompanyCode, updateUserModel.IdCard, updateUserModel.Sex, updateUserModel.Departments, null);
             if (count == 0) return new ResponseModel<string>(ErrorCode.record_exist, "");
             return new ResponseModel<string>(ErrorCode.success, "");
         }
@@ -67,17 +66,17 @@ namespace SSO.Web.Controllers
         public ActionResult GetBasic(string companyCode = "", string filter = "", string orderField = "Id", string orderType = "desc", int pageIndex = 1, int pageSize = 10, bool delete = false)
         {
             int count = 0;
-            Data.Models.UserBasic page = new Data.Models.UserBasic()
+            Data.Models.User page = new Data.Models.User()
             {
                 CompanyCode = companyCode,
                 UserName = filter,
-                Delete = delete,
+                IsDelete = delete,
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
             object replacement = new { OrderField = orderField, OrderType = orderType };
             var result = user.GetPageList(ref count, page, replacement);
-            return new ResponseModel<IEnumerable<Data.Models.UserBasic>>(ErrorCode.success, result, count);
+            return new ResponseModel<IEnumerable<Data.Models.User>>(ErrorCode.success, result, count);
         }
         [JwtAuthorize("RemoveUser")]
         public ActionResult Remove(IEnumerable<string> userIds)
@@ -89,7 +88,16 @@ namespace SSO.Web.Controllers
         public ActionResult Delete(IEnumerable<string> userIds)
         {
             if (userIds == null || userIds.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
-            return new ResponseModel<int>(ErrorCode.success, user.DeleteUser(userIds));
+            var count = user.DeleteUser(userIds);
+            if (count == -1) return new ResponseModel<string>(ErrorCode.record_has_been_used, "");
+            if (count > 0)
+            {
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            else
+            {
+                return new ResponseModel<string>(ErrorCode.server_exception, "");
+            }
         }
         [JwtAuthorize("RestoreUser")]
         public ActionResult Restore(IEnumerable<string> userIds)
@@ -100,23 +108,23 @@ namespace SSO.Web.Controllers
         [JwtAuthorize("GetUser")]
         public ActionResult GetUser()
         {
-            UserBasicData userBasicData = user.GetUserUpdate(User.Identity.Name);
-            if (userBasicData == null)
+            Model.UserData userData = user.GetUserUpdate(User.Identity.Name);
+            if (userData == null)
             {
                 var userName = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "StaffName").Select(s => s.Value).FirstOrDefault();
-                userBasicData = new UserBasicData()
+                userData = new Model.UserData()
                 {
                     UserId = User.Identity.Name,
                     UserName = userName,
                     Role = new List<string>() { admin[2] }
                 };
             }
-            return new ResponseModel<UserBasicData>(ErrorCode.success, userBasicData);
+            return new ResponseModel<Model.UserData>(ErrorCode.success, userData);
         }
         [JwtAuthorize("GetUser")]
         public ActionResult GetByUserId(string userId)
         {
-            return new ResponseModel<UserBasicData>(ErrorCode.success, user.GetUserUpdate(userId));
+            return new ResponseModel<Model.UserData>(ErrorCode.success, user.GetUserUpdate(userId));
         }
     }
 }

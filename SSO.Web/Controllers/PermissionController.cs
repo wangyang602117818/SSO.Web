@@ -1,5 +1,6 @@
 ﻿using SSO.Business;
 using SSO.Util.Client;
+using SSO.Web.Filters;
 using SSO.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace SSO.Web.Controllers
         Permission permission = new Permission();
         PermissionRoleMapping roleMapping = new PermissionRoleMapping();
         PermissionUserMapping userMapping = new PermissionUserMapping();
+        [JwtAuthorize("AddPermission")]
         public ActionResult Add(PermissionModel permissionModel)
         {
-            permission.DeleteMany(permissionModel.Origin);
-            if (permission.InsertMany(permissionModel.Origin, permissionModel.Names) > 0)
+            if (permission.DeleteAndInsertMany(permissionModel.Origin, permissionModel.Names) > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
@@ -24,6 +25,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
+        [JwtAuthorize("GetPermission")]
         public ActionResult GetPermission()
         {
             var list = permission.GetAll().OrderBy(o => o.Name);
@@ -35,12 +37,9 @@ namespace SSO.Web.Controllers
             }
             return new ResponseModel<Dictionary<string, List<string>>>(ErrorCode.success, result);
         }
+        [JwtAuthorize("AddPermission")]
         public ActionResult AddRolePermission(RolePermissionModel rolePermissionModel)
         {
-            if (rolePermissionModel.Names == null || rolePermissionModel.Names.Count == 0)
-            {
-                return new ResponseModel<string>(ErrorCode.success, "");
-            }
             int count = roleMapping.DeleteAndInsertMany(rolePermissionModel.Role, rolePermissionModel.Names);
             if (count > 0)
             {
@@ -51,17 +50,15 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "", count);
             }
         }
+        [JwtAuthorize("GetPermission")]
         public ActionResult GetRolePermission(string role)
         {
             var result = roleMapping.GetByRole(role).Select(s => s.Permission);
             return new ResponseModel<IEnumerable<string>>(ErrorCode.success, result);
         }
+        [JwtAuthorize("AddPermission")]
         public ActionResult AddUserPermission(UserPermissionModel userPermissionModel)
         {
-            if (userPermissionModel.Names == null || userPermissionModel.Names.Count == 0)
-            {
-                return new ResponseModel<string>(ErrorCode.success, "");
-            }
             int count = userMapping.DeleteAndInsertMany(userPermissionModel.User, userPermissionModel.Names);
             if (count > 0)
             {
@@ -72,6 +69,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "", count);
             }
         }
+        [JwtAuthorize("GetPermission")]
         public ActionResult GetUserPermission(string userId)
         {
             var result = userMapping.GetByUser(userId).Select(s => s.Permission);

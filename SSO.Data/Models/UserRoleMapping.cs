@@ -12,18 +12,10 @@ namespace SSO.Data.Models
         public string UserId { get; set; }
         public string Role { get; set; }
 
-        public int Insert(UserRoleMapping userRoleMapping)
-        {
-            return base.ExecuteNonQuery("insert", userRoleMapping);
-        }
         public List<UserRoleMapping> GetByUserId(string userId)
         {
             int count = 0;
             return base.QueryList<UserRoleMapping>("get-by-userId", new { UserId = userId }, ref count);
-        }
-        public int DeleteByUserId(string userId)
-        {
-            return base.ExecuteNonQuery("delete-by-userId", new { UserId = userId });
         }
     }
 }

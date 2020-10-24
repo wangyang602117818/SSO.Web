@@ -16,7 +16,7 @@ namespace SSO.Web.Controllers
 {
     public class SSOController : BaseController
     {
-        Business.UserBasic user = new Business.UserBasic();
+        Business.User user = new Business.User();
         Business.Settings settings = new Business.Settings();
         [AllowAnonymous]
         public ActionResult Index()
@@ -33,8 +33,8 @@ namespace SSO.Web.Controllers
             extra.Add("from", from.ReplaceHttpPrefix().ToLower());
             if (!userId.IsNullOrEmpty())
             {
-                UserBasic userBasic = user.GetUser(userId);
-                if (userBasic == null)
+                User u = user.GetUser(userId);
+                if (u == null)
                 {
                     if (userId == admin[0])
                     {
@@ -45,7 +45,7 @@ namespace SSO.Web.Controllers
                 {
                     Settings setting = settings.GetSetting(userId);
                     if (setting != null) lang = setting.Lang;
-                    token = jwtManager.GenerateToken(userId, userBasic.UserName, lang, ip ?? Request.UserHostAddress, 20, extra);
+                    token = jwtManager.GenerateToken(userId, u.UserName, lang, ip ?? Request.UserHostAddress, 20, extra);
                 }
             }
             return new ResponseModel<string>(ErrorCode.success, token);
@@ -115,10 +115,10 @@ namespace SSO.Web.Controllers
                 }
                 returnUrl = HttpUtility.UrlDecode(returnUrl);
             }
-            UserBasic userBasic = null;
+            User u = null;
             if (loginModel.UserId == admin[0] && loginModel.PassWord == admin[1])
             {
-                userBasic = new UserBasic()
+                u = new User()
                 {
                     UserId = loginModel.UserId,
                     UserName = loginModel.UserId,
@@ -127,9 +127,9 @@ namespace SSO.Web.Controllers
             }
             else
             {
-                userBasic = user.Login(loginModel.UserId, loginModel.PassWord.GetSha256());
+                u = user.Login(loginModel.UserId, loginModel.PassWord.GetSha256());
             }
-            if (userBasic == null)
+            if (u == null)
             {
                 return new ResponseModel<string>(ErrorCode.login_fault, "");
             }
@@ -137,7 +137,7 @@ namespace SSO.Web.Controllers
             if (setting != null) lang = setting.Lang;
             Dictionary<string, string> extra = new Dictionary<string, string>();
             extra.Add("from", issuer.ReplaceHttpPrefix().ToLower());
-            string token = jwtManager.GenerateToken(userBasic.UserId, userBasic.UserName, lang, Request.UserHostAddress, 24 * 60, extra);
+            string token = jwtManager.GenerateToken(u.UserId, u.UserName, lang, Request.UserHostAddress, 24 * 60, extra);
             HttpCookie httpCookie = new HttpCookie(ssoCookieKey, token);
             if (ssoCookieTime != "session")
             {
@@ -147,7 +147,7 @@ namespace SSO.Web.Controllers
             JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
             if (returnUrl.IsNullOrEmpty()) returnUrl = Request.Url.Scheme + "://" + Request.Url.Host + ":" + Request.Url.Port + Request.ApplicationPath;
             //登录成功,替换掉旧的ticket
-            string ticket = jwtManager.GenerateTicket(userBasic.UserId);
+            string ticket = jwtManager.GenerateTicket(u.UserId);
             returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
             return new ResponseModel<string>(ErrorCode.success, returnUrl);
         }

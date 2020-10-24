@@ -9,13 +9,9 @@ namespace SSO.Business
     public class Permission : ModelBase<Data.Models.Permission>
     {
         public Permission() : base(new Data.Models.Permission()) { }
-        public int DeleteMany(string origin)
+        public int DeleteAndInsertMany(string origin, IEnumerable<string> names)
         {
-            return instance.DeleteMany(origin);
-        }
-        public int InsertMany(string origin, IEnumerable<string> names)
-        {
-            return instance.InserMany(origin, names);
+            return instance.DeleteAndInsertMany(origin, names);
         }
         public List<Data.Models.Permission> GetAll()
         {

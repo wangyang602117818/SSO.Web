@@ -14,7 +14,4 @@
   <get-by-userId>
     select * from UserRoleMapping where UserId=@UserId
   </get-by-userId>
-  <delete-by-userId>
-    delete from UserRoleMapping where UserId=@UserId
-  </delete-by-userId>
 </sql>

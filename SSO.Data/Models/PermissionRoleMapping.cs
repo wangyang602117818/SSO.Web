@@ -12,13 +12,16 @@ namespace SSO.Data.Models
         public string Role { get; set; }
         public string Permission { get; set; }
 
-        public int DeleteMany(string role)
-        {
-            return base.ExecuteNonQuery("delete-many", new { Role = role });
-        }
         public int DeleteAndInsertMany(string role, IEnumerable<string> permissions)
         {
-            return base.ExecuteNonQueryTransaction(new List<string>() { "delete-many", "update-role-count", "insert-many" }, new List<object>() { new { Role = role }, new { Name = role, PermissionCount = permissions.Count() }, new { Permissions = permissions } }, null);
+            var nodes = new List<string>() { "delete-many", "update-role-count" };
+            var datas = new List<object>() { new { Role = role }, new { Name = role, PermissionCount = permissions.Count() } };
+            if (permissions.Count() > 0)
+            {
+                nodes.Add("insert-many");
+                datas.Add(new { Role = role, Permissions = permissions });
+            }
+            return base.ExecuteNonQueryTransaction(nodes, datas, null);
         }
         public List<PermissionRoleMapping> GetByRole(string role)
         {

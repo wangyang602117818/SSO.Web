@@ -191,6 +191,8 @@
         "UpdateFile": "UpdateFile",
         "GetServerStatus": "ServerStatus",
         "GetCacheFiles": "GetCacheFiles",
-        "DeleteCacheFiles": "DeleteCacheFiles"
+        "DeleteCacheFiles": "DeleteCacheFiles",
+        "AddPermission":"AddPermission",
+        "GetPermission":"GetPermission"
     }
 }

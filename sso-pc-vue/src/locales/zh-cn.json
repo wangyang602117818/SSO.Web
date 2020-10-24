@@ -191,6 +191,8 @@
         "UpdateFile": "更新文件",
         "GetServerStatus": "获取服务器状态",
         "GetCacheFiles": "获取缓存文件",
-        "DeleteCacheFiles": "删除缓存文件"
+        "DeleteCacheFiles": "删除缓存文件",
+        "AddPermission":"添加权限",
+        "GetPermission":"获取权限"
     }
 }

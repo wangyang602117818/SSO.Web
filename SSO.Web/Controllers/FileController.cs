@@ -11,7 +11,7 @@ namespace SSO.Web.Controllers
     public class FileController : BaseController
     {
         public static string fileServiceUrl = AppSettings.GetValue("fileServiceUrl");
-        Business.UserBasic user = new Business.UserBasic();
+        Business.User user = new Business.User();
         public ActionResult Upload(HttpPostedFileBase file)
         {
             FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));

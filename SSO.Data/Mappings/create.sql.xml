@@ -1,16 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <sql>
-  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='Settings')
-  create table Settings (
-  Id INT IDENTITY NOT NULL,
-  UserId NVARCHAR(50) NOT NULL,
-  Lang NVARCHAR(8) NOT NULL,
-  UpdateTime DATETIME null,
-  CreateTime DATETIME null,
-  primary key (Id),
-  unique (UserId)
-  )
-
   if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='Company')
   create table Company (
   Id INT IDENTITY NOT NULL,
@@ -55,8 +44,8 @@
   unique (Name)
   )
 
-  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='UserBasic')
-  create table UserBasic(
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='User')
+  create table [User](
   [Id] [int] IDENTITY(1,1) NOT NULL,
   [UserId] [nvarchar](50) NOT NULL,
   [UserName] [nvarchar](50) NOT NULL,
@@ -67,7 +56,7 @@
   [IdCard] [nvarchar](20) NULL,
   [Sex] [nvarchar](1) NULL,
   [IsModified] [bit] NOT NULL,
-  [Delete] [bit] NOT NULL,
+  [IsDelete] [bit] NOT NULL,
   [FileId] [nvarchar](24) NULL,
   [FileName] [nvarchar](512) NULL,
   [PermissionCount] int null,
@@ -80,7 +69,7 @@
   [CreateTime] [datetime] NULL,
   primary key (Id),
   unique (UserId),
-  CONSTRAINT FK_Company_UserBasic FOREIGN KEY (CompanyCode)
+  CONSTRAINT FK_Company_User FOREIGN KEY (CompanyCode)
   REFERENCES Company(Code)
   ON UPDATE CASCADE
   )
@@ -90,8 +79,6 @@
   Id INT IDENTITY NOT NULL,
   UserId NVARCHAR(50) not null,
   Role NVARCHAR(50) null,
-  UpdateTime DATETIME null,
-  CreateTime DATETIME null,
   primary key (Id),
   CONSTRAINT FK_Role_Role FOREIGN KEY (Role)
   REFERENCES Role(Name)
@@ -103,12 +90,25 @@
   Id INT IDENTITY NOT NULL,
   UserId NVARCHAR(50) not null,
   DepartmentCode NVARCHAR(30) not null,
-  UpdateTime DATETIME null,
-  CreateTime DATETIME null,
   primary key (Id),
   CONSTRAINT FK_Department_Department FOREIGN KEY (DepartmentCode)
   REFERENCES Department(Code)
   ON UPDATE CASCADE,
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='Settings')
+  create table Settings (
+  Id INT IDENTITY NOT NULL,
+  UserId NVARCHAR(50) NOT NULL,
+  Lang NVARCHAR(8) NOT NULL,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME null,
+  primary key (Id),
+  unique (UserId),
+  CONSTRAINT FK_Settings_User FOREIGN KEY (UserId)
+  REFERENCES [User](UserId)
+  ON UPDATE CASCADE
+  on delete cascade
   )
 
   if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='Permission')
@@ -127,13 +127,12 @@
   Id INT IDENTITY NOT NULL,
   Role NVARCHAR(50) not null,
   Permission NVARCHAR(50) null,
-  UpdateTime DATETIME null,
-  CreateTime DATETIME null,
   primary key (Id),
   unique (Role,Permission),
   CONSTRAINT FK_Permission_Role FOREIGN KEY (Role)
   REFERENCES Role(Name)
-  ON UPDATE CASCADE,
+  ON UPDATE CASCADE
+  on delete cascade
   )
 
   if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='PermissionUserMapping')
@@ -141,12 +140,11 @@
   Id INT IDENTITY NOT NULL,
   UserId NVARCHAR(50) not null,
   Permission NVARCHAR(50) null,
-  UpdateTime DATETIME null,
-  CreateTime DATETIME null,
   primary key (Id),
   unique (UserId,Permission),
   CONSTRAINT FK_Permission_User FOREIGN KEY (UserId)
-  REFERENCES UserBasic(UserId)
+  REFERENCES [User](UserId)
   ON UPDATE CASCADE
+  on delete cascade
   )
 </sql>

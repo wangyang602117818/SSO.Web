@@ -688,6 +688,7 @@ export default {
             this.confirmLoading = false;
             this.loading = false;
             this.cancelPermission();
+            this.getData();
           }
         });
     },

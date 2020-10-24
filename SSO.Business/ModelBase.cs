@@ -19,7 +19,17 @@ namespace SSO.Business
         }
         public int Delete(IEnumerable<int> ids)
         {
-            return instance.Delete(ids);
+            int count = 0;
+            try
+            {
+                count = instance.Delete(ids);
+            }
+            catch (Exception ex)
+            {
+                if (ex.ToString().Contains("constraint"))
+                    count = -1;
+            }
+            return count;
         }
         public T GetById(int id)
         {

@@ -43,7 +43,7 @@ namespace SSO.Business
             Data.Models.Department dept = instance.GetById<Data.Models.Department>(id);
             //递归删除下级部门
             GetSubDepartmentIds(dept.Code, ref ids);
-            return instance.Delete(ids);
+            return Delete(ids);
         }
         private List<DepartmentData> GetDepartmentInner(List<Data.Models.Department> list, string parentCode)
         {

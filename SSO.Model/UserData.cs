@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SSO.Model
 {
-    public class UserBasicData
+    public class UserData
     {
         public int Id { get; set; }
         public string UserId { get; set; }
@@ -18,7 +18,7 @@ namespace SSO.Model
         public string IdCard { get; set; }
         public string Sex { get; set; }
         public bool IsModified { get; set; }
-        public bool Delete { get; set; }
+        public bool IsDelete { get; set; }
         public string FileId { get; set; }
         public string FileName { get; set; }
         public List<string> DepartmentCode { get; set; }

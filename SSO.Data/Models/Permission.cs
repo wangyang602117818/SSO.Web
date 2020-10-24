@@ -12,18 +12,21 @@ namespace SSO.Data.Models
         public string Origin { get; set; }
         public string Name { get; set; }
 
-        public int DeleteMany(string origin)
-        {
-            return base.ExecuteNonQuery("delete-many", new { Origin = origin });
-        }
         public List<Permission> GetAll()
         {
             int count = 0;
             return base.QueryList<Permission>("get-all", null, ref count);
         }
-        public int InserMany(string origin, IEnumerable<string> names)
+        public int DeleteAndInsertMany(string origin, IEnumerable<string> names)
         {
-            return base.ExecuteNonQuery("insert-many", new { Origin = origin, Names = names });
+            var nodes = new List<string>() { "delete-many" };
+            var datas = new List<object>() { new { Origin = origin } };
+            if (names.Count() > 0)
+            {
+                nodes.Add("insert-many");
+                datas.Add(new { Origin = origin, Names = names, CreateTime = DateTime.Now });
+            }
+            return base.ExecuteNonQueryTransaction(nodes, datas, null);
         }
         public object CheckPermission(string userId, string permission)
         {

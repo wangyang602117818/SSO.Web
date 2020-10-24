@@ -82,6 +82,7 @@ namespace SSO.Data
                                 command.CommandText = sqls.ElementAt(i);
                                 command.Parameters.AddRange(parameters.ElementAt(i));
                                 count = command.ExecuteNonQuery();
+                                command.Parameters.Clear();
                             }
                             transaction.Commit();
                         }

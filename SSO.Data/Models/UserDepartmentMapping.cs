@@ -13,18 +13,10 @@ namespace SSO.Data.Models
         public string UserId { get; set; }
         public string DepartmentCode { get; set; }
 
-        public int Insert(UserDepartmentMapping userDepartment)
-        {
-            return base.ExecuteNonQuery("insert", userDepartment);
-        }
         public List<UserDepartmentMapping> GetByUserId(string userId)
         {
             int count = 0;
             return base.QueryList<UserDepartmentMapping>("get-by-userId", new { UserId = userId }, ref count);
-        }
-        public int DeleteByUserId(string userId)
-        {
-            return base.ExecuteNonQuery("delete-by-userId", new { UserId = userId });
         }
         public List<DateCountItem> GroupByDepartment()
         {

@@ -78,7 +78,16 @@ namespace SSO.Web.Controllers
         public ActionResult Delete(IEnumerable<int> ids)
         {
             if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
-            return new ResponseModel<int>(ErrorCode.success, role.Delete(ids));
+            var count = role.Delete(ids);
+            if (count == -1) return new ResponseModel<string>(ErrorCode.record_has_been_used, "");
+            if (count > 0)
+            {
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            else
+            {
+                return new ResponseModel<string>(ErrorCode.server_exception, "");
+            }
         }
     }
 }

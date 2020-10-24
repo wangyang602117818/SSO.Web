@@ -8,37 +8,30 @@ using System.Security.Policy;
 
 namespace SSO.Business
 {
-    public class UserBasic : ModelBase<Data.Models.UserBasic>
+    public class User : ModelBase<Data.Models.User>
     {
-        public UserBasic() : base(new Data.Models.UserBasic()) { }
+        public User() : base(new Data.Models.User()) { }
         public string defaultPassword = AppSettings.GetValue("defaultPassword");
         Company company = new Company();
         Department department = new Department();
         UserDepartmentMapping departmentMapping = new UserDepartmentMapping();
         UserRoleMapping roleMapping = new UserRoleMapping();
-        public int Insert(string userId, string userName, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
+        public int InsertUserDepartmentRole(string userId, string userName, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
         {
-            string companyName = "", departmentName = "", roleName = "";
-            companyName = company.GetByCode(companyCode).Name;
-            if (departments != null)
+            string departmentName = "",
+                roleName = "",
+                companyName = company.GetByCode(companyCode).Name;
+            foreach (string dept in departments)
             {
-                foreach (string dept in departments)
-                {
-                    if (dept.IsNullOrEmpty()) continue;
-                    departmentName += department.GetByCode(dept).Name + ",";
-                    departmentMapping.Insert(userId, dept);
-                }
+                if (dept.IsNullOrEmpty()) continue;
+                departmentName += department.GetByCode(dept).Name + ",";
             }
-            if (roles != null)
+            foreach (string role in roles)
             {
-                foreach (string role in roles)
-                {
-                    if (role.IsNullOrEmpty()) continue;
-                    roleName += role + ",";
-                    roleMapping.Insert(userId, role);
-                }
+                if (role.IsNullOrEmpty()) continue;
+                roleName += role + ",";
             }
-            return instance.Insert(new Data.Models.UserBasic()
+            Data.Models.User u = new Data.Models.User
             {
                 UserId = userId,
                 UserName = userName,
@@ -49,50 +42,38 @@ namespace SSO.Business
                 IdCard = idCard,
                 Sex = sex.ToString(),
                 IsModified = false,
-                Delete = false,
+                IsDelete = false,
                 CreateTime = DateTime.Now,
                 CompanyName = companyName,
                 DepartmentName = departmentName.TrimEnd(','),
-                RoleName = roleName.TrimEnd(','),
-            });
+                RoleName = roleName.TrimEnd(',')
+            };
+            return instance.InsertUserDepartmentRole(u, departments, roles);
         }
-        public int Update(int id, string userId, string userName, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
+        public int UpdateUserDepartmentRole(int id, string userId, string userName, string mobile, string email, string companyCode, string idCard, char sex, List<string> departments, List<string> roles)
         {
             //获取原始 user 信息
-            Data.Models.UserBasic user = instance.GetById<Data.Models.UserBasic>(id);
-            //删除原始 role 信息
-            if (roles != null)
-            {
-                roleMapping.DeleteByUserId(user.UserId);
-            }
-            //删除原始 department 信息
-            if (department != null)
-            {
-                departmentMapping.DeleteByUserId(user.UserId);
-            }
-            string companyName = "", departmentName = "", roleName = "";
-            //获取新公司名称
-            companyName = company.GetByCode(companyCode).Name;
-            //添加新 department
-            if (departments != null)
-            {
-                foreach (string dept in departments)
-                {
-                    departmentName += department.GetByCode(dept).Name + ",";
-                    departmentMapping.Insert(userId, dept);
-                }
-            }
-            //添加新 role
-            if (roles != null)
-            {
-                foreach (string role in roles)
-                {
-                    roleName += role + ",";
-                    roleMapping.Insert(userId, role);
-                }
-            }
-            //修改 user
+            Data.Models.User user = instance.GetById<Data.Models.User>(id);
+            string oldUserId = user.UserId;
+            //修改的userId数据库已存在
             if (user.UserId != userId && GetUser(userId) != null) return 0;
+            string departmentName = "",
+                roleName = "",
+                companyName = company.GetByCode(companyCode).Name;
+            foreach (string dept in departments)
+            {
+                if (dept.IsNullOrEmpty()) continue;
+                departmentName += department.GetByCode(dept).Name + ",";
+            }
+            if (roles == null)
+            {
+                roles = roleMapping.GetByUserId(userId).ToList();
+            }
+            foreach (string role in roles)
+            {
+                if (role.IsNullOrEmpty()) continue;
+                roleName += role + ",";
+            }
             user.UserId = userId;
             user.UserName = userName;
             user.Mobile = mobile;
@@ -102,24 +83,24 @@ namespace SSO.Business
             user.Sex = sex.ToString();
             user.CompanyName = companyName;
             user.DepartmentName = departmentName.TrimEnd(',');
-            if (roles != null) user.RoleName = roleName.TrimEnd(',');
+            user.RoleName = roleName.TrimEnd(',');
             user.IsModified = true;
             user.UpdateTime = DateTime.Now;
-            return instance.Update(user);
+            return instance.UpdateUserDepartmentRole(oldUserId, user, departments, roles);
         }
-        public Data.Models.UserBasic GetUser(string userId)
+        public Data.Models.User GetUser(string userId)
         {
             return instance.GetByUserId(userId);
         }
-        public SSO.Model.UserBasicData GetUserUpdate(string userId)
+        public SSO.Model.UserData GetUserUpdate(string userId)
         {
-            Data.Models.UserBasic user = instance.GetByUserId(userId);
+            Data.Models.User user = instance.GetByUserId(userId);
             if (user == null) return null;
             IEnumerable<string> departments = departmentMapping.GetByUserId(userId);
             IEnumerable<string> roles = roleMapping.GetByUserId(userId);
             var departmentName = user.DepartmentName == null ? new string[] { } : user.DepartmentName.Split(new char[] { ',' },
                 StringSplitOptions.RemoveEmptyEntries);
-            return new Model.UserBasicData()
+            return new Model.UserData()
             {
                 Id = user.Id,
                 UserId = user.UserId,
@@ -131,7 +112,7 @@ namespace SSO.Business
                 IdCard = user.IdCard,
                 Sex = user.Sex,
                 IsModified = user.IsModified,
-                Delete = user.Delete,
+                IsDelete = user.IsDelete,
                 FileId = user.FileId,
                 FileName = user.FileName,
                 DepartmentCode = departments.ToList(),
@@ -144,13 +125,6 @@ namespace SSO.Business
         }
         public int RemoveUser(IEnumerable<string> userIds)
         {
-            foreach (string userId in userIds)
-            {
-                //删除 role 信息
-                roleMapping.DeleteByUserId(userId);
-                //删除 department 信息
-                departmentMapping.DeleteByUserId(userId);
-            }
             return instance.RemoveUser(userIds);
         }
         public int RestoreUser(IEnumerable<string> userIds)
@@ -159,15 +133,25 @@ namespace SSO.Business
         }
         public int DeleteUser(IEnumerable<string> userIds)
         {
-            return instance.DeleteUser(userIds);
+            int count = 0;
+            try
+            {
+                count = instance.DeleteUser(userIds);
+            }
+            catch (Exception ex)
+            {
+                if (ex.ToString().Contains("constraint"))
+                    count = -1;
+            }
+            return count;
         }
-        public Data.Models.UserBasic Login(string userId, string password)
+        public Data.Models.User Login(string userId, string password)
         {
             return instance.Login(userId, password);
         }
         public int UpdatePassword(string userId, string oldPassword, string password)
         {
-            Data.Models.UserBasic user = instance.GetByUserId(userId);
+            Data.Models.User user = instance.GetByUserId(userId);
             if (user.PassWord != oldPassword.GetSha256()) return -1;
             if (user == null) return 0;
             return instance.UpdatePassword(new List<string>() { userId }, password.GetSha256());

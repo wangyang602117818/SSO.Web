@@ -87,7 +87,16 @@ namespace SSO.Web.Controllers
         [JwtAuthorize("DeleteDepartment")]
         public ActionResult Delete(int id)
         {
-            return new ResponseModel<int>(ErrorCode.success, department.Delete(id));
+            var count = department.Delete(id);
+            if (count == -1) return new ResponseModel<string>(ErrorCode.record_has_been_used, "");
+            if (count > 0)
+            {
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            else
+            {
+                return new ResponseModel<string>(ErrorCode.server_exception, "");
+            }
         }
     }
 }

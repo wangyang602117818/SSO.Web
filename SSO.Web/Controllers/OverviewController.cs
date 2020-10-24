@@ -9,7 +9,7 @@ namespace SSO.Web.Controllers
 {
     public class OverviewController : BaseController
     {
-        Business.UserBasic userBasic = new Business.UserBasic();
+        Business.User user = new Business.User();
         Business.Company company = new Business.Company();
         Business.Department department = new Business.Department();
         Business.Role role = new Business.Role();
@@ -21,16 +21,16 @@ namespace SSO.Web.Controllers
                 Companys = company.Count(),
                 Departments = department.Count(),
                 Roles = role.Count(),
-                Users = userBasic.Count()
+                Users = user.Count()
             });
         }
         public ActionResult UserRatio()
         {
-            return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, userBasic.GetUserRatio());
+            return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, user.GetUserRatio());
         }
         public ActionResult UserCompanyRatio()
         {
-            return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, userBasic.GetUserCompanyRatio());
+            return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, user.GetUserCompanyRatio());
         }
         public ActionResult UserDepartmentRatio()
         {
@@ -55,8 +55,8 @@ namespace SSO.Web.Controllers
         /// <returns></returns>
         public ActionResult UserRecord(int last = 30)
         {
-            var input = userBasic.UserRecordInByDay(DateTime.Now.AddDays(-last), false).Select(s => { s.type = "insert"; return s; });
-            var output = userBasic.UserRecordInByDay(DateTime.Now.AddDays(-last), true).Select(s => { s.type = "delete"; return s; });
+            var input = user.UserRecordInByDay(DateTime.Now.AddDays(-last), false).Select(s => { s.type = "insert"; return s; });
+            var output = user.UserRecordInByDay(DateTime.Now.AddDays(-last), true).Select(s => { s.type = "delete"; return s; });
             List<DateCountItem> result = input.ToList();
             result.AddRange(output.ToList());
             return new ResponseModel<IEnumerable<DateCountItem>>(ErrorCode.success, result.OrderBy(o => o.date), result.Count);

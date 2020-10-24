@@ -136,6 +136,12 @@ namespace SSO.Data
             return JsonSerializerHelper.Deserialize<List<T>>(result)[0];
         }
 
+        /// <summary>
+        /// 判断对象中某个属性是否可用(不为空 并且 不为null)
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private bool ElementNotEmpty(string propertyName, object obj)
         {
             if (obj == null) return false;
@@ -152,11 +158,17 @@ namespace SSO.Data
                             if ((string)value == "") return false;
                             break;
                     }
-                    break;
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
+        /// <summary>
+        /// 判断对象中某个属性是否可用(不为NULL)
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private bool ElementNotNull(string propertyName, object obj)
         {
             if (obj == null) return false;
@@ -167,10 +179,10 @@ namespace SSO.Data
                 {
                     var value = prop.GetValue(obj);
                     if (value == null) return false;
-                    break;
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
         private string Execute(string nodeName, object paras, ref int count, object replacement)
         {

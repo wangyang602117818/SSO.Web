@@ -14,7 +14,14 @@ namespace SSO.Data.Models
 
         public int DeleteAndInsertMany(string userId, IEnumerable<string> permissions)
         {
-            return base.ExecuteNonQueryTransaction(new List<string>() { "delete-many", "update-user-count", "insert-many" }, new List<object>() { new { UserId = userId }, new { PermissionCount = permissions.Count() }, new { Permissions = permissions } }, null);
+            var nodes = new List<string>() { "delete-many", "update-user-count" };
+            var datas = new List<object>() { new { UserId = userId }, new { UserId = userId, PermissionCount = permissions.Count() } };
+            if (permissions.Count() > 0)
+            {
+                nodes.Add("insert-many");
+                datas.Add(new { UserId = userId, Permissions = permissions });
+            }
+            return base.ExecuteNonQueryTransaction(nodes, datas, null);
         }
         public List<PermissionUserMapping> GetByUser(string userId)
         {

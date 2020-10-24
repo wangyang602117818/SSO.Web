@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Hosting;
+using System.Web.Mvc;
 
 namespace SSO.Web.Models
 {
@@ -10,19 +12,28 @@ namespace SSO.Web.Models
         [Required]
         public string PassWord { get; set; }
     }
+   
     public class AddUserModel
     {
+        private List<string> departments = new List<string>();
+        private List<string> roles = new List<string>();
         [Required]
         public string UserId { get; set; }
         [Required]
         public string UserName { get; set; }
-        public string Mobile { get; set; }
-        public string Email { get; set; }
+        [Required]
         public string CompanyCode { get; set; }
-        public string IdCard { get; set; }
+        [Required]
         public char Sex { get; set; }
-        public List<string> Departments { get; set; }
-        public List<string> Roles { get; set; }
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Mobile { get; set; }
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string Email { get; set; }
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string IdCard { get; set; }
+        public List<string> Departments { get => departments; set => departments = value; }
+        public List<string> Roles { get => roles; set => roles = value; }
+        
     }
     public class UpdateUserModel : AddUserModel
     {

@@ -14,23 +14,10 @@ namespace SSO.Business
         {
             return instance.GroupByDepartment();
         }
-        public int Insert(string userId, string departmentCode)
-        {
-            return instance.Insert(new Data.Models.UserDepartmentMapping()
-            {
-                UserId = userId,
-                DepartmentCode = departmentCode,
-                CreateTime = DateTime.Now
-            });
-        }
         public IEnumerable<string> GetByUserId(string userId)
         {
             IEnumerable<string> roles = instance.GetByUserId(userId).Select(s => s.DepartmentCode);
             return roles;
-        }
-        public int DeleteByUserId(string userId)
-        {
-            return instance.DeleteByUserId(userId);
         }
     }
 }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SSO.Data.Models
 {
-    public class UserBasic : SqlBase
+    public class User : SqlBase
     {
-        public UserBasic() : base("userbasic.sql.xml") { }
+        public User() : base("user.sql.xml") { }
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string PassWord { get; set; }
@@ -19,7 +19,7 @@ namespace SSO.Data.Models
         public string IdCard { get; set; }
         public string Sex { get; set; }
         public bool IsModified { get; set; }
-        public bool Delete { get; set; }
+        public bool IsDelete { get; set; }
         public string FileId { get; set; }
         public string FileName { get; set; }
         public int PermissionCount { get; set; }
@@ -38,10 +38,46 @@ namespace SSO.Data.Models
         /// </summary>
         public string RoleName { get; set; }
 
-        public UserBasic GetByUserId(string userId)
+        public int InsertUserDepartmentRole(User user, List<string> departments, List<string> roles)
+        {
+            var nodes = new List<string>() { "delete-department-by-userId", "delete-role-by-userId" };
+            var datas = new List<object>() { new { OldUserId = user.UserId }, new { OldUserId = user.UserId } };
+            if (departments.Count() > 0)
+            {
+                nodes.Add("insert-department-many");
+                datas.Add(new { UserId = user.UserId, Departments = departments });
+            }
+            if (roles.Count() > 0)
+            {
+                nodes.Add("insert-role-many");
+                datas.Add(new { UserId = user.UserId, Roles = roles });
+            }
+            nodes.Add("insert");
+            datas.Add(user);
+            return base.ExecuteNonQueryTransaction(nodes, datas, null);
+        }
+        public int UpdateUserDepartmentRole(string oldUserId, User user, List<string> departments, List<string> roles)
+        {
+            var nodes = new List<string>() { "delete-department-by-userId", "delete-role-by-userId" };
+            var datas = new List<object>() { new { OldUserId = oldUserId }, new { OldUserId = oldUserId } };
+            if (departments.Count() > 0)
+            {
+                nodes.Add("insert-department-many");
+                datas.Add(new { UserId = user.UserId, Departments = departments });
+            }
+            if (roles.Count() > 0)
+            {
+                nodes.Add("insert-role-many");
+                datas.Add(new { UserId = user.UserId, Roles = roles });
+            }
+            nodes.Add("update");
+            datas.Add(user);
+            return base.ExecuteNonQueryTransaction(nodes, datas, null);
+        }
+        public User GetByUserId(string userId)
         {
             int count = 0;
-            return base.QueryObject<UserBasic>("get-by-userId", new { UserId = userId }, ref count);
+            return base.QueryObject<User>("get-by-userId", new { UserId = userId }, ref count);
         }
         public int RemoveUser(IEnumerable<string> userIds)
         {
@@ -55,10 +91,10 @@ namespace SSO.Data.Models
         {
             return base.ExecuteNonQuery("delete-user", new { UserIds = userIds });
         }
-        public UserBasic Login(string userId, string password)
+        public User Login(string userId, string password)
         {
             int count = 0;
-            return base.QueryObject<UserBasic>("login", new { UserId = userId, PassWord = password, LastLoginTime = DateTime.Now }, ref count);
+            return base.QueryObject<User>("login", new { UserId = userId, PassWord = password, LastLoginTime = DateTime.Now }, ref count);
         }
         public int UpdatePassword(IEnumerable<string> userIds, string password)
         {
