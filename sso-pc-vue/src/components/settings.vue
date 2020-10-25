@@ -258,9 +258,6 @@ export default {
           this.$axios
             .post(this.$urls.user.updatepassword, values)
             .then(response => {
-              if (response.code == 114) {
-                this.$message.warning(this.$t('old_password_error'));
-              }
               if (response.code == 0) {
                 this.passwordform.setFieldsValue({
                   oldPassword: "",

@@ -301,8 +301,8 @@ export default {
       this.$axios
         .get(this.$urls.company.getall + "?filter=" + this.companySearchValue)
         .then(response => {
+          this.company_loading = false;
           if (response.code == 0) {
-            this.company_loading = false;
             this.company = response.result;
             if (response.count > 0) {
               this.selectedCompany = response.result[0].Code;
@@ -448,8 +448,6 @@ export default {
           this.$axios.post(this.$urls.department.add, values).then(response => {
             if (response.code == 0) {
               this.getDepartmentData(this.selectedCompany);
-            } else {
-              this.$message.warning(this.$t('record_exists'));
             }
           });
         }
@@ -466,8 +464,6 @@ export default {
             .then(response => {
               if (response.code == 0) {
                 this.getDepartmentData(this.selectedCompany);
-              } else {
-                this.$message.warning(this.$t('record_exists'));
               }
             });
         }
@@ -493,9 +489,6 @@ export default {
           values.layer = 0;
           values.parentCode = "";
           this.$axios.post(this.$urls.department.add, values).then(response => {
-            if (response.code == 400) {
-              this.$message.warning(this.$t('record_exists'));
-            }
             if (response.code == 0) {
               this.form.resetFields();
               this.getDepartmentData(this.selectedCompany);
