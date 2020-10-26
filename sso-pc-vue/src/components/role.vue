@@ -215,9 +215,9 @@ export default {
           names: this.rolepermissions,
         })
         .then((response) => {
+          this.confirmLoading = false;
+          this.loading = false;
           if (response.code == 0) {
-            this.confirmLoading = false;
-            this.loading = false;
             this.cancelPermission();
             this.getData();
           }
