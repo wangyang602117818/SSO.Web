@@ -131,7 +131,7 @@
     <EmbeddedResource Include="Mappings\permission_user_mapping.sql.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\create.sql.xml" />
+    <EmbeddedResource Include="create.sql.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Model\SSO.Model.csproj">
