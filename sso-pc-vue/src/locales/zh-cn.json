@@ -193,7 +193,8 @@
         "GetCacheFiles": "获取缓存文件",
         "DeleteCacheFiles": "删除缓存文件",
         "AddPermission":"添加权限",
-        "GetPermission":"获取权限"
+        "GetPermission":"获取权限",
+        "Redo":"重新执行"
     },
     "response":{
         "success":"操作成功!",

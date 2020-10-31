@@ -16,7 +16,7 @@ using System.Xml.Linq;
 
 namespace SSO.Data
 {
-    public class SqlBase
+    public abstract class SqlBase
     {
         private DateTime? createTime = DateTime.Now;
         public int Id { get; set; }
@@ -49,7 +49,18 @@ namespace SSO.Data
             new SqlHelper().ExecuteNonQuery(sql);
         }
         /// <summary>
-        /// config:配置文件名称
+        /// 默认获取与类名称相同的配置文件
+        /// </summary>
+        public SqlBase()
+        {
+            string name = this.GetType().Name.ToLower() + ".sql.xml";
+            foreach (var item in configFiles)
+            {
+                if (item.Key.ToLower().EndsWith(name)) sqlXml = item.Value;
+            }
+        }
+        /// <summary>
+        /// config:配置文件名称,自动在 Embedded Resource中查找
         /// </summary>
         /// <param name="config"></param>
         public SqlBase(string config)
@@ -59,18 +70,17 @@ namespace SSO.Data
                 if (item.Key.EndsWith(config)) sqlXml = item.Value;
             }
         }
-
         public int Count()
         {
             return (int)ExecuteScalar("count", null);
         }
-        public int Insert(SqlBase sqlBase)
+        public int Insert<T>(T t) where T : SqlBase
         {
-            return ExecuteNonQuery("insert", sqlBase);
+            return ExecuteNonQuery("insert", t);
         }
-        public int Update(SqlBase sqlBase)
+        public int Update<T>(T t) where T : SqlBase
         {
-            return ExecuteNonQuery("update", sqlBase);
+            return ExecuteNonQuery("update", t);
         }
         public int Delete(IEnumerable<int> ids)
         {

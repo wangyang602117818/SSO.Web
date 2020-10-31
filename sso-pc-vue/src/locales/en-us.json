@@ -193,7 +193,8 @@
         "GetCacheFiles": "GetCacheFiles",
         "DeleteCacheFiles": "DeleteCacheFiles",
         "AddPermission":"AddPermission",
-        "GetPermission":"GetPermission"
+        "GetPermission":"GetPermission",
+        "Redo":"ReDo"
     },
     "response":{
         "success":"success!",

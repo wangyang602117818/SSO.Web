@@ -75,7 +75,7 @@ namespace SSO.Web.Controllers
             var result = userMapping.GetByUser(userId).Select(s => s.Permission);
             return new ResponseModel<IEnumerable<string>>(ErrorCode.success, result);
         }
-        [OutputCache(Duration = 60 * 25, VaryByParam = "*", VaryByHeader = "Authorization")]
+        //[OutputCache(Duration = 60 * 25, VaryByParam = "*", VaryByHeader = "Authorization")]
         public ActionResult CheckPermission(string permissionName)
         {
             if (permission.CheckPermission(User.Identity.Name, permissionName) > 0)

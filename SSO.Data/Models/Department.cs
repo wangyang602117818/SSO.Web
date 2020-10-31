@@ -8,7 +8,7 @@ namespace SSO.Data.Models
 {
     public class Department : SqlBase
     {
-        public Department() : base("department.sql.xml") { }
+        public Department() { }
         public string Code { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

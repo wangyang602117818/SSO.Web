@@ -8,7 +8,7 @@ namespace SSO.Data.Models
 {
     public class Settings : SqlBase
     {
-        public Settings() : base("settings.sql.xml") { }
+        public Settings() { }
         public string UserId { get; set; }
         public string Lang { get; set; }
 

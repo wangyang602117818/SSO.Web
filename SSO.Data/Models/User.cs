@@ -9,7 +9,7 @@ namespace SSO.Data.Models
 {
     public class User : SqlBase
     {
-        public User() : base("user.sql.xml") { }
+        public User() { }
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string PassWord { get; set; }

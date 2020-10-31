@@ -8,7 +8,7 @@ namespace SSO.Data.Models
 {
     public class Role : SqlBase
     {
-        public Role() : base("role.sql.xml") { }
+        public Role() { }
         public string Name { get; set; }
         public string Description { get; set; }
         public int PermissionCount { get; set; }

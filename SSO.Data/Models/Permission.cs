@@ -8,7 +8,7 @@ namespace SSO.Data.Models
 {
     public class Permission : SqlBase
     {
-        public Permission() : base("permission.sql.xml") { }
+        public Permission() { }
         public string Origin { get; set; }
         public string Name { get; set; }
 
