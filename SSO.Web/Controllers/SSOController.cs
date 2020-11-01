@@ -96,7 +96,7 @@ namespace SSO.Web.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        [LogRecord(RecordContent = false)]
+        [LogRecord(true, false)]
         public ActionResult Login(LoginModel loginModel, string returnUrl)
         {
             if (!returnUrl.IsNullOrEmpty())
@@ -190,6 +190,6 @@ namespace SSO.Web.Controllers
             };
             return new ResponseModel<object>(ErrorCode.success, user);
         }
-       
+
     }
 }

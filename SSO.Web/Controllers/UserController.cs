@@ -43,7 +43,7 @@ namespace SSO.Web.Controllers
             return new ResponseModel<string>(ErrorCode.success, "");
         }
         [JwtAuthorize("UpdateUser")]
-        [LogRecord(RecordContent = false)]
+        [LogRecord(true, false)]
         public ActionResult UpdatePassword(UpdatePasswordModel updatePasswordModel)
         {
             int count = user.UpdatePassword(User.Identity.Name, updatePasswordModel.oldPassword, updatePasswordModel.newPassword);
