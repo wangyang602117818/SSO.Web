@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SSO.Data.Models
 {
-    public class PermissionUserMapping : SqlBase
+    public class PermissionUserMapping : ModelBase
     {
-        public PermissionUserMapping() : base("permission_user_mapping.sql.xml") { }
+        public PermissionUserMapping() { }
         public string UserId { get; set; }
         public string Permission { get; set; }
 
@@ -21,12 +21,12 @@ namespace SSO.Data.Models
                 nodes.Add("insert-many");
                 datas.Add(new { UserId = userId, Permissions = permissions });
             }
-            return base.ExecuteNonQueryTransaction(nodes, datas, null);
+            return base.ExecuteTransaction(nodes, datas, null);
         }
         public List<PermissionUserMapping> GetByUser(string userId)
         {
             int count = 0;
-            return base.QueryList<PermissionUserMapping>("get-by-user", new { UserId = userId }, ref count);
+            return base.QueryList<PermissionUserMapping>("get-by-user", new { UserId = userId }, null, ref count);
         }
 
     }

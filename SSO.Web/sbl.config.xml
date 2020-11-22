@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <connectionstring>
+    Server=.;Database=UserCenter;User ID=wang;Password=123
+  </connectionstring>
+  <!--创建table-->
+  <create-tables resource="create.sbl.xml" assembly="SSO.Data"/>
+
+  <mappings assembly="SSO.Data" namespace="Mappings"/>
+
+</configuration>

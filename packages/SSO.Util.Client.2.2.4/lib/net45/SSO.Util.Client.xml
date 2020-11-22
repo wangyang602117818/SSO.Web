@@ -14,11 +14,6 @@
             yyyy-MM-dd HH:mm:ss
             </summary>
         </member>
-        <member name="F:SSO.Util.Client.AppSettings.Configuration">
-            <summary>
-            配置类,相当于.net的 ConfigurationManager
-            </summary>
-        </member>
         <member name="M:SSO.Util.Client.AppSettings.GetValue(System.String)">
             <summary>
             获取配置文件
@@ -26,25 +21,25 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:SSO.Util.Client.AppSettings.GetApplicationUrl(Microsoft.AspNetCore.Http.HttpRequest)">
+        <member name="M:SSO.Util.Client.AppSettings.GetApplicationUrl(System.Web.HttpRequestBase)">
             <summary>
             获取应用程序的根路径
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:SSO.Util.Client.AppSettings.GetApplicationUrlTrimHttpPrefix(Microsoft.AspNetCore.Http.HttpRequest)">
+        <member name="M:SSO.Util.Client.AppSettings.GetApplicationUrlTrimHttpPrefix(System.Web.HttpRequestBase)">
             <summary>
-            获取应用程序的根路径,并且替换前缀http和后缀/
+            获取应用程序的根路径,并且替换前缀http和后缀/,然后转成小写
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:SSO.Util.Client.AppSettings.GetAbsoluteUri(Microsoft.AspNetCore.Http.HttpRequest)">
+        <member name="M:SSO.Util.Client.AppSettings.GetAbsoluteUri(System.Web.HttpRequestBase)">
             <summary>
             获取当前请求的完整路径
             </summary>
-            <param name="httpRequest"></param>
+            <param name="request"></param>
             <returns></returns>
         </member>
         <member name="T:SSO.Util.Client.AsymmetricEncryptHelper">
@@ -519,7 +514,7 @@
             <param name="ticket"></param>
             <returns>用户id,如果过期就返回""</returns>
         </member>
-        <member name="M:SSO.Util.Client.JwtManager.GetAuthorization(Microsoft.AspNetCore.Http.HttpRequest,System.String)">
+        <member name="M:SSO.Util.Client.JwtManager.GetAuthorization(System.Web.HttpRequestBase,System.String)">
             <summary>
             获取cookie或者请求header中的jwt token
             </summary>
@@ -534,22 +529,20 @@
             <param name="User"></param>
             <returns></returns>
         </member>
-        <member name="M:SSO.Util.Client.JwtManager.ParseUserData(System.String,System.String,Microsoft.AspNetCore.Http.HttpContext)">
+        <member name="M:SSO.Util.Client.JwtManager.ParseUserData(System.String,System.String)">
             <summary>
             根据cookie和key解析用户信息
             </summary>
             <param name="authorization"></param>
             <param name="secretKey"></param>
-            <param name="httpContext"></param>
             <returns></returns>
         </member>
-        <member name="M:SSO.Util.Client.JwtManager.ParseAuthorization(System.String,System.String,Microsoft.AspNetCore.Http.HttpContext)">
+        <member name="M:SSO.Util.Client.JwtManager.ParseAuthorization(System.String,System.String)">
             <summary>
             根据cookie和key解析用户信息
             </summary>
             <param name="authorization"></param>
             <param name="secretKey"></param>
-            <param name="httpContext"></param>
             <returns></returns>
         </member>
         <member name="T:SSO.Util.Client.Log4Net">
@@ -581,104 +574,14 @@
             </summary>
             <param name="str"></param>
         </member>
-        <member name="T:SSO.Util.Client.LogModel">
-            <summary>
-            日志类
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel._id">
-            <summary>
-            id
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.From">
-            <summary>
-            日志来源
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.To">
-            <summary>
-            日志去向
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.Controller">
-            <summary>
-            日志访问的Controller
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.Action">
-            <summary>
-            日志访问的Action
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.Route">
-            <summary>
-            日志的路由信息
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.QueryString">
-            <summary>
-            请求参数
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.Content">
-            <summary>
-            请求内容
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.Response">
-            <summary>
-            响应内容
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.UserId">
-            <summary>
-            日志关联人
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.UserName">
-            <summary>
-            日志关联人
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.UserHost">
-            <summary>
-            用户ip
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.UserAgent">
-            <summary>
-            用户代理
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.Time">
-            <summary>
-            响应时间(毫秒)
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.CountPerMinute">
-            <summary>
-            一分钟请求的次数
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.Exception">
-            <summary>
-            是否有错误
-            </summary>
-        </member>
-        <member name="P:SSO.Util.Client.LogModel.CreateTime">
-            <summary>
-            创建时间
-            </summary>
-        </member>
         <member name="T:SSO.Util.Client.LogRecordAttribute">
             <summary>
-            .net core 中request.Body默认读取一次就销毁了,所以该过滤器一定要在model binding之前执行,
+            过滤器发生在modelbinding之后,所以如果model验证不通过,则不会记录日志
             </summary>
         </member>
         <member name="F:SSO.Util.Client.LogRecordAttribute.RecordQuerystring">
             <summary>
-            是否记录url查询
+            是否记录querystring
             </summary>
         </member>
         <member name="F:SSO.Util.Client.LogRecordAttribute.RecordRequestContent">
@@ -699,31 +602,19 @@
             <param name="recordRequestContent"></param>
             <param name="recordResponseContent"></param>
         </member>
-        <member name="M:SSO.Util.Client.LogRecordAttribute.OnResourceExecuting(Microsoft.AspNetCore.Mvc.Filters.ResourceExecutingContext)">
+        <member name="M:SSO.Util.Client.LogRecordAttribute.OnActionExecuting(System.Web.Mvc.ActionExecutingContext)">
             <summary>
             
             </summary>
-            <param name="context"></param>
+            <param name="filterContext"></param>
         </member>
-        <member name="M:SSO.Util.Client.LogRecordAttribute.OnResourceExecuted(Microsoft.AspNetCore.Mvc.Filters.ResourceExecutedContext)">
+        <member name="M:SSO.Util.Client.LogRecordAttribute.OnActionExecuted(System.Web.Mvc.ActionExecutedContext)">
             <summary>
             
             </summary>
-            <param name="context"></param>
+            <param name="filterContext"></param>
         </member>
-        <member name="M:SSO.Util.Client.LogRecordAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="M:SSO.Util.Client.LogRecordAttribute.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="M:SSO.Util.Client.LogRecordAttribute.VerifyConfig(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+        <member name="M:SSO.Util.Client.LogRecordAttribute.VerifyConfig(System.Web.Mvc.ActionExecutingContext)">
             <summary>
             验证配置文件
             </summary>
@@ -746,7 +637,6 @@
             获取日志对象列表
             </summary>
             <param name="from"></param>
-            <param name="to"></param>
             <param name="controller"></param>
             <param name="action"></param>
             <param name="startTime"></param>
@@ -846,23 +736,187 @@
             <param name="collectionId"></param>
             <returns></returns>
         </member>
+        <member name="T:SSO.Util.Client.LogModel">
+            <summary>
+            日志类
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel._id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.From">
+            <summary>
+            日志来源
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.To">
+            <summary>
+            日志去向
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.Controller">
+            <summary>
+            日志访问的Controller
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.Action">
+            <summary>
+            日志访问的Action
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.Route">
+            <summary>
+            日志的路由信息
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.QueryString">
+            <summary>
+            请求参数
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.Content">
+            <summary>
+            请求内容
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.Response">
+            <summary>
+            响应内容
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.UserId">
+            <summary>
+            日志关联人
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.UserName">
+            <summary>
+            日志关联人
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.UserHost">
+            <summary>
+            用户ip
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.UserAgent">
+            <summary>
+            用户代理
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.Time">
+            <summary>
+            响应时间(毫秒)
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.CountPerMinute">
+            <summary>
+            一分钟请求的次数
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.Exception">
+            <summary>
+            是否有错误
+            </summary>
+        </member>
+        <member name="P:SSO.Util.Client.LogModel.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:SSO.Util.Client.MsQueue`1">
+            <summary>
+            微软messagequeue
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SSO.Util.Client.MsQueue`1.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="path">FormatName:DIRECT=OS:computename\\private$\\task_queue</param>
+            <param name="managerpath"></param>
+        </member>
+        <member name="M:SSO.Util.Client.MsQueue`1.CreateQueue(System.Boolean)">
+            <summary>
+            不能操作远程队列,只能由本地的程序创建队列,程序只能对远程的队列发送消息
+            创建队列需要消耗较多资源,确保只创建一次
+            </summary>
+            <param name="transactional">是否是事务队列</param>
+        </member>
+        <member name="M:SSO.Util.Client.MsQueue`1.SendMessage(`0,System.String,System.Boolean)">
+            <summary>
+            发送普通消息
+            </summary>
+            <param name="data">消息体</param>
+            <param name="label">消息标签</param>
+            <param name="recoverable">消息持久化</param>
+        </member>
+        <member name="M:SSO.Util.Client.MsQueue`1.SendMessageAck(`0,System.String,System.Boolean)">
+            <summary>
+            发送需要应答的消息
+            </summary>
+            <param name="data">消息体</param>
+            <param name="label">消息标签</param>
+            <param name="recoverable">消息持久化</param>
+        </member>
+        <member name="M:SSO.Util.Client.MsQueue`1.SendMessageTransactional(`0,System.String,System.Boolean)">
+            <summary>
+            事务性队列只能发送事务性消息,发送普通消息会丢弃
+            </summary>
+            <param name="data"></param>
+            <param name="label"></param>
+        </member>
+        <member name="M:SSO.Util.Client.MsQueue`1.ReceiveMessage(System.Action{`0})">
+            <summary>
+            接收消息
+            </summary>
+            <param name="action"></param>
+        </member>
+        <member name="M:SSO.Util.Client.MsQueue`1.ReceiveDeadletterMessage(System.Action{`0})">
+            <summary>
+            
+            </summary>
+            <param name="action"></param>
+        </member>
+        <member name="M:SSO.Util.Client.MsQueue`1.ReceiveMessageAck(System.Func{`0,System.Boolean})">
+            <summary>
+            
+            </summary>
+            <param name="func"></param>
+        </member>
+        <member name="M:SSO.Util.Client.MsQueue`1.ReceiveMessageTransactional(System.Func{`0,System.Boolean})">
+            <summary>
+            
+            </summary>
+            <param name="func"></param>
+        </member>
+        <member name="M:SSO.Util.Client.MsQueue`1.ReceiveAcknowledgment(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="messageId"></param>
+            <param name="queuePath"></param>
+        </member>
         <member name="T:SSO.Util.Client.MyHandleErrorAttribute">
             <summary>
             错误处理
             </summary>
         </member>
-        <member name="M:SSO.Util.Client.MyHandleErrorAttribute.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+        <member name="M:SSO.Util.Client.MyHandleErrorAttribute.OnException(System.Web.Mvc.ExceptionContext)">
             <summary>
             
             </summary>
-            <param name="context"></param>
+            <param name="filterContext"></param>
         </member>
         <member name="T:SSO.Util.Client.NoneLogRecordAttribute">
             <summary>
             不记录日志
             </summary>
         </member>
-        <member name="M:SSO.Util.Client.NoneLogRecordAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+        <member name="M:SSO.Util.Client.NoneLogRecordAttribute.OnActionExecuting(System.Web.Mvc.ActionExecutingContext)">
             <summary>
             
             </summary>
@@ -985,6 +1039,363 @@
             错误信息
             </summary>
         </member>
+        <member name="T:SSO.Util.Client.SqlBatisLite.AdoNetUtil">
+            <summary>
+            数据库操作类
+            </summary>
+        </member>
+        <member name="F:SSO.Util.Client.SqlBatisLite.AdoNetUtil.connstring">
+            <summary>
+            连接字符串
+            </summary>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.AdoNetUtil.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="connstring"></param>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.AdoNetUtil.ExecuteNonQuery(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            执行非query操作
+            </summary>
+            <param name="sql"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.AdoNetUtil.ExecuteScalar(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            执行返回单行单列的操作
+            </summary>
+            <param name="sql"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.AdoNetUtil.ExecuteDataTable(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            执行返回table的操作
+            </summary>
+            <param name="sql"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.AdoNetUtil.ExecuteReader(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            执行返回reader的操作
+            </summary>
+            <param name="sql"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.AdoNetUtil.ExecuteTransaction(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.Data.SqlClient.SqlParameter[]})">
+            <summary>
+            执行事务操作
+            </summary>
+            <param name="sqls"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SSO.Util.Client.SqlBatisLite.Configuration">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SSO.Util.Client.SqlBatisLite.Configuration.ConfigName">
+            <summary>
+            默认配置文件名称
+            </summary>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Configuration.Configure">
+            <summary>
+            使用默认配置文件名称 sbl.config.xml
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Configuration.Configure(System.String)">
+            <summary>
+            使用指定的配置文件
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Configuration.ParseMappings(System.String,System.String)">
+            <summary>
+            解析数据表的mapping文件
+            </summary>
+            <param name="assembly"></param>
+            <param name="nameSpace"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SSO.Util.Client.SqlBatisLite.EntityBase">
+            <summary>
+            数据表基类
+            </summary>
+        </member>
+        <member name="F:SSO.Util.Client.SqlBatisLite.EntityBase.xmlStatement">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SSO.Util.Client.SqlBatisLite.EntityBase.session">
+            <summary>
+            一个session实例
+            </summary>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.EntityBase.#ctor(SSO.Util.Client.SqlBatisLite.SessionFactory)">
+            <summary>
+            sessionFactory 是单实例对象，一个项目只有一个
+            </summary>
+            <param name="sessionFactory"></param>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.EntityBase.Insert(System.Object)">
+            <summary>
+            插入操作
+            </summary>
+            <param name="paras"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.EntityBase.Update(System.Object)">
+            <summary>
+            更新操作
+            </summary>
+            <param name="paras"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.EntityBase.Delete(System.Object)">
+            <summary>
+            删除操作
+            </summary>
+            <param name="paras"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.EntityBase.QueryObject``1(System.String,System.Object,System.Object)">
+            <summary>
+            查询单个
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="xName"></param>
+            <param name="paras"></param>
+            <param name="replacement"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.EntityBase.QueryList``1(System.String,System.Object,System.Object,System.Int32@)">
+            <summary>
+            查询列表
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="xName"></param>
+            <param name="paras"></param>
+            <param name="replacement"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.EntityBase.ExecuteNonQuery(System.String,System.Object)">
+            <summary>
+            执行xName中的sql，返回受影响的行数
+            </summary>
+            <param name="xName">xml节点的全名称（name.node）</param>
+            <param name="paras">要插入的对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.EntityBase.ExecuteScalar(System.String,System.Object)">
+            <summary>
+            执行xName中的sql，返回单行单列shuju
+            </summary>
+            <param name="xName"></param>
+            <param name="paras"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.EntityBase.Execute(System.String,System.Object,System.Int32@,System.Object)">
+            <summary>
+            执行xName中的sql，返回结果
+            </summary>
+            <param name="xName">xml节点的全名称（name.node）</param>
+            <param name="paras">要查询的参数</param>
+            <param name="count">查询的总数</param>
+            <param name="replacement">要替换的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.EntityBase.ExecuteTransaction(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.Object},System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            事务执行
+            </summary>
+            <param name="xNames"></param>
+            <param name="paras"></param>
+            <param name="replacements"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.EntityBase.ExecuteSql(System.String,System.Object)">
+            <summary>
+            执行sql
+            </summary>
+            <param name="sql"></param>
+            <param name="paras"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SSO.Util.Client.SqlBatisLite.Session">
+            <summary>
+            一个数据库操作对象
+            </summary>
+        </member>
+        <member name="F:SSO.Util.Client.SqlBatisLite.Session.mappings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Session.#ctor(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Xml.Linq.XElement})">
+            <summary>
+            
+            </summary>
+            <param name="connstring"></param>
+            <param name="mappingName"></param>
+            <param name="mappings"></param>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Session.Insert(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="xName"></param>
+            <param name="paras"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Session.Update(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="xName"></param>
+            <param name="paras"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Session.Delete(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="xName"></param>
+            <param name="paras"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Session.QueryObject``1(System.String,System.Object,System.Object)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="xName"></param>
+            <param name="paras"></param>
+            <param name="replacement"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Session.QueryList``1(System.String,System.Object,System.Int32@,System.Object)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="xName"></param>
+            <param name="paras"></param>
+            <param name="count"></param>
+            <param name="replacement"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Session.ExecuteSql(System.String,System.Object)">
+            <summary>
+            执行sql语句，包含@的参数
+            </summary>
+            <param name="sql"></param>
+            <param name="paras"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Session.ExecuteNonQuery(System.String,System.Object)">
+            <summary>
+            执行xName中的sql，返回受影响的行数
+            </summary>
+            <param name="xName">xml节点的全名称（name.node）</param>
+            <param name="paras">要插入的对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Session.ExecuteScalar(System.String,System.Object)">
+            <summary>
+            返回单行单列
+            </summary>
+            <param name="xName"></param>
+            <param name="paras"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Session.Execute(System.String,System.Object,System.Int32@,System.Object)">
+            <summary>
+            执行xName中的sql，返回结果
+            </summary>
+            <param name="xName">xml节点的全名称（name.node）</param>
+            <param name="paras">要查询的参数</param>
+            <param name="count">查询的总数</param>
+            <param name="replacement">要替换的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.Session.ExecuteTransaction(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.Object},System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            事务执行
+            </summary>
+            <param name="xNames"></param>
+            <param name="paras"></param>
+            <param name="replacements"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SSO.Util.Client.SqlBatisLite.SessionFactory">
+            <summary>
+            获取Session的工厂
+            </summary>
+        </member>
+        <member name="T:SSO.Util.Client.SqlBatisLite.XmlStatement">
+            <summary>
+            xml工具类
+            </summary>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.XmlStatement.GetXElementSql(System.Xml.Linq.XElement,System.Object,System.Data.SqlClient.SqlParameter[]@,System.Object)">
+            <summary>
+            获取XElement中的sql语句
+            </summary>
+            <param name="xElement"></param>
+            <param name="paras"></param>
+            <param name="replacement"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.XmlStatement.GetSqlParameters(System.Object)">
+            <summary>
+            通过对象获取SqlParameter[]
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.XmlStatement.ElementNotEmpty(System.String,System.Object,System.Reflection.PropertyInfo[])">
+            <summary>
+            判断对象中某个属性是否可用(不为空 并且 不为null)
+            </summary>
+            <param name="propertyName"></param>
+            <param name="propertyInfos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.XmlStatement.ElementNotNull(System.String,System.Object,System.Reflection.PropertyInfo[])">
+            <summary>
+            判断对象中某个属性是否可用(不为NULL)
+            </summary>
+            <param name="propertyName"></param>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SSO.Util.Client.SqlBatisLite.XmlStatementAttribute">
+            <summary>
+            xml特性
+            </summary>
+        </member>
+        <member name="F:SSO.Util.Client.SqlBatisLite.XmlStatementAttribute.xName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SSO.Util.Client.SqlBatisLite.XmlStatementAttribute.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="xName"></param>
+        </member>
         <member name="T:SSO.Util.Client.SSOAuthorizeAttribute">
             <summary>
             sso验证
@@ -997,7 +1408,7 @@
             <param name="name">权限名称,到数据库查询是否有权限</param>
             <param name="unAuthorizedRedirect">验证不通过是否跳转到sso登录页面</param>
         </member>
-        <member name="M:SSO.Util.Client.SSOAuthorizeAttribute.OnAuthorization(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)">
+        <member name="M:SSO.Util.Client.SSOAuthorizeAttribute.OnAuthorization(System.Web.Mvc.AuthorizationContext)">
             <summary>
             
             </summary>
@@ -1012,7 +1423,7 @@
             <param name="audience"></param>
             <returns></returns>
         </member>
-        <member name="M:SSO.Util.Client.SSOAuthorizeAttribute.VerifyConfig(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)">
+        <member name="M:SSO.Util.Client.SSOAuthorizeAttribute.VerifyConfig(System.Web.Mvc.AuthorizationContext)">
             <summary>
             验证配置文件
             </summary>
@@ -1199,7 +1610,7 @@
         </member>
         <member name="M:SSO.Util.Client.StringExtention.RemoveHtml(System.String)">
             <summary>
-            字符串转UTF8字节数组
+            移除字符串中的html标签
             </summary>
             <param name="str"></param>
             <returns></returns>
@@ -1263,7 +1674,7 @@
             <summary>
             替换由 ToJson() 转换的json字符串 中 ObjectId("") 和 ISODate("2020-05-30T08:50:10.048Z") 
             </summary>
-            <param name="toJsonStr"></param>
+            <param name="str"></param>
             <returns></returns>
         </member>
         <member name="M:SSO.Util.Client.StringExtention.ReplaceStrictJsonString(System.String)">
@@ -1278,6 +1689,13 @@
             替换 http://www. 或者 https://www. 或者 www. 为""
             </summary>
             <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSO.Util.Client.StringExtention.PascalToUnderline(System.String)">
+            <summary>
+            把驼峰形式的参数转换成_形式
+            </summary>
+            <param name="name"></param>
             <returns></returns>
         </member>
         <member name="T:SSO.Util.Client.SymmetricEncryptHelper">
@@ -1316,9 +1734,9 @@
             <summary>
             Aes解密算法
             </summary>
-            <param name="sourceStream">密文</param>
-            <param name="key">base64形式的key，256位</param>
-            <param name="isBase64Key">是否是base64形式的key</param>
+            <param name="sourceStream"></param>
+            <param name="key"></param>
+            <param name="isBase64Key"></param>
             <returns></returns>
         </member>
         <member name="M:SSO.Util.Client.SymmetricEncryptHelper.DESEncode(System.String,System.String)">
@@ -1380,9 +1798,9 @@
             
             </summary>
             <param name="maxRequests">最大请求数</param>
-            <param name="minuts">分钟数</param>
+            <param name="minuts">分钟</param>
         </member>
-        <member name="M:SSO.Util.Client.ThrottlingAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+        <member name="M:SSO.Util.Client.ThrottlingAttribute.OnActionExecuting(System.Web.Mvc.ActionExecutingContext)">
             <summary>
             
             </summary>
@@ -1393,7 +1811,7 @@
             model类验证过滤器
             </summary>
         </member>
-        <member name="M:SSO.Util.Client.ValidateModelStateAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+        <member name="M:SSO.Util.Client.ValidateModelStateAttribute.OnActionExecuting(System.Web.Mvc.ActionExecutingContext)">
             <summary>
             检测ModelState,对mvc框架自动Model验证以后的结果进行分析
             </summary>

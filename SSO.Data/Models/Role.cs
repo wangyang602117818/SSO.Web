@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SSO.Data.Models
 {
-    public class Role : SqlBase
+    public class Role : ModelBase
     {
         public Role() { }
         public string Name { get; set; }
@@ -15,8 +15,7 @@ namespace SSO.Data.Models
 
         public Role GetByName(string name)
         {
-            int count = 0;
-            return base.QueryObject<Role>("get-by-name", new { Name = name }, ref count);
+            return base.QueryObject<Role>("get-by-name", new { Name = name }, null);
         }
     }
 }

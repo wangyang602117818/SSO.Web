@@ -4,6 +4,8 @@ using SSO.Web.Filters;
 using SSO.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
@@ -76,6 +78,7 @@ namespace SSO.Web.Controllers
             return new ResponseModel<IEnumerable<string>>(ErrorCode.success, result);
         }
         //[OutputCache(Duration = 60 * 25, VaryByParam = "*", VaryByHeader = "Authorization")]
+        [NoneLogRecord]
         public ActionResult CheckPermission(string permissionName)
         {
             if (permission.CheckPermission(User.Identity.Name, permissionName) > 0)

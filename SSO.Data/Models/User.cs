@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SSO.Data.Models
 {
-    public class User : SqlBase
+    public class User : ModelBase
     {
         public User() { }
         public string UserId { get; set; }
@@ -54,7 +54,7 @@ namespace SSO.Data.Models
             }
             nodes.Add("insert");
             datas.Add(user);
-            return base.ExecuteNonQueryTransaction(nodes, datas, null);
+            return base.ExecuteTransaction(nodes, datas, null);
         }
         public int UpdateUserDepartmentRole(string oldUserId, User user, List<string> departments, List<string> roles)
         {
@@ -72,12 +72,11 @@ namespace SSO.Data.Models
             }
             nodes.Add("update");
             datas.Add(user);
-            return base.ExecuteNonQueryTransaction(nodes, datas, null);
+            return base.ExecuteTransaction(nodes, datas, null);
         }
         public User GetByUserId(string userId)
         {
-            int count = 0;
-            return base.QueryObject<User>("get-by-userId", new { UserId = userId }, ref count);
+            return base.QueryObject<User>("get-by-userId", new { UserId = userId }, null);
         }
         public int RemoveUser(IEnumerable<string> userIds)
         {
@@ -93,8 +92,7 @@ namespace SSO.Data.Models
         }
         public User Login(string userId, string password)
         {
-            int count = 0;
-            return base.QueryObject<User>("login", new { UserId = userId, PassWord = password, LastLoginTime = DateTime.Now }, ref count);
+            return base.QueryObject<User>("login", new { UserId = userId, PassWord = password, LastLoginTime = DateTime.Now }, null);
         }
         public int UpdatePassword(IEnumerable<string> userIds, string password)
         {
@@ -107,17 +105,17 @@ namespace SSO.Data.Models
         public List<DateCountItem> GroupBySex()
         {
             int count = 0;
-            return base.QueryList<DateCountItem>("group-by-sex", null, ref count);
+            return base.QueryList<DateCountItem>("group-by-sex", null, null, ref count);
         }
         public List<DateCountItem> GroupByCompany()
         {
             int count = 0;
-            return base.QueryList<DateCountItem>("group-by-company", null, ref count);
+            return base.QueryList<DateCountItem>("group-by-company", null, null, ref count);
         }
         public List<DateCountItem> GroupByDate(object paras)
         {
             int count = 0;
-            return base.QueryList<DateCountItem>("group-by-date", paras, ref count);
+            return base.QueryList<DateCountItem>("group-by-date", paras, null, ref count);
         }
     }
 }

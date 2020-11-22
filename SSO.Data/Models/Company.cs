@@ -10,9 +10,9 @@ using System.Xml.Linq;
 
 namespace SSO.Data.Models
 {
-    public class Company : SqlBase
+    public class Company : ModelBase
     {
-        public Company() : base("company.sql.xml") { }
+        public Company() { }
         public string Code { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -20,8 +20,7 @@ namespace SSO.Data.Models
 
         public Company GetByCode(string code)
         {
-            int count = 0;
-            return base.QueryObject<Company>("get-by-code", new { Code = code }, ref count);
+            return base.QueryObject<Company>("get-by-code", new { Code = code }, null);
         }
     }
 }

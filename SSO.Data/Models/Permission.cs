@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SSO.Data.Models
 {
-    public class Permission : SqlBase
+    public class Permission : ModelBase
     {
         public Permission() { }
         public string Origin { get; set; }
@@ -15,7 +15,7 @@ namespace SSO.Data.Models
         public List<Permission> GetAll()
         {
             int count = 0;
-            return base.QueryList<Permission>("get-all", null, ref count);
+            return base.QueryList<Permission>("get-all", null, null, ref count);
         }
         public int DeleteAndInsertMany(string origin, IEnumerable<string> names)
         {
@@ -26,7 +26,7 @@ namespace SSO.Data.Models
                 nodes.Add("insert-many");
                 datas.Add(new { Origin = origin, Names = names, CreateTime = DateTime.Now });
             }
-            return base.ExecuteNonQueryTransaction(nodes, datas, null);
+            return base.ExecuteTransaction(nodes, datas, null);
         }
         public object CheckPermission(string userId, string permission)
         {

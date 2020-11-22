@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SSO.Data.Models
 {
-    public class Department : SqlBase
+    public class Department : ModelBase
     {
         public Department() { }
         public string Code { get; set; }
@@ -19,13 +19,12 @@ namespace SSO.Data.Models
 
         public Department GetByCode(string code)
         {
-            int count = 0;
-            return base.QueryObject<Department>("get-by-code", new { Code = code }, ref count);
+            return base.QueryObject<Department>("get-by-code", new { Code = code }, null);
         }
         public List<Department> GetDepartment(string companyCode)
         {
             int count = 0;
-            return base.QueryList<Department>("get-department", new { CompanyCode = companyCode }, ref count);
+            return base.QueryList<Department>("get-department", new { CompanyCode = companyCode }, null, ref count);
         }
         public int UpdateDepartment(string oldParentCode, Department department)
         {
@@ -39,16 +38,16 @@ namespace SSO.Data.Models
             }
             nodes.Add("update");
             objs.Add(department);
-            return base.ExecuteNonQueryTransaction(nodes, objs, null);
+            return base.ExecuteTransaction(nodes, objs, null);
         }
         public int CountDepartmentByCompanyCode(string companyCode)
         {
-            return base.ExecuteNonQuery("count-department", new { CompanyCode = companyCode });
+            return (int)base.ExecuteScalar("count-department", new { CompanyCode = companyCode });
         }
         public List<Department> GetByParentCode(string parentCode)
         {
             int count = 0;
-            return base.QueryList<Department>("get-by-parentCode", new { ParentCode = parentCode }, ref count);
+            return base.QueryList<Department>("get-by-parentCode", new { ParentCode = parentCode }, null, ref count);
         }
         public int UpdateDepartmentParentCode(string code, string parentCode)
         {

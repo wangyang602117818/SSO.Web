@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace SSO.Data.Models
 {
-    public class UserRoleMapping : SqlBase
+    public class UserRoleMapping : ModelBase
     {
-        public UserRoleMapping() : base("user_role_mapping.sql.xml") { }
+        public UserRoleMapping() { }
         public string UserId { get; set; }
         public string Role { get; set; }
 
         public List<UserRoleMapping> GetByUserId(string userId)
         {
             int count = 0;
-            return base.QueryList<UserRoleMapping>("get-by-userId", new { UserId = userId }, ref count);
+            return base.QueryList<UserRoleMapping>("get-by-userId", new { UserId = userId }, null, ref count);
         }
     }
 }

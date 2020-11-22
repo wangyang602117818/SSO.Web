@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SSO.Business
 {
-    public class ModelBase<T> where T : Data.SqlBase
+    public class ModelBase<T> where T : Data.ModelBase
     {
         protected T instance;
         public ModelBase(T instance)
@@ -54,7 +54,7 @@ namespace SSO.Business
         }
         public List<T> GetPageList(ref int count, T t, object replacement = null)
         {
-            return instance.GetPageList(ref count, t, replacement);
+            return instance.GetPageList<T>(ref count, t, replacement);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SSO.Data.Models
 {
-    public class Settings : SqlBase
+    public class Settings : ModelBase
     {
         public Settings() { }
         public string UserId { get; set; }
@@ -14,8 +14,7 @@ namespace SSO.Data.Models
 
         public Settings GetByUserId(string userId)
         {
-            int count = 0;
-            return base.QueryObject<Settings>("get-by-userId", new { UserId = userId }, ref count);
+            return base.QueryObject<Settings>("get-by-userId", new { UserId = userId }, null);
         }
     }
 }

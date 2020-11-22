@@ -49,8 +49,8 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SSO.Util.Client, Version=2.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSO.Util.Client.2.1.6\lib\net45\SSO.Util.Client.dll</HintPath>
+    <Reference Include="SSO.Util.Client, Version=2.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSO.Util.Client.2.2.4\lib\net45\SSO.Util.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -85,6 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModelBase.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Permission.cs" />
@@ -96,43 +97,41 @@
     <Compile Include="Models\UserDepartmentMapping.cs" />
     <Compile Include="Models\UserRoleMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlBase.cs" />
-    <Compile Include="SqlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\role.sql.xml" />
+    <EmbeddedResource Include="Mappings\role.sbl.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\department.sql.xml" />
-    <EmbeddedResource Include="Mappings\company.sql.xml" />
+    <EmbeddedResource Include="Mappings\department.sbl.xml" />
+    <EmbeddedResource Include="Mappings\company.sbl.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\settings.sql.xml" />
+    <EmbeddedResource Include="Mappings\settings.sbl.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\user.sql.xml" />
+    <EmbeddedResource Include="Mappings\user.sbl.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\user_department_mapping.sql.xml" />
+    <EmbeddedResource Include="Mappings\user_department_mapping.sbl.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\user_role_mapping.sql.xml" />
+    <EmbeddedResource Include="Mappings\user_role_mapping.sbl.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\permission.sql.xml" />
+    <EmbeddedResource Include="Mappings\permission.sbl.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\permission_role_mapping.sql.xml" />
+    <EmbeddedResource Include="Mappings\permission_role_mapping.sbl.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\permission_user_mapping.sql.xml" />
+    <EmbeddedResource Include="Mappings\permission_user_mapping.sbl.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="create.sql.xml" />
+    <EmbeddedResource Include="create.sbl.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Model\SSO.Model.csproj">
