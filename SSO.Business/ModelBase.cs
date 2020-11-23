@@ -22,7 +22,7 @@ namespace SSO.Business
             int count = 0;
             try
             {
-                count = instance.Delete(ids);
+                count = instance.Delete(new { Ids = ids });
             }
             catch (Exception ex)
             {

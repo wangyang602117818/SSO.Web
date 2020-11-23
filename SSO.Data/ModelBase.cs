@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SSO.Data
 {
-    public class ModelBase : EntityBase
+    public abstract class ModelBase : EntityBase
     {
         static SessionFactory sessionFactory = null;
         static ModelBase()
