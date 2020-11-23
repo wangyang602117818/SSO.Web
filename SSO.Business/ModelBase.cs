@@ -35,22 +35,22 @@ namespace SSO.Business
         {
             return instance.GetById<T>(id);
         }
-        public int Update(T t)
+        public int Update(object obj)
         {
-            return instance.Update(t);
+            return instance.Update(obj);
         }
-        public int Insert(T t)
+        public int Insert(object obj)
         {
-            return instance.Insert(t);
+            return instance.Insert(obj);
         }
         /// <summary>
         /// 获取所有
         /// </summary>
         /// <param name="t">需要过滤的参数</param>
         /// <returns></returns>
-        public List<T> GetAll(T t)
+        public List<T> GetAll(object obj)
         {
-            return instance.GetAll<T>(t);
+            return instance.GetAll<T>(obj);
         }
         public List<T> GetPageList(ref int count, T t, object replacement = null)
         {
