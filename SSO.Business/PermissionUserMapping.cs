@@ -14,7 +14,7 @@ namespace SSO.Business
         {
             return instance.DeleteAndInsertMany(userId, permissions);
         }
-        public List<Data.Models.PermissionUserMapping> GetByUser(string userId)
+        public IEnumerable<Data.Models.PermissionUserMapping> GetByUser(string userId)
         {
             return instance.GetByUser(userId);
         }

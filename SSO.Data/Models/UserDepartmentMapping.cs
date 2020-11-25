@@ -13,12 +13,12 @@ namespace SSO.Data.Models
         public string UserId { get; set; }
         public string DepartmentCode { get; set; }
 
-        public List<UserDepartmentMapping> GetByUserId(string userId)
+        public IEnumerable<UserDepartmentMapping> GetByUserId(string userId)
         {
             int count = 0;
             return base.QueryList<UserDepartmentMapping>("get-by-userId", new { UserId = userId },null, ref count);
         }
-        public List<DateCountItem> GroupByDepartment()
+        public IEnumerable<DateCountItem> GroupByDepartment()
         {
             int count = 0;
             return base.QueryList<DateCountItem>("group-by-department", null,null, ref count);

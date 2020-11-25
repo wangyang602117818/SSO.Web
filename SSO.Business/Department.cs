@@ -28,9 +28,9 @@ namespace SSO.Business
         {
             return instance.GetByCode(code);
         }
-        public List<DepartmentData> GetDepartment(string companyCode)
+        public IEnumerable<DepartmentData> GetDepartment(string companyCode)
         {
-            List<Data.Models.Department> list = instance.GetDepartment(companyCode);
+            List<Data.Models.Department> list = instance.GetDepartment(companyCode).ToList();
             return GetDepartmentInner(list, null);
         }
         public int CountDepartmentByCompanyCode(string companyCode)
@@ -45,7 +45,7 @@ namespace SSO.Business
             GetSubDepartmentIds(dept.Code, ref ids);
             return Delete(ids);
         }
-        private List<DepartmentData> GetDepartmentInner(List<Data.Models.Department> list, string parentCode)
+        private IEnumerable<DepartmentData> GetDepartmentInner(List<Data.Models.Department> list, string parentCode)
         {
             List<Data.Models.Department> depts = list.Where(w => w.ParentCode == parentCode).ToList();
             if (depts.Count == 0) return new List<DepartmentData>();
@@ -58,13 +58,13 @@ namespace SSO.Business
                 Order = s.Order,
                 Layer = s.Layer,
                 ParentCode = s.ParentCode,
-                Children = GetDepartmentInner(list, s.Code)
+                Children = GetDepartmentInner(list, s.Code).ToList()
             }).OrderBy(o => o.Order).ToList();
             return result;
         }
         private void GetSubDepartmentIds(string code, ref List<int> ids)
         {
-            List<Data.Models.Department> subDepts = instance.GetByParentCode(code);
+            List<Data.Models.Department> subDepts = instance.GetByParentCode(code).ToList();
             if (subDepts == null || subDepts.Count == 0) return;
             foreach (var item in subDepts)
             {

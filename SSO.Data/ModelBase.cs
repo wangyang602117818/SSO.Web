@@ -29,16 +29,16 @@ namespace SSO.Data
         {
             return (int)ExecuteScalar("count", null);
         }
-        public T GetById<T>(int id) where T : class
+        public T GetById<T>(int id)
         {
             return QueryObject<T>("get-by-id", new { Id = id }, null);
         }
-        public List<T> GetAll<T>(object t) where T : class
+        public IEnumerable<T> GetAll<T>(object t)
         {
             int count = 0;
             return QueryList<T>("get-all", t, null, ref count);
         }
-        public List<T> GetPageList<T>(ref int count, object t, object replacement) where T : class
+        public IEnumerable<T> GetPageList<T>(ref int count, object t, object replacement) where T : new()
         {
             return QueryList<T>("get-page-list", t, replacement, ref count);
         }

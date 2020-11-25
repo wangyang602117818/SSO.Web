@@ -21,7 +21,7 @@ namespace SSO.Data.Models
         {
             return base.QueryObject<Department>("get-by-code", new { Code = code }, null);
         }
-        public List<Department> GetDepartment(string companyCode)
+        public IEnumerable<Department> GetDepartment(string companyCode)
         {
             int count = 0;
             return base.QueryList<Department>("get-department", new { CompanyCode = companyCode }, null, ref count);
@@ -44,7 +44,7 @@ namespace SSO.Data.Models
         {
             return (int)base.ExecuteScalar("count-department", new { CompanyCode = companyCode });
         }
-        public List<Department> GetByParentCode(string parentCode)
+        public IEnumerable<Department> GetByParentCode(string parentCode)
         {
             int count = 0;
             return base.QueryList<Department>("get-by-parentCode", new { ParentCode = parentCode }, null, ref count);

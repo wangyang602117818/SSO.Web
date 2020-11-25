@@ -12,7 +12,7 @@ namespace SSO.Data.Models
         public string Origin { get; set; }
         public string Name { get; set; }
 
-        public List<Permission> GetAll()
+        public IEnumerable<Permission> GetAll()
         {
             int count = 0;
             return base.QueryList<Permission>("get-all", null, null, ref count);

@@ -23,7 +23,7 @@ namespace SSO.Data.Models
             }
             return base.ExecuteTransaction(nodes, datas, null);
         }
-        public List<PermissionUserMapping> GetByUser(string userId)
+        public IEnumerable<PermissionUserMapping> GetByUser(string userId)
         {
             int count = 0;
             return base.QueryList<PermissionUserMapping>("get-by-user", new { UserId = userId }, null, ref count);

@@ -102,17 +102,17 @@ namespace SSO.Data.Models
         {
             return base.ExecuteNonQuery("update-file", new { UserId = userId, FileName = fileName, FileId = fileId });
         }
-        public List<DateCountItem> GroupBySex()
+        public IEnumerable<DateCountItem> GroupBySex()
         {
             int count = 0;
             return base.QueryList<DateCountItem>("group-by-sex", null, null, ref count);
         }
-        public List<DateCountItem> GroupByCompany()
+        public IEnumerable<DateCountItem> GroupByCompany()
         {
             int count = 0;
             return base.QueryList<DateCountItem>("group-by-company", null, null, ref count);
         }
-        public List<DateCountItem> GroupByDate(object paras)
+        public IEnumerable<DateCountItem> GroupByDate(object paras)
         {
             int count = 0;
             return base.QueryList<DateCountItem>("group-by-date", paras, null, ref count);

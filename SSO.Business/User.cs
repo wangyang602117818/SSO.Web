@@ -164,15 +164,15 @@ namespace SSO.Business
         {
             return instance.UpdatePassword(userIds, defaultPassword.GetSha256());
         }
-        public List<DateCountItem> UserRecordInByDay(DateTime minDateTime, bool delete)
+        public IEnumerable<DateCountItem> UserRecordInByDay(DateTime minDateTime, bool delete)
         {
             return instance.GroupByDate(new { Delete = delete, CreateTime = minDateTime });
         }
-        public List<DateCountItem> GetUserRatio()
+        public IEnumerable<DateCountItem> GetUserRatio()
         {
             return instance.GroupBySex();
         }
-        public List<DateCountItem> GetUserCompanyRatio()
+        public IEnumerable<DateCountItem> GetUserCompanyRatio()
         {
             return instance.GroupByCompany();
         }

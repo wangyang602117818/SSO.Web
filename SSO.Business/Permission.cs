@@ -13,7 +13,7 @@ namespace SSO.Business
         {
             return instance.DeleteAndInsertMany(origin, names);
         }
-        public List<Data.Models.Permission> GetAll()
+        public IEnumerable<Data.Models.Permission> GetAll()
         {
             return instance.GetAll();
         }

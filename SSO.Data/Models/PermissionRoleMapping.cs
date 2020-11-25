@@ -23,7 +23,7 @@ namespace SSO.Data.Models
             }
             return base.ExecuteTransaction(nodes, datas, null);
         }
-        public List<PermissionRoleMapping> GetByRole(string role)
+        public IEnumerable<PermissionRoleMapping> GetByRole(string role)
         {
             int count = 0;
             return base.QueryList<PermissionRoleMapping>("get-by-role", new { Role = role }, null, ref count);

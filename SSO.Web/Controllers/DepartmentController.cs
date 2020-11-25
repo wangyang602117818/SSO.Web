@@ -45,7 +45,7 @@ namespace SSO.Web.Controllers
         [JwtAuthorize("GetDepartment")]
         public ActionResult GetDepartments(string companyCode)
         {
-            return new ResponseModel<List<DepartmentData>>(ErrorCode.success, department.GetDepartment(companyCode));
+            return new ResponseModel<IEnumerable<DepartmentData>>(ErrorCode.success, department.GetDepartment(companyCode));
         }
         [JwtAuthorize("GetDepartment")]
         public ActionResult Get(string code)

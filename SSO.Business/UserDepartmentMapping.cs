@@ -10,7 +10,7 @@ namespace SSO.Business
     public class UserDepartmentMapping : ModelBase<Data.Models.UserDepartmentMapping>
     {
         public UserDepartmentMapping() : base(new Data.Models.UserDepartmentMapping()) { }
-        public List<DateCountItem> GetUserDepartmentRatio()
+        public IEnumerable<DateCountItem> GetUserDepartmentRatio()
         {
             return instance.GroupByDepartment();
         }

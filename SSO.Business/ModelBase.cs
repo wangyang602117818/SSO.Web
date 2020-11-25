@@ -46,13 +46,13 @@ namespace SSO.Business
         /// <summary>
         /// 获取所有
         /// </summary>
-        /// <param name="t">需要过滤的参数</param>
+        /// <param name="obj">需要过滤的参数</param>
         /// <returns></returns>
-        public List<T> GetAll(object obj)
+        public IEnumerable<T> GetAll(object obj)
         {
             return instance.GetAll<T>(obj);
         }
-        public List<T> GetPageList(ref int count, T t, object replacement = null)
+        public IEnumerable<T> GetPageList<T>(ref int count, T t, object replacement = null) where T : new()
         {
             return instance.GetPageList<T>(ref count, t, replacement);
         }
