@@ -30,6 +30,10 @@ namespace SSO.Web.Controllers
             var result = JwtManager.ParseAuthorization(token, ssoSecretKey);
             return Content(result.Identity.Name);
         }
-
+        [AllowAnonymous]
+        public string SecretKey()
+        {
+            return SymmetricEncryptHelper.GenerateAESKey;
+        }
     }
 }

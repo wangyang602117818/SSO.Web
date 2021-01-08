@@ -1,7 +1,7 @@
 <template>
   <div class="top_layout">
     <a-layout>
-      <a-layout-sider :trigger="null" collapsible v-model="collapsed">
+      <a-layout-sider :trigger="null" collapsible v-model="collapsed" theme="light">
         <div class="logo" theme="light">
           <svg
             t="1578718503704"
@@ -45,7 +45,7 @@
           <div class="logo_admin" v-if="!collapsed">SSOAdmin</div>
         </div>
         <a-menu
-          theme="dark"
+          theme="light"
           mode="inline"
           :inlineCollapsed="collapsed"
           :defaultSelectedKeys="[routename]"
@@ -217,7 +217,6 @@ export default {
 }
 .logo {
   height: 50px;
-  background: #002140;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -225,7 +224,6 @@ export default {
 .logo .logo_admin {
   font-weight: 600;
   font-size: 18px;
-  color: #fff;
   margin-left: 5px;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC,
     Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial,
