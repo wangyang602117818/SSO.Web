@@ -516,12 +516,16 @@ export default {
 }
 .ant-tabs {
   background-color: #fff;
-  margin-top: 10px;
+  margin-top: 0px;
   padding-bottom: 20px;
 }
 .department_wrap {
   background-color: #fff;
   min-height: 30px;
   line-height: 30px;
+}
+.top_layout .ant-layout-content{
+  padding-left: 10px;
+  border-right:1px solid #e8e8e8;
 }
 </style>

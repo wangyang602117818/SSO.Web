@@ -213,13 +213,14 @@ export default {
   padding-left: 0px;
   padding-right: 10px;
   background-color: #fff;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #e8e8e8;
 }
 .logo {
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-bottom: 1px solid #e8e8e8;
 }
 .logo .logo_admin {
   font-weight: 600;

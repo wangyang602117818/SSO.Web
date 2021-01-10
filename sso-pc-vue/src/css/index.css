@@ -6,17 +6,24 @@
 }
 .ant-tag{
    margin-right:2px !important;
-   padding:0 3px !important;
+   padding:0 2px !important;
+   line-height: 15px;
+ }
+ .ant-table table{
+   border-collapse:collapse;
  }
 .ant-table{
-   font-size: 12.5px !important;
- }
- .ant-table-tbody > tr > td{
-   border-width: 0.5px !important;
- }
- .ant-table-thead > tr > th{
-  border-width: 0.5px !important;
+   font-size: 12px !important;
  }
  .ant-table-tbody > tr.error_tr {
   color: red !important;
+}
+.ant-layout{
+  background-color: transparent;
+}
+.ant-layout-sider{
+  border-right: 1px solid #e8e8e8;
+}
+.ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left{
+  border-right: 0;
 }
