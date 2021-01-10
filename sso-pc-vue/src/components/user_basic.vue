@@ -234,6 +234,7 @@
           :wrapper-col="{ span: 15 }"
         >
           <a-select
+            show-search
             allowClear
             v-decorator="[
               'companyCode',
@@ -270,6 +271,9 @@
           <a-select
             allowClear
             mode="multiple"
+            :loading="roleloading"
+            show-search
+            @search="searchRoleTimeout"
             v-decorator="[
               'roles',
               { rules: [{ required: false, message: $t('rol_required') }] },
@@ -321,6 +325,8 @@
   </div>
 </template>
 <script>
+let timeout;
+let currentValue = "";
 export default {
   name: "user_basic",
   data() {
@@ -420,6 +426,7 @@ export default {
       drawerVisible: false,
       pagination: { current: 1, pageSize: 10, size: "small" },
       loading: false,
+      roleloading: false,
       isUpdate: false,
       showDelete: false,
       permissionVisible: false,
@@ -623,14 +630,26 @@ export default {
           }
         });
     },
-    getRoleData() {
-      this.$axios.get(this.$urls.role.getall).then((response) => {
-        if (response.code == 0) {
-          this.roleData = response.result;
-        } else {
-          this.roleData = [];
-        }
-      });
+    searchRoleTimeout(value, callback) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      currentValue = value;
+      timeout = setTimeout(this.searchRole, 300);
+    },
+    searchRole() {
+      this.roleloading = true;
+      this.$axios
+        .get(this.$urls.role.getlist + "?filter=" + currentValue)
+        .then((response) => {
+          if (response.code == 0) {
+            this.roleData = response.result;
+          } else {
+            this.roleData = [];
+          }
+          this.roleloading = false;
+        });
     },
     onSelectChange(selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys;
@@ -642,7 +661,7 @@ export default {
     },
     showDrawer(companyCode) {
       this.getCompanyData();
-      this.getRoleData();
+      this.searchRole();
       if (companyCode) {
         this.getDepartmentData(companyCode);
         this.isUpdate = true;
