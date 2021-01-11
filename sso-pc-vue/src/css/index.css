@@ -1,29 +1,55 @@
-.ant-row{
-    margin-bottom: 12px  !important;
-  }
-.ant-form-item{
+.ant-row {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.ant-form-item {
   padding-bottom: 0px !important;
 }
-.ant-tag{
-   margin-right:2px !important;
-   padding:0 2px !important;
-   line-height: 15px;
- }
- .ant-table table{
-   border-collapse:collapse;
- }
-.ant-table{
-   font-size: 12px !important;
- }
- .ant-table-tbody > tr.error_tr {
+
+.ant-tag {
+  margin-right: 2px !important;
+  padding: 0 2px !important;
+  line-height: 15px;
+}
+
+.ant-table table {
+  border-collapse: collapse;
+}
+
+.ant-table {
+  font-size: 12px !important;
+}
+
+.ant-table-tbody>tr.error_tr {
   color: red !important;
 }
-.ant-layout{
+
+.ant-table-thead>tr>th, .ant-table-tbody>tr>td {
+  padding: 8px 8px !important;
+  border: 1px solid #e8e8e8;
+}
+
+.ant-table-thead>tr>th {
+  background-color: #f0f2f5;
+}
+
+.ant-layout {
   background-color: transparent;
 }
-.ant-layout-sider{
+
+.ant-layout-sider {
   border-right: 1px solid #e8e8e8;
 }
-.ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left{
+
+.ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
   border-right: 0;
+}
+
+.ant-input-search {
+  margin: 10px 0 !important;
+}
+
+.ant-btn-primary, .ant-btn-default, .ant-btn-danger {
+  margin-left: 10px !important;
 }

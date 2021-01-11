@@ -387,7 +387,7 @@ export default {
 }
 .total_item {
   flex: 1;
-  background-color: #fff;
+  /* background-color: #fff; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -416,6 +416,7 @@ export default {
   width: 100%;
   padding-left: 10px;
   padding-right: 10px;
+  background-color: #f0f2f5;
 }
 .total_item_wrap .total_item_txt {
   flex: 1;

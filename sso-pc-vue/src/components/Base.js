@@ -4,7 +4,7 @@ var BaseComponent = {
       data: [],
       searchValue: "",
       loading: false,
-      pagination: { current: 1, pageSize: 10, size: "small" },
+      pagination: { current: 1, pageSize: 20, size: "small" },
       selectedRowKeys: [],
       selectedRows: [],
       drawerVisible: false,

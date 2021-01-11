@@ -1,7 +1,12 @@
 <template>
   <div class="top_layout">
     <a-layout>
-      <a-layout-sider :trigger="null" collapsible v-model="collapsed" theme="light">
+      <a-layout-sider
+        :trigger="null"
+        collapsible
+        v-model="collapsed"
+        theme="light"
+      >
         <div class="logo" theme="light">
           <svg
             t="1578718503704"
@@ -194,7 +199,7 @@ export default {
 };
 </script>
 
-<style>
+<style scope>
 .top_layout {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -233,21 +238,11 @@ export default {
 .top_layout .ant-layout-content {
   padding: 0px 15px;
 }
-.ant-table-thead > tr > th,
-.ant-table-tbody > tr > td {
-  padding: 8px 8px !important;
-  border: 1px solid #e8e8e8;
+.ant-layout-sider-light {
+  background-color: #f0f2f5;
 }
-.ant-input-search {
-  margin: 10px 0 !important;
-}
-.ant-btn-primary,
-.ant-btn-default,
-.ant-btn-danger {
-  margin-left: 10px !important;
-}
-.ant-row {
-  width: 100%;
-  margin-bottom: 0px;
+.ant-menu,
+.ant-menu-submenu > .ant-menu {
+  background-color: #f0f2f5;
 }
 </style>

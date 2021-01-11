@@ -528,4 +528,7 @@ export default {
   padding-left: 10px;
   border-right:1px solid #e8e8e8;
 }
+.ant-menu {
+  background-color: #fff;
+}
 </style>
