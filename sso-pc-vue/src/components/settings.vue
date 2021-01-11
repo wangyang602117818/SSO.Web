@@ -293,4 +293,7 @@ export default {
 .ant-btn {
   margin-right: 5px;
 }
+.ant-layout-sider-light,.ant-menu {
+  background-color: #fff;
+}
 </style>
