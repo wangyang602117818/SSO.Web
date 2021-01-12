@@ -166,7 +166,7 @@ namespace SSO.Business
         }
         public IEnumerable<DateCountItem> UserRecordInByDay(DateTime minDateTime, bool delete)
         {
-            return instance.GroupByDate(new { Delete = delete, CreateTime = minDateTime });
+            return instance.GroupByDate(new { IsDelete = delete, CreateTime = minDateTime });
         }
         public IEnumerable<DateCountItem> GetUserRatio()
         {
