@@ -393,6 +393,7 @@ export default {
   justify-content: center;
   margin-left: 10px;
   border: 1px solid #eff2f5;
+  overflow: hidden;
 }
 .total_item_80 {
   height: 80px;
