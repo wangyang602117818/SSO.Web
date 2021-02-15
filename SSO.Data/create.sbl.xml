@@ -8,7 +8,7 @@
   Description NVARCHAR(512) null,
   [Order] INT null,
   UpdateTime DATETIME null,
-  CreateTime DATETIME null,
+  CreateTime DATETIME not null DEFAULT GETDATE(),
   primary key (Id),
   unique (Code)
   )
@@ -23,7 +23,7 @@
   Layer INT null,
   ParentCode NVARCHAR(30) null,
   UpdateTime DATETIME null,
-  CreateTime DATETIME null,
+  CreateTime DATETIME not null DEFAULT GETDATE(),
   CompanyCode NVARCHAR(30) not null,
   primary key (Id),
   unique (Code),
@@ -39,7 +39,7 @@
   Description NVARCHAR(512) null,
   PermissionCount int null,
   UpdateTime DATETIME null,
-  CreateTime DATETIME null,
+  CreateTime DATETIME not null DEFAULT GETDATE(),
   primary key (Id),
   unique (Name)
   )
@@ -66,7 +66,7 @@
   [DepartmentName] [nvarchar](max) NULL,
   [RoleName] [nvarchar](max) NULL,
   [UpdateTime] [datetime] NULL,
-  [CreateTime] [datetime] NULL,
+  CreateTime DATETIME not null DEFAULT GETDATE(),
   primary key (Id),
   unique (UserId),
   CONSTRAINT FK_Company_User FOREIGN KEY (CompanyCode)
@@ -102,7 +102,7 @@
   UserId NVARCHAR(50) NOT NULL,
   Lang NVARCHAR(8) NOT NULL,
   UpdateTime DATETIME null,
-  CreateTime DATETIME null,
+  CreateTime DATETIME not null DEFAULT GETDATE(),
   primary key (Id),
   unique (UserId),
   CONSTRAINT FK_Settings_User FOREIGN KEY (UserId)
@@ -117,7 +117,7 @@
   Origin NVARCHAR(512) not null,
   Name NVARCHAR(50) null,
   UpdateTime DATETIME null,
-  CreateTime DATETIME null,
+  CreateTime DATETIME not null DEFAULT GETDATE(),
   primary key (Id),
   unique (Name),
   )
@@ -146,5 +146,44 @@
   REFERENCES [User](UserId)
   ON UPDATE CASCADE
   on delete cascade
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='TaskScheduling')
+  create table TaskScheduling (
+  Id INT IDENTITY NOT NULL,
+  Name NVARCHAR(50) not null,
+  Description NVARCHAR(512) null,
+  Status int not null,
+  Api NVARCHAR(512) null,
+  NextRunTime [datetime] NULL,
+  LastRunTime [datetime] NULL,
+  LastRunResult NVARCHAR(256) null,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME not null DEFAULT GETDATE(),
+  primary key (Id),
+  unique (Name)
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='TaskTrigger')
+  create table TaskTrigger (
+  Id INT IDENTITY NOT NULL,
+  Crons NVARCHAR(50) null,
+  Description NVARCHAR(512) null,
+  Description1 NVARCHAR(512) null,
+  Activate DATETIME null,
+  Expire DATETIME null,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME not null DEFAULT GETDATE(),
+  primary key (Id)
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='TaskSchedulingTriggerMapping')
+  create table TaskSchedulingTriggerMapping (
+  Id INT IDENTITY NOT NULL,
+  TaskId int not null,
+  TriggerId int not null,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME not null DEFAULT GETDATE(),
+  primary key (Id)
   )
 </sql>

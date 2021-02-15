@@ -44,8 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SchedulingTaskEnum.cs" />
     <Compile Include="DateCountItem.cs" />
     <Compile Include="DepartmentData.cs" />
+    <Compile Include="TaskSchedulingModel.cs" />
     <Compile Include="Totals.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserData.cs" />

@@ -46,7 +46,7 @@
   border-right: 0;
 }
 
-.ant-input-search {
+.ant-input-search,.ant-select {
   margin: 10px 0 !important;
 }
 

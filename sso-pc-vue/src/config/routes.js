@@ -7,6 +7,9 @@ import Company from '@/components/company'
 import Department from '@/components/department'
 import Log from '@/components/log'
 import Settings from '@/components/settings'
+import TaskScheduling from '@/components/task_scheduling'
+import TaskTrigger from '@/components/task_trigger'
+
 const routes = new VueRouter({
     // mode: 'history',
     routes: [
@@ -46,6 +49,16 @@ const routes = new VueRouter({
                     path: 'department',
                     name: "department",
                     component: Department
+                },
+                {
+                    path: 'taskscheduling',
+                    name: "taskscheduling",
+                    component: TaskScheduling
+                },
+                {
+                    path: 'tasktrigger',
+                    name: "tasktrigger",
+                    component: TaskTrigger
                 },
                 {
                     path: 'log',

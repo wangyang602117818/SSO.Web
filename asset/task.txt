@@ -1,0 +1,20 @@
+
+TaskScheduling
+id:
+name:
+status:
+api:""
+next_run_time:"",
+last_run_time:"",
+last_run_result:"".
+
+TaskTrigger
+id:
+name:
+cron:,
+description:""
+
+TaskSchedulingTriggerMapping
+ Id 
+ SchedulingName
+ TriggerName

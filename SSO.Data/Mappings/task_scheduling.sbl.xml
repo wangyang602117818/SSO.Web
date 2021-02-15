@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  <insert>
+    INSERT INTO TaskScheduling (
+    [Name],
+    [Status]
+    <isNotEmpty property="Description" prepend=",">
+      [Description]
+    </isNotEmpty>
+    <isNotEmpty property="Api" prepend=",">
+      [Api]
+    </isNotEmpty>
+    <isNotEmpty property="NextRunTime" prepend=",">
+      [NextRunTime]
+    </isNotEmpty>
+    <isNotEmpty property="LastRunTime" prepend=",">
+      [LastRunTime]
+    </isNotEmpty>
+    <isNotEmpty property="LastRunResult" prepend=",">
+      [LastRunResult]
+    </isNotEmpty>
+    <isNotEmpty property="CreateTime" prepend=",">
+      [CreateTime]
+    </isNotEmpty>
+    ) VALUES (
+    @Name,
+    @Status
+    <isNotEmpty property="Description" prepend=",">
+      @Description
+    </isNotEmpty>
+    <isNotEmpty property="Api" prepend=",">
+      @Api
+    </isNotEmpty>
+    <isNotEmpty property="NextRunTime" prepend=",">
+      @NextRunTime
+    </isNotEmpty>
+    <isNotEmpty property="LastRunTime" prepend=",">
+      @LastRunTime
+    </isNotEmpty>
+    <isNotEmpty property="LastRunResult" prepend=",">
+      @LastRunResult
+    </isNotEmpty>
+    <isNotEmpty property="CreateTime" prepend=",">
+      @CreateTime
+    </isNotEmpty>
+    )
+  </insert>
+  <get-task-scheduling-trigger>
+    select * from [dbo].[TaskScheduling]
+    <isNotEmpty property="status" prepend=" ">
+      where [status] = @status
+    </isNotEmpty>
+  </get-task-scheduling-trigger>
+</sql>

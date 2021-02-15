@@ -39,6 +39,15 @@ export const urls = {
         updatepassword: 'user/updatepassword',
         resetpassword: 'user/resetpassword'
     },
+    taskscheduling: {
+        gettriggerlist: 'taskscheduling/gettriggerlist',
+        gettriggertypes: 'taskscheduling/gettriggertypes',
+        getExamples:'taskscheduling/getExamples',
+        addTrigger:"taskscheduling/addTrigger",
+        updateTrigger:"taskscheduling/updateTrigger",
+        deleteTrigger:"taskscheduling/deleteTrigger",
+        getTriggerById:"taskscheduling/getTriggerById"
+    },
     log: {
         getlist: 'log/getlist',
         getfromlist: 'log/getfromlist',

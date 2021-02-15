@@ -6,7 +6,7 @@ import { baseURL, cookieName, urls, axios } from './config/http';
 import routes from "./config/routes";
 import "./css/index.css"
 
-import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown, Spin, DatePicker, Modal, Checkbox } from 'ant-design-vue'
+import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown, Spin, DatePicker, Modal, Checkbox,Radio } from 'ant-design-vue'
 
 Vue.use(VueRouter)
 Vue.use(VueI18n);
@@ -37,6 +37,7 @@ Vue.use(Spin)
 Vue.use(DatePicker)
 Vue.use(Modal)
 Vue.use(Checkbox)
+Vue.use(Radio)
 
 Vue.prototype.$message = message
 Vue.prototype.$notification = notification

@@ -49,8 +49,8 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SSO.Util.Client, Version=2.2.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSO.Util.Client.2.2.8\lib\net45\SSO.Util.Client.dll</HintPath>
+    <Reference Include="SSO.Util.Client, Version=2.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSO.Util.Client.2.3.3\lib\net45\SSO.Util.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -94,6 +94,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="TaskScheduling.cs" />
+    <Compile Include="TaskSchedulingTriggerMapping.cs" />
+    <Compile Include="TaskTrigger.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserDepartmentMapping.cs" />
     <Compile Include="UserRoleMapping.cs" />

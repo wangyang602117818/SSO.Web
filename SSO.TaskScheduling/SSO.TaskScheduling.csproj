@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F3118141-4490-4864-9297-65523ABB1758}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SSO.Data</RootNamespace>
-    <AssemblyName>SSO.Data</AssemblyName>
+    <ProjectGuid>{5D9F5615-9914-4F57-A561-99938752C909}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SSO.TaskScheduling</RootNamespace>
+    <AssemblyName>SSO.TaskScheduling</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,6 +35,9 @@
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.6.8.0\lib\net461\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
@@ -49,15 +54,37 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Quartz, Version=3.2.4.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.3.2.4\lib\net461\Quartz.dll</HintPath>
+    </Reference>
     <Reference Include="SSO.Util.Client, Version=2.3.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SSO.Util.Client.2.3.3\lib\net45\SSO.Util.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.8.0\lib\net461\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -82,74 +109,35 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ModelBase.cs" />
-    <Compile Include="Models\Company.cs" />
-    <Compile Include="Models\Department.cs" />
-    <Compile Include="Models\Permission.cs" />
-    <Compile Include="Models\PermissionRoleMapping.cs" />
-    <Compile Include="Models\PermissionUserMapping.cs" />
-    <Compile Include="Models\Role.cs" />
-    <Compile Include="Models\Settings.cs" />
-    <Compile Include="Models\TaskScheduling.cs" />
-    <Compile Include="Models\TaskSchedulingTriggerMapping.cs" />
-    <Compile Include="Models\TaskTrigger.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserDepartmentMapping.cs" />
-    <Compile Include="Models\UserRoleMapping.cs" />
+    <Compile Include="ProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjectInstaller.Designer.cs">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Service1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Service1.Designer.cs">
+      <DependentUpon>Service1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\role.sbl.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
+    <None Include="App.config" />
+    <None Include="install-service.bat" />
     <None Include="packages.config" />
+    <None Include="uninstall-service.bat" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\department.sbl.xml" />
-    <EmbeddedResource Include="Mappings\company.sbl.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mappings\settings.sbl.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mappings\user.sbl.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mappings\user_department_mapping.sbl.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mappings\user_role_mapping.sbl.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mappings\permission.sbl.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mappings\permission_role_mapping.sbl.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mappings\permission_user_mapping.sbl.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="create.sbl.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SSO.Model\SSO.Model.csproj">
-      <Project>{EAD9A0EF-8047-4949-8C6B-4AB354774785}</Project>
-      <Name>SSO.Model</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mappings\task_scheduling.sbl.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mappings\task_trigger.sbl.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Mappings\task_scheduling_trigger_mapping.sbl.xml" />
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

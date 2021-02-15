@@ -92,6 +92,24 @@
               <span>{{ $t("department") }}</span>
             </router-link>
           </a-menu-item>
+          <a-sub-menu key="taskmanage">
+            <span slot="title">
+              <a-icon type="dashboard" />
+              <span>{{ $t("task_scheduling") }}</span>
+            </span>
+            <a-menu-item key="taskscheduling">
+              <router-link to="/taskscheduling">
+                <a-icon type="info-circle" />
+                <span>{{ $t("scheduling_list") }}</span>
+              </router-link>
+            </a-menu-item>
+            <a-menu-item key="tasktrigger">
+              <router-link to="/tasktrigger">
+                <a-icon type="info-circle" />
+                <span>{{ $t("task_trigger") }}</span>
+              </router-link>
+            </a-menu-item>
+          </a-sub-menu>
           <a-menu-item key="log">
             <router-link to="/log">
               <a-icon type="align-left" />
@@ -173,6 +191,10 @@ export default {
     switch (routeName) {
       case "userbasic":
         openKeys = ["user"];
+        break;
+      case "taskscheduling":
+      case "tasktrigger":
+        openKeys = ["taskmanage"];
         break;
     }
     this.openKeys = openKeys;

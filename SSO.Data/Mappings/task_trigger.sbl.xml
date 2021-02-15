@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  <insert>
+    INSERT INTO TaskTrigger (
+    [Crons],
+    [Description],
+    [Description1]
+    <isNotEmpty property="Activate" prepend=",">
+      [Activate]
+    </isNotEmpty>
+    <isNotEmpty property="Expire" prepend=",">
+      [Expire]
+    </isNotEmpty>
+    <isNotEmpty property="CreateTime" prepend=",">
+      [CreateTime]
+    </isNotEmpty>
+    ) VALUES (
+    @Crons,
+    @Description,
+    @Description1
+    <isNotEmpty property="Activate" prepend=",">
+      @Activate
+    </isNotEmpty>
+    <isNotEmpty property="Expire" prepend=",">
+      @Expire
+    </isNotEmpty>
+    <isNotEmpty property="CreateTime" prepend=",">
+      @CreateTime
+    </isNotEmpty>
+    )
+  </insert>
+  <update>
+    UPDATE TaskTrigger SET
+    Crons = @Crons,
+    Description = @Description,
+    Description1=@Description1,
+    Activate=@Activate,
+    UpdateTime=@UpdateTime
+    <isNotEmpty property="Expire" prepend=",">
+      Expire=@Expire
+    </isNotEmpty>
+    WHERE Id = @Id
+  </update>
+  <get-page-list>
+    select * from(
+    select *,row_number() over(order by Id desc) uid,
+    (
+    select count(1) from [TaskTrigger] where 1=1
+    <isNotEmpty property="Description" prepend="and">
+      Description like '%'+@Description+'%'
+    </isNotEmpty>
+    <isNotEmpty property="Description1" prepend="or">
+      Description1 like '%'+@Description1+'%'
+    </isNotEmpty>
+    ) 
+    total from [TaskTrigger] where 1=1
+    <isNotEmpty property="Description" prepend="and">
+      Description like '%'+@Description+'%'
+    </isNotEmpty>
+    <isNotEmpty property="Description1" prepend="or">
+      Description1 like '%'+@Description1+'%'
+    </isNotEmpty>
+    ) as tbl
+    where uid between (@PageIndex-1)*@PageSize+1 and @PageIndex*@PageSize
+  </get-page-list>
+  <get-task-triggers>
+    select tt.* from [dbo].[TaskTrigger] tt left join [TaskSchedulingTriggerMapping] tst on tt.Id=tst.TriggerId
+    where tst.TaskId=@taskId
+  </get-task-triggers>
+  <get-types>
+    select distinct [type] from [TaskTrigger]
+  </get-types>
+  <delete>
+    delete from [TaskTrigger] where Id in (<iterate conjunction="," property="Ids">@Ids{{index}}</iterate>)
+  </delete>
+  <get-by-id>
+    select * from TaskTrigger where Id = @Id
+  </get-by-id>
+</sql>
