@@ -83,13 +83,13 @@
     (
     select count(1) from [TaskScheduling] where 1=1
     <isNotEmpty property="Description" prepend="and">
-      Description like '%'+@Description+'%'
+      Description like '%'+@Description+'%' or Name like '%'+@Description+'%'
     </isNotEmpty>
     )
     total from [TaskScheduling] where 1=1
     <isNotEmpty property="Description" prepend="and">
-      Description like '%'+@Description+'%'
-    </isNotEmpty>
+    Description like '%'+@Description+'%' or Name like '%'+@Description+'%'
+  </isNotEmpty>
     ) as tbl
     where uid between (@PageIndex-1)*@PageSize+1 and @PageIndex*@PageSize
   </get-page-list>
