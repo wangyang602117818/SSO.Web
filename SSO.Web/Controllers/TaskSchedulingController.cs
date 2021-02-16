@@ -18,6 +18,7 @@ namespace SSO.Web.Controllers
     {
         TaskScheduling taskScheduling = new TaskScheduling();
         TaskTrigger taskTrigger = new TaskTrigger();
+        TaskSchedulingTriggerMapping taskSchedulingTriggerMapping = new TaskSchedulingTriggerMapping();
         public ActionResult Index()
         {
             //Data.Models.TaskScheduling taskScheduling = new Data.Models.TaskScheduling()
@@ -42,6 +43,93 @@ namespace SSO.Web.Controllers
             //};
             //taskSchedulingTriggerMapping.Insert(taskSchedulingTriggerMapping);
             return new ResponseModel<string>(ErrorCode.success, "");
+        }
+        public ActionResult AddScheduling(SchedulingModel schedulingModel)
+        {
+            if (taskScheduling.GetByName(schedulingModel.Name) != null)
+            {
+                return new ResponseModel<string>(ErrorCode.record_exist, "");
+            }
+            Data.Models.TaskScheduling scheduling = new Data.Models.TaskScheduling()
+            {
+                Name = schedulingModel.Name,
+                Description = schedulingModel.Description,
+                Api = schedulingModel.Api,
+                Status = SchedulingTaskEnum.Ready
+            };
+            if (schedulingModel.Trigger != null) schedulingModel.TriggerIds.Add(schedulingModel.Trigger.Value);
+            List<DateTimeOffset> nextRunTimes = new List<DateTimeOffset>();
+            var list = taskTrigger.GetByIds(schedulingModel.TriggerIds);
+            foreach (var item in list)
+            {
+                var nextRunTime = new CronExpression(item.Crons).GetNextValidTimeAfter(DateTime.Now);
+                nextRunTimes.Add(nextRunTime.Value);
+            }
+            nextRunTimes.Sort();
+            scheduling.NextRunTime = nextRunTimes[0].LocalDateTime;
+            int count = taskScheduling.InsertScheduling(new List<object>() { scheduling, new { triggerIds = schedulingModel.TriggerIds } });
+            if (count > 0)
+            {
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            return new ResponseModel<string>(ErrorCode.server_exception, "");
+        }
+        public ActionResult GetSchedulingList(string searchValue = "", int pageIndex = 1, int pageSize = 10)
+        {
+            int count = 0;
+            Data.Models.TaskScheduling trigger = new Data.Models.TaskScheduling()
+            {
+                Description = searchValue,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            var result = taskScheduling.GetPageList(ref count, trigger);
+            return new ResponseModel<IEnumerable<Data.Models.TaskScheduling>>(ErrorCode.success, result, count);
+        }
+        public ActionResult GetSchedulingById(int id)
+        {
+            return new ResponseModel<object>(ErrorCode.success, taskScheduling.GetSchedulingById(id));
+        }
+        public ActionResult UpdateScheduling(UpdateSchedulingModel updateSchedulingModel)
+        {
+            if (updateSchedulingModel.Trigger != null) updateSchedulingModel.TriggerIds.Add(updateSchedulingModel.Trigger.Value);
+            Data.Models.TaskScheduling scheduling = new Data.Models.TaskScheduling()
+            {
+                Id = updateSchedulingModel.Id,
+                Name = updateSchedulingModel.Name,
+                Description = updateSchedulingModel.Description,
+                Api = updateSchedulingModel.Api,
+                UpdateTime = DateTime.Now
+            };
+            List<DateTimeOffset> nextRunTimes = new List<DateTimeOffset>();
+            var list = taskTrigger.GetByIds(updateSchedulingModel.TriggerIds);
+            foreach (var item in list)
+            {
+                var nextRunTime = new CronExpression(item.Crons).GetNextValidTimeAfter(DateTime.Now);
+                nextRunTimes.Add(nextRunTime.Value);
+            }
+            nextRunTimes.Sort();
+            scheduling.NextRunTime = nextRunTimes[0].LocalDateTime;
+            int count = taskScheduling.UpdateScheduling(scheduling, updateSchedulingModel.Id, updateSchedulingModel.TriggerIds);
+            if (count > 0)
+            {
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            return new ResponseModel<string>(ErrorCode.server_exception, "");
+        }
+        public ActionResult DeleteScheduling(IEnumerable<int> ids)
+        {
+            if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
+            var count = taskScheduling.DeleteScheduling(ids);
+            if (count == -1) return new ResponseModel<string>(ErrorCode.record_has_been_used, "");
+            if (count > 0)
+            {
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            else
+            {
+                return new ResponseModel<string>(ErrorCode.server_exception, "");
+            }
         }
         public ActionResult AddTrigger(TriggerModel triggerModel)
         {
@@ -106,6 +194,10 @@ namespace SSO.Web.Controllers
         public ActionResult DeleteTrigger(IEnumerable<int> ids)
         {
             if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
+            if (taskSchedulingTriggerMapping.CheckTriggerExists(ids))
+            {
+                return new ResponseModel<int>(ErrorCode.record_has_been_used, 0);
+            }
             var count = taskTrigger.Delete(ids);
             if (count == -1) return new ResponseModel<string>(ErrorCode.record_has_been_used, "");
             if (count > 0)
@@ -123,7 +215,6 @@ namespace SSO.Web.Controllers
             Data.Models.TaskTrigger trigger = new Data.Models.TaskTrigger()
             {
                 Description = searchValue,
-                Description1 = searchValue,
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };

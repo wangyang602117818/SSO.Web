@@ -25,5 +25,10 @@ namespace SSO.Data.Models
             int count = 0;
             return QueryList<object>("get-types", null, null, ref count);
         }
+        public IEnumerable<TaskTrigger> GetByIds(IEnumerable<int> ids)
+        {
+            int count = 0;
+            return QueryList<TaskTrigger>("get-by-ids", new { ids }, null, ref count);
+        }
     }
 }

@@ -47,19 +47,13 @@
     (
     select count(1) from [TaskTrigger] where 1=1
     <isNotEmpty property="Description" prepend="and">
-      Description like '%'+@Description+'%'
-    </isNotEmpty>
-    <isNotEmpty property="Description1" prepend="or">
-      Description1 like '%'+@Description1+'%'
+      Description like '%'+@Description+'%' or Description1 like '%'+@Description1+'%'
     </isNotEmpty>
     ) 
     total from [TaskTrigger] where 1=1
     <isNotEmpty property="Description" prepend="and">
-      Description like '%'+@Description+'%'
-    </isNotEmpty>
-    <isNotEmpty property="Description1" prepend="or">
-      Description1 like '%'+@Description1+'%'
-    </isNotEmpty>
+    Description like '%'+@Description+'%' or Description1 like '%'+@Description1+'%'
+  </isNotEmpty>
     ) as tbl
     where uid between (@PageIndex-1)*@PageSize+1 and @PageIndex*@PageSize
   </get-page-list>
@@ -76,4 +70,7 @@
   <get-by-id>
     select * from TaskTrigger where Id = @Id
   </get-by-id>
+  <get-by-ids>
+    select * from [TaskTrigger] where Id in (<iterate conjunction="," property="ids">@ids{{index}}</iterate>)
+  </get-by-ids>
 </sql>

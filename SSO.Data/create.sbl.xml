@@ -182,8 +182,6 @@
   Id INT IDENTITY NOT NULL,
   TaskId int not null,
   TriggerId int not null,
-  UpdateTime DATETIME null,
-  CreateTime DATETIME not null DEFAULT GETDATE(),
   primary key (Id)
   )
 </sql>

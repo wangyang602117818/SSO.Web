@@ -8,8 +8,8 @@ namespace SSO.Model
 {
     public enum SchedulingTaskEnum
     {
-        Ready,
-        Running,
-        Stoped
+        Ready = 0,
+        Running = 1,
+        Stoped = -1
     }
 }

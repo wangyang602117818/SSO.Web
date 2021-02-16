@@ -41,12 +41,17 @@ export const urls = {
     },
     taskscheduling: {
         gettriggerlist: 'taskscheduling/gettriggerlist',
+        getSchedulingList: 'taskscheduling/getSchedulingList',
         gettriggertypes: 'taskscheduling/gettriggertypes',
-        getExamples:'taskscheduling/getExamples',
-        addTrigger:"taskscheduling/addTrigger",
-        updateTrigger:"taskscheduling/updateTrigger",
-        deleteTrigger:"taskscheduling/deleteTrigger",
-        getTriggerById:"taskscheduling/getTriggerById"
+        getExamples: 'taskscheduling/getExamples',
+        addTrigger: "taskscheduling/addTrigger",
+        addScheduling:"taskscheduling/addScheduling",
+        updateTrigger: "taskscheduling/updateTrigger",
+        deleteTrigger: "taskscheduling/deleteTrigger",
+        deleteScheduling:"taskscheduling/deleteScheduling",
+        getTriggerById: "taskscheduling/getTriggerById",
+        getSchedulingById:"taskscheduling/getSchedulingById",
+        updateScheduling:"taskscheduling/updateScheduling"
     },
     log: {
         getlist: 'log/getlist',

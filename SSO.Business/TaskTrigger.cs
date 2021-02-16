@@ -22,5 +22,9 @@ namespace SSO.Business
                 return ((JObject)s).GetValue("type").ToString();
             });
         }
+        public IEnumerable<Data.Models.TaskTrigger> GetByIds(IEnumerable<int> ids)
+        {
+            return instance.GetByIds(ids);
+        }
     }
 }

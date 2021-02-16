@@ -13,5 +13,25 @@ namespace SSO.Business
         {
             return instance.GetTaskSchedulings(status, ref count);
         }
+        public Data.Models.TaskScheduling GetByName(string name)
+        {
+            return instance.GetByName(name);
+        }
+        public int InsertScheduling(IEnumerable<object> objs)
+        {
+            return instance.InsertScheduling(objs);
+        }
+        public int UpdateScheduling(object obj, int taskIds, IEnumerable<int> triggerIds)
+        {
+            return instance.UpdateScheduling(obj, taskIds, triggerIds);
+        }
+        public int DeleteScheduling(IEnumerable<int> ids)
+        {
+            return instance.DeleteScheduling(ids);
+        }
+        public object GetSchedulingById(int id)
+        {
+            return instance.GetSchedulingById(id);
+        }
     }
 }

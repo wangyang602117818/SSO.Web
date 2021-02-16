@@ -9,5 +9,7 @@
     @TriggerId
     )
   </insert>
- 
+  <check-trigger-exists>
+    select count(*) from TaskSchedulingTriggerMapping where TriggerId in (<iterate conjunction="," property="TriggerIds">@TriggerIds{{index}}</iterate>)
+  </check-trigger-exists>
 </sql>

@@ -45,10 +45,61 @@
     </isNotEmpty>
     )
   </insert>
+  <update>
+    update TaskScheduling set Name=@Name
+    <isNotEmpty property="Status" prepend=",">
+      [Status]=@Status
+    </isNotEmpty>
+    <isNotEmpty property="Description" prepend=",">
+      [Description]=@Description
+    </isNotEmpty>
+    <isNotEmpty property="Api" prepend=",">
+      [Api]=@Api
+    </isNotEmpty>
+    <isNotEmpty property="NextRunTime" prepend=",">
+      [NextRunTime]=@NextRunTime
+    </isNotEmpty>
+    <isNotEmpty property="UpdateTime" prepend=",">
+      [UpdateTime]=@UpdateTime
+    </isNotEmpty>
+    where Id=@Id
+  </update>
+  <delete-mapping>
+    delete from [TaskSchedulingTriggerMapping] where TaskId in (<iterate conjunction="," property="TaskIds">@TaskIds{{index}}</iterate>)
+  </delete-mapping>
+  <insert-mapping>
+    insert into [TaskSchedulingTriggerMapping]([TaskId],[TriggerId])values
+    <iterate conjunction="," property="triggerIds">(@taskId,@triggerIds{{index}})</iterate>
+  </insert-mapping>
   <get-task-scheduling-trigger>
     select * from [dbo].[TaskScheduling]
     <isNotEmpty property="status" prepend=" ">
       where [status] = @status
     </isNotEmpty>
   </get-task-scheduling-trigger>
+  <get-page-list>
+    select * from(
+    select *,row_number() over(order by Id desc) uid,
+    (
+    select count(1) from [TaskScheduling] where 1=1
+    <isNotEmpty property="Description" prepend="and">
+      Description like '%'+@Description+'%'
+    </isNotEmpty>
+    )
+    total from [TaskScheduling] where 1=1
+    <isNotEmpty property="Description" prepend="and">
+      Description like '%'+@Description+'%'
+    </isNotEmpty>
+    ) as tbl
+    where uid between (@PageIndex-1)*@PageSize+1 and @PageIndex*@PageSize
+  </get-page-list>
+  <get-by-name>
+    select * from TaskScheduling where Name = @Name
+  </get-by-name>
+  <delete>
+    delete from [TaskScheduling] where Id in (<iterate conjunction="," property="Ids">@Ids{{index}}</iterate>)
+  </delete>
+  <get-by-id>
+    select *,TriggerId=(select TriggerId from [dbo].[TaskSchedulingTriggerMapping] where TaskId=tsd.Id) from  [dbo].[TaskScheduling] tsd where tsd.Id = @id
+  </get-by-id>
 </sql>
