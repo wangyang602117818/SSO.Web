@@ -33,5 +33,9 @@ namespace SSO.Business
         {
             return instance.GetSchedulingById(id);
         }
+        public int UpdateStatus(int id, int status)
+        {
+            return instance.UpdateStatus(id, status);
+        }
     }
 }

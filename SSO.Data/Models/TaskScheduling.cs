@@ -13,7 +13,7 @@ namespace SSO.Data.Models
         public TaskScheduling() { }
         public string Name { get; set; }
         public string Description { get; set; }
-        public SchedulingTaskEnum Status { get; set; }
+        public SchedulingStateEnum Status { get; set; }
         public string Api { get; set; }
         public DateTime? NextRunTime { get; set; }
         public DateTime? LastRunTime { get; set; }
@@ -59,7 +59,7 @@ namespace SSO.Data.Models
                             if (parameters.ElementAt(1).Length > 0)
                             {
                                 command.Parameters.AddRange(parameters.ElementAt(1));
-                                command.Parameters.Add(new SqlParameter("@taskId", id));
+                                command.Parameters.Add(new SqlParameter("@schedulingId", id));
                             }
                             count = command.ExecuteNonQuery();
                             transaction.Commit();
@@ -74,10 +74,10 @@ namespace SSO.Data.Models
                 }
             }
         }
-        public int UpdateScheduling(object obj, int taskIds, IEnumerable<int> triggerIds)
+        public int UpdateScheduling(object obj, int schedulingIds, IEnumerable<int> triggerIds)
         {
             var nodes = new List<string>() { "delete-mapping", "insert-mapping","update" };
-            var datas = new List<object>() { new { TaskIds = new List<int> { taskIds } }, new { taskId = taskIds, triggerIds }, obj };
+            var datas = new List<object>() { new { SchedulingIds = new List<int> { schedulingIds } }, new { schedulingId = schedulingIds, triggerIds }, obj };
             return base.ExecuteTransaction(nodes, datas, null);
         }
         public int DeleteScheduling(IEnumerable<int> ids)
@@ -89,6 +89,10 @@ namespace SSO.Data.Models
         public object GetSchedulingById(int id)
         {
             return base.QueryObject<object>("get-by-id", new { id }, null);
+        }
+        public int UpdateStatus(int id,int status)
+        {
+            return base.ExecuteNonQuery("update-status", new { id, status }, null);
         }
     }
 }

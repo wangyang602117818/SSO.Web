@@ -118,8 +118,7 @@
         slot="CompanyName"
         slot-scope="CompanyName"
         color="#108ee9"
-        >{{ CompanyName }}</a-tag
-      >
+        >{{ CompanyName }}</a-tag>
       <span
         slot="DepartmentName"
         slot-scope="DepartmentName"

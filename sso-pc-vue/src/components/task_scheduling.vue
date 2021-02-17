@@ -54,7 +54,31 @@
       :loading="loading"
       :pagination="pagination"
       @change="handleTableChange"
-    />
+    >
+      <a-tag
+        slot="Status"
+        slot-scope="Status"
+        :color="Status == 0 ? '#108ee9' : '#f50'"
+        >{{ Status == 0 ? $t("running") : $t("stoped") }}</a-tag
+      >
+      <template slot="Operation" slot-scope="text, record">
+        <a-popconfirm
+          v-if="data.length"
+          :okText="$t('yes')"
+          :cancelText="$t('no')"
+          :title="
+            record.Status == -1
+              ? $t('start_scheduling')
+              : $t('stop_scheduling') + '?'
+          "
+          @confirm="() => statusOperation(record.Id,record.Status)"
+        >
+          <start size="18px" v-if="record.Status == -1" />
+          <end size="18px" v-else />
+        </a-popconfirm>
+      </template>
+    </a-table>
+
     <a-drawer
       :title="isUpdate ? $t('update_scheduling') : $t('add_scheduling')"
       :width="550"
@@ -146,8 +170,11 @@
 
 <script>
 import base from "./Base";
+import start from "../icons/start";
+import end from "../icons/end";
 export default {
   name: "task_scheduling",
+  components: { start, end },
   mixins: [base],
   data() {
     return {
@@ -172,12 +199,13 @@ export default {
         {
           title: this.$t("description"),
           dataIndex: "Description",
-          width: "20%",
+          width: "15%",
         },
         {
           title: this.$t("state"),
           dataIndex: "Status",
           width: "5%",
+          scopedSlots: { customRender: "Status" },
         },
         {
           title: "api",
@@ -198,6 +226,12 @@ export default {
           title: this.$t("last_run_result"),
           dataIndex: "LastRunResult",
           width: "10%",
+        },
+        {
+          title: this.$t("operation"),
+          width: "5%",
+          ellipsis: true,
+          scopedSlots: { customRender: "Operation" },
         },
       ];
     },
@@ -235,12 +269,14 @@ export default {
     },
     updateScheduling(values) {
       values.id = this.selectedRows[0].Id;
-      this.$axios.post(this.$urls.taskscheduling.updateScheduling, values).then((response) => {
-        if (response.code == 0) {
-          this.getData();
-          this.$message.warning(this.$t("modify_success"));
-        }
-      });
+      this.$axios
+        .post(this.$urls.taskscheduling.updateScheduling, values)
+        .then((response) => {
+          if (response.code == 0) {
+            this.getData();
+            this.$message.warning(this.$t("modify_success"));
+          }
+        });
     },
     addScheduling(values) {
       this.$axios
@@ -272,9 +308,9 @@ export default {
             this.$nextTick(function () {
               this.form.setFieldsValue({
                 name: response.result.Name,
-                description:response.result.Description,
-                api:response.result.Api,
-                trigger:response.result.TriggerId,
+                description: response.result.Description,
+                api: response.result.Api,
+                trigger: response.result.TriggerId,
               });
             });
           }
@@ -295,9 +331,26 @@ export default {
           this.loading = false;
         });
     },
+    statusOperation(id,status) {
+      var url = "";
+      if (status == -1) url = this.$urls.taskscheduling.startScheduling;
+      if (status == 0) url = this.$urls.taskscheduling.stopScheduling;
+      this.loading = true;
+      this.$axios.get(url + "/" + id).then((response) => {
+        if (response.code == 0) {
+          this.selectedRowKeys = [];
+          this.selectedRows = [];
+          this.getData();
+        }
+        this.loading = false;
+      });
+    },
   },
 };
 </script>
 
 <style>
+svg {
+  cursor: pointer;
+}
 </style>

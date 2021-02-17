@@ -1,5 +1,7 @@
 ﻿using Quartz;
 using Quartz.Impl;
+using SSO.Business;
+using SSO.Model;
 using SSO.Util.Client;
 using System;
 using System.Collections.Generic;
@@ -16,65 +18,34 @@ namespace SSO.TaskScheduling.Test
         static StdSchedulerFactory factory = new StdSchedulerFactory();
         static IScheduler scheduler = factory.GetScheduler().Result;
         static Task task = null;
-        static Dictionary<int, IScheduler> schedulers = new Dictionary<int, IScheduler>();
-
         public static object M { get; private set; }
 
         static void Main(string[] args)
         {
-            
+            //var exprss = "0 0 20 14 2 ? 2021";
+            //bool valid = CronExpression.IsValidExpression(exprss);
+            //CronExpression cronExpression = new CronExpression(exprss);
 
-            var exprss = "0 0 20 14 2 ? 2021";
-            bool valid = CronExpression.IsValidExpression(exprss);
-            CronExpression cronExpression = new CronExpression(exprss);
-         
-            var desc = cronExpression.GetExpressionSummary();
-            var time01 = cronExpression.GetNextValidTimeAfter(DateTimeOffset.Now);
+            //var desc = cronExpression.GetExpressionSummary();
+            //var time01 = cronExpression.GetNextValidTimeAfter(DateTimeOffset.Now);
             //var t01 = test.StartNow().WithCronSchedule("0 19 16 14 2 ? *").Build();
             //var next01 = t01.GetNextFireTimeUtc();
             //var next02 = t01.GetPreviousFireTimeUtc();
-            //MsQueue<FileConvertModel> msQueue = new MsQueue<FileConvertModel>(AppSettings.GetValue("task_scheduling_msqueue"));
-            //msQueue.CreateQueue();
+            task = Task.Factory.StartNew(() =>
+             {
+                 MsQueue<SchedulingQueueModel> msQueue = new MsQueue<SchedulingQueueModel>(AppSettings.GetValue("task_scheduling_msqueue"));
+                 msQueue.ReceiveMessage(Worker);
+             });
             int count = 0;
-            var schedulings = new Business.TaskScheduling().GetTaskSchedulings(0, ref count);
+            var schedulings = new Business.TaskScheduling().GetTaskSchedulings(null, ref count);
 
             scheduler.Start();
-            
+
             foreach (var scheduling in schedulings)
             {
-                IJobDetail jobDetail = JobBuilder.Create<HelloJob>()
-                   .WithIdentity("job" + scheduling.Id)
-                   .UsingJobData("data", JsonSerializerHelper.Serialize(scheduling))
-                   .Build();
-
-                //添加触发器
-                var triggers = new Business.TaskTrigger().GetTaskTriggers(scheduling.Id);
-
-                Dictionary<IJobDetail, IReadOnlyCollection<ITrigger>> dictionary = new Dictionary<IJobDetail, IReadOnlyCollection<ITrigger>>();
-                HashSet<ITrigger> triggerSet = new HashSet<ITrigger>();
-                foreach (var trigger in triggers)
-                {
-                    var tri = TriggerBuilder.Create().WithIdentity("trigger" + trigger.Id);
-                    if (trigger.Activate == null)
-                    {
-                        tri.StartNow();
-                    }
-                    else
-                    {
-                        if (trigger.Activate < trigger.CreateTime) continue;
-                        tri.StartAt(trigger.Activate.Value);
-                    }
-                    tri.WithCronSchedule(trigger.Crons);
-                    if (trigger.Expire != null)
-                    {
-                        if (trigger.Expire < trigger.CreateTime) continue;
-                        tri.EndAt(trigger.Expire);
-                    }
-                    triggerSet.Add(tri.Build());
-                }
-                dictionary.Add(jobDetail, triggerSet);
-                scheduler.ScheduleJobs(dictionary, true);
-                
+                var dict = GetTriggersAndJobs(scheduling);
+                if (dict.Count > 0) scheduler.ScheduleJobs(dict, true);
+                scheduling.UpdateStatus(scheduling.Id, (int)SchedulingStateEnum.Running);
             }
 
             //Thread.Sleep(5000);
@@ -115,6 +86,89 @@ namespace SSO.TaskScheduling.Test
             //scheduler.Shutdown(true);
 
             Console.ReadKey();
+        }
+
+        private static void Worker(SchedulingQueueModel obj)
+        {
+            if (obj.SchedulingState == SchedulingStateEnum.Stoped)
+            {
+                if (obj.SchedulingId > 0) StopJob(obj.SchedulingId);
+                if (obj.TriggerId > 0) StopJobByTrigger(obj.TriggerId);
+            }
+            else
+            {
+                if (obj.SchedulingId > 0) StartJob(obj.SchedulingId);
+            }
+        }
+
+        static Dictionary<IJobDetail, IReadOnlyCollection<ITrigger>> GetTriggersAndJobs(Data.Models.TaskScheduling scheduling)
+        {
+            IJobDetail jobDetail = JobBuilder.Create<SchedulingJob>()
+                  .WithIdentity("job-" + scheduling.Id)
+                  .UsingJobData("data", JsonSerializerHelper.Serialize(scheduling))
+                  .Build();
+            //触发器
+            var triggers = new Business.TaskTrigger().GetTaskTriggers(scheduling.Id);
+            Dictionary<IJobDetail, IReadOnlyCollection<ITrigger>> dictionary = new Dictionary<IJobDetail, IReadOnlyCollection<ITrigger>>();
+            HashSet<ITrigger> triggerSet = new HashSet<ITrigger>();
+            foreach (var trigger in triggers)
+            {
+                if (trigger.Expire != null && trigger.Expire < DateTime.Now) continue;
+                var tri = TriggerBuilder.Create().WithIdentity("trigger-" + scheduling.Id + "-" + trigger.Id);
+                if (trigger.Activate == null)
+                {
+                    tri.StartNow();
+                }
+                else
+                {
+                    DateTimeOffset? nextRunTime;
+                    if (trigger.Activate < DateTimeOffset.Now)
+                    {
+                        nextRunTime = new CronExpression(trigger.Crons).GetNextValidTimeAfter(DateTimeOffset.Now);
+                    }
+                    else
+                    {
+                        nextRunTime = trigger.Activate;
+                    }
+                    if (nextRunTime == null) continue;
+                    tri.StartAt(nextRunTime.Value);
+                }
+                tri.WithCronSchedule(trigger.Crons);
+                if (trigger.Expire != null) tri.EndAt(trigger.Expire);
+                triggerSet.Add(tri.Build());
+            }
+            if (triggerSet.Count > 0)
+            {
+                dictionary.Add(jobDetail, triggerSet);
+            }
+            return dictionary;
+        }
+
+        static void StartJob(int schedulingId)
+        {
+            var scheduling = new Business.TaskScheduling().GetById(schedulingId);
+            var dict = GetTriggersAndJobs(scheduling);
+            if (dict.Count > 0) scheduler.ScheduleJobs(dict, true);
+        }
+        static void StopJob(int schedulingId)
+        {
+            JobKey jobKey = new JobKey("job-" + schedulingId);
+            if (new Business.TaskScheduling().UpdateStatus(schedulingId, (int)SchedulingStateEnum.Stoped) > 0)
+            {
+                scheduler.PauseJob(jobKey);
+            }
+        }
+        static void StopJobByTrigger(int triggerId)
+        {
+            var list = new TaskSchedulingTriggerMapping().GetByTriggerId(triggerId);
+            foreach (var item in list)
+            {
+                if (new Business.TaskScheduling().UpdateStatus(item.SchedulingId, (int)SchedulingStateEnum.Stoped) > 0)
+                {
+                    JobKey jobKey = new JobKey("job-" + item.SchedulingId);
+                    scheduler.PauseJob(jobKey);
+                }
+            }
         }
     }
 }

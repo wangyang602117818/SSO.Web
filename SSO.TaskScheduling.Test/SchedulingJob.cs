@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SSO.TaskScheduling.Test
 {
-    public class HelloJob : IJob
+    public class SchedulingJob : IJob
     {
         public async Task Execute(IJobExecutionContext context)
         {

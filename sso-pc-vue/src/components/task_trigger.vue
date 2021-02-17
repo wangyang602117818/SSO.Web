@@ -192,7 +192,6 @@
           :label="$t('end_time')"
           :label-col="{ span: 3 }"
           :wrapper-col="{ span: 21 }"
-          v-if="triggerType > 0"
         >
           <input type="date" class="date_input" v-model="endDate" />
           <input type="time" class="time_input" v-model="endTime" />
@@ -346,16 +345,28 @@ export default {
       for (var i = start; i <= 2099; i++) years.push(i);
       return years;
     },
+    getStartEndTime: function () {
+      return (
+        this.currentDate +
+        " " +
+        this.currentTime +
+        "," +
+        this.endDate +
+        " " +
+        this.endTime
+      );
+    },
   },
   watch: {
     getCrons(val) {
       this.getExampleTimes();
     },
+    getStartEndTime(val) {
+      this.getExampleTimes();
+    },
   },
   created() {},
-  mounted() {
-    this.getExampleTimes();
-  },
+  mounted() {},
   methods: {
     parseCrons: function (crons) {
       var crons_arr = crons.split(" ");
@@ -428,46 +439,36 @@ export default {
     },
     getCurrentTime() {
       var time = this.$funtools.getCurrentDateTime().split(" ")[1].split(":");
-      var hour = parseInt(time[0], 10) + 1;
-      if (hour > 23) hour = 1;
-      return this.$funtools.formatMonth(hour) + ":00";
+      return time[0]+":"+time[1];
     },
     getExampleTimes() {
-      var date = this.currentDate + " " + this.currentTime;
+      var start = this.currentDate + " " + this.currentTime;
+      var end = this.$funtools.trimStartChar(this.endDate + " " + this.endTime);
       var crons = this.getCrons;
-      this.$axios
-        .get(
-          this.$urls.taskscheduling.getExamples +
-            "?date=" +
-            date +
-            "&crons=" +
-            crons
-        )
-        .then((response) => {
-          if (response.code == 0) {
-            this.examples = response.result.Examples;
-            this.descriptions = response.result.CronsDescriptions;
-          }
-        });
+      var url =
+        this.$urls.taskscheduling.getExamples +
+        "?start=" +
+        start +
+        "&crons=" +
+        crons;
+      if (end) url += "&end=" + end;
+      this.$axios.get(url).then((response) => {
+        if (response.code == 0) {
+          this.examples = response.result.Examples;
+          this.descriptions = response.result.CronsDescriptions;
+        }
+      });
     },
-    changeImmediately(e) {
-      var val = e.currentTarget.checked;
-      if (val) {
-        this.currentDate = "";
-        this.currentTime = "";
-      } else {
-        this.currentDate = this.getCurrentDate();
-        this.currentTime = this.getCurrentTime();
-      }
-    },
-    typeChange(e) {},
     showDrawer(id) {
       if (id) {
         this.isUpdate = true;
       } else {
         this.isUpdate = false;
+        this.currentDate = this.getCurrentDate();
+        this.currentTime = this.getCurrentTime();
       }
       this.drawerVisible = true;
+      this.getExampleTimes();
     },
     editTrigger(e) {
       this.$axios
@@ -525,6 +526,7 @@ export default {
         .then((response) => {
           if (response.code == 0) {
             this.getData();
+            this.$message.warning(this.$t("modify_success"));
           }
         });
     },

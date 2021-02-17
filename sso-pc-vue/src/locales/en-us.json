@@ -198,6 +198,11 @@
     "update_scheduling":"Update scheduling",
     "add_scheduling":"Add scheduling",
     "state":"State",
+    "stoped":"Stoped",
+    "running":"Running",
+    "operation":"Operation",
+    "stop_scheduling":"Stop scheduling",
+    "start_scheduling":"Start scheduling",
     "permissions": {
         "AddCompany": "AddCompany",
         "UpdateCompany": "UpdateCompany",

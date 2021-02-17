@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace SSO.Model
 {
-    public enum SchedulingTaskEnum
+    public enum SchedulingStateEnum
     {
-        Ready = 0,
-        Running = 1,
-        Stoped = -1
+        Stoped = -1,
+        Running = 0,
     }
 }

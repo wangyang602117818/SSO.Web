@@ -35,10 +35,8 @@
     Description = @Description,
     Description1=@Description1,
     Activate=@Activate,
-    UpdateTime=@UpdateTime
-    <isNotEmpty property="Expire" prepend=",">
-      Expire=@Expire
-    </isNotEmpty>
+    UpdateTime=@UpdateTime,
+    Expire=@Expire
     WHERE Id = @Id
   </update>
   <get-page-list>
@@ -59,7 +57,7 @@
   </get-page-list>
   <get-task-triggers>
     select tt.* from [dbo].[TaskTrigger] tt left join [TaskSchedulingTriggerMapping] tst on tt.Id=tst.TriggerId
-    where tst.TaskId=@taskId
+    where tst.SchedulingId=@schedulingId
   </get-task-triggers>
   <get-types>
     select distinct [type] from [TaskTrigger]

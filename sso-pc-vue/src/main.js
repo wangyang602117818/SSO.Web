@@ -7,7 +7,6 @@ import routes from "./config/routes";
 import "./css/index.css"
 
 import { Button, Icon, Layout, Menu, Table, Input, Select, TreeSelect, InputNumber, Drawer, Form, Row, Col, message, notification, Popconfirm, Tabs, Tree, Divider, Tag, Switch, Tooltip, Card, Dropdown, Spin, DatePicker, Modal, Checkbox,Radio } from 'ant-design-vue'
-
 Vue.use(VueRouter)
 Vue.use(VueI18n);
 

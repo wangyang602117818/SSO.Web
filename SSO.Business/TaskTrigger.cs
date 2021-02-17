@@ -11,9 +11,9 @@ namespace SSO.Business
     public class TaskTrigger : ModelBase<Data.Models.TaskTrigger>
     {
         public TaskTrigger() : base(new Data.Models.TaskTrigger()) { }
-        public IEnumerable<Data.Models.TaskTrigger> GetTaskTriggers(int taskId)
+        public IEnumerable<Data.Models.TaskTrigger> GetTaskTriggers(int schedulingId)
         {
-            return instance.GetTaskTriggers(taskId);
+            return instance.GetTaskTriggers(schedulingId);
         }
         public IEnumerable<string> GetTypes()
         {

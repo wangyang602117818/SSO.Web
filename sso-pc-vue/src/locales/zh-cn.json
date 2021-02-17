@@ -198,6 +198,11 @@
     "update_scheduling":"更新调度",
     "add_scheduling":"添加调度",
     "state":"状态",
+    "stoped":"已停止",
+    "running":"运行中",
+    "operation":"操作",
+    "stop_scheduling":"停止调度",
+    "start_scheduling":"启动调度",
     "permissions": {
         "AddCompany": "添加公司",
         "UpdateCompany": "更新公司",

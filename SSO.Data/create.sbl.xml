@@ -180,7 +180,7 @@
   if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='TaskSchedulingTriggerMapping')
   create table TaskSchedulingTriggerMapping (
   Id INT IDENTITY NOT NULL,
-  TaskId int not null,
+  SchedulingId int not null,
   TriggerId int not null,
   primary key (Id)
   )

@@ -65,11 +65,11 @@
     where Id=@Id
   </update>
   <delete-mapping>
-    delete from [TaskSchedulingTriggerMapping] where TaskId in (<iterate conjunction="," property="TaskIds">@TaskIds{{index}}</iterate>)
+    delete from [TaskSchedulingTriggerMapping] where SchedulingId in (<iterate conjunction="," property="SchedulingIds">@SchedulingIds{{index}}</iterate>)
   </delete-mapping>
   <insert-mapping>
-    insert into [TaskSchedulingTriggerMapping]([TaskId],[TriggerId])values
-    <iterate conjunction="," property="triggerIds">(@taskId,@triggerIds{{index}})</iterate>
+    insert into [TaskSchedulingTriggerMapping]([SchedulingId],[TriggerId])values
+    <iterate conjunction="," property="triggerIds">(@schedulingId,@triggerIds{{index}})</iterate>
   </insert-mapping>
   <get-task-scheduling-trigger>
     select * from [dbo].[TaskScheduling]
@@ -100,6 +100,9 @@
     delete from [TaskScheduling] where Id in (<iterate conjunction="," property="Ids">@Ids{{index}}</iterate>)
   </delete>
   <get-by-id>
-    select *,TriggerId=(select TriggerId from [dbo].[TaskSchedulingTriggerMapping] where TaskId=tsd.Id) from  [dbo].[TaskScheduling] tsd where tsd.Id = @id
+    select *,TriggerId=(select TriggerId from [dbo].[TaskSchedulingTriggerMapping] where SchedulingId=tsd.Id) from  [dbo].[TaskScheduling] tsd where tsd.Id = @id
   </get-by-id>
+  <update-status>
+    update TaskScheduling set Status=@status where Id = @id
+  </update-status>
 </sql>

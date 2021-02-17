@@ -13,35 +13,14 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    [AllowAnonymous]
-    public class TaskSchedulingController : Controller
+    public class TaskSchedulingController : BaseController
     {
         TaskScheduling taskScheduling = new TaskScheduling();
         TaskTrigger taskTrigger = new TaskTrigger();
         TaskSchedulingTriggerMapping taskSchedulingTriggerMapping = new TaskSchedulingTriggerMapping();
+        protected MessageCenterService messageCenter = new MessageCenterService(messageBaseUrl);
         public ActionResult Index()
         {
-            //Data.Models.TaskScheduling taskScheduling = new Data.Models.TaskScheduling()
-            //{
-            //    Name = "每天备份1",
-            //    Description = "备份1",
-            //    Status = SchedulingTaskEnum.Ready,
-            //    Api = "http://www.ssoapi.com:8030/TaskScheduling/m1"
-            //};
-            //int taskId = taskScheduling.InsertIdentity(taskScheduling);
-            //Data.Models.TaskTrigger taskTrigger = new Data.Models.TaskTrigger()
-            //{
-            //    Type = "每天",
-            //    Description = "每隔3秒运行",
-            //    Crons = "0/5 * * * * ?"
-            //};
-            //int triggerId = taskTrigger.InsertIdentity(taskTrigger);
-            //Data.Models.TaskSchedulingTriggerMapping taskSchedulingTriggerMapping = new Data.Models.TaskSchedulingTriggerMapping()
-            //{
-            //    TaskId = taskId,
-            //    TriggerId = triggerId
-            //};
-            //taskSchedulingTriggerMapping.Insert(taskSchedulingTriggerMapping);
             return new ResponseModel<string>(ErrorCode.success, "");
         }
         public ActionResult AddScheduling(SchedulingModel schedulingModel)
@@ -55,7 +34,7 @@ namespace SSO.Web.Controllers
                 Name = schedulingModel.Name,
                 Description = schedulingModel.Description,
                 Api = schedulingModel.Api,
-                Status = SchedulingTaskEnum.Ready
+                Status = SchedulingStateEnum.Stoped
             };
             if (schedulingModel.Trigger != null) schedulingModel.TriggerIds.Add(schedulingModel.Trigger.Value);
             List<DateTimeOffset> nextRunTimes = new List<DateTimeOffset>();
@@ -68,6 +47,34 @@ namespace SSO.Web.Controllers
             nextRunTimes.Sort();
             scheduling.NextRunTime = nextRunTimes[0].LocalDateTime;
             int count = taskScheduling.InsertScheduling(new List<object>() { scheduling, new { triggerIds = schedulingModel.TriggerIds } });
+            if (count > 0)
+            {
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            return new ResponseModel<string>(ErrorCode.server_exception, "");
+        }
+        public ActionResult UpdateScheduling(UpdateSchedulingModel updateSchedulingModel)
+        {
+            if (updateSchedulingModel.Trigger != null) updateSchedulingModel.TriggerIds.Add(updateSchedulingModel.Trigger.Value);
+            Data.Models.TaskScheduling scheduling = new Data.Models.TaskScheduling()
+            {
+                Id = updateSchedulingModel.Id,
+                Name = updateSchedulingModel.Name,
+                Description = updateSchedulingModel.Description,
+                Api = updateSchedulingModel.Api,
+                UpdateTime = DateTime.Now,
+                Status = SchedulingStateEnum.Stoped
+            };
+            List<DateTimeOffset> nextRunTimes = new List<DateTimeOffset>();
+            var list = taskTrigger.GetByIds(updateSchedulingModel.TriggerIds);
+            foreach (var item in list)
+            {
+                var nextRunTime = new CronExpression(item.Crons).GetNextValidTimeAfter(DateTime.Now);
+                nextRunTimes.Add(nextRunTime.Value);
+            }
+            nextRunTimes.Sort();
+            scheduling.NextRunTime = nextRunTimes[0].LocalDateTime;
+            int count = taskScheduling.UpdateScheduling(scheduling, updateSchedulingModel.Id, updateSchedulingModel.TriggerIds);
             if (count > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -89,33 +96,6 @@ namespace SSO.Web.Controllers
         public ActionResult GetSchedulingById(int id)
         {
             return new ResponseModel<object>(ErrorCode.success, taskScheduling.GetSchedulingById(id));
-        }
-        public ActionResult UpdateScheduling(UpdateSchedulingModel updateSchedulingModel)
-        {
-            if (updateSchedulingModel.Trigger != null) updateSchedulingModel.TriggerIds.Add(updateSchedulingModel.Trigger.Value);
-            Data.Models.TaskScheduling scheduling = new Data.Models.TaskScheduling()
-            {
-                Id = updateSchedulingModel.Id,
-                Name = updateSchedulingModel.Name,
-                Description = updateSchedulingModel.Description,
-                Api = updateSchedulingModel.Api,
-                UpdateTime = DateTime.Now
-            };
-            List<DateTimeOffset> nextRunTimes = new List<DateTimeOffset>();
-            var list = taskTrigger.GetByIds(updateSchedulingModel.TriggerIds);
-            foreach (var item in list)
-            {
-                var nextRunTime = new CronExpression(item.Crons).GetNextValidTimeAfter(DateTime.Now);
-                nextRunTimes.Add(nextRunTime.Value);
-            }
-            nextRunTimes.Sort();
-            scheduling.NextRunTime = nextRunTimes[0].LocalDateTime;
-            int count = taskScheduling.UpdateScheduling(scheduling, updateSchedulingModel.Id, updateSchedulingModel.TriggerIds);
-            if (count > 0)
-            {
-                return new ResponseModel<string>(ErrorCode.success, "");
-            }
-            return new ResponseModel<string>(ErrorCode.server_exception, "");
         }
         public ActionResult DeleteScheduling(IEnumerable<int> ids)
         {
@@ -225,7 +205,7 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<Data.Models.TaskTrigger>(ErrorCode.success, taskTrigger.GetById(id));
         }
-        public ActionResult GetExamples(DateTime date, string crons, int count = 10)
+        public ActionResult GetExamples(DateTime start, string crons, DateTime? end = null, int count = 10)
         {
             CronExpression cronExpression = new CronExpression(crons);
             SchedulingExample schedulingExample = new SchedulingExample()
@@ -233,12 +213,20 @@ namespace SSO.Web.Controllers
                 Examples = new List<DateTimeOffset>(),
                 CronsDescriptions = new List<string>()
             };
+            if (start < end || end == null)
+            {
+                schedulingExample.Examples.Add(start);
+                count--;
+            }
             for (var i = 0; i < count; i++)
             {
-                var timeAfter = schedulingExample.Examples.Count == 0 ? date : schedulingExample.Examples[schedulingExample.Examples.Count - 1];
+                var timeAfter = schedulingExample.Examples.Count == 0 ? start : schedulingExample.Examples[schedulingExample.Examples.Count - 1];
                 var nextRunTime = cronExpression.GetNextValidTimeAfter(timeAfter);
                 if (nextRunTime != null)
-                    schedulingExample.Examples.Add(nextRunTime.Value.LocalDateTime);
+                {
+                    if (end == null || nextRunTime < end)
+                        schedulingExample.Examples.Add(nextRunTime.Value.LocalDateTime);
+                }
             }
             var descEn = ExpressionDescriptor.GetDescription(crons, new Options()
             {
@@ -255,6 +243,30 @@ namespace SSO.Web.Controllers
             schedulingExample.CronsDescriptions.Add(descEn);
             schedulingExample.CronsDescriptions.Add(descZh);
             return new ResponseModel<SchedulingExample>(ErrorCode.success, schedulingExample);
+        }
+        public ActionResult StartScheduling(int id)
+        {
+            if (taskScheduling.UpdateStatus(id, (int)SchedulingStateEnum.Running) > 0)
+            {
+                messageCenter.InsertTaskScheduling(Environment.MachineName, id, 0, (int)SchedulingStateEnum.Running);
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            else
+            {
+                return new ResponseModel<string>(ErrorCode.server_exception, "");
+            }
+        }
+        public ActionResult StopScheduling(int id)
+        {
+            if (taskScheduling.UpdateStatus(id, (int)SchedulingStateEnum.Stoped) > 0)
+            {
+                messageCenter.InsertTaskScheduling(Environment.MachineName, id, 0, (int)SchedulingStateEnum.Stoped);
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            else
+            {
+                return new ResponseModel<string>(ErrorCode.server_exception, "");
+            }
         }
         public ActionResult Test()
         {

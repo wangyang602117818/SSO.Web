@@ -15,10 +15,10 @@ namespace SSO.Data.Models
         public string Description1 { get; set; }
         public DateTime? Activate { get; set; }
         public DateTime? Expire { get; set; }
-        public IEnumerable<TaskTrigger> GetTaskTriggers(int taskId)
+        public IEnumerable<TaskTrigger> GetTaskTriggers(int schedulingId)
         {
             int count = 0;
-            return QueryList<TaskTrigger>("get-task-triggers", new { taskId }, null, ref count);
+            return QueryList<TaskTrigger>("get-task-triggers", new { schedulingId }, null, ref count);
         }
         public IEnumerable<object> GetTypes()
         {

@@ -51,7 +51,9 @@ export const urls = {
         deleteScheduling:"taskscheduling/deleteScheduling",
         getTriggerById: "taskscheduling/getTriggerById",
         getSchedulingById:"taskscheduling/getSchedulingById",
-        updateScheduling:"taskscheduling/updateScheduling"
+        updateScheduling:"taskscheduling/updateScheduling",
+        startScheduling:"taskscheduling/startScheduling",
+        stopScheduling:"taskscheduling/stopScheduling"
     },
     log: {
         getlist: 'log/getlist',
@@ -92,7 +94,7 @@ export const urls = {
 };
 ax.defaults.baseURL = baseURL;
 // 配置
-ax.defaults.timeout = 10000;
+ax.defaults.timeout = 20000;
 ax.defaults.headers.post['Content-Type'] = 'application/json';
 ax.defaults.headers.get['Content-Type'] = 'application/json';
 ax.defaults.headers.delete['Content-Type'] = 'application/json';

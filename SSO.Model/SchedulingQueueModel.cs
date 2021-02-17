@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SSO.Model
 {
-    public class TaskSchedulingModel
+    public class SchedulingQueueModel
     {
-        public int TaskId { get; set; }
+        public int SchedulingId { get; set; }
         public int TriggerId { get; set; }
-        public SchedulingTaskEnum SchedulingTaskEnum { get; set; }
+        public SchedulingStateEnum SchedulingState { get; set; }
     }
 
     public class SchedulingExample
