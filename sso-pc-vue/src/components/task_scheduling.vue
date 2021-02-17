@@ -75,9 +75,10 @@
     >
       <a-tag
         slot="Status"
-        slot-scope="Status"
-        :color="Status == 0 ? '#108ee9' : '#f50'"
-        >{{ Status == 0 ? $t("running") : $t("stoped") }}</a-tag
+        slot-scope="text, record"
+        :color="record.Status == 0 ? '#108ee9' : '#f50'"
+        v-if="record.Enable"
+        >{{ record.Status == 0 ? $t("running") : $t("stoped") }}</a-tag
       >
       <template slot="Operation" slot-scope="text, record" v-if="record.Enable">
         <a-popconfirm

@@ -46,7 +46,7 @@
     )
   </insert>
   <update>
-    update TaskScheduling set Name=@Name
+    update TaskScheduling set Name=@Name,[UpdateTime]=GETDATE()
     <isNotEmpty property="Status" prepend=",">
       [Status]=@Status
     </isNotEmpty>
@@ -58,9 +58,6 @@
     </isNotEmpty>
     <isNotEmpty property="NextRunTime" prepend=",">
       [NextRunTime]=@NextRunTime
-    </isNotEmpty>
-    <isNotEmpty property="UpdateTime" prepend=",">
-      [UpdateTime]=@UpdateTime
     </isNotEmpty>
     where Id=@Id
   </update>
@@ -103,10 +100,10 @@
     select *,TriggerId=(select TriggerId from [dbo].[TaskSchedulingTriggerMapping] where SchedulingId=tsd.Id) from  [dbo].[TaskScheduling] tsd where tsd.Id = @id
   </get-by-id>
   <update-status>
-    update TaskScheduling set Status=@status where Id = @id
+    update TaskScheduling set Status=@status,[UpdateTime]=GETDATE() where Id = @id
   </update-status>
   <enable-scheduling>
-    update TaskScheduling set [Enable]=@enable
+    update TaskScheduling set [Enable]=@enable,[UpdateTime]=GETDATE()
     <isEquals property="enable" value="false" prepend=",">
       [Status]=-1
     </isEquals>

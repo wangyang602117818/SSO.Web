@@ -62,7 +62,6 @@ namespace SSO.Web.Controllers
                 Name = updateSchedulingModel.Name,
                 Description = updateSchedulingModel.Description,
                 Api = updateSchedulingModel.Api,
-                UpdateTime = DateTime.Now,
                 Status = SchedulingStateEnum.Stoped
             };
             List<DateTimeOffset> nextRunTimes = new List<DateTimeOffset>();
@@ -158,8 +157,7 @@ namespace SSO.Web.Controllers
                 Id = updateTriggerModel.Id,
                 Crons = updateTriggerModel.Crons,
                 Activate = updateTriggerModel.Activate,
-                Expire = updateTriggerModel.Expire,
-                UpdateTime = DateTime.Now
+                Expire = updateTriggerModel.Expire
             };
             trigger.Description = ExpressionDescriptor.GetDescription(updateTriggerModel.Crons, new Options()
             {
