@@ -203,6 +203,8 @@
     "operation":"操作",
     "stop_scheduling":"停止调度",
     "start_scheduling":"启动调度",
+    "enable":"启用",
+    "disabled":"禁用",
     "permissions": {
         "AddCompany": "添加公司",
         "UpdateCompany": "更新公司",
@@ -282,6 +284,7 @@
         "cookieTime_not_config":"cookieTime未配置!",
         "messageBaseUrl_not_config":"messageBaseUrl未配置!",
         "record_has_been_used":"记录已被使用!",
+        "task_is_running":"任务正在运行!",
         "server_exception":"服务器错误!",
         "request_timeout":"请求超时!"
     }

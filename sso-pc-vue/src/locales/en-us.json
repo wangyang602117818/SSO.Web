@@ -203,6 +203,8 @@
     "operation":"Operation",
     "stop_scheduling":"Stop scheduling",
     "start_scheduling":"Start scheduling",
+    "enable":"Enable",
+    "disabled":"Disabled",
     "permissions": {
         "AddCompany": "AddCompany",
         "UpdateCompany": "UpdateCompany",
@@ -282,6 +284,7 @@
         "cookieTime_not_config":"cookieTime not config!",
         "messageBaseUrl_not_config":"messageBaseUrl not config!",
         "record_has_been_used":"Record has been used!",
+        "task_is_running":"Task is running!",
         "server_exception":"Server exception!",
         "request_timeout":"Request timeout!"
     }

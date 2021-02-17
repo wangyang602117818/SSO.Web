@@ -72,8 +72,8 @@
     <iterate conjunction="," property="triggerIds">(@schedulingId,@triggerIds{{index}})</iterate>
   </insert-mapping>
   <get-task-scheduling-trigger>
-    select * from [dbo].[TaskScheduling]
-    <isNotEmpty property="status" prepend=" ">
+    select * from [dbo].[TaskScheduling] where Enable=1
+    <isNotEmpty property="status" prepend="and">
       where [status] = @status
     </isNotEmpty>
   </get-task-scheduling-trigger>
@@ -88,8 +88,8 @@
     )
     total from [TaskScheduling] where 1=1
     <isNotEmpty property="Description" prepend="and">
-    Description like '%'+@Description+'%' or Name like '%'+@Description+'%'
-  </isNotEmpty>
+      Description like '%'+@Description+'%' or Name like '%'+@Description+'%'
+    </isNotEmpty>
     ) as tbl
     where uid between (@PageIndex-1)*@PageSize+1 and @PageIndex*@PageSize
   </get-page-list>
@@ -105,4 +105,14 @@
   <update-status>
     update TaskScheduling set Status=@status where Id = @id
   </update-status>
+  <enable-scheduling>
+    update TaskScheduling set [Enable]=@enable
+    <isEquals property="enable" value="false" prepend=",">
+      [Status]=-1
+    </isEquals>
+    where Id = @id
+  </enable-scheduling>
+  <check-scheduling-running>
+    select count(*) from TaskScheduling where Status=0 and id in  (<iterate conjunction="," property="ids">@ids{{index}}</iterate>)
+  </check-scheduling-running>
 </sql>

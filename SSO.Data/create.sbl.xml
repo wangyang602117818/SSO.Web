@@ -158,6 +158,7 @@
   NextRunTime [datetime] NULL,
   LastRunTime [datetime] NULL,
   LastRunResult NVARCHAR(256) null,
+  Enable [bit] NOT NULL DEFAULT 1,
   UpdateTime DATETIME null,
   CreateTime DATETIME not null DEFAULT GETDATE(),
   primary key (Id),

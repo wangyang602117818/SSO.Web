@@ -45,15 +45,16 @@ export const urls = {
         gettriggertypes: 'taskscheduling/gettriggertypes',
         getExamples: 'taskscheduling/getExamples',
         addTrigger: "taskscheduling/addTrigger",
-        addScheduling:"taskscheduling/addScheduling",
+        addScheduling: "taskscheduling/addScheduling",
         updateTrigger: "taskscheduling/updateTrigger",
         deleteTrigger: "taskscheduling/deleteTrigger",
-        deleteScheduling:"taskscheduling/deleteScheduling",
+        deleteScheduling: "taskscheduling/deleteScheduling",
         getTriggerById: "taskscheduling/getTriggerById",
-        getSchedulingById:"taskscheduling/getSchedulingById",
-        updateScheduling:"taskscheduling/updateScheduling",
-        startScheduling:"taskscheduling/startScheduling",
-        stopScheduling:"taskscheduling/stopScheduling"
+        getSchedulingById: "taskscheduling/getSchedulingById",
+        updateScheduling: "taskscheduling/updateScheduling",
+        startScheduling: "taskscheduling/startScheduling",
+        stopScheduling: "taskscheduling/stopScheduling",
+        enableScheduling: "taskscheduling/enableScheduling"
     },
     log: {
         getlist: 'log/getlist',

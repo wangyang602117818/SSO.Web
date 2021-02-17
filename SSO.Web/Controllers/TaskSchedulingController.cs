@@ -77,6 +77,7 @@ namespace SSO.Web.Controllers
             int count = taskScheduling.UpdateScheduling(scheduling, updateSchedulingModel.Id, updateSchedulingModel.TriggerIds);
             if (count > 0)
             {
+                messageCenter.InsertTaskScheduling(Environment.MachineName, updateSchedulingModel.Id, 0, (int)SchedulingStateEnum.Stoped);
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
             return new ResponseModel<string>(ErrorCode.server_exception, "");
@@ -93,6 +94,15 @@ namespace SSO.Web.Controllers
             var result = taskScheduling.GetPageList(ref count, trigger);
             return new ResponseModel<IEnumerable<Data.Models.TaskScheduling>>(ErrorCode.success, result, count);
         }
+        public ActionResult EnableScheduling(int id, bool enable)
+        {
+            if (taskScheduling.EnableScheduling(id, enable) > 0)
+            {
+                if (!enable) messageCenter.InsertTaskScheduling(Environment.MachineName, id, 0, (int)SchedulingStateEnum.Stoped);
+                return new ResponseModel<string>(ErrorCode.success, "");
+            }
+            return new ResponseModel<string>(ErrorCode.server_exception, "");
+        }
         public ActionResult GetSchedulingById(int id)
         {
             return new ResponseModel<object>(ErrorCode.success, taskScheduling.GetSchedulingById(id));
@@ -100,6 +110,7 @@ namespace SSO.Web.Controllers
         public ActionResult DeleteScheduling(IEnumerable<int> ids)
         {
             if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
+            if (taskScheduling.CheckSchedulingRunning(ids) > 0) return new ResponseModel<int>(ErrorCode.task_is_running, 0);
             var count = taskScheduling.DeleteScheduling(ids);
             if (count == -1) return new ResponseModel<string>(ErrorCode.record_has_been_used, "");
             if (count > 0)
@@ -164,6 +175,7 @@ namespace SSO.Web.Controllers
             });
             if (taskTrigger.Update(trigger) > 0)
             {
+                messageCenter.InsertTaskScheduling(Environment.MachineName, 0, updateTriggerModel.Id, (int)SchedulingStateEnum.Stoped);
                 return new ResponseModel<string>(ErrorCode.success, "");
             }
             else

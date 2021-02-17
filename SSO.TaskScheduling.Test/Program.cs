@@ -39,7 +39,8 @@ namespace SSO.TaskScheduling.Test
             int count = 0;
             var schedulings = new Business.TaskScheduling().GetTaskSchedulings(null, ref count);
 
-            scheduler.Start();
+            if (schedulings.Count() > 0)
+                scheduler.Start();
 
             foreach (var scheduling in schedulings)
             {
@@ -90,6 +91,7 @@ namespace SSO.TaskScheduling.Test
 
         private static void Worker(SchedulingQueueModel obj)
         {
+            Console.WriteLine(obj.SchedulingState);
             if (obj.SchedulingState == SchedulingStateEnum.Stoped)
             {
                 if (obj.SchedulingId > 0) StopJob(obj.SchedulingId);
@@ -147,6 +149,7 @@ namespace SSO.TaskScheduling.Test
         static void StartJob(int schedulingId)
         {
             var scheduling = new Business.TaskScheduling().GetById(schedulingId);
+            if (scheduling == null) return;
             var dict = GetTriggersAndJobs(scheduling);
             if (dict.Count > 0) scheduler.ScheduleJobs(dict, true);
         }

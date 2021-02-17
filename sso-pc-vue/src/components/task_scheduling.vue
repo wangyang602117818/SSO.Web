@@ -28,6 +28,23 @@
           :title="$t('edit')"
         ></a-button>
         <a-popconfirm
+          :title="
+            selectedRows.length == 1 && selectedRows[0].Enable
+              ? $t('disabled')
+              : $t('enable')
+          "
+          @confirm="enableScheduling"
+          :okText="$t('yes')"
+          :cancelText="$t('no')"
+        >
+          <a-button
+            type="default"
+            icon="stop"
+            :title="$t('enable') + '/' + $t('disabled')"
+            :disabled="selectedRowKeys.length != 1"
+          ></a-button>
+        </a-popconfirm>
+        <a-popconfirm
           :title="$t('confirm_delete')"
           @confirm="removeScheduling"
           :okText="$t('yes')"
@@ -53,6 +70,7 @@
       }"
       :loading="loading"
       :pagination="pagination"
+      :rowClassName="tableRowClass"
       @change="handleTableChange"
     >
       <a-tag
@@ -61,20 +79,24 @@
         :color="Status == 0 ? '#108ee9' : '#f50'"
         >{{ Status == 0 ? $t("running") : $t("stoped") }}</a-tag
       >
-      <template slot="Operation" slot-scope="text, record">
+      <template slot="Operation" slot-scope="text, record" v-if="record.Enable">
         <a-popconfirm
           v-if="data.length"
           :okText="$t('yes')"
           :cancelText="$t('no')"
           :title="
-            record.Status == -1
+            (record.Status == -1
               ? $t('start_scheduling')
-              : $t('stop_scheduling') + '?'
+              : $t('stop_scheduling')) + '?'
           "
-          @confirm="() => statusOperation(record.Id,record.Status)"
+          @confirm="() => statusOperation(record.Id, record.Status)"
         >
-          <start size="18px" v-if="record.Status == -1" />
-          <end size="18px" v-else />
+          <start
+            size="18px"
+            v-if="record.Status == -1"
+            :title="$t('start_scheduling')"
+          />
+          <end size="18px" v-else :title="$t('stop_scheduling')" />
         </a-popconfirm>
       </template>
     </a-table>
@@ -250,6 +272,10 @@ export default {
       if (this.searchValue) url += "&searchValue=" + this.searchValue;
       return url;
     },
+    tableRowClass(record, index) {
+      if (!record.Enable) return "disabled";
+      return "";
+    },
     getTriggerList() {
       this.$axios
         .get(this.$urls.taskscheduling.gettriggerlist + "?pageSize=1000")
@@ -274,6 +300,26 @@ export default {
         .then((response) => {
           if (response.code == 0) {
             this.getData();
+            this.$message.warning(this.$t("modify_success"));
+          }
+        });
+    },
+    enableScheduling() {
+      var id = this.selectedRows[0].Id;
+      var enable = !this.selectedRows[0].Enable;
+      this.$axios
+        .get(
+          this.$urls.taskscheduling.enableScheduling +
+            "?id=" +
+            id +
+            "&enable=" +
+            enable
+        )
+        .then((response) => {
+          if (response.code == 0) {
+            this.getData();
+            this.selectedRows = [];
+            this.selectedRowKeys = [];
             this.$message.warning(this.$t("modify_success"));
           }
         });
@@ -331,7 +377,7 @@ export default {
           this.loading = false;
         });
     },
-    statusOperation(id,status) {
+    statusOperation(id, status) {
       var url = "";
       if (status == -1) url = this.$urls.taskscheduling.startScheduling;
       if (status == 0) url = this.$urls.taskscheduling.stopScheduling;
@@ -352,5 +398,8 @@ export default {
 <style>
 svg {
   cursor: pointer;
+}
+.disabled {
+  color: #ccc;
 }
 </style>
