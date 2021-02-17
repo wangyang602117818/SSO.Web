@@ -37,10 +37,9 @@ namespace SSO.TaskScheduling.Test
                  msQueue.ReceiveMessage(Worker);
              });
             int count = 0;
-            var schedulings = new Business.TaskScheduling().GetTaskSchedulings(null, ref count);
+            var schedulings = new Business.TaskScheduling().GetTaskSchedulings(0, ref count);
 
-            if (schedulings.Count() > 0)
-                scheduler.Start();
+            scheduler.Start();
 
             foreach (var scheduling in schedulings)
             {
@@ -91,7 +90,7 @@ namespace SSO.TaskScheduling.Test
 
         private static void Worker(SchedulingQueueModel obj)
         {
-            Console.WriteLine(obj.SchedulingState);
+            Console.WriteLine(obj.SchedulingState + ":" + obj.SchedulingId);
             if (obj.SchedulingState == SchedulingStateEnum.Stoped)
             {
                 if (obj.SchedulingId > 0) StopJob(obj.SchedulingId);

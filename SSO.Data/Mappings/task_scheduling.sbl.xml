@@ -74,7 +74,7 @@
   <get-task-scheduling-trigger>
     select * from [dbo].[TaskScheduling] where Enable=1
     <isNotEmpty property="status" prepend="and">
-      where [status] = @status
+       [status] = @status
     </isNotEmpty>
   </get-task-scheduling-trigger>
   <get-page-list>
