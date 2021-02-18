@@ -94,7 +94,7 @@
           </a-menu-item>
           <a-sub-menu key="taskmanage">
             <span slot="title">
-              <a-icon type="dashboard" />
+              <a-icon type="clock-circle" />
               <span>{{ $t("task_scheduling") }}</span>
             </span>
             <a-menu-item key="taskscheduling">

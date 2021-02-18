@@ -283,10 +283,12 @@ namespace SSO.Web.Controllers
 
             return Content("k");
         }
+        [AllowAnonymous]
         public ActionResult M()
         {
             return new ResponseModel<string>(ErrorCode.success, "m");
         }
+        [AllowAnonymous]
         public ActionResult M1()
         {
             return new ResponseModel<string>(ErrorCode.success, "m1");

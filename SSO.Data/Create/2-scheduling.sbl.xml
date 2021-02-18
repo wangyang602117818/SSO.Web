@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='TaskScheduling')
+  create table TaskScheduling (
+  Id INT IDENTITY NOT NULL,
+  Name NVARCHAR(50) not null,
+  Description NVARCHAR(512) null,
+  Status int not null,
+  Api NVARCHAR(512) null,
+  NextRunTime [datetime] NULL,
+  LastRunTime [datetime] NULL,
+  LastRunResult NVARCHAR(256) null,
+  Enable [bit] NOT NULL DEFAULT 1,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME not null DEFAULT GETDATE(),
+  primary key (Id),
+  unique (Name)
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='TaskTrigger')
+  create table TaskTrigger (
+  Id INT IDENTITY NOT NULL,
+  Crons NVARCHAR(50) null,
+  Description NVARCHAR(512) null,
+  Description1 NVARCHAR(512) null,
+  Activate DATETIME null,
+  Expire DATETIME null,
+  UpdateTime DATETIME null,
+  CreateTime DATETIME not null DEFAULT GETDATE(),
+  primary key (Id)
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='TaskSchedulingTriggerMapping')
+  create table TaskSchedulingTriggerMapping (
+  Id INT IDENTITY NOT NULL,
+  SchedulingId int not null,
+  TriggerId int not null,
+  primary key (Id)
+  )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='TaskSchedulingHistory')
+  create table TaskSchedulingHistory (
+  Id INT IDENTITY NOT NULL,
+  SchedulingId int not null,
+  SchedulingName NVARCHAR(50) not null,
+  RunTime DATETIME not null,
+  RunResult TEXT null,
+  CreateTime DATETIME not null DEFAULT GETDATE(),
+  primary key (Id)
+  )
+</sql>

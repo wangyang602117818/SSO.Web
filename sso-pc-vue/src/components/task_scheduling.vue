@@ -27,7 +27,7 @@
           :disabled="selectedRowKeys.length != 1"
           :title="$t('edit')"
         ></a-button>
-        <a-popconfirm
+        <!-- <a-popconfirm
           :title="
             selectedRows.length == 1 && selectedRows[0].Enable
               ? $t('disabled')
@@ -43,7 +43,7 @@
             :title="$t('enable') + '/' + $t('disabled')"
             :disabled="selectedRowKeys.length != 1"
           ></a-button>
-        </a-popconfirm>
+        </a-popconfirm> -->
         <a-popconfirm
           :title="$t('confirm_delete')"
           @confirm="removeScheduling"
@@ -92,12 +92,12 @@
           "
           @confirm="() => statusOperation(record.Id, record.Status)"
         >
-          <start
-            size="18px"
-            v-if="record.Status == -1"
-            :title="$t('start_scheduling')"
-          />
-          <end size="18px" v-else :title="$t('stop_scheduling')" />
+          <span :title="$t('start_scheduling')" v-if="record.Status == -1">
+            <start size="18px"
+          /></span>
+          <span v-else :title="$t('stop_scheduling')" >
+            <end size="18px" />
+          </span>
         </a-popconfirm>
       </template>
     </a-table>
@@ -223,6 +223,7 @@ export default {
           title: this.$t("description"),
           dataIndex: "Description",
           width: "15%",
+          ellipsis: true,
         },
         {
           title: this.$t("state"),
@@ -234,11 +235,7 @@ export default {
           title: "api",
           dataIndex: "Api",
           width: "24%",
-        },
-        {
-          title: this.$t("next_run_time"),
-          dataIndex: "NextRunTime",
-          width: "13%",
+          ellipsis: true,
         },
         {
           title: this.$t("last_run_time"),
@@ -246,9 +243,15 @@ export default {
           width: "13%",
         },
         {
+          title: this.$t("next_run_time"),
+          dataIndex: "NextRunTime",
+          width: "13%",
+        },
+        {
           title: this.$t("last_run_result"),
           dataIndex: "LastRunResult",
           width: "10%",
+          ellipsis: true,
         },
         {
           title: this.$t("operation"),

@@ -46,7 +46,10 @@
     )
   </insert>
   <update>
-    update TaskScheduling set Name=@Name,[UpdateTime]=GETDATE()
+    update TaskScheduling set [UpdateTime]=GETDATE()
+    <isNotEmpty property="Name" prepend=",">
+      [Name]=@Name
+    </isNotEmpty>
     <isNotEmpty property="Status" prepend=",">
       [Status]=@Status
     </isNotEmpty>
@@ -58,6 +61,12 @@
     </isNotEmpty>
     <isNotEmpty property="NextRunTime" prepend=",">
       [NextRunTime]=@NextRunTime
+    </isNotEmpty>
+    <isNotEmpty property="LastRunTime" prepend=",">
+      [LastRunTime]=@LastRunTime
+    </isNotEmpty>
+    <isNotEmpty property="LastRunResult" prepend=",">
+      [LastRunResult]=@LastRunResult
     </isNotEmpty>
     where Id=@Id
   </update>

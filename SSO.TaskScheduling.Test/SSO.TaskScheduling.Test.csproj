@@ -57,8 +57,8 @@
     <Reference Include="Quartz, Version=3.2.4.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.3.2.4\lib\net461\Quartz.dll</HintPath>
     </Reference>
-    <Reference Include="SSO.Util.Client, Version=2.3.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSO.Util.Client.2.3.8\lib\net45\SSO.Util.Client.dll</HintPath>
+    <Reference Include="SSO.Util.Client, Version=2.3.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSO.Util.Client.2.3.9\lib\net45\SSO.Util.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -110,7 +110,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SchedulingJob.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -130,6 +129,10 @@
     <ProjectReference Include="..\SSO.Model\SSO.Model.csproj">
       <Project>{ead9a0ef-8047-4949-8c6b-4ab354774785}</Project>
       <Name>SSO.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SSO.TaskScheduling\SSO.TaskScheduling.csproj">
+      <Project>{5d9f5615-9914-4f57-a561-99938752c909}</Project>
+      <Name>SSO.TaskScheduling</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

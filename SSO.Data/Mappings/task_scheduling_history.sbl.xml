@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql>
+  <insert>
+    insert into [TaskSchedulingHistory]([SchedulingId], [SchedulingName], [RunTime], [RunResult])
+    values(@SchedulingId,@SchedulingName,@RunTime,@RunResult)
+  </insert>
+  <update-scheduling>
+    update TaskScheduling set [UpdateTime]=GETDATE()
+    <isNotEmpty property="NextRunTime" prepend=",">
+      [NextRunTime]=@NextRunTime
+    </isNotEmpty>
+    <isNotEmpty property="LastRunTime" prepend=",">
+      [LastRunTime]=@LastRunTime
+    </isNotEmpty>
+    <isNotEmpty property="LastRunResult" prepend=",">
+      [LastRunResult]=@LastRunResult
+    </isNotEmpty>
+    where Id=@Id
+  </update-scheduling>
+</sql>

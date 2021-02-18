@@ -41,9 +41,11 @@ namespace SSO.TaskScheduling
             // serviceInstaller1
             // 
             this.serviceInstaller1.DelayedAutoStart = true;
-            this.serviceInstaller1.Description = "定时执行API";
+            this.serviceInstaller1.Description = "定时任务调度服务";
             this.serviceInstaller1.DisplayName = "SSO.TaskScheduling";
             this.serviceInstaller1.ServiceName = "SSO.TaskScheduling";
+            this.serviceInstaller1.ServicesDependedOn = new string[] {
+        "MSMQ"};
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller

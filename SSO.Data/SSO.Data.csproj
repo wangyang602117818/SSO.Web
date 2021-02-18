@@ -49,8 +49,8 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SSO.Util.Client, Version=2.3.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSO.Util.Client.2.3.8\lib\net45\SSO.Util.Client.dll</HintPath>
+    <Reference Include="SSO.Util.Client, Version=2.3.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSO.Util.Client.2.3.9\lib\net45\SSO.Util.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -94,6 +94,7 @@
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\TaskScheduling.cs" />
+    <Compile Include="Models\TaskSchedulingHistory.cs" />
     <Compile Include="Models\TaskSchedulingTriggerMapping.cs" />
     <Compile Include="Models\TaskTrigger.cs" />
     <Compile Include="Models\User.cs" />
@@ -134,7 +135,7 @@
     <EmbeddedResource Include="Mappings\permission_user_mapping.sbl.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="create.sbl.xml" />
+    <EmbeddedResource Include="Create\2-scheduling.sbl.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Model\SSO.Model.csproj">
@@ -150,6 +151,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Mappings\task_scheduling_trigger_mapping.sbl.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Create\1-basic.sbl.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\task_scheduling_history.sbl.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
