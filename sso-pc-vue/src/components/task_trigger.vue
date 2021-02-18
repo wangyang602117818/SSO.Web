@@ -283,12 +283,13 @@ export default {
           title: this.$t("description"),
           dataIndex:
             this.$i18n.locale == "zh-cn" ? "Description" : "Description1",
-          width: "29%",
+          width: "25%",
+          ellipsis: true,
         },
         {
           title: this.$t("crons"),
           dataIndex: "Crons",
-          width: "14%",
+          width: "18%",
         },
         {
           title: this.$t("activate"),

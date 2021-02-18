@@ -100,7 +100,7 @@ namespace SSO.TaskScheduling
 
         void StartJob(int schedulingId)
         {
-            Log4Net.InfoLog("start job by schedulingId:" + schedulingId);
+            Log4Net.InfoLog("start job by schedulingId=" + schedulingId);
             var scheduling = taskScheduling.GetById(schedulingId);
             if (scheduling == null) return;
             var dict = GetTriggersAndJobs(scheduling);
@@ -108,7 +108,7 @@ namespace SSO.TaskScheduling
         }
         void StopJob(int schedulingId)
         {
-            Log4Net.InfoLog("stop job by schedulingId:" + schedulingId);
+            Log4Net.InfoLog("stop job by schedulingId=" + schedulingId);
             JobKey jobKey = new JobKey("job-" + schedulingId);
             if (new Business.TaskScheduling().UpdateStatus(schedulingId, (int)SchedulingStateEnum.Stoped) > 0)
             {
@@ -117,7 +117,7 @@ namespace SSO.TaskScheduling
         }
         void StopJobByTrigger(int triggerId)
         {
-            Log4Net.InfoLog("stop job by triggerId:" + triggerId);
+            Log4Net.InfoLog("stop job by triggerId=" + triggerId);
             var list = new TaskSchedulingTriggerMapping().GetByTriggerId(triggerId);
             foreach (var item in list)
             {
