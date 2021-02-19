@@ -205,6 +205,9 @@
     "start_scheduling":"启动调度",
     "enable":"启用",
     "disabled":"禁用",
+    "trigger_start_tip":"如果小于当前时间,则取下一次运行时间",
+    "trigger_end_tip":"在结束时间点不会触发",
+    "recent_execution_datetimes":"最近几次运行时间",
     "permissions": {
         "AddCompany": "添加公司",
         "UpdateCompany": "更新公司",

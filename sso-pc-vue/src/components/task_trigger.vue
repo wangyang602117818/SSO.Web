@@ -69,6 +69,9 @@
         >
           <input type="date" class="date_input" v-model="currentDate" />
           <input type="time" class="time_input" v-model="currentTime" />
+          <a-tooltip placement="topLeft" :title="$t('trigger_start_tip')">
+            <a-icon type="question-circle" style="margin-left: 10px" />
+          </a-tooltip>
         </a-form-item>
         <a-form-item
           :label="$t('settings')"
@@ -195,6 +198,10 @@
         >
           <input type="date" class="date_input" v-model="endDate" />
           <input type="time" class="time_input" v-model="endTime" />
+
+          <a-tooltip placement="topLeft" :title="$t('trigger_end_tip')">
+            <a-icon type="question-circle" style="margin-left: 10px" />
+          </a-tooltip>
         </a-form-item>
         <a-form-item
           :label="$t('crons')"
@@ -212,10 +219,16 @@
           {{ $t("execute") }}
         </a-form-item>
         <a-form-item
-          :label="$t('example') + '(10)'"
+          
           :label-col="{ span: 3 }"
           :wrapper-col="{ span: 21 }"
         >
+          <span slot="label">
+            {{$t('example')}}
+              <a-tooltip placement="topLeft" :title="$t('recent_execution_datetimes')">
+            <a-icon type="question-circle" />
+          </a-tooltip>
+          </span>
           <div>
             <a-row>
               <a-col :span="8" v-for="(item, index) in examples" :key="index">
@@ -440,7 +453,7 @@ export default {
     },
     getCurrentTime() {
       var time = this.$funtools.getCurrentDateTime().split(" ")[1].split(":");
-      return time[0]+":"+time[1];
+      return time[0] + ":" + time[1];
     },
     getExampleTimes() {
       var start = this.currentDate + " " + this.currentTime;

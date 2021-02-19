@@ -205,6 +205,9 @@
     "start_scheduling":"Start scheduling",
     "enable":"Enable",
     "disabled":"Disabled",
+    "trigger_start_tip":"If less than the current time, the next running time will be taken",
+    "trigger_end_tip":"Will not trigger at the end time point",
+    "recent_execution_datetimes":"Recent execution datetimes",
     "permissions": {
         "AddCompany": "AddCompany",
         "UpdateCompany": "UpdateCompany",

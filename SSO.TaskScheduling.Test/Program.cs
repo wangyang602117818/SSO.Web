@@ -15,10 +15,12 @@ namespace SSO.TaskScheduling.Test
 {
     class Program
     {
+
+        static IScheduler scheduler = new StdSchedulerFactory().GetScheduler().Result;
         static void Main(string[] args)
         {
 
-            new Processor().StartWork();
+            //new Processor().StartWork();
 
             Console.ReadKey();
         }
