@@ -3,6 +3,9 @@ module.exports = {
     publicPath: '',
     assetsDir: '',
     filenameHashing: false,
+    //devServer: {
+      //  https: true,
+    //},
     pages: {
         index: {
             // page 的入口

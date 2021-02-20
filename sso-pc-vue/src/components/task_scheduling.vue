@@ -99,6 +99,7 @@
             <end size="18px" />
           </span>
         </a-popconfirm>
+        <a-icon type="align-left" />
       </template>
     </a-table>
 

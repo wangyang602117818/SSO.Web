@@ -11,9 +11,13 @@ namespace SSO.Data
     public abstract class ModelBase : EntityBase
     {
         static SessionFactory sessionFactory = null;
+        /// <summary>
+        /// 默认读取 sbl.config.xml 文件实例化sessionFactory,如果有不同的数据库,指定配置文件即可
+        /// </summary>
         static ModelBase()
         {
             sessionFactory = new Configuration().Configure();
+            sessionFactory.CreateTables();
         }
         private DateTime? createTime = DateTime.Now;
         public int Id { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using SSO.Util.Client.SqlBatisLite;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace SSO.Web
@@ -10,6 +11,7 @@ namespace SSO.Web
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
         }
     }
 }
