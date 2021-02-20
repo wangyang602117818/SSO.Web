@@ -67,7 +67,7 @@ namespace SSO.Web.Controllers
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
-            var result = company.GetPageList(ref count, com);
+            var result = company.GetPageList<Data.Models.Company>(ref count, com);
             return new ResponseModel<IEnumerable<Data.Models.Company>>(ErrorCode.success, result, count);
         }
         [JwtAuthorize("GetCompany")]

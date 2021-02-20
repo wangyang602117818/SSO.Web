@@ -109,6 +109,12 @@
                 <span>{{ $t("task_trigger") }}</span>
               </router-link>
             </a-menu-item>
+            <a-menu-item key="taskschedulinghistory">
+              <router-link to="/taskschedulinghistory">
+                <a-icon type="info-circle" />
+                <span>{{ $t("task_scheduling_history") }}</span>
+              </router-link>
+            </a-menu-item>
           </a-sub-menu>
           <a-menu-item key="log">
             <router-link to="/log">
@@ -194,6 +200,7 @@ export default {
         break;
       case "taskscheduling":
       case "tasktrigger":
+      case "taskschedulinghistory":
         openKeys = ["taskmanage"];
         break;
     }

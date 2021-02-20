@@ -18,6 +18,7 @@ namespace SSO.Web.Controllers
         TaskScheduling taskScheduling = new TaskScheduling();
         TaskTrigger taskTrigger = new TaskTrigger();
         TaskSchedulingTriggerMapping taskSchedulingTriggerMapping = new TaskSchedulingTriggerMapping();
+        TaskSchedulingHistory schedulingHistory = new TaskSchedulingHistory();
         protected MessageCenterService messageCenter = new MessageCenterService(messageBaseUrl);
         public ActionResult Index()
         {
@@ -90,7 +91,7 @@ namespace SSO.Web.Controllers
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
-            var result = taskScheduling.GetPageList(ref count, trigger);
+            var result = taskScheduling.GetPageList<Data.Models.TaskScheduling>(ref count, trigger);
             return new ResponseModel<IEnumerable<Data.Models.TaskScheduling>>(ErrorCode.success, result, count);
         }
         public ActionResult EnableScheduling(int id, bool enable)
@@ -208,7 +209,7 @@ namespace SSO.Web.Controllers
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
-            var result = taskTrigger.GetPageList(ref count, trigger);
+            var result = taskTrigger.GetPageList<Data.Models.TaskTrigger>(ref count, trigger);
             return new ResponseModel<IEnumerable<Data.Models.TaskTrigger>>(ErrorCode.success, result, count);
         }
         public ActionResult GetTriggerById(int id)
@@ -277,6 +278,17 @@ namespace SSO.Web.Controllers
             {
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
+        }
+        public ActionResult GetSchedulingNames()
+        {
+            return new ResponseModel<IEnumerable<object>>(ErrorCode.success, taskScheduling.GetDistinctNames());
+        }
+        public ActionResult GetSchedulingHistory(int? id, DateTime? startTime, DateTime? endTime, int pageIndex = 1, int pageSize = 10)
+        {
+            int count = 0;
+            if (endTime != null) endTime = endTime.Value.AddDays(1);
+            var result = schedulingHistory.GetPageList<Data.Models.TaskSchedulingHistory>(ref count, new { SchedulingId = id, StartTime = startTime, EndTime = endTime, PageIndex = pageIndex, PageSize = pageSize });
+            return new ResponseModel<IEnumerable<Data.Models.TaskSchedulingHistory>>(ErrorCode.success, result, count);
         }
         public ActionResult Test()
         {

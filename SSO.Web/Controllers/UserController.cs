@@ -75,7 +75,7 @@ namespace SSO.Web.Controllers
                 PageSize = pageSize
             };
             object replacement = new { OrderField = orderField, OrderType = orderType };
-            var result = user.GetPageList(ref count, page, replacement);
+            var result = user.GetPageList<Data.Models.User>(ref count, page, replacement);
             return new ResponseModel<IEnumerable<Data.Models.User>>(ErrorCode.success, result, count);
         }
         [JwtAuthorize("RemoveUser")]

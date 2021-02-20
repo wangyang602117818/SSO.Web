@@ -9,7 +9,7 @@ import Log from '@/components/log'
 import Settings from '@/components/settings'
 import TaskScheduling from '@/components/task_scheduling'
 import TaskTrigger from '@/components/task_trigger'
-
+import TaskSchedulingHistory from '@/components/task_scheduling_history'
 const routes = new VueRouter({
     // mode: 'history',
     routes: [
@@ -59,6 +59,11 @@ const routes = new VueRouter({
                     path: 'tasktrigger',
                     name: "tasktrigger",
                     component: TaskTrigger
+                },
+                {
+                    path: 'taskschedulinghistory',
+                    name: "taskschedulinghistory",
+                    component: TaskSchedulingHistory
                 },
                 {
                     path: 'log',

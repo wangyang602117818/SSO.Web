@@ -17,4 +17,32 @@
     </isNotEmpty>
     where Id=@Id
   </update-scheduling>
+  <get-page-list>
+    select * from(
+    select *,row_number() over(order by Id desc) uid,
+    (
+    select count(1) from [TaskSchedulingHistory] where 1=1
+    <isNotNull property="SchedulingId" prepend="and">
+      SchedulingId=@SchedulingId
+    </isNotNull>
+    <isNotNull property="StartTime" prepend="and">
+      <![CDATA[RunTime>=@StartTime]]>
+    </isNotNull>
+    <isNotNull property="EndTime" prepend="and">
+      <![CDATA[RunTime<=@EndTime]]>
+    </isNotNull>
+    )
+    total from [TaskSchedulingHistory] where 1=1
+    <isNotNull property="SchedulingId" prepend="and">
+      SchedulingId=@SchedulingId
+    </isNotNull>
+    <isNotNull property="StartTime" prepend="and">
+      <![CDATA[ RunTime>=@StartTime]]>
+    </isNotNull>
+    <isNotNull property="EndTime" prepend="and">
+      <![CDATA[RunTime<=@EndTime]]>
+    </isNotNull>
+    ) as tbl
+    where uid between (@PageIndex-1)*@PageSize+1 and @PageIndex*@PageSize
+  </get-page-list>
 </sql>

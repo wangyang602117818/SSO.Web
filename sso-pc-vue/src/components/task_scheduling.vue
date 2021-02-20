@@ -95,11 +95,13 @@
           <span :title="$t('start_scheduling')" v-if="record.Status == -1">
             <start size="18px"
           /></span>
-          <span v-else :title="$t('stop_scheduling')" >
+          <span v-else :title="$t('stop_scheduling')">
             <end size="18px" />
           </span>
         </a-popconfirm>
-        <a-icon type="align-left" />
+        <!-- <span :title="$t('view_scheduling_history')" style="margin-left: 8px">
+          <list size="18px" />
+        </span> -->
       </template>
     </a-table>
 
@@ -196,6 +198,7 @@
 import base from "./Base";
 import start from "../icons/start";
 import end from "../icons/end";
+// import list from "../icons/list";
 export default {
   name: "task_scheduling",
   components: { start, end },

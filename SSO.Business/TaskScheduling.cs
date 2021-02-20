@@ -45,5 +45,9 @@ namespace SSO.Business
         {
             return instance.CheckSchedulingRunning(ids);
         }
+        public IEnumerable<object> GetDistinctNames()
+        {
+            return instance.GetDistinctNames();
+        }
     }
 }

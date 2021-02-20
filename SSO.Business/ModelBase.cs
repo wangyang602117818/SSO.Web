@@ -52,7 +52,7 @@ namespace SSO.Business
         {
             return instance.GetAll<T>(obj);
         }
-        public IEnumerable<T> GetPageList<T>(ref int count, T t, object replacement = null) where T : new()
+        public IEnumerable<T> GetPageList<T>(ref int count, object t, object replacement = null) where T : new()
         {
             return instance.GetPageList<T>(ref count, t, replacement);
         }

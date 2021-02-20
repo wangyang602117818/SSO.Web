@@ -54,7 +54,9 @@ export const urls = {
         updateScheduling: "taskscheduling/updateScheduling",
         startScheduling: "taskscheduling/startScheduling",
         stopScheduling: "taskscheduling/stopScheduling",
-        enableScheduling: "taskscheduling/enableScheduling"
+        enableScheduling: "taskscheduling/enableScheduling",
+        getSchedulingNames: "taskscheduling/getSchedulingNames",
+        getSchedulingHistory:"taskscheduling/getSchedulingHistory"
     },
     log: {
         getlist: 'log/getlist',

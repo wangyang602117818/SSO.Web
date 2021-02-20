@@ -102,5 +102,10 @@ namespace SSO.Data.Models
         {
             return (int)ExecuteScalar("check-scheduling-running", new { ids }, null);
         }
+        public IEnumerable<object> GetDistinctNames()
+        {
+            int count = 0;
+            return QueryList<object>("get-distinct-names", null, null, ref count);
+        }
     }
 }

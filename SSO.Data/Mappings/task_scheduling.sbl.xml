@@ -121,4 +121,7 @@
   <check-scheduling-running>
     select count(*) from TaskScheduling where Status=0 and id in  (<iterate conjunction="," property="ids">@ids{{index}}</iterate>)
   </check-scheduling-running>
+  <get-distinct-names>
+    select distinct Id,[Name] from [dbo].[TaskScheduling]
+  </get-distinct-names>
 </sql>
