@@ -292,8 +292,8 @@ namespace SSO.Web.Controllers
         }
         public ActionResult Test()
         {
-
-            return Content("k");
+            
+            return Content("test");
         }
         [AllowAnonymous]
         public ActionResult M()

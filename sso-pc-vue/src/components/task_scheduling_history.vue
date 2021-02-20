@@ -20,8 +20,8 @@
       @change="onEndChange"
       :placeholder="$t('start_end_time')"
       style="width: 150px"
-    />&nbsp;
-    <a-button icon="redo" @click="reload"></a-button>
+    />&nbsp; <a-button icon="redo" @click="reload"></a-button>&nbsp;
+    <a-button @click="handleReset">Clear</a-button>
     <a-table
       :columns="columns"
       :rowKey="(record) => record.Id"
@@ -110,6 +110,12 @@ export default {
       this.getData();
     },
     onEndChange() {
+      this.getData();
+    },
+    handleReset() {
+      this.id = 0;
+      this.startTime = "";
+      this.endTime = "";
       this.getData();
     },
   },

@@ -23,5 +23,6 @@ namespace SSO.Data.Models
             List<string> nodes = new List<string>() { "insert", "update-scheduling" };
             return base.ExecuteTransaction(nodes, datas, null);
         }
+        
     }
 }

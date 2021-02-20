@@ -14,5 +14,6 @@ namespace SSO.Business
         {
             return instance.InsertHistoryAndUpdateScheduling(schedulingId, schedulingName, runTime, nextRunTime, runResult);
         }
+        
     }
 }
