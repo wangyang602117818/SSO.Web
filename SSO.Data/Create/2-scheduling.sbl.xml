@@ -48,4 +48,5 @@
   CreateTime DATETIME not null DEFAULT GETDATE(),
   primary key (Id)
   )
+  
 </sql>

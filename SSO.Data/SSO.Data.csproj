@@ -158,5 +158,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Mappings\task_scheduling_history.sbl.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Create\10-category.sbl.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

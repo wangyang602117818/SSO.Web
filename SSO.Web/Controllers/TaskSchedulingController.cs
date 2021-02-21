@@ -300,11 +300,6 @@ namespace SSO.Web.Controllers
             var result = schedulingHistory.GetPageList<Data.Models.TaskSchedulingHistory>(ref count, new { SchedulingId = id, StartTime = startTime, EndTime = endTime, PageIndex = pageIndex, PageSize = pageSize });
             return new ResponseModel<IEnumerable<Data.Models.TaskSchedulingHistory>>(ErrorCode.success, result, count);
         }
-        public ActionResult Test()
-        {
-            
-            return Content("test");
-        }
         [AllowAnonymous]
         public ActionResult M()
         {
