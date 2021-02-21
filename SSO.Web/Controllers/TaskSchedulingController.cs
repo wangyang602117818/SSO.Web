@@ -3,6 +3,7 @@ using Quartz;
 using SSO.Business;
 using SSO.Model;
 using SSO.Util.Client;
+using SSO.Web.Filters;
 using SSO.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -20,10 +21,7 @@ namespace SSO.Web.Controllers
         TaskSchedulingTriggerMapping taskSchedulingTriggerMapping = new TaskSchedulingTriggerMapping();
         TaskSchedulingHistory schedulingHistory = new TaskSchedulingHistory();
         protected MessageCenterService messageCenter = new MessageCenterService(messageBaseUrl);
-        public ActionResult Index()
-        {
-            return new ResponseModel<string>(ErrorCode.success, "");
-        }
+        [JwtAuthorize("AddScheduling")]
         public ActionResult AddScheduling(SchedulingModel schedulingModel)
         {
             if (taskScheduling.GetByName(schedulingModel.Name) != null)
@@ -54,6 +52,7 @@ namespace SSO.Web.Controllers
             }
             return new ResponseModel<string>(ErrorCode.server_exception, "");
         }
+        [JwtAuthorize("UpdateScheduling")]
         public ActionResult UpdateScheduling(UpdateSchedulingModel updateSchedulingModel)
         {
             if (updateSchedulingModel.Trigger != null) updateSchedulingModel.TriggerIds.Add(updateSchedulingModel.Trigger.Value);
@@ -82,6 +81,7 @@ namespace SSO.Web.Controllers
             }
             return new ResponseModel<string>(ErrorCode.server_exception, "");
         }
+        [JwtAuthorize("GetScheduling")]
         public ActionResult GetSchedulingList(string searchValue = "", int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
@@ -103,10 +103,12 @@ namespace SSO.Web.Controllers
             }
             return new ResponseModel<string>(ErrorCode.server_exception, "");
         }
+        [JwtAuthorize("GetScheduling")]
         public ActionResult GetSchedulingById(int id)
         {
             return new ResponseModel<object>(ErrorCode.success, taskScheduling.GetSchedulingById(id));
         }
+        [JwtAuthorize("DeleteScheduling")]
         public ActionResult DeleteScheduling(IEnumerable<int> ids)
         {
             if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
@@ -122,6 +124,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
+        [JwtAuthorize("AddTrigger")]
         public ActionResult AddTrigger(TriggerModel triggerModel)
         {
             Data.Models.TaskTrigger trigger = new Data.Models.TaskTrigger()
@@ -151,6 +154,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
+        [JwtAuthorize("UpdateTrigger")]
         public ActionResult UpdateTrigger(UpdateTriggerModel updateTriggerModel)
         {
             Data.Models.TaskTrigger trigger = new Data.Models.TaskTrigger()
@@ -182,6 +186,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
+        [JwtAuthorize("DeleteTrigger")]
         public ActionResult DeleteTrigger(IEnumerable<int> ids)
         {
             if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
@@ -200,6 +205,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
+        [JwtAuthorize("GetTrigger")]
         public ActionResult GetTriggerList(string searchValue = "", int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;
@@ -212,6 +218,7 @@ namespace SSO.Web.Controllers
             var result = taskTrigger.GetPageList<Data.Models.TaskTrigger>(ref count, trigger);
             return new ResponseModel<IEnumerable<Data.Models.TaskTrigger>>(ErrorCode.success, result, count);
         }
+        [JwtAuthorize("GetTrigger")]
         public ActionResult GetTriggerById(int id)
         {
             return new ResponseModel<Data.Models.TaskTrigger>(ErrorCode.success, taskTrigger.GetById(id));
@@ -255,6 +262,7 @@ namespace SSO.Web.Controllers
             schedulingExample.CronsDescriptions.Add(descZh);
             return new ResponseModel<SchedulingExample>(ErrorCode.success, schedulingExample);
         }
+        [JwtAuthorize("StartScheduling")]
         public ActionResult StartScheduling(int id)
         {
             if (taskScheduling.UpdateStatus(id, (int)SchedulingStateEnum.Running) > 0)
@@ -267,6 +275,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
+        [JwtAuthorize("StopScheduling")]
         public ActionResult StopScheduling(int id)
         {
             if (taskScheduling.UpdateStatus(id, (int)SchedulingStateEnum.Stoped) > 0)
@@ -283,6 +292,7 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<IEnumerable<object>>(ErrorCode.success, taskScheduling.GetDistinctNames());
         }
+        [JwtAuthorize("GetSchedulingHistory")]
         public ActionResult GetSchedulingHistory(int? id, DateTime? startTime, DateTime? endTime, int pageIndex = 1, int pageSize = 10)
         {
             int count = 0;

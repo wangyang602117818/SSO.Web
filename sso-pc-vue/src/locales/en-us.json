@@ -257,7 +257,18 @@
         "DeleteCacheFiles": "DeleteCacheFiles",
         "AddPermission":"AddPermission",
         "GetPermission":"GetPermission",
-        "Redo":"ReDo"
+        "Redo":"ReDo",
+        "AddScheduling": "AddScheduling",
+        "UpdateScheduling": "UpdateScheduling",
+        "GetScheduling": "GetScheduling",
+        "DeleteScheduling": "DeleteScheduling",
+        "GetTrigger": "GetTrigger",
+        "AddTrigger": "AddTrigger",
+        "UpdateTrigger": "UpdateTrigger",
+        "DeleteTrigger": "DeleteTrigger",
+        "StartScheduling": "StartScheduling",
+        "StopScheduling": "StopScheduling",
+        "GetSchedulingHistory": "GetSchedulingHistory"
     },
     "response":{
         "success":"success!",
