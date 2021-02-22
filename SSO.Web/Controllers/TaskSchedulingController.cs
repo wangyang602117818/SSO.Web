@@ -276,6 +276,7 @@ namespace SSO.Web.Controllers
                 return new ResponseModel<string>(ErrorCode.server_exception, "");
             }
         }
+        [JwtAuthorize("GetScheduling")]
         public ActionResult GetSchedulingNames()
         {
             return new ResponseModel<IEnumerable<object>>(ErrorCode.success, taskScheduling.GetDistinctNames());
