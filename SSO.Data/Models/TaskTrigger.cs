@@ -30,5 +30,10 @@ namespace SSO.Data.Models
             int count = 0;
             return QueryList<TaskTrigger>("get-by-ids", new { ids }, null, ref count);
         }
+        public IEnumerable<TaskTrigger> GetBySchedulingId(int schedulingId)
+        {
+            int count = 0;
+            return QueryList<TaskTrigger>("get-by-scheduling-id", new { schedulingId }, null, ref count);
+        }
     }
 }

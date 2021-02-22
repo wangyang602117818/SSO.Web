@@ -1,4 +1,8 @@
-﻿using SSO.Util.Client;
+﻿using Quartz;
+using SSO.Util.Client;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
@@ -16,5 +20,16 @@ namespace SSO.Web.Controllers
         protected JwtManager jwtManager = new JwtManager(ssoSecretKey, issuer, int.Parse(ssoTicketTime));
         protected LogService logService = new LogService(messageBaseUrl);
 
+        protected DateTime GetNextRunTimeByCrons(IEnumerable<string> crons)
+        {
+            List<DateTimeOffset> nextRunTimes = new List<DateTimeOffset>();
+            foreach (var item in crons)
+            {
+                var nextRunTime = new CronExpression(item).GetNextValidTimeAfter(DateTime.Now);
+                nextRunTimes.Add(nextRunTime.Value);
+            }
+            nextRunTimes.Sort();
+            return nextRunTimes[0].LocalDateTime;
+        }
     }
 }

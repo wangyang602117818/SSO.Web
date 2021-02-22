@@ -26,5 +26,9 @@ namespace SSO.Business
         {
             return instance.GetByIds(ids);
         }
+        public IEnumerable<Data.Models.TaskTrigger> GetBySchedulingId(int schedulingId)
+        {
+            return instance.GetBySchedulingId(schedulingId);
+        }
     }
 }

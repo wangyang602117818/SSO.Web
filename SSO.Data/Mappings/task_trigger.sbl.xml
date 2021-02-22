@@ -71,4 +71,8 @@
   <get-by-ids>
     select * from [TaskTrigger] where Id in (<iterate conjunction="," property="ids">@ids{{index}}</iterate>)
   </get-by-ids>
+  <get-by-scheduling-id>
+    select tt.* from [dbo].[TaskTrigger] tt left join [dbo].[TaskSchedulingTriggerMapping] tstm on tt.Id=tstm.TriggerId
+    where tstm.SchedulingId=@schedulingId
+  </get-by-scheduling-id>
 </sql>

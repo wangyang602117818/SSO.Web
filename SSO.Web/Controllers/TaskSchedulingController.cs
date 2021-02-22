@@ -37,14 +37,8 @@ namespace SSO.Web.Controllers
             };
             if (schedulingModel.Trigger != null) schedulingModel.TriggerIds.Add(schedulingModel.Trigger.Value);
             List<DateTimeOffset> nextRunTimes = new List<DateTimeOffset>();
-            var list = taskTrigger.GetByIds(schedulingModel.TriggerIds);
-            foreach (var item in list)
-            {
-                var nextRunTime = new CronExpression(item.Crons).GetNextValidTimeAfter(DateTime.Now);
-                nextRunTimes.Add(nextRunTime.Value);
-            }
-            nextRunTimes.Sort();
-            scheduling.NextRunTime = nextRunTimes[0].LocalDateTime;
+            var list = taskTrigger.GetByIds(schedulingModel.TriggerIds).Select(s => s.Crons);
+            scheduling.NextRunTime = GetNextRunTimeByCrons(list); //nextRunTimes[0].LocalDateTime;
             int count = taskScheduling.InsertScheduling(new List<object>() { scheduling, new { triggerIds = schedulingModel.TriggerIds } });
             if (count > 0)
             {
@@ -64,15 +58,8 @@ namespace SSO.Web.Controllers
                 Api = updateSchedulingModel.Api,
                 Status = SchedulingStateEnum.Stoped
             };
-            List<DateTimeOffset> nextRunTimes = new List<DateTimeOffset>();
-            var list = taskTrigger.GetByIds(updateSchedulingModel.TriggerIds);
-            foreach (var item in list)
-            {
-                var nextRunTime = new CronExpression(item.Crons).GetNextValidTimeAfter(DateTime.Now);
-                nextRunTimes.Add(nextRunTime.Value);
-            }
-            nextRunTimes.Sort();
-            scheduling.NextRunTime = nextRunTimes[0].LocalDateTime;
+            var list = taskTrigger.GetByIds(updateSchedulingModel.TriggerIds).Select(s => s.Crons);
+            scheduling.NextRunTime = GetNextRunTimeByCrons(list);
             int count = taskScheduling.UpdateScheduling(scheduling, updateSchedulingModel.Id, updateSchedulingModel.TriggerIds);
             if (count > 0)
             {
@@ -265,7 +252,8 @@ namespace SSO.Web.Controllers
         [JwtAuthorize("StartScheduling")]
         public ActionResult StartScheduling(int id)
         {
-            if (taskScheduling.UpdateStatus(id, (int)SchedulingStateEnum.Running) > 0)
+            var list = taskTrigger.GetBySchedulingId(id).Select(s => s.Crons);
+            if (taskScheduling.Update(new { Id = id, Status = (int)SchedulingStateEnum.Running, NextRunTime = GetNextRunTimeByCrons(list) }) > 0)
             {
                 messageCenter.InsertTaskScheduling(Environment.MachineName, id, 0, (int)SchedulingStateEnum.Running);
                 return new ResponseModel<string>(ErrorCode.success, "");
@@ -278,7 +266,7 @@ namespace SSO.Web.Controllers
         [JwtAuthorize("StopScheduling")]
         public ActionResult StopScheduling(int id)
         {
-            if (taskScheduling.UpdateStatus(id, (int)SchedulingStateEnum.Stoped) > 0)
+            if (taskScheduling.Update(new { Id = id, Status = (int)SchedulingStateEnum.Stoped }) > 0)
             {
                 messageCenter.InsertTaskScheduling(Environment.MachineName, id, 0, (int)SchedulingStateEnum.Stoped);
                 return new ResponseModel<string>(ErrorCode.success, "");

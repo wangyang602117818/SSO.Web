@@ -90,10 +90,6 @@ namespace SSO.Data.Models
         {
             return base.QueryObject<object>("get-by-id", new { id }, null);
         }
-        public int UpdateStatus(int id, int status)
-        {
-            return base.ExecuteNonQuery("update-status", new { id, status }, null);
-        }
         public int EnableScheduling(int id, bool enable)
         {
             return base.ExecuteNonQuery("enable-scheduling", new { id, enable }, null);

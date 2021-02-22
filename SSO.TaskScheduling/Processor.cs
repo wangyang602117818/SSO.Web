@@ -110,10 +110,7 @@ namespace SSO.TaskScheduling
         {
             Log4Net.InfoLog("stop job by schedulingId=" + schedulingId);
             JobKey jobKey = new JobKey("job-" + schedulingId);
-            if (new Business.TaskScheduling().UpdateStatus(schedulingId, (int)SchedulingStateEnum.Stoped) > 0)
-            {
-                scheduler.PauseJob(jobKey);
-            }
+            scheduler.PauseJob(jobKey);
         }
         void StopJobByTrigger(int triggerId)
         {
@@ -121,11 +118,8 @@ namespace SSO.TaskScheduling
             var list = new TaskSchedulingTriggerMapping().GetByTriggerId(triggerId);
             foreach (var item in list)
             {
-                if (new Business.TaskScheduling().UpdateStatus(item.SchedulingId, (int)SchedulingStateEnum.Stoped) > 0)
-                {
-                    JobKey jobKey = new JobKey("job-" + item.SchedulingId);
-                    scheduler.PauseJob(jobKey);
-                }
+                JobKey jobKey = new JobKey("job-" + item.SchedulingId);
+                scheduler.PauseJob(jobKey);
             }
         }
     }
