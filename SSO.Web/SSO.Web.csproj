@@ -191,9 +191,6 @@
     <Content Include="Content\login\chunk-vendors.js" />
     <Content Include="Content\login\index.css" />
     <Content Include="Content\login\index.js" />
-    <Content Include="Content\logo.ico" />
-    <Content Include="Content\logo0.ico" />
-    <Content Include="Content\logo1.ico" />
     <Content Include="Global.asax" />
     <Content Include="logo.ico" />
     <Content Include="Web.config" />
