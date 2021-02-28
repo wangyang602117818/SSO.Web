@@ -3,6 +3,7 @@ using SSO.Util.Client;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
@@ -30,6 +31,21 @@ namespace SSO.Web.Controllers
             }
             nextRunTimes.Sort();
             return nextRunTimes[0].LocalDateTime;
+        }
+        protected bool CheckSiteAvailable(string url)
+        {
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)WebRequest.CreateDefault(new Uri(url));
+                req.Method = "HEAD";
+                req.Timeout = 3000;
+                HttpWebResponse res = (HttpWebResponse)req.GetResponse();
+                return true;
+            }
+            catch (WebException ex)
+            {
+                return false;
+            }
         }
     }
 }
