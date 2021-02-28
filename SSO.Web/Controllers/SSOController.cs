@@ -176,12 +176,12 @@ namespace SSO.Web.Controllers
             }
             if (ssoUrlCookie == null) return RedirectToAction("Login", new { returnUrl = returnUrl });
             List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlCookie.Value.Base64ToStr());
-            List<string> newSSoUrls = new List<string>();
-            foreach (string url in ssoUrls)
-            {
-                if (CheckSiteAvailable(url)) newSSoUrls.Add(url);
-            }
-            return Redirect(newSSoUrls[0] + "?ssourls=" + ssoUrlCookie.Value + "&returnUrl=" + returnUrl);
+            //List<string> newSSoUrls = new List<string>();
+            //foreach (string url in ssoUrls)
+            //{
+            //    if (CheckSiteAvailable(url)) newSSoUrls.Add(url);
+            //}
+            return Redirect(ssoUrls[0] + "?ssourls=" + ssoUrlCookie.Value + "&returnUrl=" + returnUrl);
         }
         public ActionResult DecodeToken()
         {
