@@ -71,16 +71,19 @@
     where Id=@Id
   </update>
   <delete-mapping>
-    delete from [TaskSchedulingTriggerMapping] where SchedulingId in (<iterate conjunction="," property="SchedulingIds">@SchedulingIds{{index}}</iterate>)
+    delete from [TaskSchedulingTriggerMapping] where SchedulingId in
+    <iterate property="SchedulingIds" conjunction="," open="(" close=")">
+      @SchedulingIds[index]
+    </iterate>
   </delete-mapping>
   <insert-mapping>
     insert into [TaskSchedulingTriggerMapping]([SchedulingId],[TriggerId])values
-    <iterate conjunction="," property="triggerIds">(@schedulingId,@triggerIds{{index}})</iterate>
+    <iterate conjunction="," property="triggerIds">(@schedulingId,@triggerIds[index])</iterate>
   </insert-mapping>
   <get-task-scheduling-trigger>
     select * from [dbo].[TaskScheduling] where Enable=1
     <isNotEmpty property="status" prepend="and">
-       [status] = @status
+      [status] = @status
     </isNotEmpty>
   </get-task-scheduling-trigger>
   <get-page-list>
@@ -103,7 +106,10 @@
     select * from TaskScheduling where Name = @Name
   </get-by-name>
   <delete>
-    delete from [TaskScheduling] where Id in (<iterate conjunction="," property="Ids">@Ids{{index}}</iterate>)
+    delete from [TaskScheduling] where Id in
+    <iterate property="Ids" conjunction="," open="(" close=")">
+      @Ids[index]
+    </iterate>
   </delete>
   <get-by-id>
     select *,TriggerId=(select TriggerId from [dbo].[TaskSchedulingTriggerMapping] where SchedulingId=tsd.Id) from  [dbo].[TaskScheduling] tsd where tsd.Id = @id
@@ -116,7 +122,10 @@
     where Id = @id
   </enable-scheduling>
   <check-scheduling-running>
-    select count(*) from TaskScheduling where Status=0 and id in  (<iterate conjunction="," property="ids">@ids{{index}}</iterate>)
+    select count(*) from TaskScheduling where Status=0 and id in
+    <iterate property="Ids" conjunction="," open="(" close=")">
+      @Ids[index]
+    </iterate>
   </check-scheduling-running>
   <get-distinct-names>
     select distinct Id,[Name] from [dbo].[TaskScheduling]

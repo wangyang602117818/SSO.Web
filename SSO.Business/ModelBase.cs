@@ -13,9 +13,9 @@ namespace SSO.Business
         {
             this.instance = instance;
         }
-        public int Count()
+        public int RecordCount()
         {
-            return instance.Count();
+            return instance.RecordCount();
         }
         public int Delete(IEnumerable<int> ids)
         {
@@ -52,9 +52,9 @@ namespace SSO.Business
         {
             return instance.GetAll<T>(obj);
         }
-        public IEnumerable<T> GetPageList<T>(ref int count, object t, object replacement = null) where T : new()
+        public IEnumerable<T> GetPageList<T>(object t, object replacement = null) where T : new()
         {
-            return instance.GetPageList<T>(ref count, t, replacement);
+            return instance.GetPageList<T>(t, replacement);
         }
     }
 }

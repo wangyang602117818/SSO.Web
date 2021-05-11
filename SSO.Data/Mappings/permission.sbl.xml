@@ -8,7 +8,7 @@
   </get-all>
   <insert-many>
     insert into Permission(Origin,Name,CreateTime)values
-    <iterate conjunction="," property="Names">(@Origin,@Names{{index}},@CreateTime)</iterate>
+    <iterate conjunction="," property="Names">(@Origin,@Names[index],@CreateTime)</iterate>
   </insert-many>
   <check-permission>
     select count(*) from(

@@ -19,9 +19,9 @@ namespace SSO.Data.Models
         public DateTime? LastRunTime { get; set; }
         public string LastRunResult { get; set; }
         public bool Enable { get; set; }
-        public IEnumerable<TaskScheduling> GetTaskSchedulings(int? status, ref int count)
+        public IEnumerable<TaskScheduling> GetTaskSchedulings(int? status)
         {
-            return base.QueryList<TaskScheduling>("get-task-scheduling-trigger", new { status }, null, ref count);
+            return base.QueryList<TaskScheduling>("get-task-scheduling-trigger", new { status }, null);
         }
         public TaskScheduling GetByName(string name)
         {
@@ -100,8 +100,7 @@ namespace SSO.Data.Models
         }
         public IEnumerable<object> GetDistinctNames()
         {
-            int count = 0;
-            return QueryList<object>("get-distinct-names", null, null, ref count);
+            return QueryList<object>("get-distinct-names", null, null);
         }
     }
 }

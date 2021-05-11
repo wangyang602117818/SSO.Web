@@ -60,15 +60,14 @@ namespace SSO.Web.Controllers
         [JwtAuthorize("GetCompany")]
         public ActionResult GetList(string filter = "", int pageIndex = 1, int pageSize = 10)
         {
-            int count = 0;
             Data.Models.Company com = new Data.Models.Company()
             {
                 Name = filter,
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
-            var result = company.GetPageList<Data.Models.Company>(ref count, com);
-            return new ResponseModel<IEnumerable<Data.Models.Company>>(ErrorCode.success, result, count);
+            var result = company.GetPageList<Data.Models.Company>(com);
+            return new ResponseModel<IEnumerable<Data.Models.Company>>(ErrorCode.success, result, result.Count() > 0 ? result.First().Total : 0);
         }
         [JwtAuthorize("GetCompany")]
         public ActionResult GetAll(string filter = "")

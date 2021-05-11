@@ -25,8 +25,7 @@ namespace SSO.Data.Models
         }
         public IEnumerable<PermissionUserMapping> GetByUser(string userId)
         {
-            int count = 0;
-            return base.QueryList<PermissionUserMapping>("get-by-user", new { UserId = userId }, null, ref count);
+            return base.QueryList<PermissionUserMapping>("get-by-user", new { UserId = userId }, null);
         }
 
     }

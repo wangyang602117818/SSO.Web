@@ -71,15 +71,14 @@ namespace SSO.Web.Controllers
         [JwtAuthorize("GetScheduling")]
         public ActionResult GetSchedulingList(string searchValue = "", int pageIndex = 1, int pageSize = 10)
         {
-            int count = 0;
             Data.Models.TaskScheduling trigger = new Data.Models.TaskScheduling()
             {
                 Description = searchValue,
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
-            var result = taskScheduling.GetPageList<Data.Models.TaskScheduling>(ref count, trigger);
-            return new ResponseModel<IEnumerable<Data.Models.TaskScheduling>>(ErrorCode.success, result, count);
+            var result = taskScheduling.GetPageList<Data.Models.TaskScheduling>(trigger);
+            return new ResponseModel<IEnumerable<Data.Models.TaskScheduling>>(ErrorCode.success, result, result.Count() > 0 ? result.First().Total : 0);
         }
         public ActionResult EnableScheduling(int id, bool enable)
         {
@@ -195,15 +194,14 @@ namespace SSO.Web.Controllers
         [JwtAuthorize("GetTrigger")]
         public ActionResult GetTriggerList(string searchValue = "", int pageIndex = 1, int pageSize = 10)
         {
-            int count = 0;
             Data.Models.TaskTrigger trigger = new Data.Models.TaskTrigger()
             {
                 Description = searchValue,
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
-            var result = taskTrigger.GetPageList<Data.Models.TaskTrigger>(ref count, trigger);
-            return new ResponseModel<IEnumerable<Data.Models.TaskTrigger>>(ErrorCode.success, result, count);
+            var result = taskTrigger.GetPageList<Data.Models.TaskTrigger>(trigger);
+            return new ResponseModel<IEnumerable<Data.Models.TaskTrigger>>(ErrorCode.success, result, result.Count() > 0 ? result.First().Total : 0);
         }
         [JwtAuthorize("GetTrigger")]
         public ActionResult GetTriggerById(int id)
@@ -284,10 +282,9 @@ namespace SSO.Web.Controllers
         [JwtAuthorize("GetSchedulingHistory")]
         public ActionResult GetSchedulingHistory(int? id, DateTime? startTime, DateTime? endTime, int pageIndex = 1, int pageSize = 10)
         {
-            int count = 0;
             if (endTime != null) endTime = endTime.Value.AddDays(1);
-            var result = schedulingHistory.GetPageList<Data.Models.TaskSchedulingHistory>(ref count, new { SchedulingId = id, StartTime = startTime, EndTime = endTime, PageIndex = pageIndex, PageSize = pageSize });
-            return new ResponseModel<IEnumerable<Data.Models.TaskSchedulingHistory>>(ErrorCode.success, result, count);
+            var result = schedulingHistory.GetPageList<Data.Models.TaskSchedulingHistory>(new { SchedulingId = id, StartTime = startTime, EndTime = endTime, PageIndex = pageIndex, PageSize = pageSize });
+            return new ResponseModel<IEnumerable<Data.Models.TaskSchedulingHistory>>(ErrorCode.success, result, result.Count() > 0 ? result.First().Total : 0);
         }
         [AllowAnonymous]
         public ActionResult M()

@@ -104,18 +104,15 @@ namespace SSO.Data.Models
         }
         public IEnumerable<DateCountItem> GroupBySex()
         {
-            int count = 0;
-            return base.QueryList<DateCountItem>("group-by-sex", null, null, ref count);
+            return base.QueryList<DateCountItem>("group-by-sex", null, null);
         }
         public IEnumerable<DateCountItem> GroupByCompany()
         {
-            int count = 0;
-            return base.QueryList<DateCountItem>("group-by-company", null, null, ref count);
+            return base.QueryList<DateCountItem>("group-by-company", null, null);
         }
         public IEnumerable<DateCountItem> GroupByDate(object paras)
         {
-            int count = 0;
-            return base.QueryList<DateCountItem>("group-by-date", paras, null, ref count);
+            return base.QueryList<DateCountItem>("group-by-date", paras, null);
         }
     }
 }

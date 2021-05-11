@@ -20,15 +20,8 @@ namespace SSO.TaskScheduling.Test
         static void Main(string[] args)
         {
 
-            //new Processor().StartWork();
-           
             Console.ReadKey();
         }
 
-    }
-    public class C
-    {
-        public string name { get; set; }
-        public List<string> values { get; set; }
     }
 }

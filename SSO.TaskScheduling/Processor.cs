@@ -24,8 +24,8 @@ namespace SSO.TaskScheduling
                 MsQueue<SchedulingQueueModel> msQueue = new MsQueue<SchedulingQueueModel>(AppSettings.GetValue("task_scheduling_msqueue"));
                 msQueue.ReceiveMessage(Worker);
             });
-            int count = 0;
-            var schedulings = taskScheduling.GetTaskSchedulings((int)SchedulingStateEnum.Running, ref count);
+
+            var schedulings = taskScheduling.GetTaskSchedulings((int)SchedulingStateEnum.Running);
 
             scheduler.Start();
 

@@ -47,11 +47,11 @@
     <isNotEmpty property="Description" prepend="and">
       Description like '%'+@Description+'%' or Description1 like '%'+@Description1+'%'
     </isNotEmpty>
-    ) 
+    )
     total from [TaskTrigger] where 1=1
     <isNotEmpty property="Description" prepend="and">
-    Description like '%'+@Description+'%' or Description1 like '%'+@Description1+'%'
-  </isNotEmpty>
+      Description like '%'+@Description+'%' or Description1 like '%'+@Description1+'%'
+    </isNotEmpty>
     ) as tbl
     where uid between (@PageIndex-1)*@PageSize+1 and @PageIndex*@PageSize
   </get-page-list>
@@ -63,13 +63,19 @@
     select distinct [type] from [TaskTrigger]
   </get-types>
   <delete>
-    delete from [TaskTrigger] where Id in (<iterate conjunction="," property="Ids">@Ids{{index}}</iterate>)
+    delete from [TaskTrigger] where Id in
+    <iterate property="Ids" conjunction="," open="(" close=")">
+      @Ids[index]
+    </iterate>
   </delete>
   <get-by-id>
     select * from TaskTrigger where Id = @Id
   </get-by-id>
   <get-by-ids>
-    select * from [TaskTrigger] where Id in (<iterate conjunction="," property="ids">@ids{{index}}</iterate>)
+    select * from [TaskTrigger] where Id in 
+    <iterate property="ids" conjunction="," open="(" close=")">
+      @ids[index]
+    </iterate>
   </get-by-ids>
   <get-by-scheduling-id>
     select tt.* from [dbo].[TaskTrigger] tt left join [dbo].[TaskSchedulingTriggerMapping] tstm on tt.Id=tstm.TriggerId

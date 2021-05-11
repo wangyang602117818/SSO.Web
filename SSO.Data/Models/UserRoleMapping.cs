@@ -14,8 +14,7 @@ namespace SSO.Data.Models
 
         public IEnumerable<UserRoleMapping> GetByUserId(string userId)
         {
-            int count = 0;
-            return base.QueryList<UserRoleMapping>("get-by-userId", new { UserId = userId }, null, ref count);
+            return base.QueryList<UserRoleMapping>("get-by-userId", new { UserId = userId }, null);
         }
     }
 }

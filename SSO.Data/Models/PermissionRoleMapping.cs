@@ -25,8 +25,7 @@ namespace SSO.Data.Models
         }
         public IEnumerable<PermissionRoleMapping> GetByRole(string role)
         {
-            int count = 0;
-            return base.QueryList<PermissionRoleMapping>("get-by-role", new { Role = role }, null, ref count);
+            return base.QueryList<PermissionRoleMapping>("get-by-role", new { Role = role }, null);
         }
     }
 }

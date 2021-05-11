@@ -23,13 +23,14 @@ namespace SSO.Data
         public int Id { get; set; }
         public DateTime? UpdateTime { get; set; }
         public DateTime? CreateTime { get => createTime; set => createTime = value; }
+        public int Total { get; set; } = 0;
         public ModelBase() : base(sessionFactory) { }
         [JsonIgnore]
         public int PageIndex { get; set; }
         [JsonIgnore]
         public int PageSize { get; set; }
 
-        public int Count()
+        public int RecordCount()
         {
             return (int)ExecuteScalar("count", null);
         }
@@ -39,12 +40,11 @@ namespace SSO.Data
         }
         public IEnumerable<T> GetAll<T>(object t)
         {
-            int count = 0;
-            return QueryList<T>("get-all", t, null, ref count);
+            return QueryList<T>("get-all", t, null);
         }
-        public IEnumerable<T> GetPageList<T>(ref int count, object t, object replacement) where T : new()
+        public IEnumerable<T> GetPageList<T>(object t, object replacement) where T : new()
         {
-            return QueryList<T>("get-page-list", t, replacement, ref count);
+            return QueryList<T>("get-page-list", t, replacement);
         }
     }
 }
