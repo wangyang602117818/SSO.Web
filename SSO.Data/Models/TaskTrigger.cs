@@ -17,23 +17,19 @@ namespace SSO.Data.Models
         public DateTime? Expire { get; set; }
         public IEnumerable<TaskTrigger> GetTaskTriggers(int schedulingId)
         {
-            int count = 0;
-            return QueryList<TaskTrigger>("get-task-triggers", new { schedulingId }, null, ref count);
+            return QueryList<TaskTrigger>("get-task-triggers", new { schedulingId }, null);
         }
         public IEnumerable<object> GetTypes()
         {
-            int count = 0;
-            return QueryList<object>("get-types", null, null, ref count);
+            return QueryList<object>("get-types", null, null);
         }
         public IEnumerable<TaskTrigger> GetByIds(IEnumerable<int> ids)
         {
-            int count = 0;
-            return QueryList<TaskTrigger>("get-by-ids", new { ids }, null, ref count);
+            return QueryList<TaskTrigger>("get-by-ids", new { ids }, null);
         }
         public IEnumerable<TaskTrigger> GetBySchedulingId(int schedulingId)
         {
-            int count = 0;
-            return QueryList<TaskTrigger>("get-by-scheduling-id", new { schedulingId }, null, ref count);
+            return QueryList<TaskTrigger>("get-by-scheduling-id", new { schedulingId }, null);
         }
     }
 }

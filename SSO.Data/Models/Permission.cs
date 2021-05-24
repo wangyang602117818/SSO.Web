@@ -14,8 +14,7 @@ namespace SSO.Data.Models
 
         public IEnumerable<Permission> GetAll()
         {
-            int count = 0;
-            return base.QueryList<Permission>("get-all", null, null, ref count);
+            return base.QueryList<Permission>("get-all", null, null);
         }
         public int DeleteAndInsertMany(string origin, IEnumerable<string> names)
         {

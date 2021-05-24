@@ -9,9 +9,9 @@ namespace SSO.Business
     public class TaskScheduling : ModelBase<Data.Models.TaskScheduling>
     {
         public TaskScheduling() : base(new Data.Models.TaskScheduling()) { }
-        public IEnumerable<Data.Models.TaskScheduling> GetTaskSchedulings(int? status, ref int count)
+        public IEnumerable<Data.Models.TaskScheduling> GetTaskSchedulings(int? status)
         {
-            return instance.GetTaskSchedulings(status, ref count);
+            return instance.GetTaskSchedulings(status);
         }
         public Data.Models.TaskScheduling GetByName(string name)
         {

@@ -18,10 +18,10 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<Totals>(ErrorCode.success, new Totals()
             {
-                Companys = company.Count(),
-                Departments = department.Count(),
-                Roles = role.Count(),
-                Users = user.Count()
+                Companys = company.RecordCount(),
+                Departments = department.RecordCount(),
+                Roles = role.RecordCount(),
+                Users = user.RecordCount()
             });
         }
         public ActionResult UserRatio()

@@ -18,8 +18,7 @@ namespace SSO.Data.Models
         }
         public IEnumerable<TaskSchedulingTriggerMapping> GetByTriggerId(int triggerId)
         {
-            int count = 0;
-            return base.QueryList<TaskSchedulingTriggerMapping>("get-by-triggerid", new { triggerId }, null, ref count);
+            return base.QueryList<TaskSchedulingTriggerMapping>("get-by-triggerid", new { triggerId }, null);
         }
     }
 }

@@ -65,7 +65,7 @@ namespace SSO.Web.Controllers
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
-            var result = role.GetPageList<Data.Models.Role>(ref count, r);
+            var result = role.GetPageList<Data.Models.Role>(r);
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, count);
         }
         [JwtAuthorize("GetRole")]

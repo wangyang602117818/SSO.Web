@@ -103,13 +103,22 @@
     select count(*) from [User] where IsDelete=0
   </count>
   <remove-user>
-    update [User] set IsDelete=1,DeleteTime=@DeleteTime where UserId in(<iterate conjunction="," property="UserIds">@UserIds{{index}}</iterate>)
+    update [User] set IsDelete=1,DeleteTime=@DeleteTime where UserId in
+    <iterate property="UserIds" conjunction="," open="(" close=")">
+      @UserIds[index]
+    </iterate>
   </remove-user>
   <restore-user>
-    update [User] set IsDelete=0 where UserId in(<iterate conjunction="," property="UserIds">@UserIds{{index}}</iterate>)
+    update [User] set IsDelete=0 where UserId in
+    <iterate property="UserIds" conjunction="," open="(" close=")">
+      @UserIds[index]
+    </iterate>
   </restore-user>
   <delete-user>
-    delete [User] where UserId in(<iterate conjunction="," property="UserIds">@UserIds{{index}}</iterate>)
+    delete [User] where UserId in
+    <iterate property="UserIds" conjunction="," open="(" close=")">
+      @UserIds[index]
+    </iterate>
   </delete-user>
   <get-by-id>
     select * from [User] where Id = @Id
@@ -138,7 +147,10 @@
     select * from [User] where UserId=@UserId and PassWord=@PassWord
   </login>
   <update-password>
-    update [User] set PassWord=@PassWord,IsModified=1 where UserId in(<iterate conjunction="," property="UserIds">@UserIds{{index}}</iterate>)
+    update [User] set PassWord=@PassWord,IsModified=1 where UserId in
+    <iterate property="UserIds" conjunction="," open="(" close=")">
+      @UserIds[index]
+    </iterate>
   </update-password>
   <update-file>
     update [User] set FileId=@FileId,FileName=@FileName,UpdateTime=@UpdateTime where UserId=@UserId
@@ -166,10 +178,10 @@
   </delete-role-by-userId>
   <insert-department-many>
     insert into UserDepartmentMapping([UserId],[DepartmentCode])values
-    <iterate conjunction="," property="Departments">(@UserId,@Departments{{index}})</iterate>
+    <iterate conjunction="," property="Departments">(@UserId,@Departments[index])</iterate>
   </insert-department-many>
   <insert-role-many>
     insert into UserRoleMapping([UserId],[Role])values
-    <iterate conjunction="," property="Roles">(@UserId,@Roles{{index}})</iterate>
+    <iterate conjunction="," property="Roles">(@UserId,@Roles[index])</iterate>
   </insert-role-many>
 </sql>

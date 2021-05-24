@@ -65,7 +65,6 @@ namespace SSO.Web.Controllers
         [JwtAuthorize("GetUser")]
         public ActionResult GetBasic(string companyCode = "", string filter = "", string orderField = "Id", string orderType = "desc", int pageIndex = 1, int pageSize = 10, bool delete = false)
         {
-            int count = 0;
             Data.Models.User page = new Data.Models.User()
             {
                 CompanyCode = companyCode,
@@ -75,8 +74,8 @@ namespace SSO.Web.Controllers
                 PageSize = pageSize
             };
             object replacement = new { OrderField = orderField, OrderType = orderType };
-            var result = user.GetPageList<Data.Models.User>(ref count, page, replacement);
-            return new ResponseModel<IEnumerable<Data.Models.User>>(ErrorCode.success, result, count);
+            var result = user.GetPageList<Data.Models.User>(page, replacement);
+            return new ResponseModel<IEnumerable<Data.Models.User>>(ErrorCode.success, result, result.Count() > 0 ? result.First().Total : 0);
         }
         [JwtAuthorize("RemoveUser")]
         public ActionResult Remove(IEnumerable<string> userIds)
