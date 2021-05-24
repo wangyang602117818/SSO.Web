@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    function decrypt(t, e) {
+        if (t) {
+            for (var n = t.split(""), i = e.split(""), a = {}, r = [], o = 0; o < n.length / 2; o++)
+                a[n[o]] = n[n.length / 2 + o];
+            for (var s = 0; s < e.length; s++)
+                r.push(a[i[s]]);
+            return r.join("")
+        }
+    }
+
+    var data = decrypt("cC15tW0wQMxPYmp,7493-0251+.8%6", "w0wcwppcwQCcwtMcw1wcwCtctYpcQp1cC01cQCCct1wcw1CcMY5cMYwcMY5cMYpcMppcMpMcMC5cMQYcMpQcMC5cM5wcMtwcMwQcMt0cMt0cMMYcMQCcMQ5");
+
+    window.console.log(data);
+</script>

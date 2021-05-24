@@ -21,7 +21,7 @@ namespace SSO.TaskScheduling.Test
         {
 
             //new Processor().StartWork();
-           
+            Console.WriteLine("ok");
             Console.ReadKey();
         }
 

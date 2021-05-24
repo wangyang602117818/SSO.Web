@@ -136,6 +136,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="logo.ico" />
     <Content Include="sbl.config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
