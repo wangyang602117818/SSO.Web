@@ -218,7 +218,7 @@ namespace SSO.Web.Controllers
             };
             if (start < end || end == null)
             {
-                schedulingExample.Examples.Add(start);
+                //schedulingExample.Examples.Add(start);
                 count--;
             }
             for (var i = 0; i < count; i++)
