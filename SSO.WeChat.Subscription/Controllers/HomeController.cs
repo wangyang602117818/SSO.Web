@@ -20,7 +20,8 @@ namespace SSO.WeChat.Subscription.Controllers
         public ActionResult WX(WxModel wxModel)
         {
             Log4Net.InfoLog(JsonSerializerHelper.Serialize(wxModel));
-            return Content("ok");
+
+            return Content(wxModel.echostr);
         }
     }
     public class WxModel

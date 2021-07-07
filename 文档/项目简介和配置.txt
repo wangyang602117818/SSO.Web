@@ -1,0 +1,30 @@
+1. SSO.Web  地址: https://github.com/wangyang602117818/SSO.Web.git
+	提供SSO基础服务的项目,数据库是sqlserver
+	包含以下子项目:
+	1. SSO.Web(SSOAPI): 提供基本的 SSO登录、SSO退出、公司、部门、角色、用户、任务调度、日志列表的api服务, 除了SSO登录界面之外没有其他前端界面
+	2. SSO.TaskScheduling(依赖于MSMQ): 具体的任务调度服务,负责定时任务的执行,停止
+	3. SSO基础服务的管理界面(SSOWeb),纯前端项目(vue),是SSOAPI的管理工具,项目文件夹:sso-pc-vue
+	4. SSO基础服务的管理界面Mobile版,纯前端项目(vue),是SSOAPI的管理工具mobile版本,项目文件夹:sso-mobile-vue
+2. MessageCenter.Web 地址: https://github.com/wangyang602117818/MessageCenter.Web.git
+	提供日志服务,异步的消息服务,数据库是MongoDB
+	包含以下子项目:
+	1. MessageCenter.Web(依赖于MSMQ): 提供日志接口,消息接口,该项目接收日志数据、队列数据,然后插入MSMQ,该项目为了解耦其他项目与MSMQ的关联,日志插入使用MSMQ增加了日志吞吐量
+	2. LogService(依赖于MSMQ):顾名思义,该项目用于处理MSMQ中的日志数据,从MSMQ中接收到日志数据之后延迟1分钟插入数据库,这时候如果用户频繁的调用相同的接口,则只会在当前的日志数据的数量上+1,不会产生新日志
+3. FileService.Api  地址: https://gitee.com/yangxwang/FileService.Api.git
+    提供文件存储,文件查询服务,数据库是MongoDB
+	包含以下子项目:
+	1. FileService.Api: 提供文件上传接口,文件分析接口,根据配置来决定文件存储方式
+	2. FileService.Converter(依赖于MSMQ): 文件转换和存储服务,如果FileService.Api和FileService.Converter部署在同一台机器上,则由FileService.Api直接把文件存在磁盘,FileService.Converter去读取,不需要部署FileServiceTransfor.Api项目
+	3. FileServiceTransfor.Api: 当FileService.Api和FileService.Converter部署在不同的机器上,则由该项目负责接收FileService.Api传过来的文件,存在磁盘上,FileService.Converter再去读取
+	4. 文件管理系统的界面,纯前端项目(vue),项目文件夹:fileserver-pc-vue,编译好之后放在了FileService.Api的wwwroot文件夹中
+4. SSO.Util.Client 地址: https://github.com/wangyang602117818/SSO.Util.Client.git
+	是服务端的工具项目,是sso登录、权限和各个工具的集合,在nuget上搜索 SSO.Util.Client 就能安装
+5. sso-util 地址: https://github.com/wangyang602117818/sso-util.git
+	是纯前端的工具项目,是sso登录,和各个工具的集合,在npm上搜索 sso-util 就能安装
+
+目前的架构是: 
+SSO.Web是所有项目登录和权限控制的基础服务
+MessageCenter.Web是所有项目日志与MSMQ相关的基础服务
+FileService.Api是所有项目文件上传的基础服务
+SSO.Util.Client和sso-util是各个项目之间的调用工具
+

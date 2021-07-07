@@ -36,4 +36,5 @@ namespace SSO.Web.Controllers
             return SymmetricEncryptHelper.GenerateAESKey;
         }
     }
+
 }
