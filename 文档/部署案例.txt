@@ -1,0 +1,71 @@
+1. 部署SSO.Web
+	配置文件:
+	issuer: JWT的token颁发者,用户生成和验证 JWTToken 的合法性(按照需要修改)
+	ssoSecretKey: JWT的秘钥,用于生成和解密浏览器端的 JWTToken (按照需要修改,秘钥获取方式在Home/SecretKey中)
+	ssoCookieKey: 生成的cookie的键的名称
+	ssoCookieTime: cookie的有效时间(分钟),session:浏览器窗口关闭才会清除
+	ssoTicketTime: sso登录的时候,url上面用于传递信息的临时ticket有效时间(秒)
+	admin: 系统的默认账户名;密码;角色
+	defaultPassword: 在新建用户的时候,用户的默认密码
+	lang: 系统默认语言zh-cn,en-us
+	1) 安装好sqlserver,并且手动新建数据库 UserCenter(表会由程序自动创建)
+	2) 配置好 sbl.config.xml 中的数据库连接字符串
+	3) 发布项目,并且在IIS上部署好,访问项目如果出现登录界面,则是安装好了,地址案例(http://www.ssoapi.com:8030)
+	4) 访问/home/index 初始化权限项
+	界面:
+2. 	部署SSO.TaskScheduling(定时任务相关)
+	配置文件:
+	task_scheduling_msqueue: 用于读取定时任务通知的队列
+	1) 在windows上配置好 message queue, 安装好 sqlserver,并且手动新建数据库 UserCenter(表会由程序自动创建),
+	2) 配置好 sbl.config.xml 中的数据库连接字符串
+	3) 编译项目的release版本,然后以管理员权限在release目录中运行install-service.bat就安装好服务了
+	4) 启动服务
+3. 部署	MessageCenter.Web
+	配置文件: 
+	mongodb : mongodb的地址
+	database: mongodb数据的名称
+	log_msqueue: 用于插入日志队列的地址
+	file_msqueue: 用于插入文件通知的队列地址
+	file_remote_msqueue: 用于插入文件通知的队列地址(远程)
+	task_scheduling_msqueue: 用于插入定时任务通知的队列
+	task_scheduling_remote_msqueue: 用于插入定时任务通知的队列(远程)
+	1) 在windows上配置好 message queue, 安装好MongoDB,配置好 web.config 中的 mongodb 节点
+	2) 发布项目,并且在IIS上部署好,访问项目如果出现index界面,则是安装好了,地址案例(http://www.messagecenter.com:8050)
+4. 	部署 LogService(日志相关)
+	配置文件:
+	mongodb : mongodb的地址
+	database: mongodb数据的名称
+	log_msqueue: 用于读取日志队列的地址
+	1) 在windows上配置好 message queue, 安装好MongoDB,配置好 app.config 中的 mongodb 节点
+	2) 编译项目的release版本,然后以管理员权限在release目录中运行install-service.bat就安装好服务了
+	3) 启动服务
+5. 部署FileService.Api
+	配置文件:
+	mongodb : mongodb的地址
+	database: mongodb数据的名称
+	ssoBaseUrl: sso地址,用于 跳转 和 权限验证(http://www.ssoapi.com:8030/)
+	messageBaseUrl: 操作日志的记录地址(http://www.messagecenter.com:8050/)
+	ssoSecretKey: 用于解析JWT Token的key
+	ssoCookieKey: 生成的cookie的键的名称
+	ssoCookieTime: cookie的有效时间(分钟),session:浏览器窗口关闭才会清除
+	1) 安装好MongoDB,配置好 appsettings.json 中的 mongodb 节点
+	2) 发布项目,并且在IIS上部署好(应用程序池选择 No Managed Code),地址案例(http://localhost/FileService.ApiCore)
+	3) 访问项目出现正常界面,则是安装好了
+	4) 访问/home/index初始化权限项,需要登录之后访问
+6. 部署FileServiceTransfor.Api
+   1) 发布项目,并且在IIS上部署好(应用程序池选择 No Managed Code),地址案例(http://localhost/FileServiceTransfor.Api)
+7. 部署FileService.Converter
+	配置文件:
+	mongodb : mongodb的地址
+	database: mongodb数据的名称
+	file_msqueue: 用于接收文件通知的队列地址
+	saveFileType: 有2个值: path上传的文件存到saveFilePath指定的位置,api上传的文件发送到saveFileApi指定的地址
+	saveFileApi: 上传的文件发送到那个地址
+	saveFilePath: 上传的文件保存到那个路径
+	1) 在windows上配置好 message queue, 安装好MongoDB,配置好 app.config 中的 mongodb 节点
+	2) 决定FileService.Api和FileService.Converter是否在同一台机器
+		如果是同一台机器,则saveFileType=path,saveFilePath={文件保存的地址}
+		如果不是同一台机器,则saveFileType=api,saveFileApi={FileServiceTransfor.Api地址}
+	3) 编译项目的release版本,然后以管理员权限在release目录中运行install-service.bat就安装好服务了
+	4) 启动服务	
+

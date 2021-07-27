@@ -8,3 +8,33 @@
 	3. SSO退出,用户每次登录成功之后,都会在SSO站点留下登录成功的站点地址(A站点,B站点),当用户退出的时候,先重定向到SSO站点,SSO站点先清除自身的cookie,重定向到A站点,A站点收到退出请求,清除自身的cookie,A站点发出重新到B站点的请求,B站点收到退出请求,清除自身的cookie; 全部清除完毕,跳到sso站点的登录界面,完成SSO退出
 	4. 整个SSO认证步骤都封装在Nuget的SSO.Util.Client.dll和npm的sso-util中
 	
+	
+1. .Net项目的SSO登录
+1) 新建项目WebApplication1,并且安装SSO.Util.Client
+2) 配置全局SSO过滤器
+3) 添加配置文件
+4) 访问WebApplication1项目,出现sso登录界面
+5) 登录成功之后
+//在action中访问用户id
+var userId = User.Identity.Name;  
+//获取authorization(jwt token)
+var authorization = JwtManager.GetAuthorization(Request);
+//访问用户其他信息
+var userData = JwtManager.ParseUserData(authorization)
+系统的默认验证方式是跳转到登录界面,也可以改变策略不跳转
+filters.Add(new SSOAuthorizeAttribute("", false));
+默认访问所有的Action都需要验证,如果要匿名访问需要添加[AllowAnonymous]注解
+
+2. 纯前端vue项目的SSO登录
+1) 使用 vue create app01 命令行创建项目
+2) 使用 npm install sso-util 来安装工具包
+3) 添加项目的配置
+4) 启动项目
+5) 登录成功之后
+
+3. SSO退出
+
+
+
+
+

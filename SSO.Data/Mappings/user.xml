@@ -144,7 +144,7 @@
   </get-page-list>
   <login>
     update [User] set LastLoginTime=@LastLoginTime where UserId=@UserId
-    select * from [User] where UserId=@UserId and PassWord=@PassWord
+    select * from [User] where UserId=@UserId and PassWord=@PassWord and IsDelete=0
   </login>
   <update-password>
     update [User] set PassWord=@PassWord,IsModified=1 where UserId in

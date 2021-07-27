@@ -49,8 +49,8 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SSO.Util.Client, Version=2.4.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSO.Util.Client.2.4.6\lib\net45\SSO.Util.Client.dll</HintPath>
+    <Reference Include="SSO.Util.Client, Version=2.4.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSO.Util.Client.2.4.8\lib\net45\SSO.Util.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -103,39 +103,39 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\role.sbl.xml" />
+    <EmbeddedResource Include="Mappings\role.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\department.sbl.xml" />
-    <EmbeddedResource Include="Mappings\company.sbl.xml" />
+    <EmbeddedResource Include="Mappings\department.xml" />
+    <EmbeddedResource Include="Mappings\company.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\settings.sbl.xml" />
+    <EmbeddedResource Include="Mappings\settings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\user.sbl.xml" />
+    <EmbeddedResource Include="Mappings\user.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\user_department_mapping.sbl.xml" />
+    <EmbeddedResource Include="Mappings\user_department_mapping.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\user_role_mapping.sbl.xml" />
+    <EmbeddedResource Include="Mappings\user_role_mapping.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\permission.sbl.xml" />
+    <EmbeddedResource Include="Mappings\permission.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\permission_role_mapping.sbl.xml" />
+    <EmbeddedResource Include="Mappings\permission_role_mapping.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\permission_user_mapping.sbl.xml" />
+    <EmbeddedResource Include="Mappings\permission_user_mapping.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Create\2-scheduling.sbl.xml" />
+    <EmbeddedResource Include="Create\2-scheduling.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Model\SSO.Model.csproj">
@@ -144,22 +144,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\task_scheduling.sbl.xml" />
+    <EmbeddedResource Include="Mappings\task_scheduling.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\task_trigger.sbl.xml" />
+    <EmbeddedResource Include="Mappings\task_trigger.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\task_scheduling_trigger_mapping.sbl.xml" />
+    <EmbeddedResource Include="Mappings\task_scheduling_trigger_mapping.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Create\1-basic.sbl.xml" />
+    <EmbeddedResource Include="Create\1-basic.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\task_scheduling_history.sbl.xml" />
+    <EmbeddedResource Include="Mappings\task_scheduling_history.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Create\10-category.sbl.xml" />
+    <EmbeddedResource Include="Create\10-category.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
