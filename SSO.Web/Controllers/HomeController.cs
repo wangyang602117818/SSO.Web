@@ -1,5 +1,6 @@
 ﻿using SSO.Util.Client;
 using SSO.Web.Filters;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
