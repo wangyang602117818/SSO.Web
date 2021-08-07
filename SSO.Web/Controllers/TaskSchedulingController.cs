@@ -33,7 +33,7 @@ namespace SSO.Web.Controllers
                 Name = schedulingModel.Name,
                 Description = schedulingModel.Description,
                 Api = schedulingModel.Api,
-                Status = SchedulingStateEnum.Stoped
+                Status = (int)SchedulingStateEnum.Stoped
             };
             if (schedulingModel.Trigger != null) schedulingModel.TriggerIds.Add(schedulingModel.Trigger.Value);
             List<DateTimeOffset> nextRunTimes = new List<DateTimeOffset>();
@@ -56,7 +56,7 @@ namespace SSO.Web.Controllers
                 Name = updateSchedulingModel.Name,
                 Description = updateSchedulingModel.Description,
                 Api = updateSchedulingModel.Api,
-                Status = SchedulingStateEnum.Stoped
+                Status = (int)SchedulingStateEnum.Stoped
             };
             var list = taskTrigger.GetByIds(updateSchedulingModel.TriggerIds).Select(s => s.Crons);
             scheduling.NextRunTime = GetNextRunTimeByCrons(list);
