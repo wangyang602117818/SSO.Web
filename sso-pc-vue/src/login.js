@@ -15,6 +15,8 @@ var urls = {
 Vue.prototype.$urls = urls
 Vue.config.productionTip = false
 
-new Vue({
+
+var vue = new Vue({
     render: h => h(Login),
 }).$mount('#app')
+window.vue = vue;

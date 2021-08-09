@@ -114,21 +114,23 @@ ax.interceptors.request.use((config) => {
 ax.interceptors.response.use(
     response => {
         if (response.data.code == 1000) {
-            if (window.vue.$message)
-                window.vue.$message.error(window.vue.$t("response." + response.data.message));
+            if (window.vue.$toast)
+                window.vue.$toast("error", window.vue.$t("response." + response.data.message));
             return;
         }
         if (response.data.code > 10) {
-            if (window.vue.$message)
-                window.vue.$message.warning(window.vue.$t("response." + response.data.message));
+            if (window.vue.$toast){
+                window.vue.$toast("info", window.vue.$t("response." + response.data.message));
+            }
         }
         return response.data;
     },
     error => {
         if (error.message.includes('timeout')) {
-            if (window.vue.$message)
-                window.vue.$message.warning(window.vue.$t("response.request_timeout"));
-            return;
+            if (window.vue.$toast) {
+                window.vue.$toast("info", window.vue.$t("response.request_timeout"));
+                return;
+            }
         }
         return Promise.reject(error.response) // 返回接口返回的错误信息
     }
