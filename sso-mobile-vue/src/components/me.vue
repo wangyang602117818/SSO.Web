@@ -35,6 +35,8 @@
           ref="fileinput"
           accept="image/*"
           style="width:0px;height:0px"
+          width="0px"
+          height="0px"
           @change="uploadFile"
         />
         <div class="setting_line_name">{{ $t('me.pic_setting') }}</div>

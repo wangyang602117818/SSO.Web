@@ -60,7 +60,7 @@ namespace SSO.Web.Filters
             string authorization = JwtManager.GetAuthorization(request, ssoCookieKey);
             if (string.IsNullOrEmpty(authorization))
             {
-                filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
+                //filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
             }
             else
             {
@@ -77,17 +77,17 @@ namespace SSO.Web.Filters
                 catch (SecurityTokenInvalidAudienceException ex) //Audience Error 
                 {
                     Log4Net.ErrorLog(ex);
-                    filterContext.Result = new ResponseModel<string>(ErrorCode.invalid_token, "");
+                    //filterContext.Result = new ResponseModel<string>(ErrorCode.invalid_token, "");
                 }
                 catch (SecurityTokenExpiredException ex) //expried token
                 {
                     Log4Net.ErrorLog(ex);
-                    filterContext.Result = new ResponseModel<string>(ErrorCode.token_expired, "");
+                    //filterContext.Result = new ResponseModel<string>(ErrorCode.token_expired, "");
                 }
                 catch (Exception ex)
                 {
                     Log4Net.ErrorLog(ex);
-                    filterContext.Result = new ResponseModel<string>(ErrorCode.invalid_token, "");
+                    //filterContext.Result = new ResponseModel<string>(ErrorCode.invalid_token, "");
                 }
             }
         }
