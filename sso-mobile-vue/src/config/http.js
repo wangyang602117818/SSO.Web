@@ -104,19 +104,22 @@ ax.interceptors.request.use((config) => {
 //响应拦截器
 ax.interceptors.response.use(
     response => {
-        if (response.data.code === 400) {
-            window.vue.showInfo("记录已存在!");
-            return false;
-        }
-        if (response.data.code === 401) {
-            window.vue.showInfo("登录已过期!");
-            return false
+        // if (response.data.code === 400) {
+        //     window.vue.showInfo("记录已存在!");
+        //     return false;
+        // }
+        // if (response.data.code === 401) {
+        //     window.vue.showInfo("登录已过期!");
+        //     return false
+        // }
+        if (response.data.code > 10) {
+            window.vue.showInfo(window.vue.$t("response." + response.data.message));
         }
         return response.data;
     },
     error => {
         if (error.message.includes('timeout')) {
-            window.vue.showInfo("请求超时!");
+            window.vue.showInfo(window.vue.$t("response.request_timeout"));
             return;
         }
         return Promise.reject(error.response) // 返回接口返回的错误信息

@@ -12,7 +12,7 @@ namespace SSO.Web.Controllers
     public class UserController : BaseController
     {
         Business.User user = new Business.User();
-        [JwtAuthorize("GetUser")]
+        [JwtAuthorize("AddUser")]
         public ActionResult Add(AddUserModel addUserModel)
         {
             if (user.GetUser(addUserModel.UserId) != null) return new ResponseModel<string>(ErrorCode.record_exist, "");
@@ -104,7 +104,7 @@ namespace SSO.Web.Controllers
             if (userIds == null || userIds.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
             return new ResponseModel<int>(ErrorCode.success, user.RestoreUser(userIds));
         }
-        [JwtAuthorize("GetUser")]
+        [JwtAuthorize]
         public ActionResult GetUser()
         {
             Model.UserData userData = user.GetUserUpdate(User.Identity.Name);

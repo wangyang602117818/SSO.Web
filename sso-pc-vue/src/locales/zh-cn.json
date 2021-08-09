@@ -229,6 +229,7 @@
         "GetRole": "获取角色",
         "DeleteRole": "删除角色",
         "GetUser": "获取用户",
+        "AddUser":"添加用户",
         "UpdateUser": "更新用户",
         "RemoveUser": "移除用户",
         "DeleteUser": "删除用户",

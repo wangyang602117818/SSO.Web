@@ -228,6 +228,7 @@
         "UpdateRole": "UpdateRole",
         "GetRole": "GetRole",
         "DeleteRole": "DeleteRole",
+        "AddUser":"AddUser",
         "GetUser": "GetUser",
         "UpdateUser": "UpdateUser",
         "RemoveUser": "RemoveUser",
