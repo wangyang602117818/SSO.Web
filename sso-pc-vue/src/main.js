@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueI18n from "vue-i18n"
 import VueRouter from 'vue-router'
 import funtools from 'sso-util'
+import ssocomponent  from "sso-util/plugins/index"
 import { baseURL, cookieName, urls, axios } from './config/http';
 import routes from "./config/routes";
 import "./css/index.css"
@@ -47,6 +48,8 @@ Vue.prototype.$urls = urls
 Vue.prototype.$axios = axios
 
 funtools.authorize(baseURL, cookieName);
+
+Vue.use(ssocomponent);
 const i18n = new VueI18n({
   locale: window.token_jwt_data.Lang,
   messages: {
@@ -56,9 +59,13 @@ const i18n = new VueI18n({
 });
 
 Vue.config.productionTip = false
+
 var vue = new Vue({
   i18n,
-  el: "#app",
   router: routes
 })
+
 window.vue = vue;
+
+vue.$mount('#app')
+

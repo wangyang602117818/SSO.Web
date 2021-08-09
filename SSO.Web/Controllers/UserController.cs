@@ -115,7 +115,8 @@ namespace SSO.Web.Controllers
                 {
                     UserId = User.Identity.Name,
                     UserName = userName,
-                    Role = new List<string>() { admin[2] }
+                    Role = new List<string>() { admin[2] },
+
                 };
             }
             return new ResponseModel<Model.UserData>(ErrorCode.success, userData);
