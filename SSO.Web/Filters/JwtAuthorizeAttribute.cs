@@ -60,7 +60,7 @@ namespace SSO.Web.Filters
             string authorization = JwtManager.GetAuthorization(request, ssoCookieKey);
             if (string.IsNullOrEmpty(authorization))
             {
-                //filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
+                if (request.Path.IndexOf("/sso/logout") == -1) filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");
             }
             else
             {
