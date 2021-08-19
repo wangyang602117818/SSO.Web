@@ -62,36 +62,42 @@
               <span>{{ $t("overview") }}</span>
             </router-link>
           </a-menu-item>
-          <a-sub-menu key="user">
+          <a-sub-menu key="basic">
             <span slot="title">
               <a-icon type="user" />
-              <span>{{ $t("user") }}</span>
+              <span>{{ $t("basic") }}</span>
             </span>
             <a-menu-item key="userbasic">
               <router-link to="/userbasic">
                 <a-icon type="info-circle" />
-                <span>{{ $t("basic") }}</span>
+                <span>{{ $t("user") }}</span>
+              </router-link>
+            </a-menu-item>
+            <a-menu-item key="role">
+              <router-link to="/role">
+                <a-icon type="team" />
+                <span>{{ $t("role") }}</span>
+              </router-link>
+            </a-menu-item>
+            <a-menu-item key="company">
+              <router-link to="/company">
+                <a-icon type="home" />
+                <span>{{ $t("company") }}</span>
+              </router-link>
+            </a-menu-item>
+            <a-menu-item key="department">
+              <router-link to="/department">
+                <a-icon type="cluster" />
+                <span>{{ $t("department") }}</span>
               </router-link>
             </a-menu-item>
           </a-sub-menu>
-          <a-menu-item key="role">
-            <router-link to="/role">
-              <a-icon type="team" />
-              <span>{{ $t("role") }}</span>
-            </router-link>
-          </a-menu-item>
-          <a-menu-item key="company">
-            <router-link to="/company">
-              <a-icon type="home" />
-              <span>{{ $t("company") }}</span>
-            </router-link>
-          </a-menu-item>
-          <a-menu-item key="department">
-            <router-link to="/department">
-              <a-icon type="cluster" />
-              <span>{{ $t("department") }}</span>
-            </router-link>
-          </a-menu-item>
+          <a-sub-menu>
+            <span slot="title">
+              <a-icon type="clock-circle" />
+              <span>{{ $t("flow") }}</span>
+            </span>
+          </a-sub-menu>
           <a-sub-menu key="taskmanage">
             <span slot="title">
               <a-icon type="clock-circle" />
@@ -196,7 +202,10 @@ export default {
     var openKeys = [];
     switch (routeName) {
       case "userbasic":
-        openKeys = ["user"];
+      case "role":
+      case "company":
+      case "department":
+        openKeys = ["basic"];
         break;
       case "taskscheduling":
       case "tasktrigger":

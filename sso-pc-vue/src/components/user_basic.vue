@@ -294,7 +294,7 @@
       </a-form>
     </a-drawer>
     <a-modal
-      :title="$t('role_permission')"
+      :title="$t('user_permission')"
       :visible="permissionVisible"
       :confirm-loading="confirmLoading"
       :okText="$t('submit')"

@@ -15,6 +15,7 @@
     "scheduling_list":"SchedulingList",
     "task_trigger":"TaskTrigger",
     "trigger_required":"Trigger is required",
+    "flow":"Flow",
     "crons":"Crons",
     "activate":"Activate",
     "expire":"Expire",
