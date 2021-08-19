@@ -94,7 +94,7 @@
           </a-sub-menu>
           <a-sub-menu>
             <span slot="title">
-              <a-icon type="clock-circle" />
+              <a-icon type="retweet" />
               <span>{{ $t("flow") }}</span>
             </span>
           </a-sub-menu>
