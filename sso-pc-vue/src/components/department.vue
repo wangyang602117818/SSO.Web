@@ -264,6 +264,7 @@ var generateList = data => {
   }
 };
 export default {
+   name: "department",
   data() {
     return {
       company: [],

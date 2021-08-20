@@ -16,6 +16,7 @@
     "task_trigger": "触发器",
     "trigger_required": "触发器不能为空",
     "flow":"流程管理",
+    "formlist":"表单列表",
     "crons": "表达式",
     "activate": "激活时间",
     "expire": "过期时间",

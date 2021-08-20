@@ -327,7 +327,7 @@
 let timeout;
 let currentValue = "";
 export default {
-  name: "user_basic",
+  name: "userbasic",
   data() {
     return {
       data: [],

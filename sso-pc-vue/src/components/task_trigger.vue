@@ -255,7 +255,7 @@
 <script>
 import base from "./Base";
 export default {
-  name: "task_trigger",
+  name: "tasktrigger",
   mixins: [base],
   data() {
     return {

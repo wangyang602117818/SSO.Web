@@ -16,6 +16,7 @@
     "task_trigger":"TaskTrigger",
     "trigger_required":"Trigger is required",
     "flow":"Flow",
+    "formlist":"FormList",
     "crons":"Crons",
     "activate":"Activate",
     "expire":"Expire",

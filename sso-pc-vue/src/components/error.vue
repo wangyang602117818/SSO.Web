@@ -3,7 +3,7 @@
 </template>
 <script>
 export default {
-    name: "app"
+    name: "error"
 
 }
 </script>

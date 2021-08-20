@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { axios } from './config/http';
 import funtools from 'sso-util'
 
-import Login from '@/components/login'
+import Login from '@/login/login'
 
 Vue.prototype.$funtools = funtools
 Vue.prototype.$axios = axios

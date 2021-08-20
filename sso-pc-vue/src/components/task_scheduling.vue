@@ -200,7 +200,7 @@ import start from "../icons/start";
 import end from "../icons/end";
 // import list from "../icons/list";
 export default {
-  name: "task_scheduling",
+  name: "taskscheduling",
   components: { start, end },
   mixins: [base],
   data() {

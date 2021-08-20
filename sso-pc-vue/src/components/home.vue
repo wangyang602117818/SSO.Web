@@ -97,6 +97,12 @@
               <a-icon type="retweet" />
               <span>{{ $t("flow") }}</span>
             </span>
+            <a-menu-item key="formlist">
+              <router-link to="/formlist">
+                <a-icon type="info-circle" />
+                <span>{{ $t("formlist") }}</span>
+              </router-link>
+            </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="taskmanage">
             <span slot="title">

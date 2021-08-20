@@ -37,7 +37,7 @@
 <script>
 import base from "./Base";
 export default {
-  name: "task_scheduling_history",
+  name: "taskschedulinghistory",
   mixins: [base],
   data() {
     return {
