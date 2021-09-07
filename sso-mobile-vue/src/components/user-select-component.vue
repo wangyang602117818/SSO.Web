@@ -60,7 +60,7 @@ export default {
   mixins: [ListBase],
   data() {
     return {
-      getlist: this.$urls.user.getUrl,
+      getlist: this.$urls.user.getbasic,
     };
   },
   computed: {
@@ -80,7 +80,7 @@ export default {
         "&pageSize=" +
         this.pageSize +
         "&filter=" +
-        this.filter;
+        this.filter+"&orderField=UserName&orderType=asc";
       return url;
     },
     selectItem(index) {

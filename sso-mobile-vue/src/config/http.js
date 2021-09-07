@@ -1,6 +1,6 @@
 import ax from 'axios';
 import funtools from 'sso-util';
-export const fileBaseURL = "http://localhost/FileService.ApiCore/";
+export const fileBaseURL = "http://www.fileserverpc.com/";
 export const baseURL = "http://www.ssoapi.com:8030/";
 export const cookieName = "sso.mobile.auth";
 export const urls = {
@@ -32,7 +32,6 @@ export const urls = {
         delete: "department/delete"
     },
     user: {
-        getUrl: "sso/getUserList",
         add: "user/add",
         getbasic: "user/getbasic",
         remove: "user/remove",
@@ -62,14 +61,6 @@ export const urls = {
         userCompanyRatio: 'overview/userCompanyRatio',
         userDepartmentRatio: 'overview/userDepartmentRatio'
     },
-    navigation: {
-        getlist: 'navigation/getlist',
-        add: 'navigation/add',
-        delete: 'navigation/delete',
-        getbyid: 'navigation/getbyid',
-        update: 'navigation/update',
-        geturlmeta: 'navigation/geturlmeta'
-    },
     settings: {
         setLang: 'settings/setlang'
     },
@@ -88,7 +79,7 @@ export const urls = {
 
 ax.defaults.baseURL = baseURL;
 // 配置
-ax.defaults.timeout = 7000;
+ax.defaults.timeout = 30000;
 ax.defaults.headers.post['Content-Type'] = 'application/json';
 ax.defaults.headers.get['Content-Type'] = 'application/json';
 ax.defaults.headers.delete['Content-Type'] = 'application/json';

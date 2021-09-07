@@ -7,66 +7,75 @@
     :infinite-distance="50"
     :infinite-preloader="loading"
     @infinite="loadMore"
+    class="filemanage"
   >
-    <f7-navbar :title="$t('navigator.file_manage')" :back-link="$t('common.back')">
+    <f7-navbar
+      :title="$t('navigator.file_manage')"
+      :back-link="$t('common.back')"
+    >
       <f7-nav-right>
-        <f7-link icon-f7="hourglass_tophalf_fill" sheet-open=".sheet-top"></f7-link>
+        <f7-link
+          icon-f7="hourglass_tophalf_fill"
+          sheet-open=".sheet-top"
+        ></f7-link>
       </f7-nav-right>
     </f7-navbar>
     <f7-sheet top backdrop class="sheet-top">
       <f7-toolbar bottom>
         <div class="left">
-          <f7-link sheet-close @click="onClear">{{$t('common.clear')}}</f7-link>
+          <f7-link sheet-close @click="onClear">{{
+            $t("common.clear")
+          }}</f7-link>
         </div>
         <div class="right">
-          <f7-link sheet-close @click="onSearch">{{$t('common.ok')}}</f7-link>
+          <f7-link sheet-close @click="onSearch">{{ $t("common.ok") }}</f7-link>
         </div>
       </f7-toolbar>
       <f7-page-content>
-        <f7-block-title>{{$t('common.from')}}</f7-block-title>
+        <f7-block-title>{{ $t("common.from") }}</f7-block-title>
         <f7-block strong>
           <f7-chip
-            :color="item==from?'blue':''"
+            :color="item == from ? 'blue' : ''"
             :text="item"
-            v-for="(item,index) in froms"
+            v-for="(item, index) in froms"
             :key="index"
             @click="fromClick"
           ></f7-chip>
         </f7-block>
-        <f7-block-title>{{$t('navigator.file_type')}}</f7-block-title>
+        <f7-block-title>{{ $t("navigator.file_type") }}</f7-block-title>
         <f7-block strong>
           <f7-chip
-            :color="item.value==filterFileType?'blue':''"
+            :color="item.value == filterFileType ? 'blue' : ''"
             :text="item.text"
-            v-for="(item,index) in fileTypes"
+            v-for="(item, index) in fileTypes"
             :key="index"
             :data-value="item.value"
             @click="fileTypeClick"
           ></f7-chip>
         </f7-block>
-        <f7-block-title>{{$t('common.order')}}</f7-block-title>
+        <f7-block-title>{{ $t("common.order") }}</f7-block-title>
         <f7-block strong>
           <f7-chip
-            :color="orderBy=='CreateTime'?'blue':''"
-            :text="$t('navigator.upload_time')+getOrderSymbol('CreateTime')"
+            :color="orderBy == 'CreateTime' ? 'blue' : ''"
+            :text="$t('navigator.upload_time') + getOrderSymbol('CreateTime')"
             data-orderby="CreateTime"
             @click="orderChange"
           ></f7-chip>
           <f7-chip
-            :color="orderBy=='FileName'?'blue':''"
-            :text="$t('navigator.file_name')+getOrderSymbol('FileName')"
+            :color="orderBy == 'FileName' ? 'blue' : ''"
+            :text="$t('navigator.file_name') + getOrderSymbol('FileName')"
             data-orderby="FileName"
             @click="orderChange"
           ></f7-chip>
           <f7-chip
-            :color="orderBy=='Length'?'blue':''"
-            :text="$t('navigator.file_size')+getOrderSymbol('Length')"
+            :color="orderBy == 'Length' ? 'blue' : ''"
+            :text="$t('navigator.file_size') + getOrderSymbol('Length')"
             data-orderby="Length"
             @click="orderChange"
           ></f7-chip>
           <f7-chip
-            :color="orderBy=='Download'?'blue':''"
-            :text="$t('navigator.download_count')+getOrderSymbol('Download')"
+            :color="orderBy == 'Download' ? 'blue' : ''"
+            :text="$t('navigator.download_count') + getOrderSymbol('Download')"
             data-orderby="Download"
             @click="orderChange"
           ></f7-chip>
@@ -83,35 +92,51 @@
       :photos="photos"
       theme="dark"
       type="standalone"
-      :swiper="{preloadImages:false,lazy: {enabled: false}}"
+      :swiper="{ preloadImages: false, lazy: { enabled: false } }"
       ref="standaloneDark"
     ></f7-photo-browser>
     <f7-list media-list>
       <f7-list-item
-        v-for="(item,index) in datas"
+        v-for="(item, index) in datas"
         :key="item._id"
         :id="index"
         link="#"
         :title="item.FileName"
         :after="''"
-        :subtitle="item.CreateTime+' | '+item.Percent+'%'"
-        :text="$funtools.convertFileSize(item.Length)+' | ' +item.Download+' | ' + item.From"
+        :subtitle="item.CreateTime + ' | ' + item.Percent + '%'"
+        :text="
+          $funtools.convertFileSize(item.Length) +
+          ' | ' +
+          item.Download +
+          ' | ' +
+          item.From
+        "
         @click="itemClick"
       >
         <img
           slot="media"
-          :src="$axios.defaults.baseURL+$urls.file.downloadPic+'/'+item._id+'/'+item.FileName"
-          width="80"
+          :src="
+            $axios.defaults.baseURL +
+            $urls.file.downloadPic +
+            '/' +
+            item._id +
+            '/' +
+            item.FileName
+          "
         />
       </f7-list-item>
     </f7-list>
-    <f7-block class="text-align-center" v-if="datas.length===0&&isEnd">{{$t('common.no_data')}}</f7-block>
-    <f7-block class="text-align-center" v-if="datas.length>0&&isEnd">---{{$t('common.end')}}---</f7-block>
+    <f7-block class="text-align-center" v-if="datas.length === 0 && isEnd">{{
+      $t("common.no_data")
+    }}</f7-block>
+    <f7-block class="text-align-center" v-if="datas.length > 0 && isEnd"
+      >---{{ $t("common.end") }}---</f7-block
+    >
     <f7-fab position="right-bottom" href="/fileadd">
       <f7-icon ios="f7:plus" aurora="f7:plus" md="material:add"></f7-icon>
     </f7-fab>
-    
-    <pdf src="" style="width:0;height:0" class=""></pdf>
+
+    <pdf src="" style="width: 0; height: 0" class=""></pdf>
   </f7-page>
 </template>
 
@@ -242,8 +267,8 @@ export default {
       this.$refs.standaloneDark.open();
       // }
     },
-    loaded(){
-alert('x');
+    loaded() {
+      alert("x");
     },
     onClear() {
       this.from = "";
@@ -288,7 +313,7 @@ alert('x');
 };
 </script>
 
-<style scoped>
+<style>
 .block-title {
   margin-top: 5px;
 }
@@ -297,5 +322,10 @@ alert('x');
 }
 .chip {
   margin-left: 5px;
+}
+.filemanage .list .item-media {
+  height: 80px;
+  width: 80px;
+  justify-content: center;
 }
 </style>

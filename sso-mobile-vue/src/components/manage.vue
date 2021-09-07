@@ -53,14 +53,6 @@
         </f7-col>
       </f7-row>
       <f7-row no-gap>
-        <!-- <f7-col>
-          <div class="nav_wrap" @click="$f7router.navigate('/navigation')">
-            <f7-icon f7="flag_circle" color="blue"></f7-icon>
-            <div class="nav_title">
-              <span>{{ $t('manage.navigator_manage') }}</span>
-            </div>
-          </div>
-        </f7-col> -->
         <f7-col>
           <div class="nav_wrap" @click="$f7router.navigate('/logs')">
             <f7-icon f7="doc_text" color="blue"></f7-icon>
