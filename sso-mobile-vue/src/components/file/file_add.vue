@@ -1,23 +1,36 @@
 <template>
   <f7-page name="file_add">
-    <f7-navbar :title="$t('navigator.add_file')" :back-link="$t('common.back')"></f7-navbar>
+    <f7-navbar
+      :title="$t('navigator.add_file')"
+      :back-link="$t('common.back')"
+    ></f7-navbar>
     <div class="image_container">
       <div class="image_list">
         <div
           class="image_item"
-          v-for="(item,index) in imageUrls"
+          v-for="(item, index) in imageUrls"
           :key="index"
           @click="previewFile"
           :data-name="item.name"
         >
-          <img :src="item.url" v-if="images.indexOf($funtools.getFileExtension(item.name))>-1" />
+          <img
+            :src="item.url"
+            v-if="images.indexOf($funtools.getFileExtension(item.name)) > -1"
+          />
           <video
             controls="controls"
             :src="item.url"
-            v-else-if="videos.indexOf($funtools.getFileExtension(item.name))>-1"
+            v-else-if="
+              videos.indexOf($funtools.getFileExtension(item.name)) > -1
+            "
           ></video>
           <img
-            :src="$axios.defaults.baseURL+$urls.file.downloadPic+'/000000000000000000000000/'+item.name"
+            :src="
+              $axios.defaults.baseURL +
+              $urls.file.downloadPic +
+              '/000000000000000000000000/' +
+              item.name
+            "
             v-else
           />
           <div class="del" @click="delFile" :id="index">
@@ -28,7 +41,7 @@
           <input
             type="file"
             ref="fileinput"
-            style="width:0px;height:0px"
+            style="width: 0px; height: 0px"
             multiple
             @change="choseFile"
           />
@@ -37,27 +50,27 @@
       </div>
       <div class="access_wrap">
         <div class="setting_line" @click="roleShow = true">
-          <div class="setting_line_name bold">{{$t("common.role")}}</div>
+          <div class="setting_line_name bold">{{ $t("common.role") }}</div>
           <div class="setting_line_right">
-            <div
-              class="setting_line_data"
-              v-if="roles.length>0"
-            >{{roles.length+' '+$t("common.role")}}</div>
+            <div class="setting_line_data" v-if="roles.length > 0">
+              {{ roles.length + " " + $t("common.role") }}
+            </div>
             <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
           </div>
         </div>
-        <div class="setting_line" @click="userShow=true">
-          <div class="setting_line_name bold">{{$t("common.user")}}</div>
+        <div class="setting_line" @click="userShow = true">
+          <div class="setting_line_name bold">{{ $t("common.user") }}</div>
           <div class="setting_line_right">
-            <div
-              class="setting_line_data"
-              v-if="users.length>0"
-            >{{users.length+' '+$t("common.user")}}</div>
+            <div class="setting_line_data" v-if="users.length > 0">
+              {{ users.length + " " + $t("common.user") }}
+            </div>
             <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
           </div>
         </div>
       </div>
-      <f7-button large fill @click="uploadFiles" :disabled="buttonDisabled">{{buttonValue}}</f7-button>
+      <f7-button large fill @click="uploadFiles" :disabled="buttonDisabled">{{
+        buttonValue
+      }}</f7-button>
     </div>
     <role-select
       :show="roleShow"
@@ -83,7 +96,7 @@ export default {
   name: "file_add",
   components: {
     "role-select": RoleSelectComponent,
-    "user-select": UserSelectComponent
+    "user-select": UserSelectComponent,
   },
   data() {
     return {
@@ -192,6 +205,7 @@ export default {
         this.buttonDisabled = true;
         this.$axios
           .post(this.$urls.file.uploads, param, {
+            timeout: 300000,
             onUploadProgress: function (progressEvent) {
               var precent =
                 ((progressEvent.loaded / progressEvent.total) * 100).toFixed() +
