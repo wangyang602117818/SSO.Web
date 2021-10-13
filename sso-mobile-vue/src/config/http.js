@@ -69,12 +69,13 @@ export const urls = {
     file: {
         getlist: "file/getfilelist",
         upload: "file/upload",
-        uploads:"file/uploads",
+        uploads: "file/uploads",
         downloadPic: "file/downloadpic",
         downloadFile: "file/downloadFile",
         fileState: "file/fileState",
         getFromList: "file/getFromList",
-        getFileTypeMapping:"file/getFileTypeMapping"
+        getFileTypeMapping: "file/getFileTypeMapping",
+        remove: "file/remove"
     }
 
 };

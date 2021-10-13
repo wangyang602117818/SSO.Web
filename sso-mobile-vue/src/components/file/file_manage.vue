@@ -112,6 +112,7 @@
           item.From
         "
         @click="itemClick"
+        swipeout
       >
         <img
           slot="media"
@@ -124,6 +125,11 @@
             item.FileName
           "
         />
+        <f7-swipeout-actions right>
+          <f7-swipeout-button color="red" @click="delFile(item._id)">{{
+            $t("common.delete")
+          }}</f7-swipeout-button>
+        </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>
     <f7-block class="text-align-center" v-if="datas.length === 0 && isEnd">{{
@@ -308,6 +314,20 @@ export default {
       this.$axios.get(this.$urls.file.getFromList).then((response) => {
         if (response.code === 0) this.froms = response.result;
       });
+    },
+    delFile(id) {
+      var that = this;
+      this.$f7.dialog.confirm(
+        this.$t("confirm.sure_delete"),
+        this.$t("common.tips"),
+        function () {
+          that.$axios
+            .get(that.$urls.file.remove+"/"+id)
+            .then((response) => {
+              if (response.code === 0) that.removeItem(id);
+            });
+        }
+      );
     },
   },
 };

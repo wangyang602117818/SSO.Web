@@ -85,5 +85,11 @@ namespace SSO.Web.Controllers
             var mappings = fileClientService.GetExtensionMap();
             return Content(JsonSerializerHelper.Serialize(mappings));
         }
+        public ActionResult Remove(string id)
+        {
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));
+            var result = fileClientService.RemoveFile(id);
+            return Content(JsonSerializerHelper.Serialize(result));
+        }
     }
 }
