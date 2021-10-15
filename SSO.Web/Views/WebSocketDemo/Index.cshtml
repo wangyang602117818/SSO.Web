@@ -1,0 +1,64 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script>
+        var ws;
+        window.onload = function () {
+            document.getElementById("conn").onclick = function () {
+                var user = document.getElementById("user").value;
+                ws = new WebSocket('ws://' + window.location.host + '/WebSocketDemo/Connect?user=' + user);
+
+                var msg = document.getElementById("msg");
+                msg.append("正在连接");
+
+                ws.onopen = function () {
+                    msg.append('已经连接');
+                }
+                ws.onmessage = function (evt) {
+                    msg.append(evt.data);
+                }
+                ws.onerror = function (evt) {
+                    msg.append(JSON.stringify(evt));
+                }
+                ws.onclose = function () {
+                    msg.append('已经关闭');
+                }
+            }
+            document.getElementById("close").onclick = function () {
+                ws.close();
+            }
+            document.getElementById("send").onclick = function () {
+                if (ws.readyState == WebSocket.OPEN) {
+                    var to = document.getElementById("to").value;
+                    var content = document.getElementById("content").value;
+                    ws.send(to + "|" + content);
+                }
+                else {
+                    document.getElementById("tips").innerText = "连接已经关闭";
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <input id="user" type="text" />
+        <input id="conn" type="button" value="连接" />
+        <input id="close" type="button" value="关闭" /><br />
+        <span id="tips"></span>
+        <input id="content" type="text" />
+        <input id="send" type="button" value="发送" /><br />
+        <input id="to" type="text" />目的用户
+        <div id="msg">
+        </div>
+    </div>
+</body>
+</html>

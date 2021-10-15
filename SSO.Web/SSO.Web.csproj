@@ -171,6 +171,7 @@
     <Compile Include="Controllers\SSOController.cs" />
     <Compile Include="Controllers\TaskSchedulingController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WebSocketDemoController.cs" />
     <Compile Include="Filters\JwtAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -213,6 +214,7 @@
     <None Include="sbl.config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="Views\WebSocketDemo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
