@@ -92,7 +92,7 @@
       :photos="photos"
       theme="dark"
       type="standalone"
-      :swiper="{ preloadImages: false, lazy: { enabled: false } }"
+      :swiper="{ preloadImages: true, lazy: { enabled: false } }"
       ref="standaloneDark"
     ></f7-photo-browser>
     <f7-list media-list>
@@ -111,7 +111,7 @@
           ' | ' +
           item.From
         "
-        @click="itemClick"
+        @click="itemClick(index)"
         swipeout
       >
         <img
@@ -262,8 +262,9 @@ export default {
       url += "&delete=" + this.fileDelete;
       return url;
     },
-    itemClick(e) {
-      var index = e.currentTarget.parentElement.id;
+    itemClick(index) {
+      //var index = e.currentTarget.parentElement.id;
+
       // var item = this.datas[index];
       // if (item.FileType == "pdf") {
       //   var url = this.$urls.preview + "/" + item._id + "/" + item.FileName;
