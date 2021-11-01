@@ -88,6 +88,7 @@
     <Compile Include="ModelBase.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\MonitorTableData.cs" />
     <Compile Include="Models\Permission.cs" />
     <Compile Include="Models\PermissionRoleMapping.cs" />
     <Compile Include="Models\PermissionUserMapping.cs" />
@@ -160,6 +161,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Create\10-category.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\monitor_table_data.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

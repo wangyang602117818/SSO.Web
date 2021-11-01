@@ -8,17 +8,12 @@ using System.Threading.Tasks;
 
 namespace SSO.TaskScheduling
 {
-    public class SchedulingJob : IJob
+    public abstract class SchedulingJob : IJob
     {
         Business.TaskSchedulingHistory schedulingHistory = new Business.TaskSchedulingHistory();
         HttpRequestHelper httpRequest = new HttpRequestHelper();
-        public Task Execute(IJobExecutionContext context)
+        public virtual string ExecuteJob(Data.Models.TaskScheduling data)
         {
-            var data = JsonSerializerHelper.Deserialize<Data.Models.TaskScheduling>(context.JobDetail.JobDataMap.GetString("data"));
-            Log4Net.InfoLog("run job:" + data.Id);
-            DateTime runTime = context.FireTimeUtc.LocalDateTime;
-            DateTime? nextRunTime = null;
-            if (context.NextFireTimeUtc != null) nextRunTime = context.NextFireTimeUtc.Value.LocalDateTime;
             string result = "";
             try
             {
@@ -29,6 +24,16 @@ namespace SSO.TaskScheduling
                 Log4Net.ErrorLog(ex);
                 result = ex.Message;
             }
+            return result;
+        }
+        public Task Execute(IJobExecutionContext context)
+        {
+            var data = JsonSerializerHelper.Deserialize<Data.Models.TaskScheduling>(context.JobDetail.JobDataMap.GetString("data"));
+            Log4Net.InfoLog("run job:" + data.Id);
+            DateTime runTime = context.FireTimeUtc.LocalDateTime;
+            DateTime? nextRunTime = null;
+            if (context.NextFireTimeUtc != null) nextRunTime = context.NextFireTimeUtc.Value.LocalDateTime;
+            string result = ExecuteJob(data);
             try
             {
                 schedulingHistory.InsertHistoryAndUpdateScheduling(data.Id, data.Name, runTime, nextRunTime, result);
@@ -40,4 +45,5 @@ namespace SSO.TaskScheduling
             return Task.Delay(0);
         }
     }
+ 
 }

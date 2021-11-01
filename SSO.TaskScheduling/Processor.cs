@@ -19,6 +19,8 @@ namespace SSO.TaskScheduling
         Business.TaskTrigger taskTrigger = new TaskTrigger();
         public void StartWork()
         {
+            scheduler.Start();
+
             task = Task.Factory.StartNew(() =>
             {
                 MsQueue<SchedulingQueueModel> msQueue = new MsQueue<SchedulingQueueModel>(AppSettings.GetValue("task_scheduling_msqueue"));
@@ -26,8 +28,6 @@ namespace SSO.TaskScheduling
             });
 
             var schedulings = taskScheduling.GetTaskSchedulings((int)SchedulingStateEnum.Running);
-
-            scheduler.Start();
 
             foreach (var scheduling in schedulings)
             {
@@ -55,20 +55,20 @@ namespace SSO.TaskScheduling
                 if (obj.SchedulingId > 0) StartJob(obj.SchedulingId);
             }
         }
-        Dictionary<IJobDetail, IReadOnlyCollection<ITrigger>> GetTriggersAndJobs(Data.Models.TaskScheduling scheduling)
+        Dictionary<IJobDetail, IReadOnlyCollection<ITrigger>> GetTriggersAndJobs(Data.Models.TaskScheduling data)
         {
             IJobDetail jobDetail = JobBuilder.Create<SchedulingJob>()
-                  .WithIdentity("job-" + scheduling.Id)
-                  .UsingJobData("data", JsonSerializerHelper.Serialize(scheduling))
+                  .WithIdentity("job-" + data.Id)
+                  .UsingJobData("data", JsonSerializerHelper.Serialize(data))
                   .Build();
             //触发器
-            var triggers = taskTrigger.GetTaskTriggers(scheduling.Id);
+            var triggers = taskTrigger.GetTaskTriggers(data.Id);
             Dictionary<IJobDetail, IReadOnlyCollection<ITrigger>> dictionary = new Dictionary<IJobDetail, IReadOnlyCollection<ITrigger>>();
             HashSet<ITrigger> triggerSet = new HashSet<ITrigger>();
             foreach (var trigger in triggers)
             {
                 if (trigger.Expire != null && trigger.Expire < DateTime.Now) continue;
-                var tri = TriggerBuilder.Create().WithIdentity("trigger-" + scheduling.Id + "-" + trigger.Id);
+                var tri = TriggerBuilder.Create().WithIdentity("trigger-" + data.Id + "-" + trigger.Id);
                 if (trigger.Activate == null)
                 {
                     tri.StartNow();

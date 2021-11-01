@@ -120,6 +120,8 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
+    <Compile Include="Schedules\DemoSchedule.cs" />
+    <Compile Include="Schedules\ISchedule.cs" />
     <Compile Include="SchedulingJob.cs" />
     <Compile Include="Service1.cs">
       <SubType>Component</SubType>

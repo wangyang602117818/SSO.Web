@@ -1,4 +1,5 @@
-﻿using SSO.Util.Client.SqlBatisLite;
+﻿using SSO.Util.Client;
+using SSO.Util.Client.SqlBatisLite;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -12,7 +13,11 @@ namespace SSO.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            
+            Log4Net.InfoLog("application start");
+        }
+        protected void Application_End()
+        {
+            Log4Net.InfoLog("application end");
         }
     }
 }
