@@ -24,14 +24,14 @@ namespace SSO.Data.Models
                         command.Transaction = transaction;
                         try
                         {
-                            var list = base.QueryList<object>("select-sync-data", null, new { table });
+                            var list = base.QueryList<object>("select-sync-data", null, new { table }).OrderBy(o => ((JObject)o)["version"]).ToList();
                             if (list.Count() > 0)
                             {
-                                var version = Convert.ToInt64(((JObject)list.ToList()[list.Count() - 1])["version"]);
+                                var version = Convert.ToInt64(((JObject)list[list.Count - 1])["version"]);
                                 //处理
-                                foreach (var item in list)
+                                foreach(var item in list)
                                 {
-                                    Console.WriteLine(JsonSerializerHelper.Serialize(item));
+                                    Console.WriteLine(table + ":" + JsonSerializerHelper.Serialize(item));
                                 }
                                 //更新
                                 base.ExecuteNonQuery("update-version", new { version }, new { table });
