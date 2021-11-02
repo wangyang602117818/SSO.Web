@@ -17,35 +17,26 @@ namespace SSO.TaskScheduling.Test
     class Program
     {
         static IScheduler scheduler = new StdSchedulerFactory().GetScheduler().Result;
-        static Task companyTask = null;
-        static Task roleTask = null;
+        static Task tableTask = null;
         static void Main(string[] args)
         {
-            companyTask = new Task(MonitorCompany);
-            companyTask.Start();
+            Console.WriteLine("请输入:");
+            string table = Console.ReadLine();
+            tableTask = new Task(MonitorTable, table);
+            tableTask.Start();
 
-            roleTask = new Task(MonitorRole);
-            roleTask.Start();
             //new Processor().StartWork();
             Console.WriteLine("ok");
             Console.ReadKey();
         }
 
-        static void MonitorCompany()
+        static void MonitorTable(object tablename)
         {
+
             while (true)
             {
                 MonitorTableData monitorTableData = new MonitorTableData();
-                monitorTableData.Monitor("company");
-                Thread.Sleep(1000);
-            }
-        }
-        static void MonitorRole()
-        {
-            while (true)
-            {
-                MonitorTableData monitorTableData = new MonitorTableData();
-                monitorTableData.Monitor("role");
+                monitorTableData.Monitor((string)tablename);
                 Thread.Sleep(1000);
             }
         }
