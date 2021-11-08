@@ -8,12 +8,12 @@
           @search="onSearch"
           v-model="searchValue"
         />
-        <a-button
+        <!-- <a-button
           type="primary"
           icon="plus"
           :title="$t('add')"
           @click="showDrawer()"
-        ></a-button>
+        ></a-button> -->
         <a-button
           type="default"
           icon="redo"
@@ -149,21 +149,6 @@
           />
         </a-form-item>
         <a-form-item
-          label="Api"
-          :label-col="{ span: 4 }"
-          :wrapper-col="{ span: 20 }"
-        >
-          <a-input
-            placeholder="Api"
-            v-decorator="[
-              'api',
-              {
-                rules: [{ required: true, message: $t('api_required') }],
-              },
-            ]"
-          />
-        </a-form-item>
-        <a-form-item
           :label="$t('trigger')"
           :label-col="{ span: 4 }"
           :wrapper-col="{ span: 20 }"
@@ -236,12 +221,6 @@ export default {
           scopedSlots: { customRender: "Status" },
         },
         {
-          title: "api",
-          dataIndex: "Api",
-          width: "24%",
-          ellipsis: true,
-        },
-        {
           title: this.$t("last_run_time"),
           dataIndex: "LastRunTime",
           width: "13%",
@@ -254,7 +233,7 @@ export default {
         {
           title: this.$t("last_run_result"),
           dataIndex: "LastRunResult",
-          width: "10%",
+          width: "34%",
           ellipsis: true,
         },
         {

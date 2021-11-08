@@ -14,7 +14,6 @@ namespace SSO.Data.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public int Status { get; set; }
-        public string Api { get; set; }
         public DateTime? NextRunTime { get; set; }
         public DateTime? LastRunTime { get; set; }
         public string LastRunResult { get; set; }

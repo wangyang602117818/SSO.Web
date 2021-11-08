@@ -64,7 +64,7 @@ export default {
         {
           title: this.$t("scheduling_name"),
           dataIndex: "SchedulingName",
-          width: "15%",
+          width: "10%",
         },
         {
           title: this.$t("run_time"),
@@ -73,9 +73,21 @@ export default {
           ellipsis: true,
         },
         {
+          title: this.$t("end_time"),
+          dataIndex: "EndTime",
+          width: "15%",
+          ellipsis: true,
+        },
+         {
+          title: this.$t("interval"),
+          width: "5%",
+          ellipsis: true,
+          customRender: this.renderContent
+        },
+        {
           title: this.$t("run_result"),
           dataIndex: "RunResult",
-          width: "50%",
+          width: "35%",
           ellipsis: true,
         },
       ];
@@ -95,6 +107,10 @@ export default {
       if (this.endTime) url += "&endTime=" + this.endTime;
       if (this.id > 0) url += "&id=" + this.id;
       return url;
+    },
+    renderContent(value, row, index){
+      var seconds = Math.round((new Date(value.EndTime).getTime() - new Date(value.RunTime).getTime()) / 1000);
+      return this.$funtools.convertTime(seconds);
     },
     getDistinctNames() {
       this.$axios

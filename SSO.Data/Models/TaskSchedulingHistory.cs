@@ -11,13 +11,14 @@ namespace SSO.Data.Models
         public int SchedulingId { get; set; }
         public string SchedulingName { get; set; }
         public DateTime? RunTime { get; set; }
+        public DateTime? EndTime { get; set; }
         public string RunResult { get; set; }
 
-        public int InsertHistoryAndUpdateScheduling(int schedulingId, string schedulingName, DateTimeOffset runTime, DateTimeOffset? nextRunTime, string runResult)
+        public int InsertHistoryAndUpdateScheduling(int schedulingId, string schedulingName, DateTimeOffset runTime, DateTimeOffset endTime, DateTimeOffset? nextRunTime, string runResult)
         {
             List<object> datas = new List<object>()
             {
-                new { SchedulingId =schedulingId,SchedulingName=schedulingName,RunTime=runTime,RunResult=runResult},
+                new { SchedulingId =schedulingId,SchedulingName=schedulingName,RunTime=runTime,EndTime=endTime,RunResult=runResult},
                 new { Id=schedulingId, NextRunTime=nextRunTime,LastRunTime=runTime,LastRunResult=runResult}
             };
             List<string> nodes = new List<string>() { "insert", "update-scheduling" };

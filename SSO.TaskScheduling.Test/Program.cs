@@ -16,16 +16,18 @@ namespace SSO.TaskScheduling.Test
 {
     class Program
     {
-        static IScheduler scheduler = new StdSchedulerFactory().GetScheduler().Result;
         static Task tableTask = null;
+        static Processor processor = new Processor();
         static void Main(string[] args)
         {
-            Console.WriteLine("请输入:");
-            string table = Console.ReadLine();
-            tableTask = new Task(MonitorTable, table);
-            tableTask.Start();
+            //Console.WriteLine("请输入:");
+            //string table = Console.ReadLine();
+            //tableTask = new Task(MonitorTable, table);
+            //tableTask.Start();
 
-            //new Processor().StartWork();
+            processor.StartWork();
+
+
             Console.WriteLine("ok");
             Console.ReadKey();
         }

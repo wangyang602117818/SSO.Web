@@ -10,10 +10,10 @@ namespace SSO.Business
     {
         public TaskSchedulingHistory() : base(new Data.Models.TaskSchedulingHistory()) { }
 
-        public int InsertHistoryAndUpdateScheduling(int schedulingId, string schedulingName, DateTimeOffset runTime, DateTimeOffset? nextRunTime, string runResult)
+        public int InsertHistoryAndUpdateScheduling(int schedulingId, string schedulingName, DateTimeOffset runTime, DateTimeOffset endTime, DateTimeOffset? nextRunTime, string runResult)
         {
-            return instance.InsertHistoryAndUpdateScheduling(schedulingId, schedulingName, runTime, nextRunTime, runResult);
+            return instance.InsertHistoryAndUpdateScheduling(schedulingId, schedulingName, runTime, endTime, nextRunTime, runResult);
         }
-        
+
     }
 }

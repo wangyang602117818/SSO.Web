@@ -7,9 +7,6 @@
     <isNotEmpty property="Description" prepend=",">
       [Description]
     </isNotEmpty>
-    <isNotEmpty property="Api" prepend=",">
-      [Api]
-    </isNotEmpty>
     <isNotEmpty property="NextRunTime" prepend=",">
       [NextRunTime]
     </isNotEmpty>
@@ -27,9 +24,6 @@
     @Status
     <isNotEmpty property="Description" prepend=",">
       @Description
-    </isNotEmpty>
-    <isNotEmpty property="Api" prepend=",">
-      @Api
     </isNotEmpty>
     <isNotEmpty property="NextRunTime" prepend=",">
       @NextRunTime
@@ -55,9 +49,6 @@
     </isNotEmpty>
     <isNotEmpty property="Description" prepend=",">
       [Description]=@Description
-    </isNotEmpty>
-    <isNotEmpty property="Api" prepend=",">
-      [Api]=@Api
     </isNotEmpty>
     <isNotEmpty property="NextRunTime" prepend=",">
       [NextRunTime]=@NextRunTime

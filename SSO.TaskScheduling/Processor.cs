@@ -2,10 +2,12 @@
 using Quartz.Impl;
 using SSO.Business;
 using SSO.Model;
+using SSO.TaskScheduling.Schedules;
 using SSO.Util.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,12 +15,14 @@ namespace SSO.TaskScheduling
 {
     public class Processor
     {
-        static IScheduler scheduler = new StdSchedulerFactory().GetScheduler().Result;
+        IScheduler scheduler = new StdSchedulerFactory().GetScheduler().Result;
         Task task = null;
         Business.TaskScheduling taskScheduling = new Business.TaskScheduling();
         Business.TaskTrigger taskTrigger = new TaskTrigger();
+        static List<BaseSchedule> scheduleList = new List<BaseSchedule>();
         public void StartWork()
         {
+            InsertTaskSchedulings();
             scheduler.Start();
 
             task = Task.Factory.StartNew(() =>
@@ -32,8 +36,41 @@ namespace SSO.TaskScheduling
             foreach (var scheduling in schedulings)
             {
                 var dict = GetTriggersAndJobs(scheduling);
+
                 if (dict.Count > 0) scheduler.ScheduleJobs(dict, true);
             }
+        }
+        public void InsertTaskSchedulings()
+        {
+            scheduleList = GetScheduleListFromCode();
+            foreach(var item in scheduleList)
+            {
+                var scheduling = taskScheduling.GetByName(item.Name);
+                if (scheduling == null)
+                {
+                    var index = taskScheduling.Insert(new Data.Models.TaskScheduling
+                    {
+                        Name = item.Name,
+                        Description = item.Description,
+                        Status = (int)SchedulingStateEnum.Stoped
+                    });
+                    Log4Net.InfoLog("插入任务(" + item.Name + ")-(" + index + ")");
+                }
+            }
+        }
+        public List<BaseSchedule> GetScheduleListFromCode()
+        {
+            var assembly = Assembly.GetAssembly(this.GetType());
+            List<BaseSchedule> result = new List<BaseSchedule>();
+            foreach (var type in assembly.GetTypes())
+            {
+                if (type.IsSubclassOf(typeof(BaseSchedule)))
+                {
+                    BaseSchedule baseSchedule = (BaseSchedule)Activator.CreateInstance(type, true);
+                    result.Add(baseSchedule);
+                }
+            }
+            return result;
         }
         public async Task EndWork()
         {
@@ -57,7 +94,8 @@ namespace SSO.TaskScheduling
         }
         Dictionary<IJobDetail, IReadOnlyCollection<ITrigger>> GetTriggersAndJobs(Data.Models.TaskScheduling data)
         {
-            IJobDetail jobDetail = JobBuilder.Create<SchedulingJob>()
+            var type = scheduleList.Where(s => s.Name == data.Name).FirstOrDefault();
+            IJobDetail jobDetail = JobBuilder.Create(type.GetType())
                   .WithIdentity("job-" + data.Id)
                   .UsingJobData("data", JsonSerializerHelper.Serialize(data))
                   .Build();
