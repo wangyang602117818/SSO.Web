@@ -6,7 +6,6 @@
   Name NVARCHAR(50) not null,
   Description NVARCHAR(512) null,
   Status int not null,
-  Api NVARCHAR(512) null,
   NextRunTime [datetime] NULL,
   LastRunTime [datetime] NULL,
   LastRunResult NVARCHAR(256) null,
@@ -44,9 +43,10 @@
   SchedulingId int not null,
   SchedulingName NVARCHAR(50) not null,
   RunTime DATETIME not null,
+  EndTime DATETIME null,
   RunResult TEXT null,
   CreateTime DATETIME not null DEFAULT GETDATE(),
   primary key (Id)
   )
-  
+
 </sql>

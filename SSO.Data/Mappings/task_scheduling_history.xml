@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <sql>
   <insert>
-    insert into [TaskSchedulingHistory]([SchedulingId], [SchedulingName], [RunTime], [RunResult])
-    values(@SchedulingId,@SchedulingName,@RunTime,@RunResult)
+    insert into [TaskSchedulingHistory]([SchedulingId], [SchedulingName], [RunTime],[EndTime], [RunResult])
+    values(@SchedulingId,@SchedulingName,@RunTime,@EndTime,@RunResult)
   </insert>
   <update-scheduling>
     update TaskScheduling set [UpdateTime]=GETDATE()
@@ -45,5 +45,5 @@
     ) as tbl
     where uid between (@PageIndex-1)*@PageSize+1 and @PageIndex*@PageSize
   </get-page-list>
-  
+
 </sql>
