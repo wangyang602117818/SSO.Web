@@ -1,7 +1,7 @@
 <template>
   <f7-page name="user_update">
     <f7-navbar :title="$t('manage.update_user')" :back-link="$t('common.back')">
-      <f7-link slot="right" @click="saveUser" v-if="user.id">{{$t('common.save')}}</f7-link>
+      <f7-link @click="saveUser" v-if="user.id">{{$t('common.save')}}</f7-link>
     </f7-navbar>
     <UserBase v-if="user.id" :user="user" />
   </f7-page>

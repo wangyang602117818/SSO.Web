@@ -20,12 +20,12 @@
     <div class="man_content">
       <f7-row no-gap>
         <f7-col>
-          <div class="nav_wrap" @click="$f7router.navigate('/users')">
+          <f7-link class="nav_wrap" href="/users">
             <f7-icon f7="person_2_fill" color="blue"></f7-icon>
             <div class="nav_title">
               <span>{{ $t('manage.user_manage') }}</span>
             </div>
-          </div>
+          </f7-link>
         </f7-col>
         <f7-col>
           <div class="nav_wrap" @click="$f7router.navigate('/roles')">
@@ -163,6 +163,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 10px;
+  color:#000;
 }
 .nav_wrap:active {
   background-color: #ddd;

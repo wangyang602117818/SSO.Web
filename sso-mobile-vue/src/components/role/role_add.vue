@@ -1,7 +1,7 @@
 <template>
   <f7-page name="role_add">
     <f7-navbar :title="$t('manage.add_role')" :back-link="$t('common.back')">
-      <f7-link slot="right" @click="saveRole">{{$t('common.save')}}</f7-link>
+      <f7-link @click="saveRole">{{$t('common.save')}}</f7-link>
     </f7-navbar>
     <RoleBase :role="role" />
   </f7-page>

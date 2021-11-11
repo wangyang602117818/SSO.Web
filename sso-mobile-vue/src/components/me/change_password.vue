@@ -1,7 +1,7 @@
 <template>
   <f7-page name="change_password">
     <f7-navbar :title="$t('me.change_password')" :back-link="$t('common.back')">
-      <f7-link slot="right" @click="save">{{$t('common.save')}}</f7-link>
+      <f7-link @click="save">{{$t('common.save')}}</f7-link>
     </f7-navbar>
     <f7-list inline-labels>
       <f7-list-input

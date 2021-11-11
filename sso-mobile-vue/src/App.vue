@@ -1,13 +1,12 @@
 <template>
-  <div id="app">
-    <f7-app :params="f7params">
-      <f7-view main url="/"></f7-view>
-    </f7-app>
-  </div>
+  <f7-app v-bind="f7params">
+    <f7-view main url="/"></f7-view>
+  </f7-app>
 </template>
 
 <script>
-import routes from "./config/router";
+import routes from "./config/router.js";
+import { getDevice } from "framework7";
 export default {
   name: "App",
   data() {
@@ -19,23 +18,21 @@ export default {
         routes: routes,
         view: {
           pushState: true,
-          stackPages: true
-        }
-      }
+          stackPages: true,
+        },
+      },
     };
   },
   components: {},
-  created() {
-    
-  },
+  created() {},
   mounted() {
-    window.console.log(this.$device);
-  }
+    const device = getDevice();
+    window.console.log(device);
+  },
 };
 </script>
 
 <style>
-
 .list {
   margin-top: 5px !important;
   margin-bottom: 5px !important;
@@ -93,8 +90,7 @@ export default {
   display: flex;
   align-items: flex-end;
 }
-.bold{
+.bold {
   font-weight: bold;
 }
-
 </style>

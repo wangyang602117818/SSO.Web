@@ -63,7 +63,7 @@ var routes = [
         },
         on: {
             pageBeforeIn: function (event, page) {
-
+                var a = 0;
             }
         }
     },
@@ -172,7 +172,7 @@ var routes = [
         }
     }, {
         name: "filemanage",
-        path: "/filemanage",
+        path: "/filemanage/",
         component: FileManage,
         options: {
             transition: 'f7-parallax',

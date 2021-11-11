@@ -36,14 +36,15 @@
           link="#"
           @click="selectItem(index)"
         >
+        <template #media>
           <f7-icon
-            slot="media"
             f7="checkmark_alt_circle_fill"
             color="#1890ff"
             size="24"
             v-if="users.indexOf(item.UserId)>-1"
           ></f7-icon>
-          <f7-icon slot="media" f7="circle" color="gray" size="24" v-else></f7-icon>
+          <f7-icon f7="circle" color="gray" size="24" v-else></f7-icon>
+        </template>
         </f7-list-item>
       </f7-list>
       <f7-block class="text-align-center" v-if="datas.length===0&&isEnd">{{$t('common.no_data')}}</f7-block>

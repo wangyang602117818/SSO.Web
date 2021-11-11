@@ -114,17 +114,18 @@
         @click="itemClick(index)"
         swipeout
       >
-        <img
-          slot="media"
-          :src="
-            $axios.defaults.baseURL +
-            $urls.file.downloadPic +
-            '/' +
-            item._id +
-            '/' +
-            item.FileName
-          "
-        />
+        <template #media>
+          <img
+            :src="
+              $axios.defaults.baseURL +
+              $urls.file.downloadPic +
+              '/' +
+              item._id +
+              '/' +
+              item.FileName
+            "
+          />
+        </template>
         <f7-swipeout-actions right>
           <f7-swipeout-button color="red" @click="delFile(item._id)">{{
             $t("common.delete")
@@ -141,18 +142,14 @@
     <f7-fab position="right-bottom" href="/fileadd">
       <f7-icon ios="f7:plus" aurora="f7:plus" md="material:add"></f7-icon>
     </f7-fab>
-
-    <pdf src="" style="width: 0; height: 0" class=""></pdf>
   </f7-page>
 </template>
 
 <script>
 import ListBase from "../ListBase";
-import pdf from "vue-pdf";
 export default {
   name: "file_manage",
   mixins: [ListBase],
-  components: { pdf },
   data() {
     return {
       getlist: this.$urls.file.getlist,
@@ -263,19 +260,13 @@ export default {
       return url;
     },
     itemClick(index) {
-      //var index = e.currentTarget.parentElement.id;
-
-      // var item = this.datas[index];
-      // if (item.FileType == "pdf") {
-      //   var url = this.$urls.preview + "/" + item._id + "/" + item.FileName;
-      //   window.open(url);
-      // } else {
-      this.$refs.standaloneDark.f7PhotoBrowser.activeIndex = parseInt(index);
-      this.$refs.standaloneDark.open();
-      // }
-    },
-    loaded() {
-      alert("x");
+      var item = this.datas[index];
+      if (item.FileType == "pdf") {
+        var url = this.$urls.preview + "/" + item._id + "/" + item.FileName;
+        window.open(url);
+      } else {
+      this.$refs.standaloneDark.open(index);
+      }
     },
     onClear() {
       this.from = "";
@@ -323,7 +314,7 @@ export default {
         this.$t("common.tips"),
         function () {
           that.$axios
-            .get(that.$urls.file.remove+"/"+id)
+            .get(that.$urls.file.remove + "/" + id)
             .then((response) => {
               if (response.code === 0) that.removeItem(id);
             });

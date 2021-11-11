@@ -4,20 +4,18 @@
       <input type="text" :placeholder="$t('common.search')" />
     </div>
     <div class="nav_content">
-      <div class="sub_title">{{ $t('navigator.navigators') }}</div>
+      <div class="sub_title">{{ $t("navigator.navigators") }}</div>
       <f7-row no-gap>
         <f7-col>
-          <div class="nav_wrap" @click="$f7router.navigate('/filemanage')">
-            <img class="nav_logo" src="../assets/file.png"  alt />
-            <div class="nav_title"><span>{{ $t('navigator.file_manage') }}</span></div>
-          </div>
+          <f7-link class="nav_wrap" href="/filemanage/">
+            <img class="nav_logo" src="../assets/file.png" alt />
+            <div class="nav_title">
+              <span>{{ $t("navigator.file_manage") }}</span>
+            </div>
+          </f7-link>
         </f7-col>
-        <f7-col>
-          
-        </f7-col>
-        <f7-col>
-          
-        </f7-col>
+        <f7-col> </f7-col>
+        <f7-col> </f7-col>
       </f7-row>
     </div>
   </div>
@@ -27,15 +25,10 @@
 export default {
   name: "navigator",
   data() {
-    return {
-      
-    };
+    return {};
   },
-  created() {
-    
-  },
-  methods: {
-  }
+  created() {},
+  methods: {},
 };
 </script>
 
@@ -89,8 +82,9 @@ export default {
   padding: 15px;
   border-right: 1px solid #f0f0f0;
   border-bottom: 1px solid #f0f0f0;
+  color:#000;
 }
-.nav_wrap:active{
+.nav_wrap:active {
   background-color: #ddd;
 }
 .nav_logo {

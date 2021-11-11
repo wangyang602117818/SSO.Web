@@ -4,7 +4,7 @@
       :title="$t('manage.personal_info')"
       :back-link="$t('common.back')"
     >
-      <f7-link slot="right" @click="save">{{ $t("common.save") }}</f7-link>
+      <f7-link @click="save">{{ $t("common.save") }}</f7-link>
     </f7-navbar>
     <f7-list inline-labels v-if="user.UserId && companyData && departmentData">
       <f7-list-item

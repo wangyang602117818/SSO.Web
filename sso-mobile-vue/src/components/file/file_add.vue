@@ -98,6 +98,9 @@ export default {
     "role-select": RoleSelectComponent,
     "user-select": UserSelectComponent,
   },
+  props: {
+    f7router: Object,
+  },
   data() {
     return {
       imageUrls: [],
@@ -217,7 +220,7 @@ export default {
             this.buttonDisabled = false;
             this.buttonValue = this.$t("navigator.upload");
             if (response.code == 0) {
-              this.$f7router.back("", { force: true });
+              this.f7router.back("", { force: true });
             } else {
               window.vue.showInfo(response.result);
             }

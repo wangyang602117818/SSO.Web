@@ -1,23 +1,38 @@
 <template>
   <f7-page :page-content="false">
     <f7-toolbar tabbar bottom>
-      <f7-link tab-link="#navigator" tab-link-active :text="$t('common.navigator')" icon-f7="flag_circle" icon-size="24px">
+      <f7-link
+        tab-link="#navigator"
+        tab-link-active
+        :text="$t('common.navigator')"
+        icon-f7="flag_circle"
+        icon-size="24px"
+      >
       </f7-link>
-      <f7-link tab-link="#manage"  :text="$t('common.manage')" icon-f7="square_grid_2x2_fill" icon-size="24px"></f7-link>
-      <f7-link tab-link="#me" :text="$t('common.me')" icon-f7="person_crop_circle" icon-size="24px"></f7-link>
+      <f7-link
+        tab-link="#manage"
+        :text="$t('common.manage')"
+        icon-f7="square_grid_2x2_fill"
+        icon-size="24px"
+      ></f7-link>
+      <f7-link
+        tab-link="#me"
+        :text="$t('common.me')"
+        icon-f7="person_crop_circle"
+        icon-size="24px"
+      ></f7-link>
     </f7-toolbar>
     <f7-tabs>
       <f7-tab id="navigator" tab-active>
         <Navigator />
       </f7-tab>
-      <f7-tab id="manage" >
+      <f7-tab id="manage">
         <Manage />
       </f7-tab>
-      <f7-tab id="me" >
+      <f7-tab id="me">
         <Me />
       </f7-tab>
     </f7-tabs>
-    
   </f7-page>
 </template>
 
@@ -32,12 +47,12 @@ export default {
     return {};
   },
   computed: {},
-  methods: {}
+  methods: {},
 };
 </script>
 
 <style scoped>
-#me{
+#me {
   height: 100%;
   background-color: #fff;
 }

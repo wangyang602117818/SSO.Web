@@ -1,7 +1,7 @@
 <template>
   <f7-page name="department_add">
     <f7-navbar :title="$t('manage.add_department')" :back-link="$t('common.back')">
-      <f7-link slot="right" @click="saveDepartment">{{$t('common.save')}}</f7-link>
+      <f7-link @click="saveDepartment">{{$t('common.save')}}</f7-link>
     </f7-navbar>
     <DepartmentBase :department="department" />
   </f7-page>

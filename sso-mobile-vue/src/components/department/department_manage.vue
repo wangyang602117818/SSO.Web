@@ -15,7 +15,7 @@
         :link="'/departmentupdate/'+companyCode+'/'+item.key"
         swipeout
       >
-        <f7-icon slot="media" v-for="layer in item.layer" :key="layer"></f7-icon>
+        <f7-icon v-for="layer in item.layer" :key="layer"></f7-icon>
         <f7-swipeout-actions right>
           <f7-swipeout-button
             color="blue"

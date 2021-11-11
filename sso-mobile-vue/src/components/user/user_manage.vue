@@ -28,12 +28,14 @@
         :key="item.Id"
         swipeout
       >
-        <f7-skeleton-block style="width: 40px; height: 40px;border-radius: 50%" slot="media">
+      <template #media>
+        <f7-skeleton-block style="width: 40px; height: 40px;border-radius: 50%">
           <img
             :src="$axios.defaults.baseURL+$urls.file.downloadPic+'/'+item.FileId+'/'+item.FileName"
             v-if="item.FileId"
           />
         </f7-skeleton-block>
+      </template>
         <f7-swipeout-actions right>
           <f7-swipeout-button color="red" @click="removeUser(item.Id,item.UserId)">Delete</f7-swipeout-button>
         </f7-swipeout-actions>
