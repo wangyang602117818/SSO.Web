@@ -28,38 +28,38 @@
           </f7-link>
         </f7-col>
         <f7-col>
-          <div class="nav_wrap" @click="$f7router.navigate('/roles')">
+          <f7-link class="nav_wrap" href="/roles">
             <f7-icon f7="lock_circle" color="blue"></f7-icon>
             <div class="nav_title">
               <span>{{ $t('manage.role_manage') }}</span>
             </div>
-          </div>
+          </f7-link>
         </f7-col>
         <f7-col>
-          <div class="nav_wrap" @click="$f7router.navigate('/company')">
+          <f7-link class="nav_wrap" href="/company">
             <f7-icon f7="building_2_fill" color="blue"></f7-icon>
             <div class="nav_title">
               <span>{{ $t('manage.company_manage') }}</span>
             </div>
-          </div>
+          </f7-link>
         </f7-col>
         <f7-col>
-          <div class="nav_wrap" @click="$f7router.navigate('/coms')">
+          <f7-link class="nav_wrap" href="/coms">
             <f7-icon f7="rectangle_3_offgrid_fill" color="blue"></f7-icon>
             <div class="nav_title">
               <span>{{ $t('manage.department_manage') }}</span>
             </div>
-          </div>
+          </f7-link>
         </f7-col>
       </f7-row>
       <f7-row no-gap>
         <f7-col>
-          <div class="nav_wrap" @click="$f7router.navigate('/logs')">
+          <f7-link class="nav_wrap" href="/logs">
             <f7-icon f7="doc_text" color="blue"></f7-icon>
             <div class="nav_title">
               <span>{{ $t('manage.logs') }}</span>
             </div>
-          </div>
+          </f7-link>
         </f7-col>
         <f7-col></f7-col>
         <f7-col></f7-col>

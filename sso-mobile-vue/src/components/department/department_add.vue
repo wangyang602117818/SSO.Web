@@ -31,7 +31,7 @@ export default {
       if (this.department.code.trim() == "") return;
       this.$axios.post(this.$urls.department.add, this.department).then(response => {
         if (response.code == 0) {
-          this.$f7router.back("", { force: true });
+          this.$f7router.back();
           this.showSuccess();
         }
       });

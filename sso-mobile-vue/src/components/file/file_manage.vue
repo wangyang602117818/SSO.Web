@@ -113,6 +113,7 @@
         "
         @click="itemClick(index)"
         swipeout
+        @swipeout:delete="delFile(item._id)"
       >
         <template #media>
           <img
@@ -127,9 +128,13 @@
           />
         </template>
         <f7-swipeout-actions right>
-          <f7-swipeout-button color="red" @click="delFile(item._id)">{{
-            $t("common.delete")
-          }}</f7-swipeout-button>
+          <f7-swipeout-button
+            delete
+            color="red"
+            :confirm-title="$t('common.tips')"
+            :confirm-text="$t('confirm.sure_delete')"
+            >{{ $t("common.delete") }}</f7-swipeout-button
+          >
         </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>
@@ -150,6 +155,9 @@ import ListBase from "../ListBase";
 export default {
   name: "file_manage",
   mixins: [ListBase],
+  props: {
+    f7router: Object,
+  },
   data() {
     return {
       getlist: this.$urls.file.getlist,
@@ -265,7 +273,7 @@ export default {
         var url = this.$urls.preview + "/" + item._id + "/" + item.FileName;
         window.open(url);
       } else {
-      this.$refs.standaloneDark.open(index);
+        this.$refs.standaloneDark.open(index);
       }
     },
     onClear() {
@@ -308,18 +316,12 @@ export default {
       });
     },
     delFile(id) {
-      var that = this;
-      this.$f7.dialog.confirm(
-        this.$t("confirm.sure_delete"),
-        this.$t("common.tips"),
-        function () {
-          that.$axios
-            .get(that.$urls.file.remove + "/" + id)
-            .then((response) => {
-              if (response.code === 0) that.removeItem(id);
-            });
+      this.$axios.get(this.$urls.file.remove + "/" + id).then((response) => {
+        if (response.code != 0) {
+          this.showInfo(response.result);
+          this.getData();
         }
-      );
+      });
     },
   },
 };

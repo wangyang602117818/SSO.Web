@@ -34,7 +34,7 @@ export default {
       if (this.user.UserName.trim() == "") return;
       this.$axios.post(this.$urls.user.add, this.user).then(response => {
         if (response.code == 0) {
-          this.$f7router.back("", { force: true });
+          this.$f7router.back();
           this.showSuccess();
         }
       });

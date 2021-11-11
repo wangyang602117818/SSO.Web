@@ -39,7 +39,7 @@ export default {
         .post(this.$urls.department.update, this.department)
         .then(response => {
           if (response.code == 0) {
-            this.$f7router.back("", { force: true });
+            this.$f7router.back();
             this.showSuccess();
           }
         });

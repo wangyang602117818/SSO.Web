@@ -220,13 +220,13 @@ export default {
             this.buttonDisabled = false;
             this.buttonValue = this.$t("navigator.upload");
             if (response.code == 0) {
-              this.f7router.back("", { force: true });
+              this.f7router.back();
             } else {
-              window.vue.showInfo(response.result);
+              this.showInfo(response.result);
             }
           });
       } else {
-        window.vue.showInfo(this.$t("navigator.no_file_selected"));
+        this.showInfo(this.$t("navigator.no_file_selected"));
       }
     },
   },

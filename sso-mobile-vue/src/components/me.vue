@@ -1,7 +1,7 @@
 <template>
   <div class="me" v-if="$store.state.currentUser">
     <div class="me_text">{{ $t('common.me') }}</div>
-    <div class="me_title" @click="$f7router.navigate('/personal')">
+    <f7-link class="me_title" href="/personal" no-link-class>
       <div class="ico">
         <img
           :src="$axios.defaults.baseURL+$urls.file.downloadPic+'/'+$store.state.currentUser.FileId+'/'+$store.state.currentUser.FileName"
@@ -16,7 +16,7 @@
       <div class="arrow">
         <f7-icon f7="chevron_right" color="gray" size="25"></f7-icon>
       </div>
-    </div>
+    </f7-link>
     <div class="me_settings">
       <div class="setting_line item-link smart-select smart-select-init" data-open-in="popover">
         <div class="setting_line_name">{{ $t('common.language') }}</div>
@@ -45,13 +45,13 @@
           <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
         </div>
       </div>
-      <div class="setting_line" @click="$f7router.navigate('/changepassword')">
+      <f7-link class="setting_line" href="/changepassword">
         <div class="setting_line_name">{{ $t('me.change_password') }}</div>
         <div class="setting_line_right">
           <div class="setting_line_data"></div>
           <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
         </div>
-      </div>
+      </f7-link>
       <div class="setting_line">
         <div class="setting_line_name">{{ $t('me.last_login_time') }}</div>
         <div class="setting_line_right">
@@ -149,12 +149,16 @@ export default {
   flex-direction: column;
   /* border: 1px solid green; */
 }
+.me a{
+  color:#000;
+}
 .me_text {
   font-size: 16px;
   height: 35px;
   line-height: 35px;
   padding-left: 5px;
   width: 100%;
+  color:#000;
 }
 .me_title {
   height: 50px;
