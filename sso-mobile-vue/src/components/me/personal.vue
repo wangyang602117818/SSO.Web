@@ -140,6 +140,9 @@
 <script>
 export default {
   name: "personal",
+   props: {
+    f7router: Object
+  },
   data() {
     return {
       user: {
@@ -228,7 +231,7 @@ export default {
         .then((response) => {
           if (response.code === 0) {
             this.$store.commit("getUser");
-            this.$f7router.back();
+            this.f7router.back();
             this.showSuccess();
           }
         });

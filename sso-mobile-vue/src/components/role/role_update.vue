@@ -1,9 +1,11 @@
 <template>
   <f7-page name="role_update">
     <f7-navbar :title="$t('manage.update_role')" :back-link="$t('common.back')">
-      <f7-link @click="saveRole">{{$t('common.save')}}</f7-link>
+      <f7-nav-right>
+        <f7-link @click="saveRole">{{ $t("common.save") }}</f7-link>
+      </f7-nav-right>
     </f7-navbar>
-    <RoleBase v-if="role.id>=0" :role="role" />
+    <RoleBase v-if="role.id >= 0" :role="role" />
   </f7-page>
 </template>
 
@@ -12,13 +14,17 @@ import RoleBase from "./role_base";
 export default {
   name: "role_update",
   components: { RoleBase },
+  props: {
+    f7router: Object,
+    id: String,
+  },
   data() {
     return {
       role: {
         id: "",
         name: "",
-        description: ""
-      }
+        description: "",
+      },
     };
   },
   created() {
@@ -28,26 +34,26 @@ export default {
     saveRole() {
       if (this.role.name.trim() == "") return;
       if (this.role.description.trim() == "") return;
-      this.$axios.post(this.$urls.role.update, this.role).then(response => {
+      this.$axios.post(this.$urls.role.update, this.role).then((response) => {
         if (response.code == 0) {
-          this.$f7router.back();
+          this.f7router.back();
           this.showSuccess();
         }
       });
     },
     getData() {
-      var id = this.$f7route.params.id;
-      this.$axios.get(this.$urls.role.getById + "/" + id).then(response => {
+      var id = this.id;
+      this.$axios.get(this.$urls.role.getById + "/" + id).then((response) => {
         if (response.code === 0) {
           this.role = {
             id: response.result.Id,
             name: response.result.Name,
-            description: response.result.Description
+            description: response.result.Description,
           };
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

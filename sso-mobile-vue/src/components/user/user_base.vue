@@ -1,18 +1,25 @@
 <template>
-  <f7-list inline-labels v-if="user && companyData && roleData &&departmentData">
+  <f7-list
+    inline-labels
+    v-if="user && companyData && roleData && departmentData"
+  >
     <f7-list-input
       required
       validate
-      :label="$t('manage.user_id')+'*'"
+      :label="$t('manage.user_id') + '*'"
       type="text"
-      :placeholder="$t('common.id')+'/'+$t('manage.login_name')"
+      :placeholder="$t('common.id') + '/' + $t('manage.login_name')"
       :error-message="$t('valid.id_required')"
       clear-button
       :value="user.UserId"
-      @input="($event)=>{user.UserId=$event.target.value}"
+      @input="
+        ($event) => {
+          user.UserId = $event.target.value;
+        }
+      "
     ></f7-list-input>
     <f7-list-input
-      :label="$t('manage.user_name')+'*'"
+      :label="$t('manage.user_name') + '*'"
       type="text"
       :placeholder="$t('manage.user_name')"
       :error-message="$t('valid.user_name_required')"
@@ -20,12 +27,31 @@
       validate
       clear-button
       :value="user.UserName"
-      @input="($event)=>{user.UserName=$event.target.value}"
+      @input="
+        ($event) => {
+          user.UserName = $event.target.value;
+        }
+      "
     ></f7-list-input>
-    <f7-list-item :title="$t('common.sex')" smart-select :smart-select-params="{openIn: 'popover'}">
-      <select name="sex" @change="($event)=>{user.Sex = $event.target.value}">
-        <option value="M" :selected="user.Sex==='M'">{{$t('common.male')}}</option>
-        <option value="F" :selected="user.Sex==='F'">{{$t('common.female')}}</option>
+    <f7-list-item
+      :title="$t('common.sex')"
+      smart-select
+      :smart-select-params="{ openIn: 'popover' }"
+    >
+      <select
+        name="sex"
+        @change="
+          ($event) => {
+            user.Sex = $event.target.value;
+          }
+        "
+      >
+        <option value="M" :selected="user.Sex === 'M'">
+          {{ $t("common.male") }}
+        </option>
+        <option value="F" :selected="user.Sex === 'F'">
+          {{ $t("common.female") }}
+        </option>
       </select>
     </f7-list-item>
     <f7-list-input
@@ -36,7 +62,11 @@
       :placeholder="$t('common.mobile')"
       clear-button
       :value="user.Mobile"
-      @input="($event)=>{user.Mobile=$event.target.value}"
+      @input="
+        ($event) => {
+          user.Mobile = $event.target.value;
+        }
+      "
     ></f7-list-input>
     <f7-list-input
       :label="$t('common.email')"
@@ -46,7 +76,11 @@
       :error-message="$t('valid.email_format_invalid')"
       clear-button
       :value="user.Email"
-      @input="($event)=>{user.Email=$event.target.value}"
+      @input="
+        ($event) => {
+          user.Email = $event.target.value;
+        }
+      "
     ></f7-list-input>
     <f7-list-input
       :label="$t('common.idCard')"
@@ -54,16 +88,26 @@
       :placeholder="$t('common.idCard')"
       clear-button
       :value="user.IdCard"
-      @input="($event)=>{user.IdCard=$event.target.value}"
+      @input="
+        ($event) => {
+          user.IdCard = $event.target.value;
+        }
+      "
     ></f7-list-input>
-    <f7-list-item :title="$t('common.company')" smart-select :smart-select-params="{openIn: 'popover'}">
+    <f7-list-item
+      :title="$t('common.company')"
+      smart-select
+      :smart-select-params="{ openIn: 'popover' }"
+    >
       <select name="company" @change="changeCompany($event)">
         <option
           v-for="item in companyData"
           :value="item.Code"
           :key="item.Id"
-          :selected="item.Code===user.CompanyCode"
-        >{{item.Name}}</option>
+          :selected="item.Code === user.CompanyCode"
+        >
+          {{ item.Name }}
+        </option>
       </select>
     </f7-list-item>
     <f7-list-item
@@ -71,27 +115,35 @@
       :title="$t('common.department')"
       smart-select
       :smart-select-params="{
-          formatValueText:formatValueText,
-          openIn: 'popover',
-        }"
+        formatValueText: formatValueText,
+        openIn: 'popover',
+      }"
     >
       <select multiple name="department" @change="changeDepartment($event)">
         <option
           :value="item.key"
           :key="item.key"
           v-for="item in departmentData"
-          :selected="user.Departments.indexOf(item.key)>-1"
-        >{{getDepartmentShow(item)}}</option>
+          :selected="user.Departments.indexOf(item.key) > -1"
+        >
+          {{ getDepartmentShow(item) }}
+        </option>
       </select>
     </f7-list-item>
-    <f7-list-item :title="$t('common.role')" smart-select :smart-select-params="{openIn: 'popover'}">
+    <f7-list-item
+      :title="$t('common.role')"
+      smart-select
+      :smart-select-params="{ openIn: 'popover' }"
+    >
       <select name="role" multiple @change="changeRole($event)">
         <option
           v-for="item in roleData"
           :value="item.Name"
           :key="item.Id"
-          :selected="user.Roles.indexOf(item.Name)>-1"
-        >{{item.Name}}</option>
+          :selected="user.Roles.indexOf(item.Name) > -1"
+        >
+          {{ item.Name }}
+        </option>
       </select>
     </f7-list-item>
   </f7-list>
@@ -103,12 +155,15 @@
 <script>
 export default {
   name: "user_base",
-  props: ["user"],
+  props: {
+    f7router: Object,
+    user: Object,
+  },
   data() {
     return {
       companyData: null,
       roleData: null,
-      departmentData: null
+      departmentData: null,
     };
   },
   created() {
@@ -146,7 +201,7 @@ export default {
       this.user.Departments = depts;
     },
     getCompanyData() {
-      this.$axios.get(this.$urls.company.getall).then(response => {
+      this.$axios.get(this.$urls.company.getall).then((response) => {
         if (response.code === 0) {
           this.companyData = response.result;
           if (this.user.CompanyCode.trim() === "")
@@ -156,7 +211,7 @@ export default {
       });
     },
     getRoleData() {
-      this.$axios.get(this.$urls.role.getall).then(response => {
+      this.$axios.get(this.$urls.role.getall).then((response) => {
         if (response.code === 0) {
           this.roleData = response.result;
         }
@@ -167,7 +222,7 @@ export default {
         .get(
           this.$urls.department.getdepartments + "?companyCode=" + companyCode
         )
-        .then(response => {
+        .then((response) => {
           if (response.code === 0) {
             var dataList = [];
             this.generateDepartmentList(response.result, dataList);
@@ -180,14 +235,14 @@ export default {
         dataList.push({
           key: data[i].key,
           title: data[i].title,
-          layer: data[i].Layer
+          layer: data[i].Layer,
         });
         if (data[i].children) {
           this.generateDepartmentList(data[i].children, dataList);
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -1,9 +1,14 @@
 <template>
   <f7-page name="department_add">
-    <f7-navbar :title="$t('manage.update_department')" :back-link="$t('common.back')">
-      <f7-link @click="saveDepartment">{{$t('common.save')}}</f7-link>
+    <f7-navbar
+      :title="$t('manage.update_department')"
+      :back-link="$t('common.back')"
+    >
+      <f7-nav-right>
+        <f7-link @click="saveDepartment">{{ $t("common.save") }}</f7-link>
+      </f7-nav-right>
     </f7-navbar>
-    <DepartmentBase :department="department" v-if="department.id>0" />
+    <DepartmentBase :department="department" v-if="department.id > 0" />
     <f7-block class="text-align-center" v-else>
       <f7-preloader></f7-preloader>
     </f7-block>
@@ -15,6 +20,11 @@ import DepartmentBase from "./department_base";
 export default {
   name: "department_update",
   components: { DepartmentBase },
+  props: {
+    f7router: Object,
+    companyCode: String,
+    code: String,
+  },
   data() {
     return {
       department: {
@@ -24,8 +34,8 @@ export default {
         companyCode: "",
         description: "",
         order: 0,
-        parentCode: ""
-      }
+        parentCode: "",
+      },
     };
   },
   created() {
@@ -37,18 +47,18 @@ export default {
       if (this.department.code.trim() == "") return;
       this.$axios
         .post(this.$urls.department.update, this.department)
-        .then(response => {
+        .then((response) => {
           if (response.code == 0) {
-            this.$f7router.back();
+            this.f7router.back();
             this.showSuccess();
           }
         });
     },
     getData() {
-      var companyCode = this.$f7route.params.companyCode;
+      var companyCode = this.companyCode;
       this.$axios
-        .get(this.$urls.department.get + "?code=" + this.$f7route.params.code)
-        .then(response => {
+        .get(this.$urls.department.get + "?code=" + this.code)
+        .then((response) => {
           if (response.code === 0) {
             this.department = {
               id: response.result.Id,
@@ -57,12 +67,12 @@ export default {
               companyCode: companyCode,
               description: response.result.Description || "",
               order: response.result.Order,
-              parentCode: response.result.ParentCode
+              parentCode: response.result.ParentCode,
             };
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

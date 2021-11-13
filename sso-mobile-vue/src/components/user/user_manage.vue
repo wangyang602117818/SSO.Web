@@ -51,9 +51,13 @@ import ListBase from "../ListBase";
 export default {
   name: "user_manage",
   mixins: [ListBase],
+  props: {
+    f7router: Object,
+    reload:Boolean
+  },
   data() {
     return {
-      getlist: this.$urls.user.getbasic,
+      getlist: this.$urls.user.getbasic
     };
   },
   methods: {

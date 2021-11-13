@@ -14,8 +14,8 @@ namespace SSO.Web.Controllers
             var assembly = Assembly.GetExecutingAssembly();
             var controllers = assembly.GetTypes().Where(w => w.FullName.Contains("SSO.Web.Controllers"));
             var actions = JwtAuthorizeAttribute.GetPermissionDescription(controllers);
-            SSOClientService sSOClientService = new SSOClientService("http://www.ssoapi.com:8030/", JwtManager.GetAuthorization(Request));
-            sSOClientService.ReplacePermissions(AppSettings.GetApplicationUrlTrimHttpPrefix(Request), actions);
+            SSOClientService sSOClientService = new SSOClientService("http://www.ssoapi.com", JwtManager.GetAuthorization(Request));
+            sSOClientService.ReplacePermissions("ssoapi", actions);
             return Json(actions, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Ticket()

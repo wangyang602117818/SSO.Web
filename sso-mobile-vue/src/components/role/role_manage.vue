@@ -37,6 +37,9 @@
 import ListBase from "../ListBase";
 export default {
   name: "role_manage",
+  props: {
+    f7router: Object
+  },
   mixins: [ListBase],
   data() {
     return {

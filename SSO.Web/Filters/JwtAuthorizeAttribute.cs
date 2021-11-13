@@ -157,7 +157,7 @@ namespace SSO.Web.Filters
                     foreach (Attribute att in attributes)
                     {
                         var name = ((JwtAuthorizeAttribute)att).Name;
-                        if (!actions.Contains(name)) actions.Add(name);
+                        if (!actions.Contains(name) && !string.IsNullOrEmpty(name)) actions.Add(name);
                     }
                 }
             }

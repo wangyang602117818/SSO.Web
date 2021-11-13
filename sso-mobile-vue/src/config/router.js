@@ -29,7 +29,7 @@ var routes = [
     },
     {
         name: "users",
-        path: "/users",
+        path: "/users/:reload?",
         component: UserManage,
         options: {
             transition: 'f7-parallax',
@@ -57,14 +57,6 @@ var routes = [
         component: RoleManage,
         options: {
             transition: 'f7-parallax'
-        },
-        beforeEnter: function (routeTo, routeFrom, resolve, reject) {
-            resolve();
-        },
-        on: {
-            pageBeforeIn: function (event, page) {
-                var a = 0;
-            }
         }
     },
     {
