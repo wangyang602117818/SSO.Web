@@ -17,9 +17,12 @@
         :key="item.key"
         :link="'/departmentupdate/' + companyCode + '/' + item.key"
         swipeout
+        @swipeout:delete="delDeptartment(item.id)"
       >
-        <template #media v-if="item.layer>0">
-          <f7-icon v-for="layer in item.layer" :key="layer" width="7">·</f7-icon>
+        <template #media v-if="item.layer > 0">
+          <f7-icon v-for="layer in item.layer" :key="layer" width="7"
+            >·</f7-icon
+          >
         </template>
         <f7-swipeout-actions right>
           <f7-swipeout-button
@@ -27,9 +30,13 @@
             @click="addSubDepartment(companyCode, item.key)"
             >{{ $t("manage.add_sub_department") }}</f7-swipeout-button
           >
-          <f7-swipeout-button color="red" @click="delDeptartment(item.id)">{{
-            $t("common.delete")
-          }}</f7-swipeout-button>
+          <f7-swipeout-button
+            color="red"
+            delete
+            :confirm-title="$t('common.tips')"
+            :confirm-text="$t('confirm.sure_delete')"
+            >{{ $t("common.delete") }}</f7-swipeout-button
+          >
         </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>
@@ -73,25 +80,13 @@ export default {
       }
     },
     delDeptartment(id) {
-      var that = this;
-      this.$f7.dialog.confirm(
-        this.$t("confirm.sure_delete"),
-        this.$t("common.tips"),
-        function () {
-          that.$axios
-            .get(that.$urls.department.delete + "/" + id)
-            .then((response) => {
-              if (response.code === 0) {
-                for (var i = 0; i < that.dataList.length; i++) {
-                  if (that.dataList[i].id == id) {
-                    that.dataList.splice(i, 1);
-                    return;
-                  }
-                }
-              }
-            });
-        }
-      );
+      this.$axios
+        .get(this.$urls.department.delete + "/" + id)
+        .then((response) => {
+          if (response.code != 0) {
+            this.getData(true);
+          }
+        });
     },
     addSubDepartment(companyCode, departmentCode) {
       this.f7router.navigate(

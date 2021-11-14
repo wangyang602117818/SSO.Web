@@ -84,7 +84,7 @@ namespace SSO.Web.Controllers
         {
             if (ids == null || ids.Count() == 0) return new ResponseModel<int>(ErrorCode.success, 0);
             var count = company.Delete(ids);
-            if (count == -1) return new ResponseModel<string>(ErrorCode.record_has_been_used, "");
+            if (count == 0) return new ResponseModel<string>(ErrorCode.record_has_been_used, "");
             if (count > 0)
             {
                 return new ResponseModel<string>(ErrorCode.success, "");

@@ -1,0 +1,5 @@
+GET http://www.fileserverpc.com/home/index HTTP/1.1 
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InJvb3QiLCJTdGFmZk5hbWUiOiJyb290IiwiTGFuZyI6InpoLWNuIiwiZnJvbSI6InNzb3BjLmNvbSIsIm5iZiI6MTYzNjgwMDA4MiwiZXhwIjoxNjM2ODAxMjgyLCJpYXQiOjE2MzY4MDAwODIsImlzcyI6Ind3dy5zc28uYXBpIiwiYXVkIjoiMTI3LjAuMC4xIn0.W6l310p_8fElsGA9Ok6sJZ8SlUplgZoTiFjbaZ9M2R4
+  
+

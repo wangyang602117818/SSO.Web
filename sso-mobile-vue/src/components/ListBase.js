@@ -20,17 +20,17 @@ var ListBase = {
             }
             this.pageIndex = 1;
             this.isEnd = false;
-            this.getData(null, true);
+            this.getData(true,null);
         },
         refresh(done) {
             this.pageIndex = 1;
-            this.getData(done, true);
+            this.getData(true,done);
         },
         loadMore() {
             //正在loading数据或者所有数据已经加载完成
             if (this.loading || this.isEnd) return;
             this.pageIndex = this.pageIndex + 1;
-            this.getData(null, false);
+            this.getData(false,null);
         },
         removeItem(id) {
             var index = -1;
@@ -40,7 +40,7 @@ var ListBase = {
             }
             this.datas.splice(index, 1);
         },
-        getData(callback, replace) {
+        getData(replace, callback) {
             this.loading = true;
             this.$axios
                 .get(this.getlist + this.getQuerystring())

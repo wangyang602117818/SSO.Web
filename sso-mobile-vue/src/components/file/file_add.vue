@@ -221,8 +221,6 @@ export default {
             this.buttonValue = this.$t("navigator.upload");
             if (response.code == 0) {
               this.f7router.back();
-            } else {
-              this.showInfo(response.result);
             }
           });
       } else {

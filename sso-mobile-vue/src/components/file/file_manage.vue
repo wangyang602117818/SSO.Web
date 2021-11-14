@@ -318,8 +318,7 @@ export default {
     delFile(id) {
       this.$axios.get(this.$urls.file.remove + "/" + id).then((response) => {
         if (response.code != 0) {
-          this.showInfo(response.result);
-          this.getData();
+          this.getData(true);
         }
       });
     },

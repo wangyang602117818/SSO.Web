@@ -73,9 +73,6 @@ export default {
           newPassword: this.newPassword
         })
         .then(response => {
-          if (response.code == 114) {
-            this.showInfo(this.$t("me.old_password_error"));
-          }
           if (response.code == 0) {
             this.showSuccess();
             window.location.href =

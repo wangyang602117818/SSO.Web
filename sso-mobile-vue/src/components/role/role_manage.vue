@@ -13,23 +13,39 @@
         <f7-link icon-f7="plus_circle" href="/roleadd/"></f7-link>
       </f7-nav-right>
     </f7-navbar>
-    <f7-searchbar disable-button-text :placeholder="$t('common.search')" :clear-button="true" @change="onSearch"></f7-searchbar>
+    <f7-searchbar
+      disable-button-text
+      :placeholder="$t('common.search')"
+      :clear-button="true"
+      @change="onSearch"
+    ></f7-searchbar>
     <f7-list media-list>
       <f7-list-item
         v-for="item in datas"
-        swipeout
-        :link="'/roleupdate/'+item.Id"
+        :link="'/roleupdate/' + item.Id"
         :title="item.Name"
         :subtitle="item.Description"
         :key="item.Id"
+        swipeout
+        @swipeout:delete="delRole(item.Id)"
       >
         <f7-swipeout-actions right>
-          <f7-swipeout-button color="red" @click="delRole(item.Id)">{{$t('common.delete')}}</f7-swipeout-button>
+          <f7-swipeout-button
+            color="red"
+            delete
+            :confirm-title="$t('common.tips')"
+            :confirm-text="$t('confirm.sure_delete')"
+            >{{ $t("common.delete") }}</f7-swipeout-button
+          >
         </f7-swipeout-actions>
       </f7-list-item>
     </f7-list>
-    <f7-block class="text-align-center" v-if="datas.length===0&&isEnd">{{$t('common.no_data')}}</f7-block>
-    <f7-block class="text-align-center" v-if="datas.length>0&&isEnd">---{{$t('common.end')}}---</f7-block>
+    <f7-block class="text-align-center" v-if="datas.length === 0 && isEnd">{{
+      $t("common.no_data")
+    }}</f7-block>
+    <f7-block class="text-align-center" v-if="datas.length > 0 && isEnd"
+      >---{{ $t("common.end") }}---</f7-block
+    >
   </f7-page>
 </template>
 
@@ -38,12 +54,12 @@ import ListBase from "../ListBase";
 export default {
   name: "role_manage",
   props: {
-    f7router: Object
+    f7router: Object,
   },
   mixins: [ListBase],
   data() {
     return {
-      getlist: this.$urls.role.getlist
+      getlist: this.$urls.role.getlist,
     };
   },
   mounted() {},
@@ -59,20 +75,15 @@ export default {
       return url;
     },
     delRole(id) {
-      var that = this;
-      this.$f7.dialog.confirm(
-        this.$t("confirm.sure_delete"),
-        this.$t("common.tips"),
-        function() {
-          that.$axios
-            .post(that.$urls.role.delete, { ids: [id] })
-            .then(response => {
-              if (response.code === 0) that.removeItem(id);
-            });
-        }
-      );
-    }
-  }
+      this.$axios
+        .post(this.$urls.role.delete, { ids: [id] })
+        .then((response) => {
+          if (response.code != 0) {
+            this.getData(true);
+          }
+        });
+    },
+  },
 };
 </script>
 
