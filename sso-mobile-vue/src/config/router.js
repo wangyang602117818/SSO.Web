@@ -29,10 +29,21 @@ var routes = [
     },
     {
         name: "users",
-        path: "/users/:reload?",
+        path: "/users",
         component: UserManage,
         options: {
             transition: 'f7-parallax',
+        },
+        on: {
+            pageAfterIn: function(e, page) {
+                var a=0;
+                // do something after page gets into the view
+            },
+            pageInit: function (e, page) {
+                var a=0;
+
+                // do something when page initialized
+            },
         }
     },
     {

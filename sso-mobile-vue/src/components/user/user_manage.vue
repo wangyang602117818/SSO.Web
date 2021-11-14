@@ -75,8 +75,7 @@ export default {
   name: "user_manage",
   mixins: [ListBase],
   props: {
-    f7router: Object,
-    reload: Boolean,
+    f7router: Object
   },
   data() {
     return {
