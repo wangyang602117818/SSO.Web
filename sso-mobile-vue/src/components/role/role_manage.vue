@@ -79,7 +79,7 @@ export default {
         .post(this.$urls.role.delete, { ids: [id] })
         .then((response) => {
           if (response.code != 0) {
-            this.getData(true);
+            this.f7router.refreshPage();
           }
         });
     },

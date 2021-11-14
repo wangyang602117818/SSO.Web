@@ -318,7 +318,7 @@ export default {
     delFile(id) {
       this.$axios.get(this.$urls.file.remove + "/" + id).then((response) => {
         if (response.code != 0) {
-          this.getData(true);
+          this.f7router.refreshPage();
         }
       });
     },

@@ -84,7 +84,7 @@ export default {
         .get(this.$urls.department.delete + "/" + id)
         .then((response) => {
           if (response.code != 0) {
-            this.getData(true);
+            this.f7router.refreshPage();
           }
         });
     },

@@ -99,7 +99,7 @@ export default {
         .post(this.$urls.user.remove, { userIds: [userId] })
         .then((response) => {
           if (response.code != 0) {
-            this.getData(true);
+            this.f7router.refreshPage();
           }
         });
     },
