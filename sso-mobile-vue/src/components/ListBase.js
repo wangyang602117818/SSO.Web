@@ -40,6 +40,15 @@ var ListBase = {
             }
             this.datas.splice(index, 1);
         },
+        //通过记录id获取记录的index
+        getItemIndex(id){
+            var index = -1;
+            for (var i = 0; i < this.datas.length; i++) {
+                if (this.datas[i].Id && this.datas[i].Id == id) index = i;
+                if (this.datas[i]._id && this.datas[i]._id == id) index = i;
+            }
+            return index;
+        },
         getData(replace, callback) {
             this.loading = true;
             this.$axios
