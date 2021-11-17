@@ -82,6 +82,11 @@ export default {
       getlist: this.$urls.user.getbasic,
     };
   },
+  created(){
+    this.$eventbus.on('userupdate',function(data){
+      alert('x');
+    });
+  },
   methods: {
     getQuerystring() {
       var url =

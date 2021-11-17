@@ -24,10 +24,14 @@ const i18n = createI18n({
 const app = createApp(App);
 app.use(store);
 app.use(i18n);
+
+var eventbus = new Framework7.Events();
+
 app.config.globalProperties.$funtools = funtools;
 app.config.globalProperties.$urls = urls;
 app.config.globalProperties.$axios = axios;
 app.config.globalProperties.$cookieName = cookieName;
+app.config.globalProperties.$eventbus = eventbus;
 
 app.config.globalProperties.showSuccess = function () {
   f7.toast.show({

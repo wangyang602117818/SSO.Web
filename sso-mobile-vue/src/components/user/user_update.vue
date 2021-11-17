@@ -43,9 +43,9 @@ export default {
     saveUser() {
       if (this.user.UserId.trim() == "") return;
       if (this.user.UserName.trim() == "") return;
-      var that = this;
       this.$axios.post(this.$urls.user.update, this.user).then((response) => {
         if (response.code === 0) {
+          this.$eventbus.emit('userupdate',this.user);
           this.f7router.back();
           this.showSuccess();
         }

@@ -36,7 +36,7 @@ var routes = [
         },
         on: {
             pageAfterIn: function(e, page) {
-                var a=0;
+                
                 // do something after page gets into the view
             },
             pageInit: function (e, page) {
