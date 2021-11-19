@@ -153,7 +153,7 @@
     </iterate>
   </update-password>
   <update-file>
-    update [User] set FileId=@FileId,FileName=@FileName,UpdateTime=@UpdateTime where UserId=@UserId
+    update [User] set FileId=@FileId,FileName=@FileName,UpdateTime=getdate() where UserId=@UserId
   </update-file>
   <group-by-sex>
     select sex [type],count(*) count from [User] where IsDelete = 0
