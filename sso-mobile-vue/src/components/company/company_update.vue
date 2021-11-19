@@ -39,6 +39,7 @@ export default {
         .post(this.$urls.company.update, this.company)
         .then(response => {
           if (response.code == 0) {
+             this.$eventbus.emit('companyupdate',this.company.id);
             this.f7router.back();
             this.showSuccess();
           }

@@ -49,6 +49,7 @@ export default {
         .post(this.$urls.department.update, this.department)
         .then((response) => {
           if (response.code == 0) {
+            this.$eventbus.emit('departentrefresh');
             this.f7router.back();
             this.showSuccess();
           }

@@ -60,6 +60,7 @@ export default {
   },
   created() {
     this.getDepartment();
+     this.$eventbus.on("departentrefresh", this.getDepartment);
   },
   methods: {
     generateList(list) {

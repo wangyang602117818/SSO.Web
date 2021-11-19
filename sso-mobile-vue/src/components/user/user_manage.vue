@@ -75,17 +75,16 @@ export default {
   name: "user_manage",
   mixins: [ListBase],
   props: {
-    f7router: Object
+    f7router: Object,
   },
   data() {
     return {
       getlist: this.$urls.user.getbasic,
     };
   },
-  created(){
-    this.$eventbus.on('userupdate',function(data){
-      alert('x');
-    });
+  created() {
+    this.$eventbus.on("userupdate", this.userUpdate);
+    this.$eventbus.on("useradd", this.userAdd);
   },
   methods: {
     getQuerystring() {
@@ -104,6 +103,21 @@ export default {
         .then((response) => {
           if (response.code != 0) {
             this.f7router.refreshPage();
+          }
+        });
+    },
+    userUpdate(userId) {
+      this.getByUserId(userId, "update");
+    },
+    userAdd(userId) {
+      this.getByUserId(userId, "add");
+    },
+    getByUserId(userId, type) {
+      this.$axios
+        .post(this.$urls.user.getbyuserid, { userId: userId })
+        .then((response) => {
+          if (response.code == 0) {
+            this.addOrUpdateItem(response, type);
           }
         });
     },

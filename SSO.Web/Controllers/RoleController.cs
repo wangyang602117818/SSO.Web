@@ -69,6 +69,11 @@ namespace SSO.Web.Controllers
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, count);
         }
         [JwtAuthorize("GetRole")]
+        public ActionResult GetByName(string roleName)
+        {
+            return new ResponseModel<Data.Models.Role>(ErrorCode.success, role.GetByName(roleName));
+        }
+        [JwtAuthorize("GetRole")]
         public ActionResult GetAll()
         {
             var result = role.GetAll(null);

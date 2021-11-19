@@ -62,6 +62,10 @@ export default {
       getlist: this.$urls.company.getlist,
     };
   },
+  created() {
+    this.$eventbus.on("companyupdate", this.companyUpdate);
+    this.$eventbus.on("companyadd", this.companyAdd);
+  },
   methods: {
     getQuerystring() {
       var url =
@@ -72,6 +76,21 @@ export default {
         "&filter=" +
         this.filter;
       return url;
+    },
+    companyUpdate(id) {
+      this.getByCompanyId(id, "update");
+    },
+    companyAdd(id) {
+      this.getByCompanyId(id, "add");
+    },
+    getByCompanyId(id, type) {
+      this.$axios
+        .post(this.$urls.company.getById + "/" + id)
+        .then((response) => {
+          if (response.code == 0) {
+            this.addOrUpdateItem(response, type);
+          }
+        });
     },
     delCompany(id) {
       this.$axios

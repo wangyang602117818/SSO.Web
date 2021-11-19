@@ -45,7 +45,7 @@ export default {
       if (this.user.UserName.trim() == "") return;
       this.$axios.post(this.$urls.user.update, this.user).then((response) => {
         if (response.code === 0) {
-          this.$eventbus.emit('userupdate',this.user);
+          this.$eventbus.emit('userupdate',this.user.UserId);
           this.f7router.back();
           this.showSuccess();
         }

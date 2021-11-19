@@ -22,9 +22,10 @@ namespace SSO.Web.Controllers
                 Description = companyModel.Description,
                 Order = companyModel.Order
             };
-            if (company.Insert(com) > 0)
+            int id = company.InsertIdentity(com);
+            if (id > 0)
             {
-                return new ResponseModel<string>(ErrorCode.success, "");
+                return new ResponseModel<int>(ErrorCode.success, id);
             }
             else
             {

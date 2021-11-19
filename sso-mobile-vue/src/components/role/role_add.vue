@@ -32,6 +32,7 @@ export default {
       if (this.role.description.trim() == "") return;
       this.$axios.post(this.$urls.role.add, this.role).then((response) => {
         if (response.code == 0) {
+           this.$eventbus.emit('roleadd',this.role.name);
           this.f7router.back();
           this.showSuccess();
         }

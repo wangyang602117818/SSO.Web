@@ -16,7 +16,8 @@ export const urls = {
         delete: "role/delete",
         getlist: "role/getlist",
         getall: "role/getall",
-        getById: "role/getbyid"
+        getById: "role/getbyid",
+        getByName: "role/getbyname"
     },
     company: {
         add: "company/add",
@@ -68,6 +69,7 @@ export const urls = {
     },
     file: {
         getlist: "file/getfilelist",
+        getfileInfos: "file/getfileInfos",
         upload: "file/upload",
         uploads: "file/uploads",
         downloadPic: "file/downloadpic",
@@ -106,7 +108,7 @@ ax.interceptors.response.use(
         //     window.vue.showInfo("登录已过期!");
         //     return false
         // }
-        if (response.data.code > 10) {
+        if (response.data.code > 10 || response.data.code < 0) {
             window.vue.showInfo(window.vue.$t("response." + response.data.message));
         }
         return response.data;

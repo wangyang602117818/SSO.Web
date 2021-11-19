@@ -220,7 +220,9 @@ export default {
             this.buttonDisabled = false;
             this.buttonValue = this.$t("navigator.upload");
             if (response.code == 0) {
+              this.$eventbus.emit('fileadd',response.result.map(value=>{return value.FileId}));
               this.f7router.back();
+              this.showSuccess();
             }
           });
       } else {

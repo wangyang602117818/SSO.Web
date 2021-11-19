@@ -20,17 +20,17 @@ var ListBase = {
             }
             this.pageIndex = 1;
             this.isEnd = false;
-            this.getData(true,null);
+            this.getData(true, null);
         },
         refresh(done) {
             this.pageIndex = 1;
-            this.getData(true,done);
+            this.getData(true, done);
         },
         loadMore() {
             //正在loading数据或者所有数据已经加载完成
             if (this.loading || this.isEnd) return;
             this.pageIndex = this.pageIndex + 1;
-            this.getData(false,null);
+            this.getData(false, null);
         },
         removeItem(id) {
             var index = -1;
@@ -40,8 +40,18 @@ var ListBase = {
             }
             this.datas.splice(index, 1);
         },
+        addOrUpdateItem(response, type) {
+            if (type == "update") {
+                var index = this.datas.findIndex(
+                    (f) => f.Id == response.result.Id
+                );
+                this.datas[index] = response.result;
+            } else {
+                this.datas.splice(0, 1, response.result);
+            }
+        },
         //通过记录id获取记录的index
-        getItemIndex(id){
+        getItemIndex(id) {
             var index = -1;
             for (var i = 0; i < this.datas.length; i++) {
                 if (this.datas[i].Id && this.datas[i].Id == id) index = i;

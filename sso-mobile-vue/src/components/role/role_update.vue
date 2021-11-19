@@ -36,6 +36,7 @@ export default {
       if (this.role.description.trim() == "") return;
       this.$axios.post(this.$urls.role.update, this.role).then((response) => {
         if (response.code == 0) {
+          this.$eventbus.emit('roleupdate',this.role.name);
           this.f7router.back();
           this.showSuccess();
         }

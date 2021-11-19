@@ -63,6 +63,10 @@ export default {
     };
   },
   mounted() {},
+  created() {
+    this.$eventbus.on("roleupdate",this.roleUpdate);
+    this.$eventbus.on("roleadd", this.roleAdd);
+  },
   methods: {
     getQuerystring() {
       var url =
@@ -73,6 +77,21 @@ export default {
         "&filter=" +
         this.filter;
       return url;
+    },
+    roleUpdate(roleName) {
+      this.getByRoleName(roleName, "update");
+    },
+    roleAdd(roleName) {
+      this.getByRoleName(roleName, "add");
+    },
+    getByRoleName(roleName, type) {
+      this.$axios
+        .get(this.$urls.role.getByName + "?roleName=" + roleName)
+        .then((response) => {
+          if (response.code == 0) {
+            this.addOrUpdateItem(response,type);
+          }
+        });
     },
     delRole(id) {
       this.$axios

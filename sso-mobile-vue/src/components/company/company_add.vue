@@ -34,6 +34,7 @@ export default {
         .post(this.$urls.company.add, this.company)
         .then((response) => {
           if (response.code == 0) {
+            this.$eventbus.emit('companyadd',response.result);
             this.f7router.back();
             this.showSuccess();
           }

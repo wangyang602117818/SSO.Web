@@ -43,6 +43,10 @@ namespace SSO.Business
         {
             return instance.Insert(obj);
         }
+        public int InsertIdentity(object obj)
+        {
+            return instance.InsertIdentity(obj);
+        }
         /// <summary>
         /// 获取所有
         /// </summary>

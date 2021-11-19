@@ -247,6 +247,7 @@ export default {
   },
   created() {
     this.getFroms();
+    this.$eventbus.on("fileadd", this.fileAdd);
   },
   methods: {
     getQuerystring() {
@@ -314,6 +315,18 @@ export default {
       this.$axios.get(this.$urls.file.getFromList).then((response) => {
         if (response.code === 0) this.froms = response.result;
       });
+    },
+    fileAdd(ids) {
+      this.$axios
+        .post(this.$urls.file.getfileInfos, { ids })
+        .then((response) => {
+          if (response.code === 0) {
+            response.result.sort(function (a, b) {
+              return a.CreateTime > b.CreateTime ? 1 : -1;
+            });
+            this.datas = response.result.concat(this.datas);
+          }
+        });
     },
     delFile(id) {
       this.$axios.get(this.$urls.file.remove + "/" + id).then((response) => {

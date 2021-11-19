@@ -65,8 +65,12 @@ export default {
   },
   data() {
     return {
-      getlist: this.$urls.company.getlist
+      getlist: this.$urls.company.getlist,
     };
+  },
+  created() {
+    this.$eventbus.on("companyupdate", this.getByCompanyId);
+    this.$eventbus.on("companyadd", this.getByCompanyId);
   },
   methods: {
     getQuerystring() {
@@ -78,6 +82,11 @@ export default {
         "&filter=" +
         this.filter;
       return url;
+    },
+    getByCompanyId() {
+      this.pageIndex = 1;
+      this.isEnd = false;
+      this.getData(true, null);
     },
     delCompany(id) {
       this.$axios

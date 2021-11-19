@@ -66,6 +66,12 @@ namespace SSO.Web.Controllers
             var filelist = fileClientService.GetFileList(pageIndex, pageSize, from, filter, fileType, startTime, endTime, sorts, delete);
             return Content(JsonSerializerHelper.Serialize(filelist));
         }
+        public ActionResult GetFileInfos(IEnumerable<string> ids)
+        {
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));
+            var fileinfo = fileClientService.GetFileInfos(ids);
+            return Content(JsonSerializerHelper.Serialize(fileinfo));
+        }
         [AllowAnonymous]
         public ActionResult DownloadFile(string id, string filename)
         {

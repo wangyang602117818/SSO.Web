@@ -39,6 +39,7 @@ export default {
       if (this.user.UserName.trim() == "") return;
       this.$axios.post(this.$urls.user.add, this.user).then((response) => {
         if (response.code == 0) {
+          this.$eventbus.emit('useradd',this.user.UserId);
           this.f7router.back();
           this.showSuccess();
         }
