@@ -1,9 +1,9 @@
 import ax from 'axios';
 import funtools from 'sso-util';
-// export const fileBaseURL = "http://www.fileserverpc.com/";
-// export const baseURL = "http://www.ssoapi.com/";
-export const fileBaseURL = "http://file.ssoutil.cn/";
-export const baseURL = "http://api.ssoutil.cn/";
+export const fileBaseURL = "http://www.fileserverpc.com/";
+export const baseURL = "http://www.ssoapi.com/";
+// export const fileBaseURL = "http://file.ssoutil.cn/";
+// export const baseURL = "http://api.ssoutil.cn/";
 export const cookieName = "sso.mobile.auth";
 export const urls = {
     decodeToken: 'sso/decodetoken',
