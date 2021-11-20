@@ -1,6 +1,6 @@
 <template>
   <f7-app v-bind="f7params">
-    <f7-view main url="/"></f7-view>
+    <f7-view main url="/" ></f7-view>
   </f7-app>
 </template>
 
@@ -17,7 +17,7 @@ export default {
         theme: "ios",
         routes: routes,
         view: {
-          pushState: true,
+          browserHistory: true,
           stackPages: true,
         },
       },

@@ -24,7 +24,7 @@ var routes = [
         path: "/",
         component: Tabs,
         options: {
-            transition: 'f7-parallax',
+            transition: 'f7-parallax'
         }
     },
     {
@@ -32,15 +32,15 @@ var routes = [
         path: "/users",
         component: UserManage,
         options: {
-            transition: 'f7-parallax',
+            transition: 'f7-parallax'
         },
         on: {
-            pageAfterIn: function(e, page) {
-                
+            pageAfterIn: function (e, page) {
+
                 // do something after page gets into the view
             },
             pageInit: function (e, page) {
-                var a=0;
+                var a = 0;
 
                 // do something when page initialized
             },
