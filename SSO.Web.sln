@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30523.141
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSO.Web", "SSO.Web\SSO.Web.csproj", "{EBD5F4D6-4449-47AA-8837-3FAD08CB15F2}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSO.TaskScheduling.Test", "SSO.TaskScheduling.Test\SSO.TaskScheduling.Test.csproj", "{34F1D7DA-7617-41D0-9C76-0CB304D68303}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSO.WeChat.Subscription", "SSO.WeChat.Subscription\SSO.WeChat.Subscription.csproj", "{5D9B7C61-0111-4CA5-BF44-A111884FA30A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSO.Util.Client", "..\SSO.Util.Client\SSO.Util.Client4.5\SSO.Util.Client\SSO.Util.Client.csproj", "{240CAD53-AFB8-4C85-AE22-D4081DF37012}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{5D9B7C61-0111-4CA5-BF44-A111884FA30A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D9B7C61-0111-4CA5-BF44-A111884FA30A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D9B7C61-0111-4CA5-BF44-A111884FA30A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{240CAD53-AFB8-4C85-AE22-D4081DF37012}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{240CAD53-AFB8-4C85-AE22-D4081DF37012}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{240CAD53-AFB8-4C85-AE22-D4081DF37012}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{240CAD53-AFB8-4C85-AE22-D4081DF37012}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

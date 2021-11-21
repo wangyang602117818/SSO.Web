@@ -69,9 +69,6 @@
     <Reference Include="Quartz, Version=3.3.3.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.3.3.3\lib\net472\Quartz.dll</HintPath>
     </Reference>
-    <Reference Include="SSO.Util.Client, Version=2.5.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSO.Util.Client.2.5.5\lib\net45\SSO.Util.Client.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -217,6 +214,10 @@
     <Content Include="Views\WebSocketDemo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SSO.Util.Client\SSO.Util.Client4.5\SSO.Util.Client\SSO.Util.Client.csproj">
+      <Project>{240cad53-afb8-4c85-ae22-d4081df37012}</Project>
+      <Name>SSO.Util.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
       <Project>{8fe6a73f-e06f-46a8-b4f6-34e82945c649}</Project>
       <Name>SSO.Business</Name>

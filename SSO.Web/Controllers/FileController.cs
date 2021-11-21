@@ -16,7 +16,7 @@ namespace SSO.Web.Controllers
         {
             FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(Request));
             var result = fileClientService.Upload(file.FileName, file.ContentType, file.InputStream);
-            if (result.code != 0) return new ResponseModel<string>(ErrorCode.server_exception, result.message);
+            if (result.code != 0) return Json(result, JsonRequestBehavior.AllowGet);
             if (user.UpdateFileId(User.Identity.Name, result.result.FileId, result.result.FileName) > 0)
 
             {
