@@ -1,4 +1,5 @@
 ﻿using SSO.Util.Client;
+using SSO.Util.Client.ElasticLite;
 using SSO.Util.Client.SqlBatisLite;
 using System.Web.Mvc;
 using System.Web.Routing;

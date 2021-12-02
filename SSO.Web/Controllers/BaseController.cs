@@ -20,7 +20,7 @@ namespace SSO.Web.Controllers
         public static string messageBaseUrl = AppSettings.GetValue("messageBaseUrl");
         protected JwtManager jwtManager = new JwtManager(ssoSecretKey, issuer, int.Parse(ssoTicketTime));
         protected LogService logService = new LogService(messageBaseUrl);
-
+        protected SearchService searchService = new SearchService(messageBaseUrl);
         protected DateTime GetNextRunTimeByCrons(IEnumerable<string> crons)
         {
             List<DateTimeOffset> nextRunTimes = new List<DateTimeOffset>();

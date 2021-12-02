@@ -25,8 +25,9 @@ namespace SSO.TaskScheduling.Test
             //tableTask = new Task(MonitorTable, table);
             //tableTask.Start();
 
-            processor.StartWork();
+            //processor.StartWork();
 
+           
 
             Console.WriteLine("ok");
             Console.ReadKey();
@@ -34,7 +35,6 @@ namespace SSO.TaskScheduling.Test
 
         static void MonitorTable(object tablename)
         {
-
             while (true)
             {
                 MonitorTableData monitorTableData = new MonitorTableData();
