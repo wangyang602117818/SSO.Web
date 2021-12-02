@@ -47,7 +47,7 @@ var ListBase = {
                 );
                 this.datas[index] = response.result;
             } else {
-                this.datas.splice(0, 1, response.result);
+                this.datas.splice(0, 0, response.result);
             }
         },
         //通过记录id获取记录的index

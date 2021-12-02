@@ -10,9 +10,9 @@
   "dependencies": {
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
-    "framework7": "^6.3.8",
+    "framework7": "^6.3.9",
     "framework7-icons": "^5.0.5",
-    "framework7-vue": "^6.3.8",
+    "framework7-vue": "^6.3.9",
     "sso-util": "^1.5.6",
     "vue": "^3.0.0",
     "vue-i18n": "^9.2.0-beta.17",
