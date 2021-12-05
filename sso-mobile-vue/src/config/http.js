@@ -78,8 +78,11 @@ export const urls = {
         getFromList: "file/getFromList",
         getFileTypeMapping: "file/getFileTypeMapping",
         remove: "file/remove"
+    },
+    search:{
+        suggest:"search/suggest",
+        search:"search/search"
     }
-
 };
 
 ax.defaults.baseURL = baseURL;

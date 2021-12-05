@@ -18,11 +18,20 @@ import Personal from '../components/me/personal'
 import ChangePassword from '../components/me/change_password'
 import FileManage from "../components/file/file_manage"
 import FileAdd from "../components/file/file_add"
+import Search from "../components/search"
 var routes = [
     {
         name: "tab",
         path: "/",
         component: Tabs,
+        options: {
+            transition: 'f7-parallax'
+        }
+    },
+    {
+        name: "search",
+        path: "/search",
+        component: Search,
         options: {
             transition: 'f7-parallax'
         }
