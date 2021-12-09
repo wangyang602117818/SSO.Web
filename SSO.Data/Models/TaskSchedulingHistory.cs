@@ -18,12 +18,21 @@ namespace SSO.Data.Models
         {
             List<object> datas = new List<object>()
             {
-                new { SchedulingId =schedulingId,SchedulingName=schedulingName,RunTime=runTime,EndTime=endTime,RunResult=runResult},
+                new { schedulingId,schedulingName,runTime,endTime,runResult},
                 new { Id=schedulingId, NextRunTime=nextRunTime,LastRunTime=runTime,LastRunResult=runResult}
             };
             List<string> nodes = new List<string>() { "insert", "update-scheduling" };
             return base.ExecuteTransaction(nodes, datas, null);
         }
-
+        public int InsertHistoryAndUpdateScheduling(int schedulingId, string schedulingName, DateTimeOffset runTime, DateTimeOffset endTime, DateTimeOffset? nextRunTime, IEnumerable<string> runResults)
+        {
+            List<object> datas = new List<object>()
+            {
+                new { schedulingId,schedulingName,runTime,endTime,runResults},
+                new { Id=schedulingId, NextRunTime=nextRunTime,LastRunTime=runTime,LastRunResult=runResults.LastOrDefault()}
+            };
+            List<string> nodes = new List<string>() { "insert-many", "update-scheduling" };
+            return base.ExecuteTransaction(nodes, datas, null);
+        }
     }
 }

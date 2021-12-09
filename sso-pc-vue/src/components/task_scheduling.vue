@@ -80,7 +80,7 @@
         v-if="record.Enable"
         >{{ record.Status == 0 ? $t("running") : $t("stoped") }}</a-tag
       >
-      <template slot="Operation" slot-scope="text, record" v-if="record.Enable">
+      <template slot="Operation" slot-scope="text, record" v-if="record.Enable && record.Crons">
         <a-popconfirm
           v-if="data.length"
           :okText="$t('yes')"
@@ -93,8 +93,8 @@
           @confirm="() => statusOperation(record.Id, record.Status)"
         >
           <span :title="$t('start_scheduling')" v-if="record.Status == -1">
-            <start size="18px"
-          /></span>
+            <start size="18px"/>
+            </span>
           <span v-else :title="$t('stop_scheduling')">
             <end size="18px" />
           </span>
@@ -118,6 +118,7 @@
           :wrapper-col="{ span: 20 }"
         >
           <a-input
+            disabled
             :placeholder="$t('name')"
             v-decorator="[
               'name',
@@ -211,6 +212,13 @@ export default {
         {
           title: this.$t("description"),
           dataIndex: "Description",
+          width: "15%",
+          ellipsis: true,
+        },
+        {
+          title: this.$t("task_trigger"),
+          dataIndex:
+            this.$i18n.locale == "zh-cn" ? "CronsZh" : "CronsCh",
           width: "15%",
           ellipsis: true,
         },

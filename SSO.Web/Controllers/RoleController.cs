@@ -58,7 +58,6 @@ namespace SSO.Web.Controllers
         [JwtAuthorize("GetRole")]
         public ActionResult GetList(string filter = "", int pageIndex = 1, int pageSize = 10)
         {
-            int count = 0;
             var r = new Data.Models.Role()
             {
                 Name = filter,
@@ -66,6 +65,7 @@ namespace SSO.Web.Controllers
                 PageSize = pageSize
             };
             var result = role.GetPageList<Data.Models.Role>(r);
+            int count = result.Count() > 0 ? result.First().Total : 0;
             return new ResponseModel<IEnumerable<Data.Models.Role>>(ErrorCode.success, result, count);
         }
         [JwtAuthorize("GetRole")]

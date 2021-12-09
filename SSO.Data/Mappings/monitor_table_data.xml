@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <sql>
   <select-sync-data>
-    declare @last_synchronization_version bigint = (select [version] from synchronization_version where name='#table#')
+    declare @last_synchronization_version bigint = (select [version] from [synchronization_version] where name='#table#')
     SELECT
     P.*,
-    CT.Id,
+    CT.Id as realId,
     CT.SYS_CHANGE_OPERATION as opertion,
     CT.SYS_CHANGE_Version as version
     FROM
-    #table# AS P
+    [#table#] AS P
     RIGHT OUTER JOIN
-    CHANGETABLE(CHANGES #table#,@last_synchronization_version) AS CT
+    CHANGETABLE(CHANGES [#table#],@last_synchronization_version) AS CT
     ON
     P.id = CT.id
   </select-sync-data>
   <update-version>
     if EXISTS(select * from [synchronization_version] where name='#table#')
     begin
-    update synchronization_version set version=@version where name='#table#' and <![CDATA[version<@version]]>
+    update [synchronization_version] set version=@version where name='#table#' and <![CDATA[version<@version]]>
     end
     else
     begin

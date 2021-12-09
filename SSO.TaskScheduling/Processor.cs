@@ -84,7 +84,7 @@ namespace SSO.TaskScheduling
         {
             if (obj.SchedulingState == SchedulingStateEnum.Stoped)
             {
-                if (obj.SchedulingId > 0) StopJob(obj.SchedulingId);
+                if (obj.SchedulingId > 0) StopJob(obj.SchedulingId); 
                 if (obj.TriggerId > 0) StopJobByTrigger(obj.TriggerId);
             }
             else

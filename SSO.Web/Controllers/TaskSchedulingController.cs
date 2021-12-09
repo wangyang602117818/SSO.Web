@@ -1,4 +1,5 @@
 ﻿using CronExpressionDescriptor;
+using Newtonsoft.Json.Linq;
 using Quartz;
 using SSO.Business;
 using SSO.Model;
@@ -75,8 +76,9 @@ namespace SSO.Web.Controllers
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
-            var result = taskScheduling.GetPageList<Data.Models.TaskScheduling>(trigger);
-            return new ResponseModel<IEnumerable<Data.Models.TaskScheduling>>(ErrorCode.success, result, result.Count() > 0 ? result.First().Total : 0);
+            var result = taskScheduling.GetPageList<object>(trigger);
+            int total = result.Count() > 0 ? Convert.ToInt32(((JObject)result.First())["Total"]) : 0;
+            return new ResponseModel<IEnumerable<object>>(ErrorCode.success, result, total);
         }
         public ActionResult EnableScheduling(int id, bool enable)
         {
@@ -249,6 +251,7 @@ namespace SSO.Web.Controllers
         public ActionResult StartScheduling(int id)
         {
             var list = taskTrigger.GetBySchedulingId(id).Select(s => s.Crons);
+            if (list.Count() == 0) return new ResponseModel<string>(ErrorCode.record_not_exist, "");
             if (taskScheduling.Update(new { Id = id, Status = (int)SchedulingStateEnum.Running, NextRunTime = GetNextRunTimeByCrons(list) }) > 0)
             {
                 messageCenter.InsertTaskScheduling(Environment.MachineName, id, 0, (int)SchedulingStateEnum.Running);

@@ -14,6 +14,9 @@ namespace SSO.Business
         {
             return instance.InsertHistoryAndUpdateScheduling(schedulingId, schedulingName, runTime, endTime, nextRunTime, runResult);
         }
-
+        public int InsertHistoryAndUpdateScheduling(int schedulingId, string schedulingName, DateTimeOffset runTime, DateTimeOffset endTime, DateTimeOffset? nextRunTime, IEnumerable<string> runResults)
+        {
+            return instance.InsertHistoryAndUpdateScheduling(schedulingId, schedulingName, runTime, endTime, nextRunTime, runResults);
+        }
     }
 }

@@ -114,7 +114,7 @@ ax.interceptors.request.use((config) => {
 //响应拦截器
 ax.interceptors.response.use(
     response => {
-        if (response.data.code == 1000) {
+        if (response.data.code == -1000) {
             if (window.vue.$toast)
                 window.vue.$toast("error", window.vue.$t("response." + response.data.message));
             return;

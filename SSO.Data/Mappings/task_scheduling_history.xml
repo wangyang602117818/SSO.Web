@@ -4,6 +4,12 @@
     insert into [TaskSchedulingHistory]([SchedulingId], [SchedulingName], [RunTime],[EndTime], [RunResult])
     values(@SchedulingId,@SchedulingName,@RunTime,@EndTime,@RunResult)
   </insert>
+  <insert-many>
+    insert into [TaskSchedulingHistory]([SchedulingId], [SchedulingName],[RunTime],[EndTime], [RunResult])values
+    <iterate conjunction="," property="runResults">
+      (@schedulingId, @schedulingName, @runTime, @endTime, @runResults[index])
+    </iterate>
+  </insert-many>
   <update-scheduling>
     update TaskScheduling set [UpdateTime]=GETDATE()
     <isNotEmpty property="NextRunTime" prepend=",">

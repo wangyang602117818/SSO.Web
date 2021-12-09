@@ -12,7 +12,13 @@ namespace SSO.Data.Models
 {
     public class MonitorTableData : ModelBase
     {
-        public void Monitor(string table)
+        /// <summary>
+        /// 监视并处理数据回调,一次可能处理多条,返回集合
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public IEnumerable<string> Monitor(string table, Func<object, string> action)
         {
             using (SqlConnection conn = new SqlConnection(session.connstring))
             {
@@ -25,18 +31,20 @@ namespace SSO.Data.Models
                         try
                         {
                             var list = base.QueryList<object>("select-sync-data", null, new { table }).OrderBy(o => ((JObject)o)["version"]).ToList();
+                            var result = new List<string>();
                             if (list.Count() > 0)
                             {
                                 var version = Convert.ToInt64(((JObject)list[list.Count - 1])["version"]);
                                 //处理
-                                foreach(var item in list)
+                                foreach (var item in list)
                                 {
-                                    Console.WriteLine(table + ":" + JsonSerializerHelper.Serialize(item));
+                                    if (action != null) result.Add(action(item));
                                 }
                                 //更新
                                 base.ExecuteNonQuery("update-version", new { version }, new { table });
                             }
                             transaction.Commit();
+                            return result;
                         }
                         catch (Exception ex)
                         {

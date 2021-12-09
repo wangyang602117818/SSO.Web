@@ -147,4 +147,10 @@
   ON UPDATE CASCADE
   on delete cascade
   )
+
+  if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='synchronization_version')
+  create table synchronization_version (
+  [name] [varchar](50) NULL,
+  [version] [bigint] NULL
+  )
 </sql>

@@ -1,4 +1,5 @@
-﻿using Quartz;
+﻿using Newtonsoft.Json.Linq;
+using Quartz;
 using Quartz.Impl;
 using SSO.Business;
 using SSO.Data.Models;
@@ -18,29 +19,18 @@ namespace SSO.TaskScheduling.Test
     {
         static Task tableTask = null;
         static Processor processor = new Processor();
+ 
         static void Main(string[] args)
         {
-            //Console.WriteLine("请输入:");
-            //string table = Console.ReadLine();
-            //tableTask = new Task(MonitorTable, table);
-            //tableTask.Start();
-
-            //processor.StartWork();
-
            
+
+            processor.StartWork();
+
+
 
             Console.WriteLine("ok");
             Console.ReadKey();
         }
 
-        static void MonitorTable(object tablename)
-        {
-            while (true)
-            {
-                MonitorTableData monitorTableData = new MonitorTableData();
-                monitorTableData.Monitor((string)tablename);
-                Thread.Sleep(1000);
-            }
-        }
     }
 }

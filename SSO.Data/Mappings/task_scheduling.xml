@@ -79,16 +79,19 @@
   </get-task-scheduling-trigger>
   <get-page-list>
     select * from(
-    select *,row_number() over(order by Id desc) uid,
+    select ts.*,tt.Crons,tt.Description CronsZh,tt.Description1 CronsCh,row_number() over(order by ts.Id desc) uid,
     (
     select count(1) from [TaskScheduling] where 1=1
     <isNotEmpty property="Description" prepend="and">
       Description like '%'+@Description+'%' or Name like '%'+@Description+'%'
     </isNotEmpty>
     )
-    total from [TaskScheduling] where 1=1
+    Total from [TaskScheduling] ts
+    left join [dbo].[TaskSchedulingTriggerMapping] ttm on ts.Id=ttm.SchedulingId
+    left join [TaskTrigger] tt on ttm.TriggerId=tt.Id
+    where 1=1
     <isNotEmpty property="Description" prepend="and">
-      Description like '%'+@Description+'%' or Name like '%'+@Description+'%'
+      ts.Description like '%'+@Description+'%' or ts.Name like '%'+@Description+'%'
     </isNotEmpty>
     ) as tbl
     where uid between (@PageIndex-1)*@PageSize+1 and @PageIndex*@PageSize
