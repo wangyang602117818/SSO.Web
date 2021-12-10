@@ -14,12 +14,22 @@
         type="text"
         :placeholder="$t('common.search')"
         class="search"
+        v-model="filter"
+        autocomplete="off"
         id="search"
+        @focus="suggestFocus"
+        @input="suggestInput"
+        @keyup.enter="search"
       />
-      <div class="suggest_warp">
-        <f7-link class="suggest_item" href="/search">百度文库</f7-link>
-        <f7-link class="suggest_item" >头条知乎</f7-link>
-        <f7-link class="suggest_item" >头条知乎</f7-link>
+      <div class="suggest_warp" v-if="suggests.length > 0">
+        <f7-link
+          class="suggest_item"
+          v-for="item in suggests"
+          :data-text="item.text"
+          :key="item.id"
+          @click="selectItem"
+          >{{ item.text }}</f7-link
+        >
       </div>
     </div>
     <f7-list class="searchbar-not-found">
@@ -28,9 +38,11 @@
     <f7-list media-list>
       <f7-list-item
         link="#"
-        title="Facebook"
-        after="17:14"
-        text="Lorem ipsum dolor sit amet, "
+        :title="item.title"
+        :after="item.create_time"
+        :text="item.description"
+        v-for="item in datas"
+        :key="item.id"
       ></f7-list-item>
       <f7-list-item
         title="Yellow Submarine"
@@ -46,16 +58,22 @@
         </template>
       </f7-list-item>
     </f7-list>
-    <div class="bg"></div>
+    <div class="bg" v-if="suggests.length > 0" @click="suggests = []"></div>
   </f7-page>
 </template>
 <script>
+var inputFuncTimeout = null;
 import ListBase from "./ListBase";
 export default {
   mixins: [ListBase],
+  props: {
+    word: String,
+  },
   data() {
     return {
       getlist: this.$urls.search.search,
+      suggests: [],
+      filter: this.word,
     };
   },
   methods: {
@@ -65,22 +83,59 @@ export default {
         this.pageIndex +
         "&pageSize=" +
         this.pageSize +
-        "&filter=" +
+        "&word=" +
         this.filter;
       return url;
+    },
+    search(e) {
+      var value = e.target.value;
+      this.suggests = [];
+      this.filter = value;
+      this.getData(true);
+    },
+    selectItem(e) {
+      var text = e.target.dataset.text;
+      this.suggests = [];
+      this.filter = text;
+      this.getData(true);
+    },
+    suggestInput(e) {
+      var value = e.target.value;
+      if (!value) {
+        this.suggests = [];
+        return;
+      }
+      clearTimeout(inputFuncTimeout);
+      var that = this;
+      inputFuncTimeout = setTimeout(function () {
+        that.loadSuggest(value);
+      }, 500);
+    },
+    loadSuggest(value) {
+      this.$axios
+        .get(this.$urls.search.suggest + "?word=" + value)
+        .then((response) => {
+          if (response.code == 0) {
+            this.suggests = response.result;
+          }
+        });
+    },
+    suggestFocus(e) {
+      var value = e.target.value;
+      this.loadSuggest(value);
     },
   },
 };
 </script>
-<style>
-.search_wrap{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 95%;
-    height: 60px;
-    margin: 0 auto;
-    position: relative;
+<style scoped>
+.search_wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 95%;
+  height: 60px;
+  margin: 0 auto;
+  position: relative;
 }
 #search {
   height: 44px;
@@ -99,27 +154,7 @@ export default {
   margin: 0 auto;
 }
 .suggest_warp {
-  position: absolute;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 99;
-  max-height: 300px;
-  min-height: 170px;
-  overflow: auto;
   top: 53px;
-  background-color: #fff;
-  border: 1px solid #d4d4d4;
-  border-radius: 0px 0px 4px 4px;
-}
-.suggest_warp .suggest_item {
-  padding: 10px 15px;
-  display: block;
-  color: #444;
-  font-weight: bold;
-}
-.suggest_item:hover,
-.suggest_item:active {
-  background-color: #f0f0f0;
 }
 .bg {
   position: absolute;

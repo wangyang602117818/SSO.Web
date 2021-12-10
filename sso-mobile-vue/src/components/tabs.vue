@@ -22,9 +22,14 @@
         icon-size="24px"
       ></f7-link>
     </f7-toolbar>
-    <f7-tabs>
+    <f7-tabs @click="pageClick">
       <f7-tab id="navigator" tab-active>
-        <Navigator />
+        <Navigator
+          :suggests="suggests"
+          @suggestInput="suggestInput"
+          @suggestFocus="suggestFocus"
+          @search="search"
+        />
       </f7-tab>
       <f7-tab id="manage">
         <Manage />
@@ -37,17 +42,57 @@
 </template>
 
 <script>
+var inputFuncTimeout = null;
 import Navigator from "./navigator";
 import Manage from "./manage";
 import Me from "./me";
 export default {
   name: "tabs",
   components: { Navigator, Manage, Me },
+  props: {
+    f7router: Object,
+  },
   data() {
-    return {};
+    return {
+      suggests: [],
+    };
   },
   computed: {},
-  methods: {},
+  methods: {
+    pageClick() {
+      this.suggests = [];
+    },
+    search(e) {
+      var value = e.target.value;
+      this.f7router.navigate("/search/" + value);
+    },
+    suggestInput(e) {
+      var value = e.target.value;
+      if (!value) {
+        this.suggests = [];
+        return;
+      }
+      clearTimeout(inputFuncTimeout);
+      var that = this;
+      inputFuncTimeout = setTimeout(function () {
+        that.loadSuggest(value);
+      }, 500);
+    },
+    suggestFocus(e) {
+      var value = e.target.value;
+      if (!value) return;
+      this.loadSuggest(value);
+    },
+    loadSuggest(value) {
+      this.$axios
+        .get(this.$urls.search.suggest + "?word=" + value)
+        .then((response) => {
+          if (response.code == 0) {
+            this.suggests = response.result;
+          }
+        });
+    },
+  },
 };
 </script>
 

@@ -30,7 +30,7 @@ var routes = [
     },
     {
         name: "search",
-        path: "/search",
+        path: "/search/:word",
         component: Search,
         options: {
             transition: 'f7-parallax'

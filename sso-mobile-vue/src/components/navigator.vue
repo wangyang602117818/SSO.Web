@@ -1,11 +1,23 @@
 <template>
   <div class="navigator">
-    <div class="nav_top">
-      <input type="text" :placeholder="$t('common.search')" />
-      <div class="suggest_warp">
-        <f7-link class="suggest_item" href="/search">百度文库</f7-link>
-        <f7-link class="suggest_item">头条知乎</f7-link>
-        <f7-link class="suggest_item">头条知乎</f7-link>
+    <div class="nav_top" @click.stop>
+      <input
+        type="text"
+        class="search_input"
+        autocomplete="off"
+        :placeholder="$t('common.search')"
+        @input="$emit('suggestInput', $event)"
+        @focus="$emit('suggestFocus', $event)"
+        @keyup.enter="$emit('search', $event)"
+      />
+      <div class="suggest_warp" v-if="suggests.length > 0">
+        <f7-link
+          class="suggest_item"
+          :href="'/search/' + item.text"
+          v-for="item in suggests"
+          :key="item.id"
+          >{{ item.text }}</f7-link
+        >
       </div>
     </div>
     <div class="nav_content">
@@ -20,25 +32,30 @@
           </f7-link>
         </f7-col>
         <f7-col> </f7-col>
-        <f7-col> </f7-col>
+        <f7-col></f7-col>
       </f7-row>
     </div>
     <!-- <div class="bg"></div> -->
   </div>
 </template>
 
-<script>
+<script scoped>
 export default {
   name: "navigator",
+  props: {
+    suggests: Array,
+    suggestInput: Function
+  },
   data() {
     return {};
   },
   created() {},
-  methods: {},
+  methods: {
+  },
 };
 </script>
 
-<style scoped>
+<style>
 .navigator {
   height: 100%;
   display: flex;
@@ -59,8 +76,6 @@ export default {
   width: 100%;
   box-sizing: border-box;
   z-index: 99;
-  max-height: 300px;
-  min-height: 170px;
   overflow: auto;
   top: 71px;
   background-color: #fff;
@@ -72,12 +87,16 @@ export default {
   display: block;
   color: #444;
   font-weight: bold;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
 }
 .suggest_item:hover,
 .suggest_item:active {
   background-color: #f0f0f0;
 }
-.nav_top input {
+.nav_top .search_input {
   flex: 1;
   padding: 10px 15px;
   height: 44px;
@@ -107,7 +126,7 @@ export default {
   border-bottom: 1px solid #f0f0f0;
 }
 .nav_wrap {
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -124,7 +143,6 @@ export default {
   width: 45px;
   display: inline-block;
 }
-
 .nav_title {
   height: 30px;
   line-height: 30px;
