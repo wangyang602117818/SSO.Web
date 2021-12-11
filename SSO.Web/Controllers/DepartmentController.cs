@@ -63,6 +63,10 @@ namespace SSO.Web.Controllers
             };
             return new ResponseModel<DepartmentData>(ErrorCode.success, departmentData);
         }
+        public ActionResult GetById(int id)
+        {
+            return new ResponseModel<SSO.Data.Models.Department>(ErrorCode.success, department.GetById(id));
+        }
         [JwtAuthorize("UpdateDepartment")]
         public ActionResult Update(UpdateDepartmentModel updateDepartmentModel)
         {

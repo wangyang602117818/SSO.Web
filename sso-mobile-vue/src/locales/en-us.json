@@ -63,7 +63,8 @@
         "exception": "Exception",
         "count": "Count",
         "minute": "Minute",
-        "user": "User"
+        "user": "User",
+        "file":"File"
     },
     "me": {
         "pic_setting": "PicSetting",

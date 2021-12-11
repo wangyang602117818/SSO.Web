@@ -126,5 +126,10 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<Model.UserData>(ErrorCode.success, user.GetUserUpdate(userId));
         }
+        [JwtAuthorize("GetUser")]
+        public ActionResult GetById(int id)
+        {
+            return new ResponseModel<SSO.Data.Models.User>(ErrorCode.success, user.GetById(id));
+        }
     }
 }

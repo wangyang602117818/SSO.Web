@@ -31,6 +31,7 @@ export const urls = {
         add: "department/add",
         getdepartments: "department/getdepartments",
         get: "department/get",
+        getbyid:"department/getbyid",
         update: "department/update",
         delete: "department/delete"
     },
@@ -43,6 +44,7 @@ export const urls = {
         restore: "user/restore",
         getbyuserid: "user/getbyuserid",
         getuser: 'user/getuser',
+        getbyid:'user/getbyid',
         updatebasicsetting: 'user/updatebasicsetting',
         updatepassword: 'user/updatepassword',
         resetpassword: 'user/resetpassword'

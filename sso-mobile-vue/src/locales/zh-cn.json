@@ -63,7 +63,8 @@
         "exception": "异常",
         "count": "次数",
         "minute": "分",
-        "user": "用户"
+        "user": "用户",
+        "file":"文件"
     },
     "me": {
         "pic_setting": "头像设置",

@@ -91,7 +91,7 @@
     <f7-photo-browser
       :photos="photos"
       theme="dark"
-      type="standalone"
+      type="page"
       :swiper="{ preloadImages: true, lazy: { enabled: false } }"
       ref="standaloneDark"
     ></f7-photo-browser>

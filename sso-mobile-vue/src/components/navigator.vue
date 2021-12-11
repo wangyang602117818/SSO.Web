@@ -10,7 +10,7 @@
         @focus="$emit('suggestFocus', $event)"
         @keyup.enter="$emit('search', $event)"
       />
-      <div class="suggest_warp" v-if="suggests.length > 0">
+      <div class="suggest_warp" v-if="suggests.length > 0" style="top: 71px;">
         <f7-link
           class="suggest_item"
           :href="'/search/' + item.text"
@@ -35,7 +35,6 @@
         <f7-col></f7-col>
       </f7-row>
     </div>
-    <!-- <div class="bg"></div> -->
   </div>
 </template>
 
@@ -77,7 +76,6 @@ export default {
   box-sizing: border-box;
   z-index: 99;
   overflow: auto;
-  top: 71px;
   background-color: #fff;
   border: 1px solid #d4d4d4;
   border-radius: 0px 0px 4px 4px;
@@ -148,13 +146,5 @@ export default {
   line-height: 30px;
   text-align: center;
 }
-.bg {
-  position: absolute;
-  z-index: 10;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.2);
-}
+
 </style>

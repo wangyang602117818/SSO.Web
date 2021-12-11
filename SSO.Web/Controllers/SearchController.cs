@@ -23,7 +23,7 @@ namespace SSO.Web.Controllers
             {
                 return new ResponseModel<string[]>(ErrorCode.success, new string[] { });
             }
-            return Content(JsonSerializerHelper.Serialize(searchService.Search(word, pageIndex, pageSize)),"application/json");
+            return Content(JsonSerializerHelper.Serialize(searchService.Search(word, pageIndex, pageSize)), "application/json");
         }
     }
 }
