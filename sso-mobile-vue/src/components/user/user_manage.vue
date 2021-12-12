@@ -59,13 +59,13 @@
           >
         </f7-swipeout-actions>
       </f7-list-item>
+      <f7-block-footer v-if="datas.length === 0 && isEnd">
+        <p style="text-align: center">---{{ $t("common.no_data") }}---</p>
+      </f7-block-footer>
+      <f7-block-footer v-if="datas.length > 0 && isEnd">
+        <p style="text-align: center">---{{ $t("common.end") }}---</p>
+      </f7-block-footer>
     </f7-list>
-    <f7-block class="text-align-center" v-if="datas.length === 0 && isEnd">{{
-      $t("common.no_data")
-    }}</f7-block>
-    <f7-block class="text-align-center" v-if="datas.length > 0 && isEnd"
-      >---{{ $t("common.end") }}---</f7-block
-    >
   </f7-page>
 </template>
 

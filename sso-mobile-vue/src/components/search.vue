@@ -66,8 +66,11 @@
           />
         </template>
       </f7-list-item>
-      <f7-block-footer>
-        <p style="text-align: center">end</p>
+      <f7-block-footer v-if="datas.length === 0 && isEnd">
+        <p style="text-align: center">---{{ $t("common.no_data") }}---</p>
+      </f7-block-footer>
+      <f7-block-footer v-if="datas.length > 0 && isEnd">
+        <p style="text-align: center">---{{ $t("common.end") }}---</p>
       </f7-block-footer>
     </f7-list>
     <div class="bg" v-if="suggests.length > 0" @click="suggests = []"></div>
@@ -76,7 +79,6 @@
 <script>
 var inputFuncTimeout = null;
 import ListBase from "./ListBase";
-import { nextTick } from "vue";
 export default {
   mixins: [ListBase],
   props: {
