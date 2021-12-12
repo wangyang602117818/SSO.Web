@@ -81,7 +81,7 @@ export default {
   border-radius: 0px 0px 4px 4px;
 }
 .suggest_warp .suggest_item {
-  padding: 10px 15px;
+  padding: 15px;
   display: block;
   color: #444;
   font-weight: bold;
