@@ -271,8 +271,8 @@ export default {
     itemClick(index) {
       var item = this.datas[index];
       if (item.FileType == "pdf") {
-        var url = this.$urls.preview + "/" + item._id + "/" + item.FileName;
-        window.open(url);
+      
+        this.f7router.navigate("/pdfviewer/"+item._id+"/"+item.FileName);
       } else {
         this.$refs.standaloneDark.open(index);
       }

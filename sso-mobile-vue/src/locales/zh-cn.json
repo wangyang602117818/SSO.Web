@@ -110,7 +110,8 @@
         "update_role": "修改角色",
         "add_user": "添加用户",
         "update_user": "修改用户",
-        "login_name": "登录名称"
+        "login_name": "登录名称",
+        "pdf_viewer":"PDF预览"
     },
     "navigator": {
         "navigators": "导航列表",
