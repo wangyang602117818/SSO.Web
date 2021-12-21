@@ -221,7 +221,7 @@ export default {
       var that = this;
       inputFuncTimeout = setTimeout(function () {
         that.loadSuggest(value);
-      }, 500);
+      }, 200);
     },
     loadSuggest(value) {
       this.$axios

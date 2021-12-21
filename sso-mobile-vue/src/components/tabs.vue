@@ -76,7 +76,7 @@ export default {
       var that = this;
       inputFuncTimeout = setTimeout(function () {
         that.loadSuggest(value);
-      }, 500);
+      }, 200);
     },
     suggestFocus(e) {
       var value = e.target.value;
