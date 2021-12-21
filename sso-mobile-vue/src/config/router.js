@@ -19,6 +19,7 @@ import ChangePassword from '../components/me/change_password'
 import FileManage from "../components/file/file_manage"
 import FileAdd from "../components/file/file_add"
 import Search from "../components/search"
+import PDFViewer from "../components/pdfviewer"
 var routes = [
     {
         name: "tab",
@@ -194,6 +195,13 @@ var routes = [
         name: "fileadd",
         path: "/fileadd",
         component: FileAdd,
+        options: {
+            transition: 'f7-parallax',
+        }
+    }, {
+        name: "pdfviewer",
+        path: "/pdfviewer/:fileid/:filename",
+        component: PDFViewer,
         options: {
             transition: 'f7-parallax',
         }

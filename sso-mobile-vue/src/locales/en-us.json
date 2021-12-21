@@ -110,7 +110,8 @@
         "update_role": "UpdateRole",
         "add_user": "AddUser",
         "update_user": "UpdateUser",
-        "login_name": "LoginName"
+        "login_name": "LoginName",
+        "pdf_viewer":"PDFViewer"
     },
     "navigator": {
         "navigators": "Navigators",
