@@ -1,7 +1,10 @@
 <template>
   <f7-page>
     <f7-navbar :back-link="filename"> </f7-navbar>
-    <embed  :src="pdfurl" type="application/pdf" height="100%" width="100%">
+    <div style="border:1px solid red;width:400px;height:800px">
+       <embed  :src="pdfurl" type="application/pdf" height="100%" width="100%">
+    </div>
+   
   </f7-page>
 </template>
 

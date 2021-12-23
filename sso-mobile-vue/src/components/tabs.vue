@@ -42,7 +42,6 @@
 </template>
 
 <script>
-var inputFuncTimeout = null;
 import Navigator from "./navigator";
 import Manage from "./manage";
 import Me from "./me";
@@ -55,6 +54,7 @@ export default {
   data() {
     return {
       suggests: [],
+      cancelToken:null
     };
   },
   computed: {},
@@ -66,17 +66,19 @@ export default {
       var value = e.target.value;
       this.f7router.navigate("/search/" + value);
     },
+    cancelRequest() {
+      if (typeof this.cancelToken === "function") {
+        this.cancelToken();
+      }
+    },
     suggestInput(e) {
       var value = e.target.value;
       if (!value) {
         this.suggests = [];
         return;
       }
-      clearTimeout(inputFuncTimeout);
-      var that = this;
-      inputFuncTimeout = setTimeout(function () {
-        that.loadSuggest(value);
-      }, 500);
+      this.cancelRequest();
+      this.loadSuggest(value);
     },
     suggestFocus(e) {
       var value = e.target.value;
@@ -84,8 +86,14 @@ export default {
       this.loadSuggest(value);
     },
     loadSuggest(value) {
+      var that = this;
+      let CancelToken = this.$axios.CancelToken;
       this.$axios
-        .get(this.$urls.search.suggest + "?word=" + value)
+        .get(this.$urls.search.suggest + "?word=" + value, {
+          cancelToken: new CancelToken((c) => {
+            that.cancelToken = c;
+          }),
+        })
         .then((response) => {
           if (response.code == 0) {
             this.suggests = response.result;
