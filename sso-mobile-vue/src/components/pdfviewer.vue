@@ -3,7 +3,7 @@
     <f7-navbar :back-link="$funtools.getFileName(filename, 10)"> </f7-navbar>
       <iframe
         :src="pdfurl"
-        title="SOME_TITLE"
+        :title="this.filename"
         width="100%"
         height="100%"
         border="0"
