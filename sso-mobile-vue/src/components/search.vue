@@ -80,8 +80,9 @@
 </template>
 <script>
 import ListBase from "./ListBase";
+import Suggest from "./Suggest";
 export default {
-  mixins: [ListBase],
+  mixins: [ListBase,Suggest],
   props: {
     word: String,
     f7router: Object,
@@ -89,10 +90,8 @@ export default {
   data() {
     return {
       getlist: this.$urls.search.search,
-      suggests: [],
       filter: this.word,
-      photos: [],
-      cancelToken: null,
+      photos: []
     };
   },
   computed: {},
@@ -212,40 +211,7 @@ export default {
       this.suggests = [];
       this.filter = text;
       this.getData(true);
-    },
-    cancelRequest() {
-      if (typeof this.cancelToken === "function") {
-        this.cancelToken();
-      }
-    },
-    suggestInput(e) {
-      var value = e.target.value;
-      if (!value) {
-        this.suggests = [];
-        return;
-      }
-      this.cancelRequest();
-      this.loadSuggest(value);
-    },
-    loadSuggest(value) {
-      var that = this;
-      let CancelToken = this.$axios.CancelToken;
-      this.$axios
-        .get(this.$urls.search.suggest + "?word=" + value, {
-          cancelToken: new CancelToken((c) => {
-            that.cancelToken = c;
-          }),
-        })
-        .then((response) => {
-          if (response.code == 0) {
-            this.suggests = response.result;
-          }
-        });
-    },
-    suggestFocus(e) {
-      var value = e.target.value;
-      this.loadSuggest(value);
-    },
+    }
   },
 };
 </script>
