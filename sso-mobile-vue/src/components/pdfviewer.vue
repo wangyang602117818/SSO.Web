@@ -1,7 +1,14 @@
 <template>
   <f7-page>
-    <f7-navbar :back-link="filename"> </f7-navbar>
-    <embed  :src="pdfurl" type="application/pdf" height="100%" width="100%">
+    <f7-navbar :back-link="$funtools.getFileName(filename, 10)"> </f7-navbar>
+      <iframe
+        :src="pdfurl"
+        title="SOME_TITLE"
+        width="100%"
+        height="100%"
+        border="0"
+        style="border:0"
+      />
   </f7-page>
 </template>
 
@@ -17,7 +24,14 @@ export default {
   },
   computed: {
     pdfurl() {
-      return this.$urls.preview + "/" + this.fileid + "/" + this.filename;
+      return (
+        this.$urls.preview +
+        "/" +
+        this.fileid +
+        "/" +
+        this.filename +
+        "#toolbar=0"
+      );
     },
   },
   created() {},
@@ -29,5 +43,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
