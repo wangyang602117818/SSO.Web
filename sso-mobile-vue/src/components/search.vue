@@ -47,7 +47,9 @@
       <f7-list-item
         link="#"
         :title="$funtools.removeHTML(item.title)"
-        :subtitle="item.create_time + ' | ' + $funtools.removeHTML(item.description)"
+        :subtitle="
+          item.create_time + ' | ' + $funtools.removeHTML(item.description)
+        "
         :text="getTypeName(item.id)"
         v-for="item in datas"
         :key="item.id"
@@ -77,7 +79,6 @@
   </f7-page>
 </template>
 <script>
-var inputFuncTimeout = null;
 import ListBase from "./ListBase";
 export default {
   mixins: [ListBase],
@@ -91,6 +92,7 @@ export default {
       suggests: [],
       filter: this.word,
       photos: [],
+      cancelToken: null,
     };
   },
   computed: {},
@@ -211,21 +213,29 @@ export default {
       this.filter = text;
       this.getData(true);
     },
+    cancelRequest() {
+      if (typeof this.cancelToken === "function") {
+        this.cancelToken();
+      }
+    },
     suggestInput(e) {
       var value = e.target.value;
       if (!value) {
         this.suggests = [];
         return;
       }
-      clearTimeout(inputFuncTimeout);
-      var that = this;
-      inputFuncTimeout = setTimeout(function () {
-        that.loadSuggest(value);
-      }, 200);
+      this.cancelRequest();
+      this.loadSuggest(value);
     },
     loadSuggest(value) {
+      var that = this;
+      let CancelToken = this.$axios.CancelToken;
       this.$axios
-        .get(this.$urls.search.suggest + "?word=" + value)
+        .get(this.$urls.search.suggest + "?word=" + value, {
+          cancelToken: new CancelToken((c) => {
+            that.cancelToken = c;
+          }),
+        })
         .then((response) => {
           if (response.code == 0) {
             this.suggests = response.result;
