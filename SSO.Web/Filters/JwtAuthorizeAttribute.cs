@@ -57,7 +57,7 @@ namespace SSO.Web.Filters
             //如果设置了匿名访问直接返回
             if (!isAuthorization) return;
             HttpRequestBase request = filterContext.HttpContext.Request;
-            string authorization = JwtManager.GetAuthorization(request, ssoCookieKey);
+            string authorization = JwtManager.GetAuthorization(ssoCookieKey);
             if (string.IsNullOrEmpty(authorization))
             {
                 if (request.Path.IndexOf("/sso/logout") == -1) filterContext.Result = new ResponseModel<string>(ErrorCode.authorize_fault, "");

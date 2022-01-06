@@ -12,7 +12,7 @@ namespace SSO.Data
     {
         static SessionFactory sessionFactory = null;
         /// <summary>
-        /// 默认读取 sbl.config.xml 文件实例化sessionFactory,如果有不同的数据库,指定配置文件即可
+        /// 默认读取 sbl.config 文件实例化sessionFactory,如果有不同的数据库,指定配置文件即可
         /// </summary>
         static ModelBase()
         {
