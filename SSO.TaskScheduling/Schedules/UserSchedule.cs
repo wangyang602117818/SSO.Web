@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SSO.TaskScheduling.Schedules
 {
-    public class UserSchedule: BaseSchedule
+    public class UserSchedule : BaseSchedule
     {
         private string tableName = "User";
         private string name = "UserSchedule";
@@ -25,12 +25,12 @@ namespace SSO.TaskScheduling.Schedules
         {
             JObject data = (JObject)arg;
             string type = data["opertion"].ToString(); //U I D
-            string id = "sqlserver_user_" + data["realId"].ToString();
-            if (type.ToLower() == "d") return DeleteData(id);
+            string id = data["realId"].ToString();
+            if (type.ToLower() == "d") return DeleteData(DataBaseType.sqlserver, tableName, id);
             string title = data["UserName"].ToString();
             string desc = "";
             DateTime createtime = DateTime.Parse(data["CreateTime"].ToString());
-            return AddData(id, title, desc, createtime);
+            return AddData(DataBaseType.sqlserver, tableName, id, title, desc, createtime);
         }
     }
 }

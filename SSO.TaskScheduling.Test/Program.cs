@@ -19,10 +19,9 @@ namespace SSO.TaskScheduling.Test
     {
         static Task tableTask = null;
         static Processor processor = new Processor();
- 
+
         static void Main(string[] args)
         {
-           
 
             processor.StartWork();
 

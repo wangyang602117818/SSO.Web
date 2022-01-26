@@ -17,13 +17,14 @@ namespace SSO.Web.Controllers
             }
             return Json(searchService.Suggest(word), JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Search(string word, int pageIndex = 1, int pageSize = 10)
+        public ActionResult Search(string word, bool highlight = false, int pageIndex = 1, int pageSize = 10)
         {
             if (word.IsNullOrEmpty())
             {
                 return new ResponseModel<string[]>(ErrorCode.success, new string[] { });
             }
-            return Content(JsonSerializerHelper.Serialize(searchService.Search(word, pageIndex, pageSize)), "application/json");
+            var res = searchService.Search(word, highlight, pageIndex, pageSize);
+            return Content(JsonSerializerHelper.Serialize(res), "application/json");
         }
     }
 }

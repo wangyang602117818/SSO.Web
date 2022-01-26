@@ -50,18 +50,18 @@
         :subtitle="
           item.create_time + ' | ' + $funtools.removeHTML(item.description)
         "
-        :text="getTypeName(item.id)"
+        :text="getTypeName(item.table)"
         v-for="item in datas"
         :key="item.id"
-        @click="navSearch(item.id)"
+        @click="navSearch(item.table.toLowerCase(), item.key)"
       >
-        <template #media v-if="getType(item.id)[1] == 'fileswrap'">
+        <template #media v-if="item.table.toLowerCase() == 'fileswrap'">
           <img
             :src="
               $axios.defaults.baseURL +
               $urls.file.downloadPic +
               '/' +
-              getType(item.id)[2] +
+              item.key +
               '/' +
               $funtools.removeHTML(item.title)
             "
@@ -82,7 +82,7 @@
 import ListBase from "./ListBase";
 import Suggest from "./Suggest";
 export default {
-  mixins: [ListBase,Suggest],
+  mixins: [ListBase, Suggest],
   props: {
     word: String,
     f7router: Object,
@@ -91,7 +91,7 @@ export default {
     return {
       getlist: this.$urls.search.search,
       filter: this.word,
-      photos: []
+      photos: [],
     };
   },
   computed: {},
@@ -115,9 +115,8 @@ export default {
         id.substring(index2 + 1, id.length),
       ];
     },
-    getTypeName(id) {
-      var table = this.getType(id)[1];
-      switch (table) {
+    getTypeName(table) {
+      switch (table.toLowerCase()) {
         case "user":
           return this.$t("common.user");
         case "company":
@@ -130,18 +129,17 @@ export default {
           return this.$t("common.file");
       }
     },
-    navSearch(id) {
-      var list = this.getType(id);
-      if (list[1] == "user") {
-        this.getUser(list[2]);
-      } else if (list[1] == "company") {
-        this.f7router.navigate("/companyupdate/" + list[2]);
-      } else if (list[1] == "role") {
-        this.f7router.navigate("/roleupdate/" + list[2]);
-      } else if (list[1] == "department") {
-        this.getDepartment(list[2]);
-      } else if (list[1] == "fileswrap") {
-        this.getFile(list[2]);
+    navSearch(tb, id) {
+      if (tb == "user") {
+        this.getUser(id);
+      } else if (tb == "company") {
+        this.f7router.navigate("/companyupdate/" + id);
+      } else if (tb == "role") {
+        this.f7router.navigate("/roleupdate/" + id);
+      } else if (tb == "department") {
+        this.getDepartment(id);
+      } else if (tb == "fileswrap") {
+        this.getFile(id);
       }
     },
     getUser(id) {
@@ -204,6 +202,7 @@ export default {
       var value = e.target.value;
       this.suggests = [];
       this.filter = value;
+      this.pageIndex = 1;
       this.getData(true);
     },
     selectItem(e) {
@@ -211,7 +210,7 @@ export default {
       this.suggests = [];
       this.filter = text;
       this.getData(true);
-    }
+    },
   },
 };
 </script>

@@ -39,25 +39,30 @@ namespace SSO.TaskScheduling.Schedules
         /// <summary>
         /// 处理消息
         /// </summary>
-        /// <param name="type">d:删除,i:修改,u:修改</param>
-        /// <param name="id"></param>
+        /// <param name="dataBase"></param>
+        /// <param name="table"></param>
+        /// <param name="key"></param>
         /// <param name="title"></param>
         /// <param name="desc"></param>
         /// <param name="docCreateTime"></param>
         /// <returns></returns>
-        public string AddData(string id, string title, string desc, DateTime docCreateTime)
+        public string AddData(DataBaseType database, string table, string key, string title, string desc, DateTime docCreateTime)
         {
-            ServiceModel<string> result = messageCenterService.InsertSearchData(id, title, desc, docCreateTime);
+            ServiceModel<string> result = messageCenterService.InsertSearchData(database, table, key, title, desc, docCreateTime, "");
+            Log4Net.InfoLog("add message center(" + table + "):" + JsonSerializerHelper.Serialize(result));
             return JsonSerializerHelper.Serialize(result);
         }
         /// <summary>
         /// 删除数据
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="dataBase"></param>
+        /// <param name="table"></param>
+        /// <param name="key"></param>
         /// <returns></returns>
-        public string DeleteData(string id)
+        public string DeleteData(DataBaseType database, string table, string key)
         {
-            ServiceModel<string> result = messageCenterService.DeleteSearchData(id);
+            ServiceModel<string> result = messageCenterService.DeleteSearchData(database, table, key);
+            Log4Net.InfoLog("delete message center(" + table + "):" + JsonSerializerHelper.Serialize(result));
             return JsonSerializerHelper.Serialize(result);
         }
         /// <summary>

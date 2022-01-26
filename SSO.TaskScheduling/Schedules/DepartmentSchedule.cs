@@ -21,17 +21,17 @@ namespace SSO.TaskScheduling.Schedules
             MonitorTableData monitorTableData = new MonitorTableData();
             return monitorTableData.Monitor(tableName, ProcessTableData);
         }
-      
+
         private string ProcessTableData(object arg)
         {
             JObject data = (JObject)arg;
             string type = data["opertion"].ToString(); //U I D
-            string id = "sqlserver_department_" + data["realId"].ToString();
-            if (type.ToLower() == "d") return DeleteData(id);
+            string id = data["realId"].ToString();
+            if (type.ToLower() == "d") return DeleteData(DataBaseType.sqlserver, tableName, id);
             string title = data["Name"]?.ToString();
             string desc = data["Description"]?.ToString();
             DateTime createtime = DateTime.Parse(data["CreateTime"].ToString());
-            return AddData(id, title, desc, createtime);
+            return AddData(DataBaseType.sqlserver, tableName, id, title, desc, createtime);
         }
     }
 }
