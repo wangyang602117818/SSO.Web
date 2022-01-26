@@ -106,15 +106,6 @@ export default {
         this.filter;
       return url;
     },
-    getType(id) {
-      var index1 = id.indexOf("_");
-      var index2 = id.indexOf("_", index1 + 1);
-      return [
-        id.substring(0, index1),
-        id.substring(index1 + 1, index2),
-        id.substring(index2 + 1, id.length),
-      ];
-    },
     getTypeName(table) {
       switch (table.toLowerCase()) {
         case "user":
