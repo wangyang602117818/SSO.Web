@@ -13,6 +13,14 @@ namespace SSO.Web.Controllers
         Permission permission = new Permission();
         public ActionResult Index()
         {
+            return View();
+        }
+        public ActionResult Documentation()
+        {
+            return View();
+        }
+        public ActionResult InitPermission()
+        {
             var assembly = Assembly.GetExecutingAssembly();
             var controllers = assembly.GetTypes().Where(w => w.FullName.Contains("SSO.Web.Controllers"));
             var actions = JwtAuthorizeAttribute.GetPermissionDescription(controllers);

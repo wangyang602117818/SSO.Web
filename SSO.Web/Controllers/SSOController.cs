@@ -21,7 +21,6 @@ namespace SSO.Web.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-
             return View();
         }
         [AllowAnonymous]
