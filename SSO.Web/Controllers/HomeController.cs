@@ -8,14 +8,16 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : BaseController
     {
         Permission permission = new Permission();
         public ActionResult Index()
         {
+            
             return View();
         }
-        public ActionResult Documentation()
+        public ActionResult Doc()
         {
             return View();
         }
@@ -42,7 +44,7 @@ namespace SSO.Web.Controllers
             var result = JwtManager.ParseAuthorization(token, ssoSecretKey);
             return Content(result.Identity.Name);
         }
-        [AllowAnonymous]
+      
         public string SecretKey()
         {
             return SymmetricEncryptHelper.GenerateAESKey;

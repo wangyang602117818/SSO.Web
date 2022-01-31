@@ -9,10 +9,17 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
+    <link href="~/Content/libs/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/doc.css" rel="stylesheet" />
+    <link rel=icon href="~/logo.ico">
 </head>
 <body>
-    @RenderSection("_Header")
-    <div> 
+    @Html.Partial("_Header")
+    <div class="container d-flex" style="margin-top:70px;height:800px">
+        JWT Token
     </div>
+       
+
+
 </body>
 </html>

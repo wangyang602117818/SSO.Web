@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel=icon href="~/logo.ico">
+    <link href="~/Content/libs/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/doc.css" rel="stylesheet" />
+    <link href="~/Content/prism/prism.css" rel="stylesheet" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="container d-flex" style="margin-top:70px;height:800px">
+        <div class="flex-shrink-0 overflow-auto bg-white" style="width: 200px;height:650px;position:fixed">
+            <ul class="list-unstyled ps-0">
+                <li class="mb-1">
+                    <button class="btn btn-toggle rounded collapsed p-0" data-bs-toggle="collapse" data-bs-target="#sso-collapse" aria-expanded="true">
+                        SSO登录
+                    </button>
+                    <div class="collapse show" id="sso-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">概览</a></li>
+                            <li><a href="#" class="link-dark rounded">配置(Asp.Net)</a></li>
+                            <li><a href="#" class="link-dark rounded">配置(Asp.Net Core)</a></li>
+                            <li><a href="#" class="link-dark rounded">配置(Vue)</a></li>
+                            <li><a href="#" class="link-dark rounded">配置(React)</a></li>
+                            <li><a href="#" class="link-dark rounded">获取用户信息</a></li>
+                            <li><a href="#" class="link-dark rounded">实现原理</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle rounded collapsed p-0" data-bs-toggle="collapse" data-bs-target="#file-collapse" aria-expanded="false">
+                        文件存储下载
+                    </button>
+                    <div class="collapse show" id="file-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">概览</a></li>
+                            <li><a href="#" class="link-dark rounded">文件上传</a></li>
+                            <li><a href="#" class="link-dark rounded">文件操作</a></li>
+                            <li><a href="#" class="link-dark rounded">文件下载</a></li>
+                            <li><a href="#" class="link-dark rounded">图片缩略图</a></li>
+                            <li><a href="#" class="link-dark rounded">视频播放</a></li>
+
+                        </ul>
+                    </div>
+                </li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle rounded collapsed p-0" data-bs-toggle="collapse" data-bs-target="#permission-collapse" aria-expanded="false">
+                        权限控制
+                    </button>
+                    <div class="collapse" id="permission-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">权限初始化</a></li>
+                            <li><a href="#" class="link-dark rounded">权限控制</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle rounded collapsed p-0" data-bs-toggle="collapse" data-bs-target="#log-collapse" aria-expanded="false">
+                        日志记录
+                    </button>
+                    <div class="collapse" id="log-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">访问日志</a></li>
+                            <li><a href="#" class="link-dark rounded">项目日志</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle rounded collapsed p-0" data-bs-toggle="collapse" data-bs-target="#orm-collapse" aria-expanded="false">
+                        ORM操作SqlServer
+                    </button>
+                    <div class="collapse" id="orm-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">概览和配置</a></li>
+                            <li><a href="#" class="link-dark rounded">数据查询</a></li>
+                            <li><a href="#" class="link-dark rounded">数据新增</a></li>
+                            <li><a href="#" class="link-dark rounded">数据修改</a></li>
+                            <li><a href="#" class="link-dark rounded">数据删除</a></li>
+                            <li><a href="#" class="link-dark rounded">事务处理</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle rounded collapsed p-0" data-bs-toggle="collapse" data-bs-target="#service-collapse" aria-expanded="false">
+                        服务和工具
+                    </button>
+                    <div class="collapse" id="service-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">统一参数验证</a></li>
+                            <li><a href="#" class="link-dark rounded">统一返回类型</a></li>
+                            <li><a href="#" class="link-dark rounded">Elasticsearch操作</a></li>
+                            <li><a href="#" class="link-dark rounded">Elasticsearch搜索服务</a></li>
+                            <li><a href="#" class="link-dark rounded">任务调度扩展</a></li>
+                            <li><a href="#" class="link-dark rounded">其他</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <main role="main" class="d-flex position-absolute" style="margin-left:210px;">
+            @RenderBody()
+        </main>
+    </div>
+    @*<div class="container text-center">
+            &copy; 2022 - Docs
+        </div>*@
+</body>
+</html>
+<script src="~/Content/libs/jquery.min.js"></script>
+<script src="~/Content/libs/js/bootstrap.bundle.min.js"></script>
+<script src="~/Content/prism/prism.js"></script>

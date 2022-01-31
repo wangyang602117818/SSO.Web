@@ -221,6 +221,7 @@
     <Content Include="Content\login\index.js" />
     <Content Include="Content\prism\prism.css" />
     <Content Include="Content\prism\prism.js" />
+    <Content Include="Content\doc.css" />
     <Content Include="Global.asax" />
     <Content Include="logo.ico" />
     <Content Include="Web.config" />
@@ -349,12 +350,14 @@
     <None Include="packages.config" />
     <Content Include="Views\SSO\Index.cshtml" />
     <Content Include="Views\SSO\Login.cshtml" />
-    <None Include="sbl.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Content Include="Views\WebSocketDemo\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_Header.cshtml" />
+    <None Include="sbl.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Views\Home\_LayoutPage.cshtml" />
+    <Content Include="Views\Home\Doc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
