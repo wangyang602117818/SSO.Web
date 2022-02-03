@@ -190,6 +190,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\download.gif" />
+    <Content Include="Content\images\permission.gif" />
+    <Content Include="Content\images\sso.gif" />
+    <Content Include="Content\images\upload.gif" />
     <Content Include="Content\libs\css\bootstrap-grid.css" />
     <Content Include="Content\libs\css\bootstrap-grid.min.css" />
     <Content Include="Content\libs\css\bootstrap-grid.rtl.css" />

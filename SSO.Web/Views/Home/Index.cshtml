@@ -12,14 +12,52 @@
     <link href="~/Content/libs/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/doc.css" rel="stylesheet" />
     <link rel=icon href="~/logo.ico">
+    <style>
+    </style>
 </head>
 <body>
     @Html.Partial("_Header")
-    <div class="container d-flex" style="margin-top:70px;height:800px">
-        JWT Token
-    </div>
-       
+    <div class="container mb-5" style="margin-top:70px">
+        <div class="row">
+            <div class="col-3 d-flex flex-column p-2" style="background-color: #f5f5f5;">
+                <h4 class="mt-2">一.SSO登录和退出</h4>
+                <div class="lead fs-6">
+                    <p class="font-monospace">1. 访问 <a href="http://www.ssoutil.cn" target="_blank">www.ssoutil.cn</a> </p>
+                    <p class="font-monospace">2. 访问 <a href="http://file.ssoutil.cn" target="_blank">file.ssoutil.cn</a> </p>
+                    <p class="fw-light" style="font-size:12px">登录任何一个站点(cn01,a123456),其他站点自动登录</p>
+                    <p class="fw-light" style="font-size:12px">退出任何一个站点,其他站点自动退出</p>
+                </div>
+            </div>
+            <div class="col pe-0">
+                <img src="~/Content/images/sso.gif" style="width:100%" />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col" style="background-color: #f5f5f5;">
+                <h4 class=" mt-2">二.文件存储和下载</h4>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                <img src="~/Content/images/upload.gif" style="width:100%" />
+            </div>
+            <div class="col-5 pe-0 ">
+                <img src="~/Content/images/download.gif" style="width:100%" />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col" style="background-color: #f5f5f5;">
+                <h4 class=" mt-2">三.权限控制</h4>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col pe-0 ps-0">
+                <img src="~/Content/images/permission.gif" style="width:100%" />
+            </div>
+        </div>
 
+
+    </div>
 
 </body>
 </html>
