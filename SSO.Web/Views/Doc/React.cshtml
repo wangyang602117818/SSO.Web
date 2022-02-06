@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "配置单点登录-React";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">配置单点登录(React)</h4>
+<p class="fw-bold">1. 创建新项目</p>
+<div class="row">
+    <div class="col-4" style="background-color: #f5f5f5">
+        <pre data-language="shell">
+        <code class="language-shell">
+                #安装命令行工具(已经安装的跳过)
+                npm install -g create-react-app
+                #使用 npx 命令行创建 react 项目
+                npx create-react-app appreact
+                #添加 npm 包引用(sso-util)
+                npm install sso-util
+                #运行项目
+                npm start
+            </code>
+        </pre>
+
+    </div>
+    <div class="col">
+        <img src="~/Content/images/react-1.png" style="width:100%" />
+    </div>
+</div>
+<p class="fw-bold mt-4">2. 配置项目</p>
+<p class="fw-normal">1) 在入口 index.js 中添加一下代码,则项目已经具有登录功能</p>
+<pre class="line-numbers" data-language="js">
+<code class="language-js">
+    import ssoutil from 'sso-util'
+
+    const baseURL = "http://api.ssoutil.cn";
+    const cookieName = "appreact.web.auth";
+
+    ssoutil.authorize(baseURL, cookieName);
+</code>
+</pre>
+<p class="col pe-0">
+    <img src="~/Content/images/react-2.png" />
+</p>
+<p class="fw-bold mt-4">3. 登录成功之后</p>
+<p class="fw-normal">可以在window.token_jwt_data中获取用户基本信息,结果如下:</p>
+<p class="fw-normal">可以在调试工具中查看cookie的键和值,键是appvue.web.auth,值是jwt token,过期时间和session同步</p>
+<p class="fw-normal">在调用服务端接口时取出cookie的值(jwtoken)添加在请求的header中(Authorization: jwtoken)</p>
+<div class="row">
+    <div class="col-5" style="background-color: #f5f5f5">
+        <pre class="line-numbers" data-language="js">
+        <code class="language-js">
+                {
+                    Lang: "zh-cn"       //语言
+                    StaffName: "yang01"    //用户名称
+                    aud: "101.39.104.181"
+                    exp: 1644156209
+                    from: "localhost:8080"  //来源
+                    iat: 1644155009
+                    iss: "api.ssoutil.cn"
+                    nbf: 1644155009
+                    unique_name: "cn01"   //用户id
+                }
+            </code>
+        </pre>
+    </div>
+    <div class="col">
+        <img src="~/Content/images/react-3.png" />
+    </div>
+</div>

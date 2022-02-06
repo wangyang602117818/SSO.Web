@@ -8,19 +8,9 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    [AllowAnonymous]
     public class HomeController : BaseController
     {
         Permission permission = new Permission();
-        public ActionResult Index()
-        {
-            
-            return View();
-        }
-        public ActionResult Doc()
-        {
-            return View();
-        }
         public ActionResult InitPermission()
         {
             var assembly = Assembly.GetExecutingAssembly();

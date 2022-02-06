@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "配置单点登录-AspNetCore";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">配置单点登录(Asp.Net Core)</h4>
+<p class="fw-bold">1. 创建新项目</p>
+<div class="row">
+    <div class="col-4 p-2" style="background-color: #f5f5f5">
+        <p class="fw-normal">1) 使用VisualStudio创建 Asp.Net Core Web 应用程序(.Net Core)</p>
+        <p class="fw-normal">2) 添加Nuget包引用(SSO.Util.Client)</p>
+        <p class="fw-normal">3) 确保项目可以编译成功,可以预览站点</p>
+    </div>
+    <div class="col">
+        <img src="~/Content/images/netcore-1.png" style="width:100%" />
+    </div>
+</div>
+<p class="fw-bold mt-4">2. 配置项目</p>
+<p class="fw-normal">1) 在 appsettings.json 中配置以下节点</p>
+<p class="fw-light">系统默认是惰性的,添加完配置节点之后要使其生效请看节点2</p>
+<pre class="line-numbers" data-language="js">
+<code class="language-js">
+        "ssoBaseUrl": "http://api.ssoutil.cn",   //sso地址,用于 跳转 和 验证role权限
+        "ssoSecretKey": "tvO3zPS9Fdc4EvF867Vjbc8ox0kRaH5DCihwOzYMbLQ=",      //jwt token的解密秘钥
+        "ssoCookieKey": "b.web.auth",  //cookie保存的名称
+        "ssoCookieTime": "session"  //cookie保存的时间(分钟)
+    </code>
+</pre>
+<p class="fw-normal">2) 合理的使用 [SSOAuthorize] 特性和 [AllowAnonymous] 特性来进行 登录验证 和 匿名验证</p>
+<p class="fw-light">案例一: 在 Controller 上使用 [SSOAuthorize] 特性,在 Controller 的 Action 上使用 [AllowAnonymous] 特性, 则该Controller中具有 [AllowAnonymous] 特性的方法无需验证,其他方法需要验证</p>
+<p class="col pe-0">
+    <img src="~/Content/images/netcore-2.gif" />
+</p>
+<p class="fw-light fs-6">案例二: 在全局使用 [SSOAuthorize] 特性,在 Controller 或者 Action 上使用 [AllowAnonymous] 特性, 则整个系统中具有 [AllowAnonymous] 特性的方法无需验证,其他任何方法都需要验证</p>
+<pre class="line-numbers" data-language="C#">
+    <code class="language-cs">
+        builder.Services.AddControllersWithViews(service =>
+        {
+            service.Filters.Add(new SSOAuthorizeAttribute());
+        });
+    </code>
+</pre>
+<p class="col pe-0">
+    <img src="~/Content/images/netcore-3.gif" />
+</p>
+<p class="fw-normal">3) 验证失败不跳转</p>
+<p class="fw-light">现实情况中API项目往往不需要跳转到登录界面,只需返回验证失败即可,该种情况请使用 [SSOAuthorize] 特性的 unAuthorizedRedirect 属性</p>
+<p class="fw-light">把 [SSOAuthorize] 改成 [SSOAuthorize("", false)]</p>
+<p class="fw-light">把 service.Filters.Add(new SSOAuthorizeAttribute()); 改成 service.Filters.Add(new SSOAuthorizeAttribute("",false));</p>
+<p class="fw-bold mt-4">3. 登录成功之后</p>
+<p class="fw-normal">可以在Action中获取用户基本信息</p>
+<p class="fw-normal">可以在调试工具中查看cookie的键和值,键是b.web.auth,值是jwt token,过期时间和session同步</p>
+<div class="row">
+    <div class="col-6" style="background-color: #f5f5f5">
+        <pre class="line-numbers" data-language="C#">
+            <code class="language-cs">
+                public IActionResult Index()
+                {
+                    //在action中访问用户id
+                    var userId = User.Identity.Name;
+                    //获取authorization(jwt token)
+                    var authorization = JwtManager.GetAuthorization(HttpContext);
+                    //访问用户其他信息
+                    var userData = JwtManager.GetUserData(HttpContext);
+                    return View();
+                }
+            </code>
+            </pre>
+    </div>
+    <div class="col">
+        <img src="~/Content/images/netcore-4.png" />
+    </div>
+</div>

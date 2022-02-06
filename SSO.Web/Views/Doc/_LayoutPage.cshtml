@@ -9,12 +9,14 @@
     <link href="~/Content/doc.css" rel="stylesheet" />
     <link href="~/Content/prism/prism.css" rel="stylesheet" />
     <style>
-        
+        img{
+            width:100%;
+        }
     </style>
 </head>
-<body>
+<body class="line-numbers">
     @Html.Partial("_Header")
-    <div class="container d-flex" style="margin-top:70px;height:800px">
+    <div class="container d-flex" style="margin-top:70px;">
         <div class="flex-shrink-0 overflow-auto bg-white" style="width: 200px;height:650px;position:fixed">
             <ul class="list-unstyled ps-0">
                 <li class="mb-1">
@@ -23,13 +25,12 @@
                     </button>
                     <div class="collapse show" id="sso-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-dark rounded">概览</a></li>
-                            <li><a href="#" class="link-dark rounded">配置(Asp.Net)</a></li>
-                            <li><a href="#" class="link-dark rounded">配置(Asp.Net Core)</a></li>
-                            <li><a href="#" class="link-dark rounded">配置(Vue)</a></li>
-                            <li><a href="#" class="link-dark rounded">配置(React)</a></li>
-                            <li><a href="#" class="link-dark rounded">获取用户信息</a></li>
-                            <li><a href="#" class="link-dark rounded">实现原理</a></li>
+                            <li><a href="/doc/ssoindex" class="link-dark rounded">概览</a></li>
+                            <li><a href="/doc/aspnet" class="link-dark rounded">配置(Asp.Net)</a></li>
+                            <li><a href="/doc/netcore" class="link-dark rounded">配置(Asp.Net Core)</a></li>
+                            <li><a href="/doc/vue" class="link-dark rounded">配置(Vue)</a></li>
+                            <li><a href="/doc/react" class="link-dark rounded">配置(React)</a></li>
+                            <li><a href="/doc/getuserinfo" class="link-dark rounded">获取用户信息</a></li>
                         </ul>
                     </div>
                 </li>
@@ -103,15 +104,25 @@
                 </li>
             </ul>
         </div>
-        <main role="main" class="d-flex position-absolute" style="margin-left:210px;">
+        <main role="main" class="bg-white" style="margin-left: 210px; width: calc(100% - 200px);min-height:700px ">
             @RenderBody()
         </main>
     </div>
-    @*<div class="container text-center">
+    <div class="container d-flex justify-content-center align-items-center" style="height:100px">
             &copy; 2022 - Docs
-        </div>*@
+        </div>
 </body>
 </html>
 <script src="~/Content/libs/jquery.min.js"></script>
 <script src="~/Content/libs/js/bootstrap.bundle.min.js"></script>
 <script src="~/Content/prism/prism.js"></script>
+<script>
+    $(function () {
+        var path = '@Context.Request.Path';
+        $("a").each(function (index,item) {
+            var url = item.href;
+            if (url.indexOf(path) > -1) $(item).addClass("fw-bold");
+        });
+
+    });
+</script>

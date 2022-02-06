@@ -161,6 +161,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\DocController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogController.cs" />
@@ -190,10 +191,24 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\images\download.gif" />
-    <Content Include="Content\images\permission.gif" />
-    <Content Include="Content\images\sso.gif" />
-    <Content Include="Content\images\upload.gif" />
+    <Content Include="Content\images\aspnet-1.png" />
+    <Content Include="Content\images\aspnet-2.gif" />
+    <Content Include="Content\images\aspnet-3.gif" />
+    <Content Include="Content\images\aspnet-4.png" />
+    <Content Include="Content\images\home-1.gif" />
+    <Content Include="Content\images\home-2.gif" />
+    <Content Include="Content\images\home-3.gif" />
+    <Content Include="Content\images\home-4.gif" />
+    <Content Include="Content\images\netcore-1.png" />
+    <Content Include="Content\images\netcore-2.gif" />
+    <Content Include="Content\images\netcore-3.gif" />
+    <Content Include="Content\images\netcore-4.png" />
+    <Content Include="Content\images\react-1.png" />
+    <Content Include="Content\images\react-2.png" />
+    <Content Include="Content\images\react-3.png" />
+    <Content Include="Content\images\vue-1.png" />
+    <Content Include="Content\images\vue-2.png" />
+    <Content Include="Content\images\vue-3.png" />
     <Content Include="Content\libs\css\bootstrap-grid.css" />
     <Content Include="Content\libs\css\bootstrap-grid.min.css" />
     <Content Include="Content\libs\css\bootstrap-grid.rtl.css" />
@@ -355,13 +370,17 @@
     <Content Include="Views\SSO\Index.cshtml" />
     <Content Include="Views\SSO\Login.cshtml" />
     <Content Include="Views\WebSocketDemo\Index.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\_Header.cshtml" />
+    <Content Include="Views\Doc\Index.cshtml" />
+    <Content Include="Views\Doc\_Header.cshtml" />
     <None Include="sbl.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="Views\Home\_LayoutPage.cshtml" />
-    <Content Include="Views\Home\Doc.cshtml" />
+    <Content Include="Views\Doc\_LayoutPage.cshtml" />
+    <Content Include="Views\Doc\SSOIndex.cshtml" />
+    <Content Include="Views\Doc\AspNet.cshtml" />
+    <Content Include="Views\Doc\NetCore.cshtml" />
+    <Content Include="Views\Doc\Vue.cshtml" />
+    <Content Include="Views\Doc\React.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">

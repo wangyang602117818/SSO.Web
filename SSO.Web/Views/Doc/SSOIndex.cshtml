@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "SSO概览";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">SSO概览</h4>
+<p class="fw-bold">1. 简介</p>
+<p class="fw-normal">本节点介绍的是:在不同的项目之间配置单点登录的方法,解决了不同项目之间重复登录问题</p>
+<p class="fw-bold">2. 基于Json Web Token(JWT)的token认证</p>
+<p class="fw-normal">
+    JWT Token是目前最流行的跨域身份验证解决方案, Token分成3个部分:Header(包含算法),Payload(包含数据),Signature(包含签名,防止数据篡改)
+</p>
+<p class="fw-normal">在使用中token会保存以下信息:用户编号,用户名称,用户语言,token的颁发者,用户ip</p>
+<p class="fw-normal">JWT Token会贯穿在后序的多个流程中,主要包含在header或者cookie中参与验证</p>
+<p class="fw-normal">Asp.Net项目: 通过Nuget包(SSO.Util.Client) 来进行登录控制</p>
+<p class="fw-normal">Asp.Net Core项目: 通过Nuget包(SSO.Util.Client) 来进行登录控制</p>
+<p class="fw-normal">Vue项目: 通过npm包(sso-util) 来进行登录控制</p>
+<p class="fw-normal">React项目: 通过npm包(sso-util) 来进行登录控制</p>
+<p class="fw-normal">token示例:</p>
+<pre class="line-numbers" data-language="js">
+<code class="language-js">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImNuMDEiLCJTdGFmZk5hbWUiOiJ5YW5nMDEiLCJMYW5nIjoiemgtY24iLCJmcm9tIjoic3NvdXRpbC5jbiIsIm5iZiI6MTY0Mzg1NjYyMywiZXhwIjoxNjQzODU3ODIzLCJpYXQiOjE2NDM4NTY2MjMsImlzcyI6ImFwaS5zc291dGlsLmNuIiwiYXVkIjoiMTAxLjM5LjEwNC4xODEifQ.hdOb8fHcPJT5znE5fq_9uI03cK7bIXmzb-nPbQ-nBDA
+        </code>
+    </pre>
+<p class="fw-normal">token解析:</p>
+<pre class="line-numbers" data-language="js">
+<code class="language-js">
+            {
+                "alg": "HS256", //算法名称
+                "typ": "JWT"
+            }
+            {
+                "unique_name": "cn01",  //用户编号
+                "StaffName": "yang01",  //用户名称
+                "Lang": "zh-cn",        //用户语言
+                "from": "ssoutil.cn",   //token来源(请求过程中携带token方的地址)
+                "nbf": 1643856623,      //生效时间(在此之前不可用)
+                "exp": 1643857823,      //过期时间 
+                "iat": 1643856623,      //发布时间 
+                "iss": "api.ssoutil.cn", //发行者
+                "aud": "101.39.104.181"  //颁发给
+            }
+</code>
+</pre>
+
+
+@*<div>
+    <pre class="line-numbers" data-language="CSS">
+    <code class="language-css">
+    .dropdown-toggle {
+      outline: 0;
+    }
+    .btn-toggle {
+        display: inline-flex;
+        align-items: center;
+        padding: .25rem .5rem;
+        font-weight: 600;
+        color: rgba(0, 0, 0, .65);
+        background-color: transparent;
+        border: 0;
+    }
+    </code>
+    </pre>
+
+    <pre class="line-numbers" data-language="Html">
+    <code class="language-markup">
+    &lt;head>
+    <mark>&lt;link href="https://{{cdn}}/prismjs@v1.x/themes/prism.css" rel="stylesheet" /></mark>
+    &lt;/head>
+    </code>
+    </pre>
+
+    <pre class="line-numbers" data-language="C#">
+    <code class="language-cs">
+            public class ErrorViewModel
+            {
+               public string RequestId { get; set; }
+               public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+            }
+         </code>
+    </pre>
+    </div>*@
