@@ -19,7 +19,7 @@
 <p class="fw-normal">1) 在 web.config 中配置以下节点</p>
 <p class="fw-light">系统默认是惰性的,添加完配置节点之后要使其生效请看节点2</p>
 <pre class="line-numbers" data-language="Html">
-    <code class="language-markup">
+<code class="language-markup">
         &lt;add key="ssoBaseUrl" value="http://api.ssoutil.cn" />  &lt;!--ssosso地址,用于 跳转 和 验证role权限-->
         &lt;add key="ssoSecretKey" value="tvO3zPS9Fdc4EvF867Vjbc8ox0kRaH5DCihwOzYMbLQ=" />     &lt;!--jwt token的解密秘钥-->
         &lt;add key="ssoCookieKey" value="a.web.auth" />  &lt;!--cookie保存的名称-->
@@ -33,12 +33,12 @@
 </p>
 <p class="fw-light fs-6">案例二: 在全局使用 [SSOAuthorize] 特性,在 Controller 或者 Action 上使用 [AllowAnonymous] 特性, 则整个系统中具有 [AllowAnonymous] 特性的方法无需验证,其他任何方法都需要验证</p>
 <pre class="line-numbers" data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         filters.Add(new SSOAuthorizeAttribute());
     </code>
 </pre>
 <p class="col pe-0">
-<img src="~/Content/images/aspnet-3.gif" />
+    <img src="~/Content/images/aspnet-3.gif" />
 </p>
 <p class="fw-normal">3) 验证失败不跳转</p>
 <p class="fw-light">现实情况中API项目往往不需要跳转到登录界面,只需返回验证失败即可,该种情况请使用 [SSOAuthorize] 特性的 unAuthorizedRedirect 属性</p>
@@ -48,9 +48,9 @@
 <p class="fw-normal">可以在Action中获取用户基本信息</p>
 <p class="fw-normal">可以在调试工具中查看cookie的键和值,键是a.web.auth,值是jwt token,过期时间和session同步</p>
 <div class="row">
-<div class="col-6" style="background-color: #f5f5f5">
-<pre class="line-numbers" data-language="C#">
-<code class="language-cs">
+    <div class="col-6" style="background-color: #f5f5f5">
+        <pre class="line-numbers" data-language="C#">
+        <code class="language-cs">
                     public ActionResult Index()
                     {
                         //在action中访问用户id
@@ -61,10 +61,18 @@
                         var userData = JwtManager.GetUserData();
                         return View();
                     }
-                </code>
-            </pre>
+          </code>
+     </pre>
     </div>
-<div class="col">
-<img src="~/Content/images/aspnet-4.png" />
+    <div class="col">
+        <img src="~/Content/images/aspnet-4.png" />
     </div>
 </div>
+<p class="fw-bold mt-4">4. SSO退出</p>
+<p class="fw-normal">在当前项目中放入以下链接或者用js的方式跳到该链接</p>
+<pre class="line-numbers" data-language="Html">
+    <code class="language-markup">
+        &lt;!--{baseUrl}为当前项目的基本地址-->
+        &lt;a href="http://api.ssoutil.cn/sso/logout?returnUrl={baseUrl}">sso退出&lt;/a>
+    </code>
+</pre>

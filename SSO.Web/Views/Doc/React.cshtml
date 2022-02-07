@@ -47,7 +47,7 @@
 <div class="row">
     <div class="col-5" style="background-color: #f5f5f5">
         <pre class="line-numbers" data-language="js">
-            <code class="language-js">
+        <code class="language-js">
                 {
                     Lang: "zh-cn"  //语言
                     StaffName: "yang01"    //用户名称
@@ -66,3 +66,11 @@
         <img src="~/Content/images/react-3.png" />
     </div>
 </div>
+<p class="fw-bold mt-4">4. SSO退出</p>
+<p class="fw-normal">在当前项目中放入以下链接或者用js的方式跳到该链接</p>
+<pre class="line-numbers" data-language="Html">
+<code class="language-markup">
+        &lt;!--{baseUrl}为当前项目的基本地址-->
+        &lt;a href="http://api.ssoutil.cn/sso/logout?returnUrl={baseUrl}">sso退出&lt;/a>
+    </code>
+</pre>

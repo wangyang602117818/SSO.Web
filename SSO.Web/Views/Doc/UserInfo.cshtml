@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "配置单点登录-获取用户信息";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">获取其他信息</h4>
+<p class="fw-normal">登录成功之后可以获取 userId 和 authorization, 接下来会介绍如何使用 userId 和 authorization 来获取系统中的其他信息</p>
+<pre class="line-numbers" data-language="C#">
+<code class="language-cs">
+        //获取基本地址ssoBaseUrl(AppSettings是用于获取配置节点的对象,.net framework和.netcore通用)
+        string ssoBaseUrl = AppSettings.GetValue("ssoBaseUrl");
+        //在action中访问用户id,.net framework和.netcore通用
+        var userId = User.Identity.Name;
+        //访问用户基本信息(.net framework)
+        var userData = JwtManager.GetUserData();
+        //访问用户其他信息(.net core)
+        var userData = JwtManager.GetUserData(HttpContext);
+        //获取authorization(.net framework)
+        var authorization = JwtManager.GetAuthorization();
+        //获取authorization(.net core)
+        var authorization = JwtManager.GetAuthorization(HttpContext);
+    </code>
+</pre>
+<p class="fw-bold">1. 获取所有公司列表</p>
+<pre class="line-numbers" data-language="C#">
+<code class="language-cs">
+        SSOClientService clientService = new SSOClientService(ssoBaseUrl, authorization);
+        var list = clientService.GetAllCompany();
+    </code>
+</pre>
+<p class="fw-bold">2. 获取部门列表</p>
+<pre class="line-numbers" data-language="C#">
+    <code class="language-cs">
+        SSOClientService clientService = new SSOClientService(ssoBaseUrl, authorization);
+        //companyCode:公司列表中的公司code
+        var list = clientService.GetAllDepartment(companyCode);
+    </code>
+</pre>
+<p class="fw-bold">3. 获取用户列表</p>
+<pre class="line-numbers" data-language="C#">
+    <code class="language-cs">
+        SSOClientService clientService = new SSOClientService(ssoBaseUrl, authorization);
+        //companyCode:公司列表中的公司code
+        //filter:搜索关键词(搜索UserName)
+        //pageIndex:第几页
+        //pageSize:每页几个
+        var list = clientService.GetUserList(companyCode,filter,pageIndex,pageSize);
+    </code>
+</pre>
+<p class="fw-bold">4. 获取角色列表</p>
+<pre class="line-numbers" data-language="C#">
+    <code class="language-cs">
+        SSOClientService clientService = new SSOClientService(ssoBaseUrl, authorization);
+        //filter:搜索关键词(搜索Name)
+        //pageIndex:第几页
+        //pageSize:每页几个
+        var list = clientService.GetRoleList(filter,pageIndex,pageSize);
+    </code>
+</pre>
+<p class="fw-bold">5. 获取用户详情</p>
+<pre class="line-numbers" data-language="C#">
+    <code class="language-cs">
+        SSOClientService clientService = new SSOClientService(ssoBaseUrl, authorization);
+        //userId:用户id
+        var detail = clientService.GetUserDetail(userId);
+    </code>
+</pre>
+<p class="fw-bold">6. 替换权限项</p>
+<p class="fw-normal">获取项目中的所有权限项,替换旧的权限项,以便配置权限,以下是一个文件管理系统替换权限项的案例:</p>
+<pre class="line-numbers" data-language="C#">
+    <code class="language-cs">
+        //获取正在运行的程序集信息
+        var assembly = Assembly.GetExecutingAssembly();
+        //获取正在运行的所有Controllers的信息
+        var controllers = assembly.GetTypes().Where(w => w.FullName.Contains("FileService.Api.Controllers"));
+        //获取Controllers上中所有权限名称列表
+        var res = SSOAuthorizeAttribute.GetPermissionDescription(controllers);
+        SSOClientService clientService = new SSOClientService(ssoBaseUrl, authorization);
+        //替换旧的权限名称
+        var result = clientService.ReplacePermissions("fileapi", res);
+    </code>
+</pre>
