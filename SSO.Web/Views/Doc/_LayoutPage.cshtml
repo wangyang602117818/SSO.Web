@@ -9,8 +9,8 @@
     <link href="~/Content/doc.css" rel="stylesheet" />
     <link href="~/Content/prism/prism.css" rel="stylesheet" />
     <style>
-        img{
-            width:100%;
+        img {
+            width: 100%;
         }
     </style>
 </head>
@@ -20,33 +20,31 @@
         <div class="flex-shrink-0 overflow-auto bg-white" style="width: 200px;height:650px;position:fixed">
             <ul class="list-unstyled ps-0">
                 <li class="mb-1">
-                    <button class="btn btn-toggle rounded collapsed p-0" data-bs-toggle="collapse" data-bs-target="#sso-collapse" aria-expanded="true">
+                    <button class="btn btn-toggle rounded collapsed p-0" data-bs-toggle="collapse" data-bs-target="#sso-collapse" aria-expanded="false" id="sso-button">
                         SSO登录
                     </button>
-                    <div class="collapse show" id="sso-collapse">
+                    <div class="collapse" id="sso-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="/doc/ssoindex" class="link-dark rounded">概览</a></li>
-                            <li><a href="/doc/aspnet" class="link-dark rounded">配置(Asp.Net)</a></li>
-                            <li><a href="/doc/netcore" class="link-dark rounded">配置(Asp.Net Core)</a></li>
-                            <li><a href="/doc/vue" class="link-dark rounded">配置(Vue)</a></li>
-                            <li><a href="/doc/react" class="link-dark rounded">配置(React)</a></li>
-                            <li><a href="/doc/userinfo" class="link-dark rounded">获取其他信息</a></li>
+                            <li><a href="/doc/ssoindex" class="link-dark rounded" data-name="sso">概览</a></li>
+                            <li><a href="/doc/aspnet" class="link-dark rounded" data-name="sso">配置(Asp.Net)</a></li>
+                            <li><a href="/doc/netcore" class="link-dark rounded" data-name="sso">配置(Asp.Net Core)</a></li>
+                            <li><a href="/doc/vue" class="link-dark rounded" data-name="sso">配置(Vue)</a></li>
+                            <li><a href="/doc/react" class="link-dark rounded" data-name="sso">配置(React)</a></li>
+                            <li><a href="/doc/userinfo" class="link-dark rounded" data-name="sso">获取其他信息</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="mb-1">
-                    <button class="btn btn-toggle rounded collapsed p-0" data-bs-toggle="collapse" data-bs-target="#file-collapse" aria-expanded="false">
+                    <button class="btn btn-toggle rounded collapsed p-0" data-bs-toggle="collapse" data-bs-target="#file-collapse" aria-expanded="false" id="file-button">
                         文件存储下载
                     </button>
                     <div class="collapse" id="file-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-dark rounded">概览</a></li>
-                            <li><a href="#" class="link-dark rounded">文件上传</a></li>
-                            <li><a href="#" class="link-dark rounded">文件操作</a></li>
-                            <li><a href="#" class="link-dark rounded">文件下载</a></li>
-                            <li><a href="#" class="link-dark rounded">图片缩略图</a></li>
-                            <li><a href="#" class="link-dark rounded">视频播放</a></li>
-
+                            <li><a href="/doc/fileindex" class="link-dark rounded" data-name="file">概览</a></li>
+                            <li><a href="/doc/fileupload" class="link-dark rounded" data-name="file">文件上传下载</a></li>
+                            <li><a href="/doc/fileopr" class="link-dark rounded" data-name="file">文件操作</a></li>
+                            <li><a href="/doc/filethumb" class="link-dark rounded" data-name="file">图片缩略图</a></li>
+                            <li><a href="/doc/fileplay" class="link-dark rounded" data-name="file">视频播放</a></li>
                         </ul>
                     </div>
                 </li>
@@ -109,8 +107,8 @@
         </main>
     </div>
     <div class="container d-flex justify-content-center align-items-center" style="height:100px">
-            &copy; 2022 - Docs
-        </div>
+        &copy; 2022 - Docs
+    </div>
 </body>
 </html>
 <script src="~/Content/libs/jquery.min.js"></script>
@@ -121,7 +119,14 @@
         var path = '@Context.Request.Path';
         $("a").each(function (index,item) {
             var url = item.href;
-            if (url.indexOf(path) > -1) $(item).addClass("fw-bold");
+            var name = item.dataset.name;
+            if (url.indexOf(path) > -1) {
+                $(item).addClass("fw-bold");
+                if (name) {
+                    $("#" + name + "-collapse").addClass("show");
+                    $("#" + name + "-button").attr("aria-expanded", true);
+                }
+            }
         });
 
     });

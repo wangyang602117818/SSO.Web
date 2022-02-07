@@ -382,6 +382,8 @@
     <Content Include="Views\Doc\Vue.cshtml" />
     <Content Include="Views\Doc\React.cshtml" />
     <Content Include="Views\Doc\UserInfo.cshtml" />
+    <Content Include="Views\Doc\FileIndex.cshtml" />
+    <Content Include="Views\Doc\FileUpload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">

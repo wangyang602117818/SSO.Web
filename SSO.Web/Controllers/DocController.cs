@@ -38,5 +38,13 @@ namespace SSO.Web.Controllers
         {
             return View();
         }
+        public ActionResult FileIndex()
+        {
+            return View();
+        }
+        public ActionResult FileUpload()
+        {
+            return View();
+        }
     }
 }
