@@ -1,7 +1,114 @@
 ﻿
 @{
-    ViewBag.Title = "文件上传和下载";
+    ViewBag.Title = "文件上传-Asp.Net";
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
 }
-<h4 class="bd-title mb-3" id="content">文件上传和下载</h4>
-
+<h4 class="bd-title mb-3" id="content">文件上传</h4>
+<p class="fw-bold">1. 配置</p>
+<p class="fw-normal">在配置文件中添加以下配置</p>
+<p class="fw-light">web.config(Asp.net)</p>
+<pre data-language="Html">
+<code class="language-markup">
+        &lt;!--文件服务器的地址-->
+        &lt;add key="fileServiceUrl" value="http://file.ssoutil.cn/" />
+    </code>
+</pre>
+<p class="fw-light">appsettings.json(Asp.net core)</p>
+<pre data-language="js">
+    <code class="language-js">
+        //文件服务器的地址
+        "fileServiceUrl": "http://file.ssoutil.cn/"
+    </code>
+</pre>
+<p class="fw-bold">2. 上传文件</p>
+<p class="fw-normal">上传文件必须要在登录之后(如何登录请参考sso登录节点)</p>
+<p class="fw-normal">上传文件分为前端和服务器端2部分,前端还是和之前一样,后端保存文件的时候需要调用接口</p>
+<p class="fw-light">上传文件前端代码</p>
+<pre data-language="Html">
+<code class="language-markup">
+        &lt;html>
+        &lt;head>
+            &lt;meta name="viewport" content="width=device-width" />
+            &lt;title>Index&lt;/title>
+        &lt;/head>
+        &lt;body>
+            &lt;form action="/home/upload" enctype="multipart/form-data" method="post">
+                &lt;input type="file" name="file" />
+                &lt;button type="submit">上传&lt;/button>
+            &lt;/form>
+        &lt;/body>
+        &lt;/html>
+    </code>
+</pre>
+<p class="fw-light">上传文件服务端代码(asp.net)</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public class HomeController : Controller
+        {
+            string fileServiceUrl = AppSettings.GetValue("fileServiceUrl");  //从配置文件获取服务器的基本地址
+            public ActionResult Upload(HttpPostedFileBase file)
+            {
+                FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+                //上传文件到文件服务器
+                var result = fileClientService.Upload(file.FileName, file.ContentType, file.InputStream);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+    </code>
+ </pre>
+<p class="fw-light">上传文件服务端代码(asp.net core)</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public class HomeController : Controller
+        {
+            string fileServiceUrl = AppSettings.GetValue("fileServiceUrl");  //从配置文件获取服务器的基本地址
+            public IActionResult Upload(IFormFile file)
+            {
+                FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(HttpContext));
+                var result = fileClientService.Upload(file.FileName, file.ContentType, file.OpenReadStream());
+                return Json(result);
+            }
+        }
+    </code>
+ </pre>
+<p class="fw-light">上传文件返回结果</p>
+<pre data-language="js">
+<code class="language-js">
+        {
+        "code": 0,
+        "message": "success",
+        "result": {
+            "FileId": "6201c996c2222daef89eaef8",  //必须存储,以便后续访问
+            "FilePath": "http://file.ssoutil.cn/file/6201c996c2222daef89eaef8/22222.jpeg",  //是由FileId和FilePath组合成的路径,可以不存
+            "FileName": "22222.jpeg",  //必须存储,以便后续访问
+            "FileSize": 129875,  //文件大小,单位是字节,可以存储以便在前端展示文件大小
+            "Message": "success"
+        },
+        "count": 0
+        }
+    </code>
+ </pre>
+<p class="fw-bold">3. 上传多个文件</p>
+<p class="fw-normal">上传多个文件请使用重载方法 fileClientService.Uploads, 同时返回结果result也是一个数组</p>
+<p class="fw-bold">4. 上传带访问权限的文件</p>
+<p class="fw-normal">请使用 Upload 方法的 roles 和 users 参数, roles 参数和 users参数都是大小写敏感的, ["cn01"] 和 ["CN01"] 是两种不同的权限参数</p>
+<p class="fw-normal">权限的案例如下:</p>
+<p class="fw-light">1. 文件的上传者在任何情况下都能访问</p>
+<p class="fw-light">2. roles=null, users=null : 没有权限,任何人都能访问该文件(默认)</p>
+<p class="fw-light">3. roles有值, users=null: 当前用户属于该roles时可以访问</p>
+<p class="fw-light">4. roles=null, users有值: users中包含当前用户时可以访问</p>
+<p class="fw-light">5. roles有值, users有值: 当前用户属于该roles,或者users中包含当前用户时能访问</p>
+<p class="fw-normal">代码案例:</p>
+<p class="fw-light">该文件的上传者可以访问,当用户的角色是 admin,或者 userId="cn02" 时可以访问</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+            var roles = new List&lt;string>() { "admin" };
+            var users = new List&lt;string>() { "cn02" };
+            var result = fileClientService.Upload(file.FileName, file.ContentType, file.InputStream, roles, users);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+    </code>
+ </pre>

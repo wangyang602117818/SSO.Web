@@ -41,7 +41,8 @@
                     <div class="collapse" id="file-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li><a href="/doc/fileindex" class="link-dark rounded" data-name="file">概览</a></li>
-                            <li><a href="/doc/fileupload" class="link-dark rounded" data-name="file">文件上传下载</a></li>
+                            <li><a href="/doc/fileupload" class="link-dark rounded" data-name="file">文件上传</a></li>
+                            <li><a href="/doc/filedownload" class="link-dark rounded" data-name="file">文件下载</a></li>
                             <li><a href="/doc/fileopr" class="link-dark rounded" data-name="file">文件操作</a></li>
                             <li><a href="/doc/filethumb" class="link-dark rounded" data-name="file">图片缩略图</a></li>
                             <li><a href="/doc/fileplay" class="link-dark rounded" data-name="file">视频播放</a></li>
@@ -117,10 +118,13 @@
 <script>
     $(function () {
         var path = '@Context.Request.Path';
+        var pathlast = path.substr(path.lastIndexOf('/') + 1);
         $("a").each(function (index,item) {
             var url = item.href;
+            var actionname = url.substr(url.lastIndexOf('/') + 1);
+
             var name = item.dataset.name;
-            if (url.indexOf(path) > -1) {
+            if (actionname == pathlast) {
                 $(item).addClass("fw-bold");
                 if (name) {
                     $("#" + name + "-collapse").addClass("show");
