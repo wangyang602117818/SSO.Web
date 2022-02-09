@@ -46,7 +46,6 @@ namespace SSO.Web.Controllers
             var result = fileClientService.Uploads(files, paras);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        [AllowAnonymous]
         public ActionResult DownloadPic(string id, string filename)
         {
             FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
@@ -71,7 +70,6 @@ namespace SSO.Web.Controllers
             var fileinfo = fileClientService.GetFileInfos(ids);
             return Content(JsonSerializerHelper.Serialize(fileinfo));
         }
-        [AllowAnonymous]
         public ActionResult DownloadFile(string id, string filename)
         {
             FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());

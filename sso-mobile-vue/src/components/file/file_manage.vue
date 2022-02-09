@@ -123,7 +123,9 @@
               '/' +
               item._id +
               '/' +
-              item.FileName
+              encodeURIComponent(item.FileName) +
+              '?authorization=' +
+              $funtools.getCookie($cookieName)
             "
           />
         </template>
@@ -215,7 +217,9 @@ export default {
           "/" +
           item._id +
           "/" +
-          item.FileName;
+          encodeURIComponent(item.FileName) +
+          "?authorization=" +
+          this.$funtools.getCookie(this.$cookieName);
         if (item.FileType == "image") {
           photos.push({
             url: url,
@@ -237,7 +241,9 @@ export default {
               "/" +
               item._id +
               "/" +
-              item.FileName,
+              encodeURIComponent(item.FileName) +
+              "?authorization=" +
+              this.$funtools.getCookie(this.$cookieName),
             caption: item.FileName,
           });
         }
@@ -271,8 +277,7 @@ export default {
     itemClick(index) {
       var item = this.datas[index];
       if (item.FileType == "pdf") {
-      
-        this.f7router.navigate("/pdfviewer/"+item._id+"/"+item.FileName);
+        this.f7router.navigate("/pdfviewer/" + item._id + "/" + item.FileName);
       } else {
         this.$refs.standaloneDark.open(index);
       }

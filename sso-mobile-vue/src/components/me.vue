@@ -1,32 +1,46 @@
 <template>
   <div class="me" v-if="$store.state.currentUser">
-    <div class="me_text">{{ $t('common.me') }}</div>
+    <div class="me_text">{{ $t("common.me") }}</div>
     <f7-link class="me_title" href="/personal" no-link-class>
       <div class="ico">
         <img
-          :src="$axios.defaults.baseURL+$urls.file.downloadPic+'/'+$store.state.currentUser.FileId+'/'+$store.state.currentUser.FileName"
+          :src="
+            $axios.defaults.baseURL +
+            $urls.file.downloadPic +
+            '/' +
+            $store.state.currentUser.FileId +
+            '/' +
+            $store.state.currentUser.FileName +
+            '?authorization=' +
+            $funtools.getCookie($cookieName)
+          "
           v-if="$store.state.currentUser.FileId"
         />
         <f7-icon f7="person" color="blue" size="35" v-else></f7-icon>
       </div>
       <div class="desc">
-        <div class="name">{{$store.state.currentUser.UserName}}</div>
-        <div class="detail">{{$store.state.currentUser.UserId}}</div>
+        <div class="name">{{ $store.state.currentUser.UserName }}</div>
+        <div class="detail">{{ $store.state.currentUser.UserId }}</div>
       </div>
       <div class="arrow">
         <f7-icon f7="chevron_right" color="gray" size="25"></f7-icon>
       </div>
     </f7-link>
     <div class="me_settings">
-      <div class="setting_line item-link smart-select smart-select-init" data-open-in="popover">
-        <div class="setting_line_name">{{ $t('common.language') }}</div>
+      <div
+        class="setting_line item-link smart-select smart-select-init"
+        data-open-in="popover"
+      >
+        <div class="setting_line_name">{{ $t("common.language") }}</div>
         <div class="setting_line_right">
-          <div class="setting_line_data">{{lang=='zh-cn'?'中':'EN'}}</div>
+          <div class="setting_line_data">
+            {{ lang == "zh-cn" ? "中" : "EN" }}
+          </div>
           <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
         </div>
         <select name="language_select" @change="changeLang">
-          <option value="en-us" v-bind:selected="lang=='en-us'">EN</option>
-          <option value="zh-cn" v-bind:selected="lang=='zh-cn'">中</option>
+          <option value="en-us" v-bind:selected="lang == 'en-us'">EN</option>
+          <option value="zh-cn" v-bind:selected="lang == 'zh-cn'">中</option>
         </select>
       </div>
       <div class="setting_line" @click="clickFile">
@@ -34,39 +48,45 @@
           type="file"
           ref="fileinput"
           accept="image/*"
-          style="width:0px;height:0px"
+          style="width: 0px; height: 0px"
           width="0px"
           height="0px"
           @change="uploadFile"
         />
-        <div class="setting_line_name">{{ $t('me.pic_setting') }}</div>
+        <div class="setting_line_name">{{ $t("me.pic_setting") }}</div>
         <div class="setting_line_right">
           <div class="setting_line_data"></div>
           <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
         </div>
       </div>
       <f7-link class="setting_line" href="/changepassword">
-        <div class="setting_line_name">{{ $t('me.change_password') }}</div>
+        <div class="setting_line_name">{{ $t("me.change_password") }}</div>
         <div class="setting_line_right">
           <div class="setting_line_data"></div>
           <f7-icon f7="chevron_right" color="gray" size="24"></f7-icon>
         </div>
       </f7-link>
       <div class="setting_line">
-        <div class="setting_line_name">{{ $t('me.last_login_time') }}</div>
+        <div class="setting_line_name">{{ $t("me.last_login_time") }}</div>
         <div class="setting_line_right">
-          <div class="setting_line_data">{{$store.state.currentUser.LastLoginTime}}</div>
+          <div class="setting_line_data">
+            {{ $store.state.currentUser.LastLoginTime }}
+          </div>
         </div>
       </div>
       <div class="setting_line">
-        <div class="setting_line_name">{{$t('common.create_time')}}</div>
+        <div class="setting_line_name">{{ $t("common.create_time") }}</div>
         <div class="setting_line_right">
-          <div class="setting_line_data">{{$store.state.currentUser.CreateTime}}</div>
+          <div class="setting_line_data">
+            {{ $store.state.currentUser.CreateTime }}
+          </div>
         </div>
       </div>
     </div>
     <div class="me_bottom">
-      <f7-button large outline color="gray" @click="logOut">{{$t('common.logout')}}</f7-button>
+      <f7-button large outline color="gray" @click="logOut">{{
+        $t("common.logout")
+      }}</f7-button>
     </div>
   </div>
 </template>
@@ -149,8 +169,8 @@ export default {
   flex-direction: column;
   /* border: 1px solid green; */
 }
-.me a{
-  color:#000;
+.me a {
+  color: #000;
 }
 .me_text {
   font-size: 16px;
@@ -158,7 +178,7 @@ export default {
   line-height: 35px;
   padding-left: 5px;
   width: 100%;
-  color:#000;
+  color: #000;
 }
 .me_title {
   height: 50px;

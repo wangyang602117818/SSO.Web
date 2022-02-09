@@ -43,7 +43,9 @@
                 '/' +
                 item.FileId +
                 '/' +
-                item.FileName
+                item.FileName +
+                '?authorization=' +
+                $funtools.getCookie($cookieName)
               "
               v-if="item.FileId"
             />

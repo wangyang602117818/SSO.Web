@@ -46,5 +46,9 @@ namespace SSO.Web.Controllers
         {
             return View();
         }
+        public ActionResult FileDownload()
+        {
+            return View();
+        }
     }
 }
