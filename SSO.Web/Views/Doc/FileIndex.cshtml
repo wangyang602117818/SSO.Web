@@ -12,3 +12,19 @@
 <p class="fw-normal">3) 文件唯一性校验: 校验文件的md5值,当用户多次上传相同的文件时,仅仅只存文件的基本信息,文件实体只存一份</p>
 <p class="fw-normal">4) 权限控制: 可单独控制每个文件的访问权限</p>
 <p class="fw-normal">5) 转换: 可控制图片和视频的转换规则(多种缩略图适应多设备,多种视频码率提高播放效率)</p>
+<p class="fw-bold">3. 文件服务器节点配置</p>
+<p class="fw-normal">在继续之前,需要添加一下的配置节点到配置文件</p>
+<p class="fw-light">web.config(Asp.net)</p>
+<pre data-language="Html">
+<code class="language-markup">
+        &lt;!--文件服务器的地址-->
+        &lt;add key="fileServiceUrl" value="http://file.ssoutil.cn/" />
+    </code>
+</pre>
+<p class="fw-light">appsettings.json(Asp.net core)</p>
+<pre data-language="js">
+<code class="language-js">
+        //文件服务器的地址
+        "fileServiceUrl": "http://file.ssoutil.cn/"
+    </code>
+</pre>

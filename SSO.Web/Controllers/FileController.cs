@@ -39,13 +39,10 @@ namespace SSO.Web.Controllers
                     ContentType = item.ContentType
                 });
             }
-            Dictionary<string, string> paras = new Dictionary<string, string>();
-            paras.Add("roles", uploadFileModel.Roles);
-            paras.Add("users", uploadFileModel.Users);
-            paras.Add("usersDisplay", uploadFileModel.UsersDisplay);
-            var result = fileClientService.Uploads(files, paras);
+            var result = fileClientService.Uploads(files, uploadFileModel.Roles, uploadFileModel.Users);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        [Route("file/downloadpic/{id}/{filename}")]
         public ActionResult DownloadPic(string id, string filename)
         {
             FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
@@ -70,6 +67,7 @@ namespace SSO.Web.Controllers
             var fileinfo = fileClientService.GetFileInfos(ids);
             return Content(JsonSerializerHelper.Serialize(fileinfo));
         }
+        [Route("file/downloadfile/{id}/{filename}")]
         public ActionResult DownloadFile(string id, string filename)
         {
             FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());

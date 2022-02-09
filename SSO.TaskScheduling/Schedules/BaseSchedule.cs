@@ -13,7 +13,7 @@ namespace SSO.TaskScheduling.Schedules
         public abstract string Name { get; }
         public abstract string Description { get; }
         Business.TaskSchedulingHistory taskSchedulingHistory = new Business.TaskSchedulingHistory();
-        protected MessageCenterService messageCenterService = new MessageCenterService(AppSettings.GetValue("messageBaseUrl"));
+        protected SearchService searchService = new SearchService(AppSettings.GetValue("messageBaseUrl"));
         public Task Execute(IJobExecutionContext context)
         {
             var data = JsonSerializerHelper.Deserialize<Data.Models.TaskScheduling>(context.JobDetail.JobDataMap.GetString("data"));
@@ -48,7 +48,7 @@ namespace SSO.TaskScheduling.Schedules
         /// <returns></returns>
         public string AddData(DataBaseType database, string table, string key, string title, string desc, DateTime docCreateTime)
         {
-            ServiceModel<string> result = messageCenterService.InsertSearchData(database, table, key, title, desc, docCreateTime, "");
+            ServiceModel<string> result = searchService.InsertSearchData(database, table, key, title, desc, docCreateTime, "");
             Log4Net.InfoLog("add message center(" + table + "):" + JsonSerializerHelper.Serialize(result));
             return JsonSerializerHelper.Serialize(result);
         }
@@ -61,7 +61,7 @@ namespace SSO.TaskScheduling.Schedules
         /// <returns></returns>
         public string DeleteData(DataBaseType database, string table, string key)
         {
-            ServiceModel<string> result = messageCenterService.DeleteSearchData(database, table, key);
+            ServiceModel<string> result = searchService.DeleteSearchData(database, table, key);
             Log4Net.InfoLog("delete message center(" + table + "):" + JsonSerializerHelper.Serialize(result));
             return JsonSerializerHelper.Serialize(result);
         }

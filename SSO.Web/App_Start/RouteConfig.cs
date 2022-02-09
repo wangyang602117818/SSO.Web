@@ -14,11 +14,11 @@ namespace SSO.Web
                url: "{controller}/{action}/{id}",
                defaults: new { controller = "SSO", action = "Login", id = UrlParameter.Optional }
            );
-            routes.MapRoute(
-                name: "file",
-                url: "{controller}/{action}/{id}/{filename}",
-                defaults: new { controller = "File", action = "DownloadPic", id = UrlParameter.Optional, filename = UrlParameter.Optional }
-            );
+            //routes.MapRoute(
+            //    name: "file",
+            //    url: "{controller}/{action}/{id}/{filename}",
+            //    defaults: new { controller = "File", action = "DownloadPic", id = UrlParameter.Optional, filename = UrlParameter.Optional }
+            //);
             routes.MapMvcAttributeRoutes();
         }
     }

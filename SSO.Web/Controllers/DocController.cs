@@ -50,5 +50,9 @@ namespace SSO.Web.Controllers
         {
             return View();
         }
+        public ActionResult FileOpr()
+        {
+            return View();
+        }
     }
 }

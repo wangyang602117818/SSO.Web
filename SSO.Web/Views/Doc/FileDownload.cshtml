@@ -3,6 +3,107 @@
     ViewBag.Title = "文件下载";
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
 }
-
-<h2>FileDownload</h2>
-
+<h4 class="bd-title mb-3" id="content">文件下载</h4>
+<p class="fw-bold">1. 添加文件服务器节点配置</p>
+<p class="fw-normal">请参考概览的 文件服务器节点配置</p>
+<p class="fw-bold">2. 下载文件</p>
+<p class="fw-normal">下载文件必须要在登录之后(如何登录请参考 sso登录 节点)</p>
+<p class="fw-normal">下载文件需要利用上传文件完成之后返回的 FileId 和 FileName</p>
+<p class="fw-bold">2.1 下载文件 - Asp.Net</p>
+<p class="fw-normal">服务端端代码:</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public class HomeController : Controller
+        {
+            string fileServiceUrl = AppSettings.GetValue("fileServiceUrl");  //从配置文件获取服务器的基本地址
+            public ActionResult Download(string id,string filename)
+            {
+                FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+                var file = fileClientService.DownloadFile(id, filename);
+                return File(file.FileStream, file.ContentType);
+            }
+        }
+    </code>
+ </pre>
+<p class="fw-normal">请求方式一:通过url查询的方式</p>
+<pre data-language="Html">
+<code class="language-markup">
+        &lt;a href="http://localhost:64074/home/download?id=61b1cef9d15029d3721e887c&filename=11111.jpg">11111.jpg&lt;/a>
+</code>
+</pre>
+<p class="fw-normal">请求方式二:使用特性路由,和 请求网络文件 一致的方式</p>
+<p class="fw-light">1. 在 web.config 中添加以下配置</p>
+<pre data-language="Html">
+<code class="language-markup">
+        &lt;system.webServer>
+          <mark>&lt;modules runAllManagedModulesForAllRequests="true">&lt;/modules></mark>
+        &lt;/system.webServer>
+</code>
+</pre>
+<p class="fw-light">2. 在 RouteConfig 中添加以下代码</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public static void RegisterRoutes(RouteCollection routes)
+        {
+            ...
+            <mark>routes.MapMvcAttributeRoutes();</mark>
+        }
+</code>
+ </pre>
+<p class="fw-light">3. 在 Download 方法上添加特性路由</p>
+<pre data-language="C#">
+<code class="language-cs">
+    <mark>[Route("home/download/{id}/{filename}")]</mark>
+    public ActionResult Download(string id,string filename)
+    {
+        ...
+    }
+    </code>
+ </pre>
+<p class="fw-light">4. 访问文件</p>
+<pre data-language="Html">
+<code class="language-markup">
+        &lt;a href="http://localhost:64074/home/download/61b1cef9d15029d3721e887c/11111.jpg">11111.jpg&lt;/a>
+</code>
+</pre>
+<p class="fw-bold">2.2 下载文件 - Asp.Net Core</p>
+<p class="fw-normal">服务端端代码:</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public class HomeController : Controller
+        {
+            string fileServiceUrl = AppSettings.GetValue("fileServiceUrl");  //从配置文件获取服务器的基本地址
+            public ActionResult Download(string id, string filename)
+            {
+                FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization(HttpContext));
+                var file = fileClientService.DownloadFile(id, filename);
+                return File(file.FileStream, file.ContentType);
+            }
+        }
+    </code>
+ </pre>
+<p class="fw-normal">请求方式一:通过url查询的方式</p>
+<pre data-language="Html">
+<code class="language-markup">
+        &lt;a href="http://localhost:64074/home/download?id=61b1cef9d15029d3721e887c&filename=11111.jpg">11111.jpg&lt;/a>
+</code>
+</pre>
+<p class="fw-normal">请求方式二:使用特性路由,和 请求网络文件 一致的方式</p>
+<p class="fw-light">1. 在 Download 方法上添加特性路由</p>
+<pre data-language="C#">
+<code class="language-cs">
+    <mark>[Route("[controller]/[action]/{id}/{filename}")]</mark>
+    public ActionResult Download(string id,string filename)
+    {
+        ...
+    }
+    </code>
+ </pre>
+<p class="fw-light">2. 访问文件</p>
+<pre data-language="Html">
+<code class="language-markup">
+        &lt;a href="http://localhost:64074/home/download/61b1cef9d15029d3721e887c/11111.jpg">11111.jpg&lt;/a>
+</code>
+</pre>
+<p class="fw-bold">3. 其他方法</p>
+<p class="fw-normal">fileClientService.DownloadFileIcon: 下载文件小图标, 为了在文件列表中快速加载出文件的预览图所使用的方法,用法和下载文件一样</p>

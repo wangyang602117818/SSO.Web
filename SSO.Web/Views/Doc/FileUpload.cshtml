@@ -4,25 +4,11 @@
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
 }
 <h4 class="bd-title mb-3" id="content">文件上传</h4>
-<p class="fw-bold">1. 配置</p>
-<p class="fw-normal">在配置文件中添加以下配置</p>
-<p class="fw-light">web.config(Asp.net)</p>
-<pre data-language="Html">
-<code class="language-markup">
-        &lt;!--文件服务器的地址-->
-        &lt;add key="fileServiceUrl" value="http://file.ssoutil.cn/" />
-    </code>
-</pre>
-<p class="fw-light">appsettings.json(Asp.net core)</p>
-<pre data-language="js">
-    <code class="language-js">
-        //文件服务器的地址
-        "fileServiceUrl": "http://file.ssoutil.cn/"
-    </code>
-</pre>
+<p class="fw-bold">1. 添加文件服务器节点配置</p>
+<p class="fw-normal">请参考概览的 文件服务器节点配置</p>
 <p class="fw-bold">2. 上传文件</p>
-<p class="fw-normal">上传文件必须要在登录之后(如何登录请参考sso登录节点)</p>
-<p class="fw-normal">上传文件分为前端和服务器端2部分,前端还是和之前一样,后端保存文件的时候需要调用接口</p>
+<p class="fw-normal">上传文件必须要在登录之后(如何登录请参考 sso登录 节点)</p>
+<p class="fw-normal">上传文件分为前端和服务器端2部分,前端代码利用了form的提交,也可以使用ajax提交,后端保存文件的时候需要调用接口</p>
 <p class="fw-light">上传文件前端代码</p>
 <pre data-language="Html">
 <code class="language-markup">
@@ -99,7 +85,7 @@
 <p class="fw-light">4. roles=null, users有值: users中包含当前用户时可以访问</p>
 <p class="fw-light">5. roles有值, users有值: 当前用户属于该roles,或者users中包含当前用户时能访问</p>
 <p class="fw-normal">代码案例:</p>
-<p class="fw-light">该文件的上传者可以访问,当用户的角色是 admin,或者 userId="cn02" 时可以访问</p>
+<p class="fw-light">该文件的上传者可以访问,或者用户的角色是 admin,或者 userId="cn02" 时可以访问</p>
 <pre data-language="C#">
 <code class="language-cs">
         public ActionResult Upload(HttpPostedFileBase file)

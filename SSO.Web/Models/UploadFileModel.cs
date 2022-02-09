@@ -6,13 +6,11 @@ namespace SSO.Web.Models
 {
     public class UploadFileModel
     {
-        private string roles = "";
-        private string users = "";
-        private string usersDisplay = "";
+        private List<string> roles = new List<string>();
+        private List<string> users = new List<string>();
         [Required]
         public List<HttpPostedFileBase> Files { get; set; }
-        public string Roles { get => roles; set => roles = value; }
-        public string Users { get => users; set => users = value; }
-        public string UsersDisplay { get => usersDisplay; set => usersDisplay = value; }
+        public List<string> Roles { get => roles; set => roles = value; }
+        public List<string> Users { get => users; set => users = value; }
     }
 }
