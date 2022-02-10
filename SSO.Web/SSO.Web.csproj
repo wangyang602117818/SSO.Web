@@ -235,9 +235,9 @@
     <Content Include="Content\libs\js\bootstrap.esm.min.js" />
     <Content Include="Content\libs\js\bootstrap.js" />
     <Content Include="Content\libs\js\bootstrap.min.js" />
-    <Content Include="Content\login\chunk-vendors.js" />
-    <Content Include="Content\login\index.css" />
-    <Content Include="Content\login\index.js" />
+    <Content Include="Content\login\chunk-vendors.170a16bf.js" />
+    <Content Include="Content\login\index.40290355.js" />
+    <Content Include="Content\login\index.90d3a164.css" />
     <Content Include="Content\prism\prism.css" />
     <Content Include="Content\prism\prism.js" />
     <Content Include="Content\doc.css" />

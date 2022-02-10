@@ -297,6 +297,7 @@ body {
 }
 .footer {
   height: 30px;
+  font-size: 12px;
   background-color: #fff;
   width: 100%;
   position: fixed;
