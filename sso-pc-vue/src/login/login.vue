@@ -59,6 +59,11 @@
         />
       </div>
     </div>
+    <div class="footer">
+      <a href="https://beian.miit.gov.cn" target="_blank"
+        >冀ICP备2021023234号</a
+      >
+    </div>
     <transition name="move">
       <div class="toast" v-show="mssage_show">
         <svg
@@ -290,7 +295,21 @@ body {
   border-color: #c0c0c0;
   cursor: default;
 }
-
+.footer {
+  height: 30px;
+  background-color: #fff;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+}
+.footer a {
+  color: #bbb;
+  text-decoration: none;
+}
 .toast {
   position: absolute;
   background-color: #fff;

@@ -36,7 +36,7 @@
 <pre data-language="Html">
 <code class="language-markup">
         &lt;system.webServer>
-          <mark>&lt;modules runAllManagedModulesForAllRequests="true">&lt;/modules></mark>
+<mark>&lt;modules runAllManagedModulesForAllRequests="true">&lt;/modules></mark>
         &lt;/system.webServer>
 </code>
 </pre>
@@ -46,14 +46,14 @@
         public static void RegisterRoutes(RouteCollection routes)
         {
             ...
-            <mark>routes.MapMvcAttributeRoutes();</mark>
+<mark>routes.MapMvcAttributeRoutes();</mark>
         }
 </code>
  </pre>
 <p class="fw-light">3. 在 Download 方法上添加特性路由</p>
 <pre data-language="C#">
 <code class="language-cs">
-    <mark>[Route("home/download/{id}/{filename}")]</mark>
+<mark>[Route("home/download/{id}/{filename}")]</mark>
     public ActionResult Download(string id,string filename)
     {
         ...
@@ -92,7 +92,7 @@
 <p class="fw-light">1. 在 Download 方法上添加特性路由</p>
 <pre data-language="C#">
 <code class="language-cs">
-    <mark>[Route("[controller]/[action]/{id}/{filename}")]</mark>
+<mark>[Route("[controller]/[action]/{id}/{filename}")]</mark>
     public ActionResult Download(string id,string filename)
     {
         ...
@@ -105,5 +105,6 @@
         &lt;a href="http://localhost:64074/home/download/61b1cef9d15029d3721e887c/11111.jpg">11111.jpg&lt;/a>
 </code>
 </pre>
+
 <p class="fw-bold">3. 其他方法</p>
 <p class="fw-normal">fileClientService.DownloadFileIcon: 下载文件小图标, 为了在文件列表中快速加载出文件的预览图所使用的方法,用法和下载文件一样</p>

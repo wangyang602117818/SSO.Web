@@ -54,5 +54,9 @@ namespace SSO.Web.Controllers
         {
             return View();
         }
+        public ActionResult FileConvert()
+        {
+            return View();
+        }
     }
 }

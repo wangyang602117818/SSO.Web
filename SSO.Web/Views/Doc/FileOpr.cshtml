@@ -9,16 +9,135 @@
 <p class="fw-normal">操作文件必须要在登录之后(如何登录请参考 sso登录 节点)</p>
 <p class="fw-bold">2. 获取文件来源列表</p>
 <pre data-language="C#">
-    <code class="language-cs">
-        public class HomeController : Controller
+<code class="language-cs">
+        FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+        var result = fileClientService.GetFromList();
+    </code>
+ </pre>
+<p class="fw-light">返回案例:</p>
+<pre data-language="js">
+<code class="language-js">
         {
-            string fileServiceUrl = AppSettings.GetValue("fileServiceUrl");  //从配置文件获取服务器的基本地址
-            public ActionResult GetFromList()
+        "code": 0,
+        "message": "success",
+        "result": [
             {
-                FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
-                var result = fileClientService.GetFromList();
-                return Json(result, JsonRequestBehavior.AllowGet);
+                "From": "localhost:64074",   //来源
+                "Count": 5     //该来源的文件数量(没有权限的也包含在内)
             }
+        ],
+        "count": 0
         }
+    </code>
+ </pre>
+<p class="fw-bold">3. 获取文件列表</p>
+<pre data-language="C#">
+<code class="language-cs">
+        FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+        //pageIndex:第几页
+        //pageSize:每页几个
+        //from: 来源(文件来源列表中的From字段)
+        //filter: 过滤字符串,查询的是文件名
+        //fileType: 文件类型,请参考枚举字段值
+        //startTime: 上传文件开始时间
+        //endTime: 上传文件结束时间
+        //sorts: new Dictionary&lt;string, string>(){{"CreateTime","desc" }}
+        //delete:是否查询删除的文件
+        var filelist = fileClientService.GetFileList(pageIndex, pageSize);
+    </code>
+ </pre>
+<p class="fw-light">返回案例:</p>
+<pre data-language="js">
+<code class="language-js">
+        {
+        "code": 0,
+        "message": "success",
+        "result": [
+            {
+            "Id": "5f9cf64b431ad1e0dc2b2302",   //文件id
+            "From": "localhost:8080",  //来源
+            "FileId": "5f9ceb098368f55fa7f0cda7",  //内部文件id,当传多次相同的文件时该id相同,一般用不到
+            "FileName": "1F86AE19.PNG",
+            "Machine": "CNPF1ZM94Q",
+            "Folder": "20201031",
+            "Length": "49230",  //文件大小,字节
+            "Width": 1023,  //文件宽度,图片有用
+            "Height": 765,  //文件高度,图片有用
+            "Download": 12,  //文件下载次数
+            "FileType": "image",
+            "ContentType": "image/png",
+            "Duration": 0,   //播放时长(秒),视频有用
+            "Owner": "CN445379",  //文件所有者
+            "State": 2,  //文件状态,0待转换,1转换中,2完成
+            "Percent": 100, //文件转换百分比,视频转换有用
+            "ProcessCount": 8,
+            "Delete": false,  //是否删除
+            "Exception": true,
+            "DeleteTime": null,
+            "CreateTime": "2020-10-31 13:29:49"  //创建时间
+            }
+        ],
+        "count": 60
+        }
+    </code>
+ </pre>
+<p class="fw-bold">3. 获取文件详情</p>
+<pre data-language="C#">
+<code class="language-cs">
+        FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+        var fileinfo = fileClientService.GetFileInfo(Id);  //文件列表中的Id
+    </code>
+ </pre>
+<p class="fw-bold">4. 获取文件详情列表</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+        var fileinfolist = fileClientService.GetFileInfos(Ids);  //文件列表中的Id
+    </code>
+ </pre>
+<p class="fw-bold">5. 获取文件状态</p>
+<pre data-language="C#">
+<code class="language-cs">
+        FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+        var filestate = fileClientService.FileState(Id);  //文件列表中的Id
+    </code>
+ </pre>
+<p class="fw-light">返回案例:</p>
+<pre data-language="js">
+<code class="language-js">
+        {
+        "code": 0,
+        "message": "success",
+        "result": 100,   //文件的转换百分比,在视频转换的时候比较有用
+        "count": 0
+        }
+    </code>
+ </pre>
+<p class="fw-bold">6. 移除文件(逻辑删除)</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+        var result = fileClientService.RemoveFile(Id);  //文件列表中的Id
+    </code>
+ </pre>
+<p class="fw-bold">7. 批量移除文件(逻辑删除)</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+        var result = fileClientService.RemoveFiles(Ids);  //文件列表中的Id
+    </code>
+ </pre>
+<p class="fw-bold">8. 恢复文件</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+        var result = fileClientService.RestoreFile(Id);  //文件列表中的Id
+    </code>
+ </pre>
+<p class="fw-bold">9. 批量恢复文件</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+        var result = fileClientService.RestoreFiles(Ids);  //文件列表中的Id
     </code>
  </pre>

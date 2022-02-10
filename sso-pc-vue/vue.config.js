@@ -2,9 +2,9 @@ module.exports = {
     runtimeCompiler: true,
     publicPath: '',
     assetsDir: '',
-    filenameHashing: false,
+    //filenameHashing: false,
     //devServer: {
-      //  https: true,
+    //  https: true,
     //},
     pages: {
         index: {
