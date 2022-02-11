@@ -136,7 +136,7 @@ export default {
           ellipsis: true,
         },
         {
-          title: this.$t("response_time") + "ms",
+          title: this.$t("response_time") + "(ms)",
           dataIndex: "Time",
           width: "6%",
           ellipsis: true,
