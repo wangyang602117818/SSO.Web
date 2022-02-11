@@ -1,17 +1,30 @@
 <template>
   <div>
-    <a-select :default-value="from" v-model="from" style="width: 180px" @change="fromChange">
-      <a-select-option value>{{$t('source')}}</a-select-option>
+    <a-select
+      :default-value="from"
+      v-model="from"
+      style="width: 180px"
+      @change="fromChange"
+    >
+      <a-select-option value>{{ $t("source") }}</a-select-option>
       <a-select-option
         v-for="item in fromlist"
-        :value="item.from||'anonymous'"
-        :key="item.from||'anonymous'"
-      >{{item.from||'anonymous'}}</a-select-option>
-    </a-select>&nbsp;
-    <a-select :default-value="to" v-model="to" style="width: 180px" @change="toChange">
-      <a-select-option value>{{$t('to')}}</a-select-option>
-      <a-select-option v-for="item in tolist" :value="item.to" :key="item.to">{{item.to}}</a-select-option>
-    </a-select>&nbsp;
+        :value="item.from || 'anonymous'"
+        :key="item.from || 'anonymous'"
+        >{{ item.from || "anonymous" }}</a-select-option
+      > </a-select
+    >&nbsp;
+    <a-select
+      :default-value="to"
+      v-model="to"
+      style="width: 180px"
+      @change="toChange"
+    >
+      <a-select-option value>{{ $t("to") }}</a-select-option>
+      <a-select-option v-for="item in tolist" :value="item.to" :key="item.to">{{
+        item.to
+      }}</a-select-option> </a-select
+    >&nbsp;
     <a-select
       :default-value="from"
       v-model="controllerName"
@@ -23,8 +36,9 @@
         v-for="item in controllers"
         :value="item.controller"
         :key="item.controller"
-      >{{item.controller}}</a-select-option>
-    </a-select>&nbsp;
+        >{{ item.controller }}</a-select-option
+      > </a-select
+    >&nbsp;
     <a-select
       :default-value="from"
       v-model="actionName"
@@ -36,18 +50,17 @@
         v-for="item in actions"
         :value="item.action"
         :key="item.action"
-      >{{item.action}}</a-select-option>
-    </a-select>&nbsp;
+        >{{ item.action }}</a-select-option
+      > </a-select
+    >&nbsp;
     <a-select v-model="orderBy" style="width: 100px">
-      <a-select-option
-        value="Time"
-        @click="orderChange"
-      >{{$t('response_time')+this.getOrderSymbol('Time')}}</a-select-option>
-      <a-select-option
-        value="CreateTime"
-        @click="orderChange"
-      >{{$t('create_time')+this.getOrderSymbol('CreateTime')}}</a-select-option>
-    </a-select>&nbsp;
+      <a-select-option value="Time" @click="orderChange">{{
+        $t("response_time") + this.getOrderSymbol("Time")
+      }}</a-select-option>
+      <a-select-option value="CreateTime" @click="orderChange">{{
+        $t("create_time") + this.getOrderSymbol("CreateTime")
+      }}</a-select-option> </a-select
+    >&nbsp;
     <a-input
       :placeholder="$t('us')"
       style="width: 100px"
@@ -67,13 +80,14 @@
       @change="onEndChange"
       :placeholder="$t('end_time')"
       style="width: 120px"
-    />&nbsp;
-    <a-button @click="handleReset">Clear</a-button>&nbsp;
-    <a-button v-bind:type="exception?'danger':''" @click="showError">Error</a-button>&nbsp;
+    />&nbsp; <a-button @click="handleReset">Clear</a-button>&nbsp;
+    <a-button v-bind:type="exception ? 'danger' : ''" @click="showError"
+      >Error</a-button
+    >&nbsp;
     <a-button icon="redo" @click="reload"></a-button>
     <a-table
       :columns="columns"
-      :rowKey="record => record._id"
+      :rowKey="(record) => record._id"
       :dataSource="data"
       :loading="loading"
       :pagination="pagination"
@@ -81,9 +95,11 @@
       @change="handleTableChange"
     >
       <span slot="RoleName" slot-scope="RoleName" v-if="RoleName">
-        <a-tag v-for="tag in RoleName.split(',')" :key="tag">{{tag}}</a-tag>
+        <a-tag v-for="tag in RoleName.split(',')" :key="tag">{{ tag }}</a-tag>
       </span>
-      <span slot="path" slot-scope="text, record">{{record.Controller+"/"+record.Action}}</span>
+      <span slot="path" slot-scope="text, record">{{
+        record.Controller + "/" + record.Action
+      }}</span>
     </a-table>
   </div>
 </template>
@@ -96,15 +112,15 @@ export default {
     return {
       columns: [
         {
-          title: this.$t('source'),
+          title: this.$t("source"),
           dataIndex: "From",
-          width: "12%",
+          width: "10%",
           ellipsis: true,
         },
         {
-          title: this.$t('to'),
+          title: this.$t("to"),
           dataIndex: "To",
-          width: "12%",
+          width: "10%",
           ellipsis: true,
         },
         {
@@ -120,47 +136,53 @@ export default {
           ellipsis: true,
         },
         {
-          title: this.$t('response_time'),
+          title: this.$t("response_time") + "ms",
           dataIndex: "Time",
           width: "6%",
           ellipsis: true,
         },
         {
-          title: this.$t('query'),
+          title: this.$t("query"),
           dataIndex: "QueryString",
           width: "10%",
           ellipsis: true,
         },
         {
-          title: this.$t('content'),
+          title: this.$t("request_content"),
           dataIndex: "Content",
           width: "10%",
           ellipsis: true,
         },
         {
-          title: this.$t('us'),
-          dataIndex: "UserName",
+          title: this.$t("response_content"),
+          dataIndex: "Response",
           width: "10%",
-        },
-        {
-          title: this.$t('count') + "/" + this.$t('minute'),
-          dataIndex: "CountPerMinute",
-          width: "6%",
           ellipsis: true,
         },
         {
-          title: this.$t('agent'),
+          title: this.$t("us"),
+          dataIndex: "UserName",
+          width: "8%",
+        },
+        {
+          title: this.$t("count") + "/" + this.$t("minute"),
+          dataIndex: "CountPerMinute",
+          width: "5%",
+          ellipsis: true,
+        },
+        {
+          title: this.$t("agent"),
           dataIndex: "UserAgent",
-          width: "6%",
+          width: "5%",
           ellipsis: true,
           customRender: (val) => {
             return this.$funtools.getDeviceType(val);
           },
         },
         {
-          title: this.$t('create_time'),
+          title: this.$t("create_time"),
           dataIndex: "CreateTime",
-          width: "12%",
+          width: "10%",
           ellipsis: true,
           customRender: (val) => {
             return this.$funtools.parseIsoDateTime(val);
