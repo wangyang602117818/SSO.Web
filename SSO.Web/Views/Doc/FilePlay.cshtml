@@ -12,6 +12,9 @@
 <p class="fw-bold">2. 通过文件Id,子文件id获取视频播放清单和切片文件</p>
 <pre data-language="C#">
 <code class="language-cs">
+    public class HomeController : Controller
+    {
+        string fileServiceUrl = AppSettings.GetValue("fileServiceUrl");  //从配置文件获取服务器的基本地址
         /// &lt;summary>
         /// 自适应流的视频清单文件,该方法可以根据网络情况智能切换播放流
         ///&lt;/summary>
@@ -51,6 +54,7 @@
             var result = fileClientService.M3u8(id, filename);
             return File(result.FileStream, result.ContentType);
         }
+    }
     </code>
  </pre>
 <p class="fw-bold">3. 播放方式</p>
@@ -76,7 +80,7 @@
         &lt;/body>
         &lt;/html>
         &lt;script>
-        <mark>hlsplayer()</mark>
+           <mark>hlsplayer()</mark>
         &lt;/script>
     </code>
 </pre>
@@ -84,5 +88,26 @@
 <p class="fw-normal">{id}: 源文件id (文件操作 -> 获取文件列表 的 Id 字段)</p>
 <p class="fw-normal">{filename}: 没有后缀名的文件名 (文件操作 -> 获取文件列表 的 FileName 字段)</p>
 <p class="fw-normal">{subid}: 子视频文件id (文件操作 -> 获取文件列表 的 Videos.Id 字段)</p>
-<p class="fw-bold">3. 记录视频播放时间</p>
-<p class="fw-normal">默认情况下</p>
+<p class="fw-bold">4. 记录视频播放进度</p>
+<p class="fw-normal">默认情况下,视频播放中每隔2s中会发送一次请求到 M3u8MultiStream 或者 M3u8 接口,与其他请求不同的是,该请求的header中会带上time值,该值就是视频当前播放到的位置,在接口中处理该值来记录视频播放时间</p>
+<p class="fw-light">修改 M3u8MultiStream 和 M3u8 接口,这样视频播放就具备了记录播放进度功能</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        [Route("home/M3u8MultiStream/{id}/{filename}")]
+        public ActionResult M3u8MultiStream(string id, string filename)
+        {
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+            <mark>int time = int.Parse(Request.Headers["time"] ?? "0");</mark>
+            var result = fileClientService.M3u8MultiStream(id, filename, time);
+            return File(result.FileStream, result.ContentType);
+        }
+        [Route("home/M3u8/{id}/{filename}")]
+        public ActionResult M3u8(string id, string filename)
+        {
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+            <mark>int time = int.Parse(Request.Headers["time"] ?? "0");</mark>
+            var result = fileClientService.M3u8(id, filename, time);
+            return File(result.FileStream, result.ContentType);
+        }
+    </code>
+ </pre>

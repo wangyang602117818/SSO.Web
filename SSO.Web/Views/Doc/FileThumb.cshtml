@@ -12,12 +12,16 @@
 <p class="fw-normal">如果flag="" 或者传入的flag不存在则返回原图</p>
 <pre data-language="C#">
     <code class="language-cs">
-        [Route("home/download/{id}/{filename}")]
-        public ActionResult Download(string id, string filename, string flag="")
+        public class HomeController : Controller
         {
-            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
-            var file = fileClientService.DownloadFile(id, filename, flag);
-            return File(file.FileStream, file.ContentType);
+            string fileServiceUrl = AppSettings.GetValue("fileServiceUrl");  //从配置文件获取服务器的基本地址
+            [Route("home/download/{id}/{filename}")]
+            public ActionResult Download(string id, string filename, string flag="")
+            {
+                FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+                var file = fileClientService.DownloadFile(id, filename, flag);
+                return File(file.FileStream, file.ContentType);
+            }
         }
     </code>
  </pre>
