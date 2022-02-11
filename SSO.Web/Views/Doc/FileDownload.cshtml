@@ -35,9 +35,9 @@
 <p class="fw-light">1. 在 web.config 中添加以下配置</p>
 <pre data-language="Html">
 <code class="language-markup">
-        &lt;system.webServer>
-<mark>&lt;modules runAllManagedModulesForAllRequests="true">&lt;/modules></mark>
-        &lt;/system.webServer>
+&lt;system.webServer>
+    <mark>&lt;modules runAllManagedModulesForAllRequests="true">&lt;/modules></mark>
+&lt;/system.webServer>
 </code>
 </pre>
 <p class="fw-light">2. 在 RouteConfig 中添加以下代码</p>
@@ -46,7 +46,7 @@
         public static void RegisterRoutes(RouteCollection routes)
         {
             ...
-<mark>routes.MapMvcAttributeRoutes();</mark>
+            <mark>routes.MapMvcAttributeRoutes();</mark>
         }
 </code>
  </pre>
@@ -54,11 +54,11 @@
 <pre data-language="C#">
 <code class="language-cs">
 <mark>[Route("home/download/{id}/{filename}")]</mark>
-    public ActionResult Download(string id,string filename)
-    {
-        ...
-    }
-    </code>
+public ActionResult Download(string id,string filename)
+{
+    ...
+}
+</code>
  </pre>
 <p class="fw-light">4. 访问文件</p>
 <pre data-language="Html">
@@ -93,11 +93,11 @@
 <pre data-language="C#">
 <code class="language-cs">
 <mark>[Route("[controller]/[action]/{id}/{filename}")]</mark>
-    public ActionResult Download(string id,string filename)
-    {
-        ...
-    }
-    </code>
+public ActionResult Download(string id,string filename)
+{
+    ...
+}
+</code>
  </pre>
 <p class="fw-light">2. 访问文件</p>
 <pre data-language="Html">

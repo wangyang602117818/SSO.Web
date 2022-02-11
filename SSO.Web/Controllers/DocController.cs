@@ -54,7 +54,11 @@ namespace SSO.Web.Controllers
         {
             return View();
         }
-        public ActionResult FileConvert()
+        public ActionResult FileThumb()
+        {
+            return View();
+        }
+        public ActionResult FilePlay()
         {
             return View();
         }

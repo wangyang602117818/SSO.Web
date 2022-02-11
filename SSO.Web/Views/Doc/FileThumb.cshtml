@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "转换和缩略图";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">转换和缩略图</h4>
+<p class="fw-normal">在 文件管理系统->配置管理->来源 中预先配置好图片的转换规则, 每一种转换规则都设置唯一的标识(flag)</p>
+<p class="fw-normal">从不同的来源传入的图片就会按照相应的规则来转换</p>
+<p class="fw-bold">1. 获取文件转换状态</p>
+<p class="fw-normal">请参考文件操作的 获取文件状态 接口</p>
+<p class="fw-bold">2. 通过文件Id,filename和flag获取文件缩略图</p>
+<p class="fw-normal">如果flag="" 或者传入的flag不存在则返回原图</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        [Route("home/download/{id}/{filename}")]
+        public ActionResult Download(string id, string filename, string flag="")
+        {
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+            var file = fileClientService.DownloadFile(id, filename, flag);
+            return File(file.FileStream, file.ContentType);
+        }
+    </code>
+ </pre>
+<p class="fw-light">访问缩略图</p>
+<pre data-language="Html">
+    <code class="language-markup">
+        &lt;a href="http://localhost:64074/home/download/61b1cef9d15029d3721e887c/11111.jpg?flag=standard">11111.jpg&lt;/a>
+    </code>
+</pre>

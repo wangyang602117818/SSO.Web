@@ -386,7 +386,8 @@
     <Content Include="Views\Doc\FileUpload.cshtml" />
     <Content Include="Views\Doc\FileDownload.cshtml" />
     <Content Include="Views\Doc\FileOpr.cshtml" />
-    <Content Include="Views\Doc\FileConvert.cshtml" />
+    <Content Include="Views\Doc\FileThumb.cshtml" />
+    <Content Include="Views\Doc\FilePlay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">

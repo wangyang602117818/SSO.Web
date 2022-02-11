@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "转换和视频播放";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">转换和视频播放</h4>
+<p class="fw-normal">在 文件管理系统->配置管理->来源 中预先配置好视频的转换规则</p>
+<p class="fw-normal">从不同的来源传入的视频就会按照相应的规则来转换,转换完成之后才能访问子视频</p>
+<p class="fw-normal">视频的播放采用的是 http live streaming 技术, 包含视频 清单文件 和 切片文件 两部分</p>
+<p class="fw-bold">1. 获取文件转换状态</p>
+<p class="fw-normal">请参考文件操作的 获取文件状态 接口</p>
+<p class="fw-bold">2. 通过文件Id,子文件id获取视频播放清单和切片文件</p>
+<pre data-language="C#">
+<code class="language-cs">
+        /// &lt;summary>
+        /// 自适应流的视频清单文件,该方法可以根据网络情况智能切换播放流
+        ///&lt;/summary>
+        /// &lt;param name="id">源文件id&lt;/param>
+        /// &lt;param name="filename">源文件名称+".m3u"&lt;/param>
+        /// &lt;returns>&lt;/returns>
+        [Route("home/M3u8MultiStream/{id}/{filename}")]
+        public ActionResult M3u8MultiStream(string id, string filename)
+        {
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+            var result = fileClientService.M3u8MultiStream(id,filename);
+            return File(result.FileStream, result.ContentType);
+        }
+        /// &lt;summary>
+        /// 获取指定流的视频清单文件
+        ///&lt;/summary>
+        /// &lt;param name="id">源文件id&lt;/param>
+        /// &lt;param name="filename">子文件id+".m3u8"&lt;/param>
+        /// &lt;returns>&lt;/returns>
+        [Route("home/M3u8/{id}/{filename}")]
+        public ActionResult M3u8(string id, string filename)
+        {
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+            var result = fileClientService.M3u8(id, filename);
+            return File(result.FileStream, result.ContentType);
+        }
+        /// &lt;summary>
+        /// 获取视频切片文件
+        ///&lt;/summary>
+        /// &lt;param name="id">源文件id&lt;/param>
+        /// &lt;param name="filename">切片文件id+".ts"&lt;/param>
+        /// &lt;returns>&lt;/returns>
+        [Route("home/Ts/{id}/{filename}")]
+        public ActionResult Ts(string id, string filename)
+        {
+            FileClientService fileClientService = new FileClientService(fileServiceUrl, JwtManager.GetAuthorization());
+            var result = fileClientService.M3u8(id, filename);
+            return File(result.FileStream, result.ContentType);
+        }
+    </code>
+ </pre>
+<p class="fw-bold">3. 播放方式</p>
+<p class="fw-normal">1) 引入 <a href="http://file.ssoutil.cn/js/hlsplayer.min.js" target="_blank">hlsplayer.min.js</a></p>
+<p class="fw-normal">2) 添加video标签的hlsplayer样式</p>
+<p class="fw-normal">3) 等页面加载完成之后调用 hlsplayer() 方法</p>
+<pre data-language="Html">
+<code class="language-markup">
+        &lt;!DOCTYPE html>
+        &lt;html>
+        &lt;head>
+            <mark>&lt;script src="http://file.ssoutil.cn/js/hlsplayer.min.js">&lt;/script></mark>
+        &lt;/head>
+        &lt;body>
+           &lt;!--播放自适应流-->
+           &lt;video controls width="400" height="400" <mark>class="hlsplayer"</mark>>
+               &lt;source src="/home/M3u8MultiStream/{id}/{filename}.m3u" />
+           &lt;/video>
+           &lt;!--播放指定流-->
+            &lt;video controls width="400" height="400" <mark>class="hlsplayer"</mark>>
+               &lt;source src="/home/m3u8/{id}/{subid}.m3u8" />
+           &lt;/video>
+        &lt;/body>
+        &lt;/html>
+        &lt;script>
+        <mark>hlsplayer()</mark>
+        &lt;/script>
+    </code>
+</pre>
+<p class="fw-normal">以上url的解释:</p>
+<p class="fw-normal">{id}: 源文件id (文件操作 -> 获取文件列表 的 Id 字段)</p>
+<p class="fw-normal">{filename}: 没有后缀名的文件名 (文件操作 -> 获取文件列表 的 FileName 字段)</p>
+<p class="fw-normal">{subid}: 子视频文件id (文件操作 -> 获取文件列表 的 Videos.Id 字段)</p>
