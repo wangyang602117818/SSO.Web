@@ -184,15 +184,7 @@ namespace SSO.Web.Controllers
         }
         public ActionResult DecodeToken()
         {
-            var userName = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "StaffName").Select(s => s.Value).FirstOrDefault();
-            var lang = Request.Cookies["lang"] == null ? ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "Lang").Select(s => s.Value).FirstOrDefault() : Request.Cookies["lang"].Value;
-            object user = new
-            {
-                UserId = User.Identity.Name,
-                UserName = userName,
-                Lang = lang
-            };
-            return new ResponseModel<object>(ErrorCode.success, user);
+            return new ResponseModel<object>(ErrorCode.success, JwtManager.GetUserData());
         }
 
     }
