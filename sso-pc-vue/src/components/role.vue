@@ -135,7 +135,11 @@
               v-for="(item, index) in value"
               :key="index"
               :id="item"
-              >{{ $t("permissions." + item) }}</a-checkbox
+              >{{
+                $i18n.messages["zh-cn"].permissions[item]
+                  ? $t("permissions." + item)
+                  : item
+              }}</a-checkbox
             >
           </a-tab-pane>
         </a-tabs>

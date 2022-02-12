@@ -118,7 +118,8 @@
         slot="CompanyName"
         slot-scope="CompanyName"
         color="#108ee9"
-        >{{ CompanyName }}</a-tag>
+        >{{ CompanyName }}</a-tag
+      >
       <span
         slot="DepartmentName"
         slot-scope="DepartmentName"
@@ -315,7 +316,12 @@
               v-for="(item, index) in value"
               :key="index"
               :id="item"
-              >{{ $t("permissions." + item) }}</a-checkbox
+              >{{
+                $i18n.messages["zh-cn"].permissions[item]
+                  ? $t("permissions." + item)
+                  : item
+              }}
+              </a-checkbox
             >
           </a-tab-pane>
         </a-tabs>

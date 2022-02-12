@@ -388,6 +388,9 @@
     <Content Include="Views\Doc\FileOpr.cshtml" />
     <Content Include="Views\Doc\FileThumb.cshtml" />
     <Content Include="Views\Doc\FilePlay.cshtml" />
+    <Content Include="Views\Doc\PermIndex.cshtml" />
+    <Content Include="Views\Doc\PermInit.cshtml" />
+    <Content Include="Views\Doc\PermOpr.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">

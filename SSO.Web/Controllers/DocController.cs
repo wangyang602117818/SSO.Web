@@ -62,7 +62,17 @@ namespace SSO.Web.Controllers
         {
             return View();
         }
-
-
+        public ActionResult PermIndex()
+        {
+            return View();
+        }
+        public ActionResult PermInit()
+        {
+            return View();
+        }
+        public ActionResult PermOpr()
+        {
+            return View();
+        }
     }
 }
