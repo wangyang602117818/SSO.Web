@@ -203,6 +203,10 @@
     <Content Include="Content\images\netcore-2.gif" />
     <Content Include="Content\images\netcore-3.gif" />
     <Content Include="Content\images\netcore-4.png" />
+    <Content Include="Content\images\perm-1.gif" />
+    <Content Include="Content\images\perm-2.png" />
+    <Content Include="Content\images\perm-3.gif" />
+    <Content Include="Content\images\perm-4.gif" />
     <Content Include="Content\images\react-1.png" />
     <Content Include="Content\images\react-2.png" />
     <Content Include="Content\images\react-3.png" />

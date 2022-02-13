@@ -272,7 +272,9 @@
         "DeleteTrigger": "删除触发器",
         "StartScheduling": "启动调度",
         "StopScheduling": "停止调度",
-        "GetSchedulingHistory": "获取调度历史"
+        "GetSchedulingHistory": "获取调度历史",
+        "App01-About":"关于",
+        "App01-Me":"我的"
     },
     "response": {
         "success": "操作成功!",
