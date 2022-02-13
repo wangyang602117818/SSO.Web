@@ -74,5 +74,17 @@ namespace SSO.Web.Controllers
         {
             return View();
         }
+        public ActionResult LogIndex()
+        {
+            return View();
+        }
+        public ActionResult LogVisit()
+        {
+            return View();
+        }
+        public ActionResult LogProj()
+        {
+            return View();
+        }
     }
 }

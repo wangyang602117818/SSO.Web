@@ -247,6 +247,7 @@
     <Content Include="Content\doc.css" />
     <Content Include="Global.asax" />
     <Content Include="logo.ico" />
+    <Content Include="Content\images\logvisit-1.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -395,6 +396,9 @@
     <Content Include="Views\Doc\PermIndex.cshtml" />
     <Content Include="Views\Doc\PermInit.cshtml" />
     <Content Include="Views\Doc\PermOpr.cshtml" />
+    <Content Include="Views\Doc\LogIndex.cshtml" />
+    <Content Include="Views\Doc\LogVisit.cshtml" />
+    <Content Include="Views\Doc\LogProj.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">

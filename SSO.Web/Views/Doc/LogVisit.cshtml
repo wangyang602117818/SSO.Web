@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "访问日志";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">访问日志</h4>
+<p class="fw-normal">访问日志 记录的是每一个接口的调用日志</p>
+<p class="fw-normal">访问日志 的记录可以不登录,不登录则记录的来源是匿名的</p>
+<p class="fw-bold">1. 日志服务器节点配置</p>
+<p class="fw-normal">在继续之前,需要添加一下的配置节点到配置文件</p>
+<p class="fw-light">web.config(Asp.net)</p>
+<pre data-language="Html">
+    <code class="language-markup">
+        &lt;!--日志服务器的地址-->
+        &lt;add key="messageBaseUrl" value="http://message.ssoutil.cn/" />
+    </code>
+</pre>
+<p class="fw-light">appsettings.json(Asp.net core)</p>
+<pre data-language="js">
+    <code class="language-js">
+        //日志服务器的地址
+        "messageBaseUrl": "http://message.ssoutil.cn/"
+    </code>
+</pre>
+<p class="fw-bold">2. 记录访问日志</p>
+<p class="fw-normal">合理的使用 [LogRecord] 特性和 [NoneLogRecord] 特性来进行 记录日志 和 不记录日志</p>
+<p class="fw-light">案例一: 在Controller上使用 [LogRecord] 特性,在Action上使用 [NoneLogRecord] 特性,则该Controller中具有 [NoneLogRecord] 特性的方法不记录日志,其他方法记录日志</p>
+<pre data-language="C#">
+<code class="language-cs">
+    <mark>[LogRecord]</mark>
+    public class HomeController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+        <mark>[NoneLogRecord]</mark>
+        public ActionResult About()
+        {
+            return View();
+        }
+    }
+    </code>
+ </pre>
+<p class="fw-light">案例二: 在全局使用 [LogRecord] 特性,在Action上使用 [NoneLogRecord] 特性,则整个系统中具有 [NoneLogRecord] 特性的方法不记录日志,其他方法记录日志</p>
+<pre data-language="C#">
+<code class="language-cs">
+   public class FilterConfig
+   {
+        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        {
+            ...
+            <mark>filters.Add(new LogRecordAttribute());</mark>
+        }
+    }
+    </code>
+ </pre>
+<p class="fw-bold">3. 其他参数</p>
+<p class="fw-normal">recordQuerystring: 是否记录查询参数</p>
+<p class="fw-normal">recordRequestContent: 是否记录请求体</p>
+<p class="fw-normal">recordResponseContent: 是否记录相应体</p>
+<p class="fw-normal">使用 [LogRecord] 默认记录的是整个请求的所有参数,包括 查询参数,请求体,相应体,相应时间,每分钟次数,接口是否有错误,具体记录可以在 sso管理界面(http://www.ssoutil.cn/) 查看</p>
+<p class="fw-normal">
+    <img src="~/Content/images/logvisit-1.png" />
+</p>
+<p class="fw-bold">4. 其他</p>
+<p class="fw-normal">来源: 取的是JwtToken中的from字段,如果没有登录过,则来源为空</p>
+<p class="fw-normal">提高吞吐量: 日记发送到日志服务器会暂时存到 msmq 中,再由后台服务插入数据库</p>
+<p class="fw-normal">调用次数: 后台的服务在记录日志时会延迟1分钟,这样同一个用户访问同一个接口在一分钟之内只会增加次数,不会产生新记录</p>
+<p class="fw-normal">响应时间: 系统记录的是Action的调用开始和调用结束的时间差</p>
+<p class="fw-normal">错误记录: 系统记录的是在Action调用结束之后 Exception 对象是否为null,该功能只会记录是否有错误,不会记录错误详情,不会对系统其他判断产生影响</p>

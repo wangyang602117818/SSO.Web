@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "项目日志";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">项目日志</h4>
+<p class="fw-normal">项目日志的记录无需登录,一般记录的是项目的错误日志</p>
+<p class="fw-normal">请确保项目已经安装Nuget包引用(SSO.Util.Client)</p>
+<p class="fw-normal">默认日志记录在项目的根目录文件夹 /App_Data 中,每个文件的大小1000kb左右,且有时间区分</p>
+<p class="fw-bold">1. 手动记录日志</p>
+<p class="fw-normal">在项目的任何地方调用 Log4Net.InfoLog 或者 Log4Net.ErrorLog 记录日志</p>
+<pre data-language="C#">
+<code class="language-cs">
+    public class HomeController : Controller
+    {
+        public ActionResult Index()
+        {
+            <mark>Log4Net.InfoLog("info");
+            Log4Net.ErrorLog("error");</mark>
+            return View();
+        }
+    }
+    </code>
+ </pre>
+<p class="fw-bold">2. 全局记录日志</p>
+<p class="fw-normal">替换项目的自动错误处理机制 HandleErrorAttribute ,则项目中出现错误会自动记录日志</p>
+<pre data-language="C#">
+<code class="language-cs">
+    public class FilterConfig
+    {
+        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        {
+            <mark>filters.Add(new MyHandleErrorAttribute());</mark>
+            ...
+        }
+    }
+    </code>
+ </pre>
