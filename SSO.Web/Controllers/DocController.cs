@@ -86,5 +86,13 @@ namespace SSO.Web.Controllers
         {
             return View();
         }
+        public ActionResult OrmIndex()
+        {
+            return View();
+        }
+        public ActionResult OrmConfig()
+        {
+            return View();
+        }
     }
 }

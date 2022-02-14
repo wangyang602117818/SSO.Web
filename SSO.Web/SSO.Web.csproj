@@ -399,6 +399,8 @@
     <Content Include="Views\Doc\LogIndex.cshtml" />
     <Content Include="Views\Doc\LogVisit.cshtml" />
     <Content Include="Views\Doc\LogProj.cshtml" />
+    <Content Include="Views\Doc\OrmIndex.cshtml" />
+    <Content Include="Views\Doc\OrmConfig.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
