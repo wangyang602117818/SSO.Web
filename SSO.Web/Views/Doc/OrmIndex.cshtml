@@ -3,10 +3,227 @@
     ViewBag.Title = "Orm-概览";
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
 }
-<h4 class="bd-title mb-3" id="content">Orm-概览</h4>
+<h4 class="bd-title mb-3" id="content">概览 使用ORM访问SQLServer数据库</h4>
 <p class="fw-normal">本节点介绍的是: 通过ORM快捷操作SQLServer数据库,可以实现sql语句和代码分离,返回对象自动映射,提高了sqlserver的读写效率</p>
-<p class="fw-bold">1. 配置</p>
-<p class="fw-normal">1) sbl.config </p>
-<p class="fw-light">位置: 在项目的根目录创建</p>
-<p class="fw-light">文件属性 Build Action: None</p>
-<p class="fw-light">文件属性 Copy To Output Directory: Copy always 或者 Copy if newer</p>
+<p class="fw-normal">本节点以一个公司表的创建,外加数据的 增删改查 为例,来介绍ORM的使用步骤</p>
+<p class="fw-bold">步骤一: 初始化项目</p>
+<div class="row">
+    <div class="col-4 d-flex flex-column p-2" style="background-color: #f5f5f5;">
+        <div class="lead fs-6">
+            <p class="fw-normal">1) 使用VisualStudio创建Console App应用程序(Asp.Net Core) - ConsoleApp1</p>
+            <p class="fw-normal">2) 创建数据访问 Class Library类库项目(Asp.Net Core) - App.Data</p>
+            <p class="fw-normal">3) 添加Nuget包引用(SSO.Util.Client)</p>
+            <p class="fw-normal">4) 添加 ConsoleApp1 对 App.Data 项目的引用</p>
+        </div>
+    </div>
+    <div class="col pe-0">
+        <img src="~/Content/images/orm-1.png" />
+    </div>
+</div>
+<p class="fw-bold mt-2">步骤二: 配置</p>
+<p class="fw-normal">1) 在ConsoleApp1项目根目录创建 sbl.config 配置文件</p>
+<p class="fw-normal">sbl.config的文件属性: </p>
+<p class="fw-normal">Build Action : None </p>
+<p class="fw-normal">Copy To Output Directory : Copy always 或者 Copy if newer</p>
+<p class="fw-light">sbl.config</p>
+<pre data-language="xml">
+    <code class="language-markdown">
+        &lt;?xml version="1.0" encoding="utf-8" ?>
+        &lt;configuration>
+            &lt;connectionstring>
+                server=.;database=Test;integrated security=true
+            &lt;/connectionstring>
+            &lt;!--创建table-->
+            &lt;create-tables resource="create.xml" assembly="App.Data" namespace="Create" />
+            &lt;mappings assembly="App.Data" namespace="Mappings" />
+        &lt;/configuration>
+    </code>
+</pre>
+<p class="fw-normal">2) 在App.Data项目中创建Create文件夹,Mappings文件夹,Models文件夹</p>
+<p class="fw-normal">3) 在Create文件夹中创建 create.xml 文件用于数据表初始化:</p>
+<p class="fw-normal">create.xml的文件属性: </p>
+<p class="fw-normal">Build Action : Embedded resource </p>
+<p class="fw-normal">Copy To Output Directory : Do not copy</p>
+<p class="fw-light">create.xml</p>
+<pre data-language="xml">
+<code class="language-sql">
+    &lt;?xml version="1.0" encoding="utf-8" ?>
+    &lt;sql>
+    if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='Company')
+        create table Company (
+            Id INT IDENTITY NOT NULL,
+            Code NVARCHAR(30) not null,
+            Name NVARCHAR(50) not null,
+            Description NVARCHAR(512) null,
+            [Order] INT null,
+            UpdateTime DATETIME null,
+            CreateTime DATETIME null,
+            primary key (Id),
+            unique (Code)
+        )
+    &lt;/sql>
+</code>
+</pre>
+<p class="fw-normal">4) 在App.Data项目中创建数据访问基类:</p>
+<p class="fw-light">ModelBase.cs</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public abstract class ModelBase: EntityBase
+        {
+            static SessionFactory sessionFactory;
+            /// &lt;summary>
+            /// 默认读取 sbl.config 文件实例化sessionFactory,如果有不同的数据库,指定配置文件即可
+            &lt;/summary>
+            static ModelBase()
+            {
+                sessionFactory = new Configuration().Configure();
+                //读取create.xml中的sql语句,并且在数据库中执行
+                sessionFactory.CreateTables();
+            }
+            public ModelBase() : base(sessionFactory) { }
+        }
+    </code>
+</pre>
+<p class="fw-normal">5) 在Models文件夹中创建 Company类 继承自数据访问基类:</p>
+<p class="fw-light">Company.cs</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public class Company: ModelBase
+        {
+            public Company() { }
+            public int Id { get; set; }
+            public string? Code { get; set; }
+            public string? Name { get; set; }
+            public string? Description { get; set; }
+            public int? Order { get; set; }
+            public DateTime? UpdateTime { get; set; }
+            public DateTime? CreateTime { get; set; }
+        }
+    </code>
+</pre>
+<p class="fw-normal">6) 在Mappings文件夹中创建 company.xml 作为Company类的映射文件:</p>
+<p class="fw-normal">company.xml的文件属性: </p>
+<p class="fw-normal">Build Action : Embedded resource </p>
+<p class="fw-normal">Copy To Output Directory : Do not copy</p>
+<p class="fw-light">company.xml</p>
+<pre data-language="xml">
+<code class="language-sql">
+        &lt;?xml version="1.0" encoding="utf-8" ?>
+        &lt;sql>
+            &lt;insert>
+                INSERT INTO Company (
+                Code,
+                Name,
+                [Order],
+                CreateTime
+                &lt;isNotEmpty property="Description" prepend=",">
+                    Description
+                &lt;/isNotEmpty>
+                ) VALUES (
+                @@Code,
+                @@Name,
+                @@Order,
+                @@CreateTime
+                &lt;isNotEmpty property="Description" prepend=",">
+                    @@Description
+                &lt;/isNotEmpty>
+                )
+            &lt;/insert>
+            &lt;update>
+                UPDATE Company SET
+                Code = @@Code,
+                Name = @@Name,
+                UpdateTime = @@UpdateTime,
+                [Order] = @@Order
+                &lt;isNotEmpty property="Description" prepend=",">
+                    Description = @@Description
+                &lt;/isNotEmpty>
+                WHERE Id = @@Id
+            &lt;/update>
+            &lt;delete>
+                delete from Company where id = @@Id
+            &lt;/delete>
+            &lt;get-by-id>
+                select * from Company where Id = @@Id
+            &lt;/get-by-id>
+        &lt;/sql>
+    </code>
+</pre>
+<p class="fw-normal">7) 配置结果预览:</p>
+<p class="fw-normal">
+    <img src="~/Content/images/orm-2.gif" />
+</p>
+<p class="fw-bold mt-2">步骤三: 操作</p>
+<p class="fw-light fst-italic">可以在ConsoleApp1项目的Program.cs文件写测试的案例</p>
+<p class="fw-normal">1) 创建数据库:需要手动创建Test数据库</p>
+<p class="fw-normal">2) 创建数据表:</p>
+<p class="fw-light">第一次实例化Company对象的时候自动调用</p>
+<p class="fw-normal">3) 新增数据,返回受影响的行数:</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var company = new Company()
+        {
+            Code = "com",
+            Name = "comName",
+            Description = "Description",
+            Order = 1,
+            CreateTime = DateTime.Now,
+        };
+        var count = new Company().Insert(company);  //受影响的行数
+    </code>
+ </pre>
+<p class="fw-normal">4) 新增数据,返回主键id:</p>
+<pre data-language="C#">
+<code class="language-cs">
+        var company = new Company()
+        {
+            Code = "com1",
+            Name = "comName",
+            Description = "Description",
+            Order = 1,
+            CreateTime = DateTime.Now,
+        };
+        var index = new Company().InsertIdentity(company);  //主键id
+    </code>
+ </pre>
+<p class="fw-normal">5) 更新数据,返回受影响的行数:</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var company = new Company()
+        {
+            Id=1,
+            Code = "com0001",
+            Name = "comName0001",
+            Description = "Description0001",
+            Order = 10,
+            UpdateTime = DateTime.Now,
+        };
+        var count = new Company().Update(company);
+    </code>
+ </pre>
+<p class="fw-normal">6) 删除数据:</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var count = new Company().Delete(new { Id=3 });
+    </code>
+ </pre>
+<p class="fw-normal">7) 查询数据:</p>
+<p class="fw-light">Company.cs</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        public class Company: ModelBase
+        {
+            ...
+            public Company GetById(int id)
+            {
+                return base.QueryObject&lt;Company>("get-by-id", new { Id = id }, null);
+            }                                                                    
+        }
+    </code>
+ </pre>
+<p class="fw-light">查询数据</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var com = new Company().GetById(1);
+    </code>
+ </pre>

@@ -63,7 +63,7 @@
 <p class="fw-normal">
     <img src="~/Content/images/logvisit-1.png" />
 </p>
-<p class="fw-bold">4. 其他</p>
+<p class="fw-bold">4. 字段原理</p>
 <p class="fw-normal">来源: 取的是JwtToken中的from字段,如果没有登录过,则来源为空</p>
 <p class="fw-normal">提高吞吐量: 日记发送到日志服务器会暂时存到 msmq 中,再由后台服务插入数据库</p>
 <p class="fw-normal">调用次数: 后台的服务在记录日志时会延迟1分钟,这样同一个用户访问同一个接口在一分钟之内只会增加次数,不会产生新记录</p>
