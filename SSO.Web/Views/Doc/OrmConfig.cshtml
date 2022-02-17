@@ -1,8 +1,114 @@
 ﻿
 @{
-    ViewBag.Title = "OrmConfig";
+    ViewBag.Title = "配置文件";
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
 }
+<h4 class="bd-title mb-3" id="content">ORM配置文件</h4>
+<p class="fw-bold">1: sbl.config  -  全局配置文件</p>
+<p class="fw-normal">Build Action : None</p>
+<p class="fw-normal">Copy To Output Directory : Copy always 或者 Copy if newer</p>
+<pre data-language="xml">
+<code class="language-markdown">
+        &lt;?xml version="1.0" encoding="utf-8" ?>
+        &lt;configuration>
+            &lt;connectionstring>
+                server=.;database=Test;integrated security=true
+            &lt;/connectionstring>
+            &lt;!--创建table,可以省略-->
+            &lt;create-tables resource="create.xml" assembly="App.Data" namespace="Create" />
+            &lt;mappings assembly="App.Data" namespace="Mappings" />
+        &lt;/configuration>
+    </code>
+</pre>
+<p class="fw-normal">实例化 SessionFactory 的时候默认读取该配置文件,并且按照以下步骤读取配置节点,其中create-tables节点可以省略:</p>
+<p class="fw-normal">1). 读取 connectionstring 节点中的数据库连接字符串,存放在 SessionFactory.connstring 字段中</p>
+<p class="fw-normal">2). 读取 create-tables 节点 : 读取 App.Data.dll 中 Create 文件夹, 判断是否有 resource节点:</p>
+<p class="fw-normal ms-3">存在 resource 节点: 则直接读取resource指向的文件</p>
+<p class="fw-normal ms-3">不存在 resource 节点: 则把Create文件夹中的文件按照文件名升序排序,再依次读取每个文件</p>
+<p class="fw-normal ms-3">最终组合成sql语句存放在 SessionFactory.createsqls 字段中</p>
+<p class="fw-normal">3). 读取 mappings 节点 : 读取 App.Data.dll 中 Mappings 文件夹中的每一个映射文件, 并且根据 文件名.节点名 的规则形成对应关系, 最终的结果存放在 SessionFactory.mappings 字段中</p>
 
-<h2>OrmConfig</h2>
-
+<p class="fw-bold">2: create.xml  -  初始化数据表配置文件</p>
+<p class="fw-normal">Build Action : Embedded Resource</p>
+<p class="fw-normal">Copy To Output Directory : Do not copy</p>
+<pre data-language="xml">
+<code class="language-sql">
+    &lt;?xml version="1.0" encoding="utf-8" ?>
+    &lt;sql>
+    if not exists(SELECT * FROM information_schema.TABLES WHERE table_name ='Company')
+        create table Company (
+            Id INT IDENTITY NOT NULL,
+            Code NVARCHAR(30) not null,
+            Name NVARCHAR(50) not null,
+            Description NVARCHAR(512) null,
+            [Order] INT null,
+            UpdateTime DATETIME null,
+            CreateTime DATETIME null,
+            primary key (Id),
+            unique (Code)
+        )
+    &lt;/sql>
+</code>
+</pre>
+<p class="fw-normal">这里只是为了展示文件格式</p>
+<p class="fw-normal">如果全局配置文件的create-tables节点没有resource属性,则文件名可以随意配置</p>
+<p class="fw-bold">3: *.xml  -  sql映射文件</p>
+<p class="fw-normal">Build Action : Embedded Resource</p>
+<p class="fw-normal">Copy To Output Directory : Do not copy</p>
+<pre data-language="xml">
+<code class="language-sql">
+        &lt;?xml version="1.0" encoding="utf-8" ?>
+        &lt;sql>
+            &lt;insert>
+                INSERT INTO Company (
+                Code,
+                Name,
+                [Order],
+                CreateTime
+                &lt;isNotEmpty property="Description" prepend=",">
+                    Description
+                &lt;/isNotEmpty>
+                ) VALUES (
+                @@Code,
+                @@Name,
+                @@Order,
+                @@CreateTime
+                &lt;isNotEmpty property="Description" prepend=",">
+                    @@Description
+                &lt;/isNotEmpty>
+                )
+            &lt;/insert>
+            &lt;update>
+                UPDATE Company SET
+                Code = @@Code,
+                Name = @@Name,
+                UpdateTime = @@UpdateTime,
+                [Order] = @@Order
+                &lt;isNotEmpty property="Description" prepend=",">
+                    Description = @@Description
+                &lt;/isNotEmpty>
+                WHERE Id = @@Id
+            &lt;/update>
+            &lt;delete>
+                delete from Company where id = @@Id
+            &lt;/delete>
+            &lt;get-by-id>
+                select * from Company where Id = @@Id
+            &lt;/get-by-id>
+        &lt;/sql>
+    </code>
+</pre>
+<p class="fw-normal">类和sql映射文件的默认关联关系如下:</p>
+<p class="fw-normal">Company.cs -> company.xml</p>
+<p class="fw-normal">CompanyNews.cs -> company_news.xml</p>
+<p class="fw-normal">可以使用 [XmlStatement] 特性改变类和sql映射文件的关联关系:</p>
+<p class="fw-light">Company类和com.xml映射文件关联</p>
+<pre data-language="C#">
+<code class="language-cs">
+    <mark>[XmlStatement("com")]</mark>
+    public class Company: ModelBase
+    {
+        ...
+    }
+    </code>
+ </pre>

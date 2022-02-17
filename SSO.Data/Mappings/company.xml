@@ -22,7 +22,7 @@
   <update>
     UPDATE Company SET
     Code = @Code,
-    Name=@Name,
+    Name = @Name,
     UpdateTime=@UpdateTime,
     [Order]=@Order
     <isNotEmpty property="Description" prepend=",">

@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "数据查询";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">数据查询</h4>
+<p class="fw-bold">1) 基本查询:</p>
+<p class="fw-normal">案例包含各种数据类型的查询语法,属性的大小写敏感 </p>
+<p class="fw-light">company.xml</p>
+<pre data-language="xml">
+<code class="language-sql">
+        ...
+        &lt;get-by-id>
+           select * from Company where Id = @@Id
+        &lt;/get-by-id>
+        &lt;get-by-code>
+           select * from Company where Code = @@Code
+        &lt;/get-by-code>
+        &lt;get-delete>
+            select * from Company where [Delete] = @@Del
+        &lt;/get-delete>
+    </code>
+</pre>
+<p class="fw-light">Company.cs</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public class Company: ModelBase
+        {
+            ...
+            public Company GetById(int id)
+            {
+               //数值类型的查询
+               return base.QueryObject&lt;Company>("get-by-id", new { Id = id }, null);
+            }  
+            public Company GetByCode(string code)
+            {
+               //字符串类型的查询
+               return base.QueryObject&lt;Company>("get-by-code", new { Code = code }, null);
+            }  
+            public IEnumerable&lt;Company> GetDelete(bool del)
+            {
+                //bool类型的查询
+                return base.QueryList&lt;Company>("get-delete", new { Del = del }, null);
+            }
+        }
+    </code>
+ </pre>
+
+<p class="fw-bold">2) 动态查询:</p>
+
+<p class="fw-bold">3) 分页和替换:</p>
+
+

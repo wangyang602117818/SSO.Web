@@ -403,6 +403,7 @@
     <Content Include="Views\Doc\LogProj.cshtml" />
     <Content Include="Views\Doc\OrmIndex.cshtml" />
     <Content Include="Views\Doc\OrmConfig.cshtml" />
+    <Content Include="Views\Doc\OrmQuery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">

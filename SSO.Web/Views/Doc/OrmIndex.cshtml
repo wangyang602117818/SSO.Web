@@ -1,9 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "Orm-概览";
+    ViewBag.Title = "Orm概览";
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
 }
-<h4 class="bd-title mb-3" id="content">概览 使用ORM访问SQLServer数据库</h4>
+<h4 class="bd-title mb-3" id="content">概览</h4>
+<p class="fw-normal">在sql语句配置中所有带有@的参数都具备防注入功能</p>
 <p class="fw-normal">本节点介绍的是: 通过ORM快捷操作SQLServer数据库,可以实现sql语句和代码分离,返回对象自动映射,提高了sqlserver的读写效率</p>
 <p class="fw-normal">本节点以一个公司表的创建,外加数据的 增删改查 为例,来介绍ORM的使用步骤</p>
 <p class="fw-bold">步骤一: 初始化项目</p>
@@ -27,7 +28,7 @@
 <p class="fw-normal">Copy To Output Directory : Copy always 或者 Copy if newer</p>
 <p class="fw-light">sbl.config</p>
 <pre data-language="xml">
-    <code class="language-markdown">
+<code class="language-markdown">
         &lt;?xml version="1.0" encoding="utf-8" ?>
         &lt;configuration>
             &lt;connectionstring>
@@ -158,9 +159,10 @@
 <p class="fw-normal">1) 创建数据库:需要手动创建Test数据库</p>
 <p class="fw-normal">2) 创建数据表:</p>
 <p class="fw-light">第一次实例化Company对象的时候自动调用</p>
+<p class="fw-light">Company实例能使用 Insert InsertIdentity Update Delete方法因为父类EntityBase中封装了这些方法,默认读取映射文件中的 insert update delete节点</p>
 <p class="fw-normal">3) 新增数据,返回受影响的行数:</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         var company = new Company()
         {
             Code = "com",
@@ -188,7 +190,7 @@
  </pre>
 <p class="fw-normal">5) 更新数据,返回受影响的行数:</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         var company = new Company()
         {
             Id=1,
@@ -203,14 +205,14 @@
  </pre>
 <p class="fw-normal">6) 删除数据:</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         var count = new Company().Delete(new { Id=3 });
     </code>
  </pre>
 <p class="fw-normal">7) 查询数据:</p>
 <p class="fw-light">Company.cs</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         public class Company: ModelBase
         {
             ...
@@ -223,7 +225,7 @@
  </pre>
 <p class="fw-light">查询数据</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         var com = new Company().GetById(1);
     </code>
  </pre>

@@ -94,5 +94,9 @@ namespace SSO.Web.Controllers
         {
             return View();
         }
+        public ActionResult OrmQuery()
+        {
+            return View();
+        }
     }
 }
