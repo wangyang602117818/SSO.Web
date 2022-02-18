@@ -98,5 +98,9 @@ namespace SSO.Web.Controllers
         {
             return View();
         }
+        public ActionResult OrmInsert()
+        {
+            return View();
+        }
     }
 }

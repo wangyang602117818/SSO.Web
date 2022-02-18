@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "数据插入";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">数据插入</h4>
+<p class="fw-light">company.xml</p>
+<pre data-language="xml">
+<code class="language-xml">
+...
+&lt;insert>
+	INSERT INTO Company (
+	Code,
+	Name,
+	CreateTime
+	&lt;isNotNull property="Order" prepend=",">
+		[Order]
+	&lt;/isNotNull>
+	&lt;isNotEmpty property="Description" prepend=",">
+		Description
+	&lt;/isNotEmpty>
+	) VALUES (
+	@@Code,
+	@@Name,
+	@@CreateTime
+	&lt;isNotNull property="Order" prepend=",">
+		@@Order
+	&lt;/isNotNull>
+	&lt;isNotEmpty property="Description" prepend=",">
+		@@Description
+	&lt;/isNotEmpty>
+	)
+&lt;/insert>
+    </code>
+</pre>
+<p class="fw-light">Company.cs</p>
+<p class="fw-light">默认Company继承了父类 EntityBase 的 Insert 方法和 InsertIdentity 方法</p>
