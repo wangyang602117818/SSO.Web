@@ -5,10 +5,11 @@
 }
 <h4 class="bd-title mb-3" id="content">数据查询</h4>
 <p class="fw-bold">1) 基本查询:</p>
-<p class="fw-normal">案例包含各种数据类型的查询语法,属性的大小写敏感 </p>
+<p class="fw-normal">案例包含各种数据类型的查询语法,大小写敏感 </p>
+<p class="fw-normal">如果返回结果对象无法确定,可以用 object 代替 </p>
 <p class="fw-light">company.xml</p>
 <pre data-language="xml">
-<code class="language-sql">
+<code class="language-xml">
         ...
         &lt;get-by-id>
            select * from Company where Id = @@Id
@@ -19,9 +20,16 @@
         &lt;get-delete>
             select * from Company where [Delete] = @@Del
         &lt;/get-delete>
+        &lt;get-like-name>
+            select * from Company where Name like '%'+@@Name+'%'
+        &lt;/get-like-name>
+        &lt;get-lt-date>
+            &lt;![CDATA[select * from Company where CreateTime < @@CreateTime]]>
+        &lt;/get-lt-date>
     </code>
 </pre>
 <p class="fw-light">Company.cs</p>
+<p class="fw-light">其中代码中的返回对象(Company)可以换成object</p>
 <pre data-language="C#">
 <code class="language-cs">
         public class Company: ModelBase
@@ -29,25 +37,123 @@
             ...
             public Company GetById(int id)
             {
-               //数值类型的查询
-               return base.QueryObject&lt;Company>("get-by-id", new { Id = id }, null);
+                return base.QueryObject&lt;Company>("get-by-id", new { Id = id }, null);  //数值类型的查询
             }  
             public Company GetByCode(string code)
             {
-               //字符串类型的查询
-               return base.QueryObject&lt;Company>("get-by-code", new { Code = code }, null);
+                return base.QueryObject&lt;Company>("get-by-code", new { Code = code }, null);   //字符串类型的查询
             }  
             public IEnumerable&lt;Company> GetDelete(bool del)
             {
-                //bool类型的查询
-                return base.QueryList&lt;Company>("get-delete", new { Del = del }, null);
+                return base.QueryList&lt;Company>("get-delete", new { Del = del }, null);   //bool类型的查询
+            }
+            public IEnumerable&lt;Company> GetLikeName(string name)
+            {
+                return base.QueryList&lt;Company>("get-like-name", new { Name = name }, null);  //like查询
+            }
+            public IEnumerable&lt;Company> GetLtDate(DateTime createTime)
+            {
+                return base.QueryList&lt;Company>("get-lt-date", new { CreateTime = createTime }, null);   //大于,小于查询
             }
         }
     </code>
  </pre>
 
 <p class="fw-bold">2) 动态查询:</p>
-
-<p class="fw-bold">3) 分页和替换:</p>
-
-
+<p class="fw-normal">isNotEmpty 节点表示Code !="" 并且 Code != null 时生成语句块 where Code = @@Code</p>
+<p class="fw-normal">更多节点请参考 动态sql 部分</p>
+<p class="fw-light">company.xml</p>
+<pre data-language="xml">
+<code class="language-markdown">
+        ...
+        &lt;company-count>
+            select count(*) from company
+            &lt;isNotEmpty property="Code" prepend="where">Code = @@Code &lt;/isNotEmpty>
+        &lt;/company-count>
+    </code>
+</pre>
+<p class="fw-light">Company.cs</p>
+<pre data-language="C#">
+<code class="language-cs">
+    public class Company: ModelBase
+    {
+        ...
+        public int CompanyCount(string code="")
+        {
+            return base.QueryScalar&lt;int>("company-count", new { Code = code });   //code可以为""后者null
+        }
+     }
+    </code>
+</pre>
+<p class="fw-bold">3) 分页查询:</p>
+<p class="fw-normal">以下案例包含: 分页功能 查询分页功能 返回总数(count)功能,这样count就不需要二次查询了,count返回到前端也方便分页</p>
+<p class="fw-normal">默认是按照Id的倒序来分页的</p>
+<p class="fw-light">company.xml</p>
+<pre data-language="xml">
+<code class="language-markdown">
+     ...
+&lt;get-page-list>
+	select * from(
+	select *,row_number() over(order by Id desc) uid, (select count(1) from [Company]
+	&lt;isNotEmpty property="name" prepend="where">
+		Name like '%'+@@name+'%'
+	&lt;/isNotEmpty>
+	) <mark>count</mark> from [Company]
+	&lt;isNotEmpty property="name" prepend="where">
+		Name like '%'+@@name+'%'
+	&lt;/isNotEmpty>
+	) as tbl
+	where uid between (@@pageIndex-1)*@@pageSize+1 and @@pageIndex*@@pageSize
+&lt;/get-page-list>
+    </code>
+</pre>
+<p class="fw-light">Company.cs</p>
+<pre data-language="C#">
+<code class="language-cs">
+    public class Company: ModelBase
+    {
+        ...
+        <mark>public int Count { get; set; }</mark>
+        public IEnumerable&lt;Company> GetPageList(string name="", int pageIndex = 1, int pageSize = 10)
+        {
+            return base.QueryList&lt;Company>("get-page-list", new { name, pageIndex, pageSize });  //分页查询
+        }
+     }
+    </code>
+</pre>
+<p class="fw-bold">4) replacement替换:</p>
+<p class="fw-normal">案例3的分页是按照Id倒序排序的,如果需要自定义排序规则,就需要使用replacement替换功能</p>
+<p class="fw-normal">replacement替换有一定的注入风险,尽量不要让用户输入</p>
+<p class="fw-light">company.xml</p>
+<pre data-language="xml">
+<code class="language-markdown">
+     ...
+&lt;get-page-list>
+	select * from(
+	select *,row_number() over(order by <mark>#orderField# #orderType#</mark>) uid, (select count(1) from [Company]
+	&lt;isNotEmpty property="name" prepend="where">
+		Name like '%'+@@name+'%'
+	&lt;/isNotEmpty>
+	)count from [Company]
+	&lt;isNotEmpty property="name" prepend="where">
+		Name like '%'+@@name+'%'
+	&lt;/isNotEmpty>
+	) as tbl
+	where uid between (@@pageIndex-1)*@@pageSize+1 and @@pageIndex*@@pageSize
+&lt;/get-page-list>
+    </code>
+</pre>
+<p class="fw-light">Company.cs</p>
+<pre data-language="C#">
+<code class="language-cs">
+    public class Company: ModelBase
+    {
+        ...
+        public int Count { get; set; }
+        public IEnumerable&lt;Company> GetPageList(string name = "", string orderField = "Id", string orderType = "desc", int pageIndex = 1, int pageSize = 10)
+        {
+            return base.QueryList&lt;Company>("get-page-list", new { name, pageIndex, pageSize },<mark>new { orderField, orderType }</mark>);
+        }
+     }
+    </code>
+</pre>
