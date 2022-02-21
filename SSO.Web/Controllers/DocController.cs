@@ -102,5 +102,17 @@ namespace SSO.Web.Controllers
         {
             return View();
         }
+        public ActionResult OrmUpdate()
+        {
+            return View();
+        }
+        public ActionResult OrmDel()
+        {
+            return View();
+        }
+        public ActionResult OrmTrans()
+        {
+            return View();
+        }
     }
 }

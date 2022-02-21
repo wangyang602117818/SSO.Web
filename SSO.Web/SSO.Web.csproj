@@ -405,6 +405,9 @@
     <Content Include="Views\Doc\OrmConfig.cshtml" />
     <Content Include="Views\Doc\OrmQuery.cshtml" />
     <Content Include="Views\Doc\OrmInsert.cshtml" />
+    <Content Include="Views\Doc\OrmUpdate.cshtml" />
+    <Content Include="Views\Doc\OrmDel.cshtml" />
+    <Content Include="Views\Doc\OrmTrans.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">

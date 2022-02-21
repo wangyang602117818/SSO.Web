@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "数据删除";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">数据删除</h4>
+<p class="fw-bold">1. 基本删除</p>
+<p class="fw-light">company.xml</p>
+<pre data-language="xml">
+<code class="language-xml">
+        ...
+        &lt;delete>
+           delete from company where Id=@@Id
+        &lt;/delete>
+    </code>
+</pre>
+<p class="fw-light">Company.cs -- 默认Company继承了父类 EntityBase 的 Delete 方法</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public class Company: ModelBase
+        {
+            ...
+            //Company默认已经具备了Delete方法
+        }
+    </code>
+ </pre>
+<p class="fw-light">删除数据</p>
+<pre data-language="C#">
+<code class="language-cs">
+        var count = company.Delete(new { Id = 14 });  //受影响的行数
+    </code>
+ </pre>
+<p class="fw-bold">2. 批量删除</p>
+<p class="fw-normal">iterate 节点表示迭代节点,prepend 表示整个语句的前置 in ,property 表示要迭代的属性,open 和 close表示每次迭代的开始和结束要追加的内容, conjunction 表示迭代之间的连接内容</p>
+<p class="fw-normal">更多节点请参考 动态sql 部分</p>
+<p class="fw-light">company.xml</p>
+<pre data-language="xml">
+<code class="language-xml">
+        ...
+&lt;delete-many>
+	delete from company where Id
+	&lt;iterate prepend ="in" property="Ids" conjunction="," open="(" close=")"  >
+		@@Ids[index]
+	&lt;/iterate>
+&lt;/delete-many>
+    </code>
+</pre>
+<p class="fw-light">Company.cs</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public class Company: ModelBase
+        {
+            ...
+            public int DeleteMany(List&lt;int> ids)
+            {
+                return base.ExecuteNonQuery("delete-many", new { Ids = ids });
+            }
+        }
+    </code>
+ </pre>
+<p class="fw-light">删除数据</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var count = company.DeleteMany(new List&lt;int>() { 12, 13 });  //受影响的行数
+    </code>
+ </pre>
