@@ -25,16 +25,18 @@ namespace SSO.Web.Controllers
         {
             return Content(jwtManager.GenerateTicket("CN445379"));
         }
+        [AllowAnonymous]
         public ActionResult Decode(string ticket)
         {
             return Content(jwtManager.DecodeTicket(ticket));
         }
+        [AllowAnonymous]
         public ActionResult DecodeToken(string token)
         {
             var result = JwtManager.ParseAuthorization(token, ssoSecretKey);
             return Content(result.Identity.Name);
         }
-      
+        [AllowAnonymous]
         public string SecretKey()
         {
             return SymmetricEncryptHelper.GenerateAESKey;
