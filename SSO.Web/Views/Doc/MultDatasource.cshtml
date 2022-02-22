@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "多种数据源";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">多种数据源</h4>
+<p class="fw-normal">在之前的案例中 ModelBase 类中的静态构造函数,默认加载了 sbl.config 的数据源</p>
+<p class="fw-normal">要想配置另外的数据源,需要增加额外的 sbl.config 文件和 ModelBase 类</p>
+<p class="fw-bold">1: sblfile.config</p>
+<p class="fw-normal">Build Action : None</p>
+<p class="fw-normal">Copy To Output Directory : Copy always 或者 Copy if newer</p>
+<pre data-language="xml">
+<code class="language-markdown">
+        &lt;?xml version="1.0" encoding="utf-8" ?>
+        &lt;configuration>
+            &lt;connectionstring>
+                server=.\MSSQLSERVER1;database=Test;integrated security=true
+            &lt;/connectionstring>
+            &lt;!--创建table,可以省略-->
+            &lt;create-tables resource="create.xml" assembly="App.Data" namespace="CreateFile" />
+            &lt;mappings assembly="App.Data" namespace="FileMappings" />
+        &lt;/configuration>
+    </code>
+</pre>
+<p class="fw-bold">2. ModelBaseFile.cs</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        public abstract class ModelBaseFile: EntityBase
+        {
+            static SessionFactory sessionFactory;
+            /// &lt;summary>
+            /// 默认读取 sbl.config 文件实例化sessionFactory,如果有不同的数据库,指定配置文件即可
+            &lt;/summary>
+            static ModelBaseFile()
+            {
+                sessionFactory = new Configuration().Configure(<mark>"sblfile.config"</mark>);
+                //读取create.xml中的sql语句,并且在数据库中执行
+                sessionFactory.CreateTables();
+            }
+            public ModelBaseFile() : base(sessionFactory) { }
+        }
+    </code>
+</pre>
+<p class="fw-normal">数据访问类继承自 ModelBaseFile 类,其他操作方法一致</p>

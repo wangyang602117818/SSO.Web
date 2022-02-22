@@ -388,7 +388,7 @@
     <Content Include="Views\Doc\NetCore.cshtml" />
     <Content Include="Views\Doc\Vue.cshtml" />
     <Content Include="Views\Doc\React.cshtml" />
-    <Content Include="Views\Doc\UserInfo.cshtml" />
+    <Content Include="Views\Doc\OtherInfo.cshtml" />
     <Content Include="Views\Doc\FileIndex.cshtml" />
     <Content Include="Views\Doc\FileUpload.cshtml" />
     <Content Include="Views\Doc\FileDownload.cshtml" />
@@ -408,6 +408,9 @@
     <Content Include="Views\Doc\OrmUpdate.cshtml" />
     <Content Include="Views\Doc\OrmDel.cshtml" />
     <Content Include="Views\Doc\OrmTrans.cshtml" />
+    <Content Include="Views\Doc\OrmDynamic.cshtml" />
+    <Content Include="Views\Doc\MultDatasource.cshtml" />
+    <Content Include="Views\Doc\OrmOther.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">

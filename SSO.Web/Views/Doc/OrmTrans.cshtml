@@ -4,8 +4,8 @@
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
 }
 <h4 class="bd-title mb-3" id="content">事务处理</h4>
-<p class="fw-bold">1. 无数据关联的事务处理</p>
-<p class="fw-normal">无数据关联是指多条语句之间没有相互使用彼此的结果数据,这种事务相对简单</p>
+<p class="fw-bold">1. 简单事务处理</p>
+<p class="fw-normal">以下案例先删除指定Code的记录,在重新添加记录,2条语句之间没有数据交互</p>
 <p class="fw-light">company.xml</p>
 <pre data-language="xml">
 <code class="language-xml">
@@ -54,7 +54,7 @@
  </pre>
 <p class="fw-light">事务操作</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         var para = new List&lt;object>()
         {
             new {Code="com05"},  //第一个语句的参数
@@ -63,5 +63,8 @@
         var count = company.DeleteAndInsert(para);  //返回最后一个语句受影响的行数
     </code>
  </pre>
-<p class="fw-bold">2. 有数据关联的事务处理</p>
-<p class="fw-normal">有数据关联是指第一个语句的结果作为第二个语句的输入</p>
+<p class="fw-bold">2. 在sql语句中的事务</p>
+<p class="fw-normal">待定...</p>
+
+<p class="fw-bold">3. 代码中的事务</p>
+<p class="fw-normal">待定...</p>

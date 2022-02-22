@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "动态sql";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">动态sql</h4>
+<p class="fw-normal">本节点列出所有默认的动态sql的配置节点</p>
+<p class="fw-normal">1. isNotEmpty - 属性不为null并且不为""</p>
+<p class="fw-normal">2. IsEmpty - 属性为null或者为""</p>
+<p class="fw-normal">3. isNotNull - 属性不为null</p>
+<p class="fw-normal">4. IsNull - 属性为null</p>
+<p class="fw-light ms-3">property - 要对比的属性</p>
+<p class="fw-light ms-3">prepend - 前置语句</p>
+<p class="fw-normal">当 status==null 或者 status=="" 时追加该节点</p>
+<pre data-language="xml">
+<code class="language-xml">
+        ...
+    &lt;get-task>
+        select * from [dbo].[Task] where Enable=1
+        &lt;isNotEmpty property="status" prepend="and">
+            [status] = @@status
+        &lt;/isNotEmpty>
+    &lt;/get-task>
+    </code>
+</pre>
+
+<p class="fw-normal">5. isEquals - 属性值等于</p>
+<p class="fw-normal">6. isNotEquals - 属性值不等于</p>
+<p class="fw-light ms-3">property - 要对比的属性</p>
+<p class="fw-light ms-3">prepend - 前置语句</p>
+<p class="fw-light ms-3">value - 要对比的值</p>
+<p class="fw-normal">当 enable==false 时追加该节点</p>
+<pre data-language="xml">
+<code class="language-xml">
+        ...
+    &lt;enable-task>
+        update [Task] set [UpdateTime] = GETDATE()
+        &lt;isEquals property="enable" value="false" prepend=",">
+            [Status]=-1
+        &lt;/isEquals>
+        where Id = @@id
+    &lt;/enable-task>
+    </code>
+</pre>
+
+<p class="fw-normal">7. IsGreaterThan - 属性值大于</p>
+<p class="fw-normal">8. IsGreaterEqual - 属性值大于等于</p>
+<p class="fw-normal">9. IsLessThan - 属性值小于</p>
+<p class="fw-normal">10. IsLessEqual - 属性值小于等于</p>
+<p class="fw-light ms-3">property - 要对比的属性</p>
+<p class="fw-light ms-3">prepend - 前置语句</p>
+<p class="fw-light ms-3">value - 要对比的值(需要是数值类型)</p>
+<p class="fw-normal">更新Company,当对象的 Order>9 时额外更新 UpdateTime=null</p>
+<pre data-language="xml">
+<code class="language-xml">
+        ...
+    &lt;update-company>
+        update [Company] set [Delete]=1
+        &lt;IsGreaterThan property="Order" value="9" prepend=",">
+            [UpdateTime]=null
+        &lt;/IsGreaterThan>
+        where Id = @@id
+    &lt;/update-company>
+    </code>
+</pre>
+<p class="fw-normal">11. iterate - 迭代</p>
+<p class="fw-normal">待定...</p>
+<p class="fw-normal">12. include - 包含</p>
+<p class="fw-normal">待定...</p>

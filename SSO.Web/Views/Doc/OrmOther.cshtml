@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "其他";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">其他</h4>
+<p class="fw-bold">1: 获取sql语句</p>
+<p class="fw-normal">使用GetSql方法从配置节点获取sql语句,一般用于调试作用</p>
+<pre data-language="C#">
+<code class="language-cs">
+    public class Company : ModelBase
+    {
+        ...
+        public int UpdateCompany(Company company)
+        {
+            //从获取到的sql查看节点配置是否正确
+            <mark>var sql = GetSql("update", company);</mark>
+            return base.Update(company);
+        }
+    }
+    </code>
+</pre>
+<p class="fw-bold">2: 执行sql语句</p>
+<p class="fw-normal">使用 ExecuteSql 执行从配置节点中获取到的sql</p>
+<pre data-language="C#">
+<code class="language-cs">
+    public class Company : ModelBase
+    {
+        ...
+        public int UpdateCompany(Company company)
+        {
+            var sql = GetSql("update", company);
+            <mark>return ExecuteSql(sql, company);</mark>
+        }
+    }
+    </code>
+</pre>
+<p class="fw-bold">3: 执行存储过程</p>
+<p class="fw-normal">待定</p>
