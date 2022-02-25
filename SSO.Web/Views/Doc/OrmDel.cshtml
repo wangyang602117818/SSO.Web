@@ -31,18 +31,21 @@
     </code>
  </pre>
 <p class="fw-bold">2. 批量删除</p>
-<p class="fw-normal">iterate 节点表示迭代节点,prepend 表示整个语句的前置 in ,property 表示要迭代的属性,open 和 close表示每次迭代的开始和结束要追加的内容, conjunction 表示迭代之间的连接内容</p>
+<p class="fw-normal">使用 iterate 节点批量删除, iterate节点中不能嵌套其他节点</p>
+<p class="fw-normal">property - 要迭代的属性, </p>
+<p class="fw-normal">conjunction - 迭代之间的连接符</p>
 <p class="fw-normal">更多节点请参考 动态sql 部分</p>
 <p class="fw-light">company.xml</p>
 <pre data-language="xml">
 <code class="language-xml">
         ...
-&lt;delete-many>
-	delete from company where Id
-	&lt;iterate prepend ="in" property="Ids" conjunction="," open="(" close=")"  >
-		@@Ids[index]
-	&lt;/iterate>
-&lt;/delete-many>
+    &lt;delete-many>
+        delete from company where Id in(
+        &lt;iterate property="Ids" conjunction=",">
+            #[]#
+        &lt;/iterate>
+        )
+    &lt;/delete-many>
     </code>
 </pre>
 <p class="fw-light">Company.cs</p>
@@ -60,7 +63,7 @@
  </pre>
 <p class="fw-light">删除数据</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         var count = company.DeleteMany(new List&lt;int>() { 12, 13 });  //受影响的行数
     </code>
  </pre>

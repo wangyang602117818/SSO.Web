@@ -11,6 +11,9 @@
 <pre data-language="xml">
 <code class="language-xml">
         ...
+        &lt;company-count>
+           select count(*) from company
+        &lt;/company-count>
         &lt;get-by-id>
            select * from Company where Id = @@Id
         &lt;/get-by-id>
@@ -35,6 +38,10 @@
         public class Company: ModelBase
         {
             ...
+            public int CompanyCount()
+            {
+                return base.QueryScalar&lt;int>("company-count", null);   //返回总数
+            }
             public Company GetById(int id)
             {
                 return base.QueryObject&lt;Company>("get-by-id", new { Id = id }, null);  //数值类型的查询

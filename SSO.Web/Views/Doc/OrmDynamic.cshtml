@@ -63,7 +63,69 @@
     &lt;/update-company>
     </code>
 </pre>
-<p class="fw-normal">11. iterate - 迭代</p>
-<p class="fw-normal">待定...</p>
+<p class="fw-normal">11. iterate - 迭代,批量操作添加或者删除</p>
+<p class="fw-light ms-3">property - 要迭代的属性</p>
+<p class="fw-light ms-3">prepend - 前置语句</p>
+<p class="fw-light ms-3">conjunction - 迭代之间的连接符</p>
+<p class="fw-light ms-3">open - 迭代的前置符</p>
+<p class="fw-light ms-3">close - 迭代的后置符</p>
+<p class="fw-normal">- 提供了property属性的批量插入和删除</p>
+<pre data-language="xml">
+    <code class="language-xml">
+        ...
+        &lt;insert-many>
+            INSERT INTO Company (
+            Code,
+            Name,
+            CreateTime,
+            [Order],
+            Description
+            )VALUES
+            &lt;iterate property="Companys" conjunction="," open="(" close=")">
+                #[].Code#,
+                #[].Name#,
+                #[].CreateTime#,
+                #[].Order#,
+                #[].Description#
+            &lt;/iterate>
+        &lt;/insert-many>
+        &lt;delete-many>
+            delete from company where Id in(
+            &lt;iterate property="Ids" conjunction=",">
+                #[]#
+            &lt;/iterate>
+            )
+        &lt;/delete-many>
+    </code>
+</pre>
+<p class="fw-normal">- 未提供property属性的批量插入和删除</p>
+<pre data-language="xml">
+<code class="language-xml">
+        ...
+        &lt;insert-many>
+            INSERT INTO Company (
+            Code,
+            Name,
+            CreateTime,
+            [Order],
+            Description
+            )VALUES
+            &lt;iterate conjunction="," open="(" close=")">
+                #Companys[].Code#,
+                #Companys[].Name#,
+                #Companys[].CreateTime#,
+                #Companys[].Order#,
+                #Companys[].Description#
+            &lt;/iterate>
+        &lt;/insert-many>
+        &lt;delete-many>
+            delete from company where Id in(
+            &lt;iterate conjunction=",">
+                #Ids[]#
+            &lt;/iterate>
+            )
+        &lt;/delete-many>
+    </code>
+</pre>
 <p class="fw-normal">12. include - 包含</p>
 <p class="fw-normal">待定...</p>
