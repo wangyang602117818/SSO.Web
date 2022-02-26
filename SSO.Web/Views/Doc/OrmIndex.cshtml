@@ -7,14 +7,15 @@
 <p class="fw-normal">在sql语句配置中所有带有 @@ 符号的参数都具备防注入功能</p>
 <p class="fw-normal">在iterate节点中类似 #[]# 的参数具备防注入功能</p>
 <p class="fw-normal">在其他语句配置中带有 #参数# 的参数不具备防注入功能</p>
-<p class="fw-normal">本节点介绍的是: 通过ORM快捷操作SQLServer数据库,可以实现sql语句和代码分离,返回对象自动映射,提高了sqlserver的读写效率</p>
+<p class="fw-normal">本节点介绍的是: 通过ORM快捷操作SQLServer数据库,可以实现sql语句和代码分离,提高了sqlserver的读写效率</p>
+<p class="fw-normal">该ORM工具是以ADO.Net为基础来封装的,没有额外生成sql语句的性能消耗</p>
 <p class="fw-normal">本节点以一个公司表的创建,外加数据的 增删改查 为例,来介绍ORM的使用步骤</p>
 <p class="fw-bold">步骤一: 初始化项目</p>
 <div class="row">
     <div class="col-4 d-flex flex-column p-2" style="background-color: #f5f5f5;">
         <div class="lead fs-6">
-            <p class="fw-normal">1) 使用VisualStudio创建Console App应用程序(Asp.Net Core) - ConsoleApp1</p>
-            <p class="fw-normal">2) 创建数据访问 Class Library类库项目(Asp.Net Core) - App.Data</p>
+            <p class="fw-normal">1) 使用VisualStudio创建控制台应用程序 ConsoleApp1 - (Asp.Net Core)</p>
+            <p class="fw-normal">2) 创建类库项目 App.Data - (Asp.Net Core)</p>
             <p class="fw-normal">3) 添加Nuget包引用(SSO.Util.Client)</p>
             <p class="fw-normal">4) 添加 ConsoleApp1 对 App.Data 项目的引用</p>
         </div>
