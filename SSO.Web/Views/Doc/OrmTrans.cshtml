@@ -5,7 +5,7 @@
 }
 <h4 class="bd-title mb-3" id="content">事务处理</h4>
 <p class="fw-bold">1. 简单事务处理</p>
-<p class="fw-normal">以下案例先删除指定Code的记录,在重新添加记录,2条语句之间没有数据交互</p>
+<p class="fw-normal">以下案例先删除指定的记录,在重新添加记录,2条语句之间没有数据交互</p>
 <p class="fw-light">company.xml</p>
 <pre data-language="xml">
 <code class="language-xml">
@@ -52,7 +52,7 @@
         }
     </code>
  </pre>
-<p class="fw-light">事务操作</p>
+<p class="fw-light">2. 操作</p>
 <pre data-language="C#">
 <code class="language-cs">
         var para = new List&lt;object>()
@@ -63,8 +63,70 @@
         var count = company.DeleteAndInsert(para);  //返回最后一个语句受影响的行数
     </code>
  </pre>
-<p class="fw-bold">2. 在sql语句中的事务</p>
-<p class="fw-normal">待定...</p>
-
+<p class="fw-bold">2. 复杂事务处理</p>
+<p class="fw-normal">以下案例先插入一条记录,拿到返回值后作为第二条插入语句的输入,2条语句之间进行了数据交互</p>
+<p class="fw-light">company.xml</p>
+<pre data-language="xml">
+<code class="language-xml">
+        ...
+&lt;insert>
+    INSERT INTO Company (
+    Code,
+    Name,
+    CreateTime
+    &lt;isNotNull property="Order" prepend=",">
+        [Order]
+    &lt;/isNotNull>
+    &lt;isNotEmpty property="Description" prepend=",">
+        Description
+    &lt;/isNotEmpty>
+    ) VALUES (
+    @@Code,
+    @@Name,
+    @@CreateTime
+    &lt;isNotNull property="Order" prepend=",">
+        @@Order
+    &lt;/isNotNull>
+    &lt;isNotEmpty property="Description" prepend=",">
+        @@Description
+    &lt;/isNotEmpty>
+    )
+&lt;/insert>
+&lt;delete>
+    delete from company where Code=@@Code
+&lt;/delete>
+    </code>
+</pre>
+<p class="fw-light">Company.cs</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public class Company: ModelBase
+        {
+            ...
+            public bool InsertRelation(Company com1, Company com2)
+            {
+                try
+                {
+                    //开启事务
+                    session.BeginTransaction();
+                    //插入记录,返回主键id
+                    var id = InsertIdentity(com1);
+                    //主键id作为第二条语句的输入
+                    com2.Order = id;
+                    var result = Insert(com2);
+                    //提交事务
+                    session.CommitTransaction();
+                    return true;
+                }
+                catch
+                {
+                    //回滚事务
+                    session.RollBackTransaction();
+                    return false;
+                }
+            }
+        }
+    </code>
+ </pre>
 <p class="fw-bold">3. 代码中的事务</p>
 <p class="fw-normal">待定...</p>
