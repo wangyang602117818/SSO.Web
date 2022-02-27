@@ -92,9 +92,6 @@
     &lt;/isNotEmpty>
     )
 &lt;/insert>
-&lt;delete>
-    delete from company where Code=@@Code
-&lt;/delete>
     </code>
 </pre>
 <p class="fw-light">Company.cs</p>
@@ -128,5 +125,64 @@
         }
     </code>
  </pre>
-<p class="fw-bold">3. 代码中的事务</p>
-<p class="fw-normal">待定...</p>
+<p class="fw-bold">3. sql代码中的事务</p>
+<p class="fw-normal">以下案例与案例2的逻辑一致,是在sql语句中实现的</p>
+<p class="fw-light">company.xml</p>
+<pre data-language="xml">
+<code class="language-xml">
+...
+&lt;insert-relation>
+    declare @@id int  --主键id
+    declare @@errorMsg NVARCHAR(MAX);  --错误消息
+    begin tran
+    begin try
+        insert into company(Code,Name,[Order],CreateTime
+            &lt;isNotEmpty property="com1.Description" prepend=",">
+                Description
+            &lt;/isNotEmpty>
+            )values(
+            @@com1.Code,
+            @@com1.Name,
+            @@com1.Order,
+            @@com1.CreateTime
+            &lt;isNotEmpty property="com1.Description" prepend=",">
+                @@com1.Description
+            &lt;/isNotEmpty>
+        )
+        select @@id= SCOPE_IDENTITY()
+        insert into company(Code,Name,[Order],CreateTime
+            &lt;isNotEmpty property="com2.Description" prepend=",">
+                Description
+            &lt;/isNotEmpty>
+            )values(
+            @@com2.Code,
+            @@com2.Name,
+            @@id,
+            @@com2.CreateTime
+            &lt;isNotEmpty property="com2.Description" prepend=",">
+                @@com2.Description
+            &lt;/isNotEmpty>
+        )
+        commit
+    end try
+    begin catch
+        rollback
+        SELECT  @@errorMsg = ERROR_MESSAGE();
+        RAISERROR(@@errorMsg,16,1);   --抛出异常
+    end catch
+&lt;/insert-relation>
+    </code>
+</pre>
+<p class="fw-light">Company.cs</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public class Company: ModelBase
+        {
+            ...
+            public int InsertRelation(Company com1, Company com2)
+            {
+                return base.ExecuteNonQuery("insert-relation", new { com1, com2 });
+            }
+        }
+    </code>
+ </pre>
