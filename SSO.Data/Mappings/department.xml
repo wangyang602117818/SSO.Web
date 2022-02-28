@@ -57,10 +57,11 @@
     update Department set ParentCode=@NewParentCode where ParentCode=@OldParentCode
   </update-department-parent-code>
   <delete>
-    delete from Department where Id in
-    <iterate property="Ids" conjunction="," open="(" close=")">
-      @Ids[index]
-    </iterate>
+    delete from Department where Id in(
+    <iterate property="Ids" conjunction=",">
+		#[]#
+	</iterate>
+	)
   </delete>
   <count>
     select count(*) from Department

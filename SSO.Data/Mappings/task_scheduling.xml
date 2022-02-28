@@ -62,14 +62,15 @@
     where Id=@Id
   </update>
   <delete-mapping>
-    delete from [TaskSchedulingTriggerMapping] where SchedulingId in
-    <iterate property="SchedulingIds" conjunction="," open="(" close=")">
-      @SchedulingIds[index]
-    </iterate>
+    delete from [TaskSchedulingTriggerMapping] where SchedulingId in(
+    <iterate property="SchedulingIds" conjunction=",">
+		#[]#
+	</iterate>
+	)
   </delete-mapping>
   <insert-mapping>
     insert into [TaskSchedulingTriggerMapping]([SchedulingId],[TriggerId])values
-    <iterate conjunction="," property="triggerIds">(@schedulingId,@triggerIds[index])</iterate>
+    <iterate conjunction="," property="triggerIds">(@schedulingId,#[]#)</iterate>
   </insert-mapping>
   <get-task-scheduling-trigger>
     select * from [dbo].[TaskScheduling] where Enable=1
@@ -100,10 +101,11 @@
     select * from TaskScheduling where Name = @Name
   </get-by-name>
   <delete>
-    delete from [TaskScheduling] where Id in
-    <iterate property="Ids" conjunction="," open="(" close=")">
-      @Ids[index]
-    </iterate>
+    delete from [TaskScheduling] where Id in(
+    <iterate property="Ids" conjunction=",">
+		#[]#
+	</iterate>
+	 )
   </delete>
   <get-by-id>
     select *,TriggerId=(select TriggerId from [dbo].[TaskSchedulingTriggerMapping] where SchedulingId=tsd.Id) from  [dbo].[TaskScheduling] tsd where tsd.Id = @id
@@ -116,10 +118,11 @@
     where Id = @id
   </enable-scheduling>
   <check-scheduling-running>
-    select count(*) from TaskScheduling where Status=0 and id in
-    <iterate property="ids" conjunction="," open="(" close=")">
-      @ids[index]
-    </iterate>
+    select count(*) from TaskScheduling where Status=0 and id in(
+    <iterate property="ids" conjunction=",">
+		#[]#
+	</iterate>
+	)
   </check-scheduling-running>
   <get-distinct-names>
     select distinct Id,[Name] from [dbo].[TaskScheduling]

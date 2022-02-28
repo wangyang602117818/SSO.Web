@@ -10,10 +10,11 @@
     )
   </insert>
   <check-trigger-exists>
-    select count(*) from TaskSchedulingTriggerMapping where TriggerId in
-    <iterate property="TriggerIds" conjunction="," open="(" close=")">
-      @TriggerIds[index]
-    </iterate>
+    select count(*) from TaskSchedulingTriggerMapping where TriggerId in(
+    <iterate property="TriggerIds" conjunction=",">
+		#[]#
+	</iterate>
+	 )
   </check-trigger-exists>
   <get-by-triggerid>
     select * from TaskSchedulingTriggerMapping where TriggerId=@triggerId

@@ -17,10 +17,6 @@ namespace SSO.Business
         {
             return instance.GetByName(name);
         }
-        public int InsertScheduling(IEnumerable<object> objs)
-        {
-            return instance.InsertScheduling(objs);
-        }
         public int UpdateScheduling(object obj, int schedulingId, IEnumerable<int> triggerIds)
         {
             return instance.UpdateScheduling(obj, schedulingId, triggerIds);

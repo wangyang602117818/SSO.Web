@@ -64,14 +64,16 @@ var count = new Company().Insert(company);  //受影响的行数
  </pre>
 <p class="fw-bold">2. 批量数据新增</p>
 <p class="fw-normal">使用 iterate 节点批量新增, iterate节点中不能嵌套其他节点</p>
+<p class="fw-normal">iterate 节点中类似 ## 的节点将会被替换,其他内容保留</p>
 <p class="fw-normal">property - 要迭代的属性</p>
 <p class="fw-normal">conjunction - 迭代之间的连接符</p>
 <p class="fw-normal">open - 迭代的前置符</p>
 <p class="fw-normal">close - 迭代的后置符</p>
 <p class="fw-normal">更多节点请参考 动态sql 部分</p>
+<p class="fw-bold">2.1 案例一: 传入集合类型</p>
 <p class="fw-light">company.xml</p>
 <pre data-language="xml">
-    <code class="language-xml">
+<code class="language-xml">
         &lt;insert-many>
             INSERT INTO Company (
             Code,
@@ -105,7 +107,7 @@ var count = new Company().Insert(company);  //受影响的行数
  </pre>
 <p class="fw-light">新增数据</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         var com1 = new Company()
         {
             Code = "com15",
@@ -123,5 +125,54 @@ var count = new Company().Insert(company);  //受影响的行数
             Order = 1
         };
         var count = com1.InsertMany(new List&lt;Company>() { com1, com2 }); //受影响的行数
+    </code>
+ </pre>
+<p class="fw-bold">2.2 案例二: 传入对象类型,对象的属性为集合类型</p>
+<p class="fw-light">company.xml</p>
+<pre data-language="xml">
+<code class="language-xml">
+    &lt;insert-many>
+        INSERT INTO Company (
+        Code,
+        Name,
+        CreateTime,
+        [Order],
+        Description
+        )VALUES
+        &lt;iterate property="Company.Codes" conjunction="," open="(" close=")">
+            #[]#,
+            @@Company.Name,
+            @@Company.CreateTime,
+            @@Company.Order,
+            @@Company.Description
+        &lt;/iterate>
+    &lt;/insert-many>
+    </code>
+</pre>
+<p class="fw-light">Company.cs</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public class Company: ModelBase
+        {
+            ...
+            public int InsertMany(object company)
+            {
+                return base.ExecuteNonQuery("insert-many", new { Company = company });
+            }
+        }
+    </code>
+ </pre>
+<p class="fw-light">新增数据</p>
+<pre data-language="C#">
+<code class="language-cs">
+    var coms = new
+        {
+            <mark>Codes = new List&lt;string>() { "coms01", "coms02" },</mark>
+            Name = "comName06",
+            Description = "Description0006",
+            CreateTime = DateTime.Now,
+            Order = 1
+        };
+    var count = company.InsertMany(coms);; //受影响的行数
     </code>
  </pre>

@@ -27,10 +27,11 @@
     WHERE Id = @Id
   </update>
   <delete>
-    delete from Role where Id in
-    <iterate property="Ids" conjunction="," open="(" close=")">
-      @Ids[index]
-    </iterate>
+    delete from Role where Id in(
+    <iterate property="Ids" conjunction=",">
+		#[]#
+	</iterate>
+	)
   </delete>
   <count>
     select count(*) from Role

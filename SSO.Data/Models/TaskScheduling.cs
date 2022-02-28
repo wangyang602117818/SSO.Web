@@ -26,53 +26,6 @@ namespace SSO.Data.Models
         {
             return base.QueryObject<TaskScheduling>("get-by-name", new { Name = name }, null);
         }
-        public int InsertScheduling(IEnumerable<object> objs)
-        {
-            List<string> sqls = new List<string>();
-            List<SqlParameter[]> parameters = new List<SqlParameter[]>();
-            List<string> eles = new List<string>() { "insert", "insert-mapping" };
-            for (var i = 0; i < eles.Count(); i++)
-            {
-                sqls.Add(GetSql(eles.ElementAt(i), objs.ElementAt(i)));
-                parameters.Add(GetParameters(objs.ElementAt(i)));
-            }
-            using (SqlConnection conn = new SqlConnection(session.connstring))
-            {
-                conn.Open();
-                using (SqlTransaction transaction = conn.BeginTransaction())
-                {
-                    using (SqlCommand command = conn.CreateCommand())
-                    {
-                        command.Transaction = transaction;
-                        int count = 0;
-                        try
-                        {
-                            //第一条插入语句
-                            command.CommandText = sqls.ElementAt(0) + " select SCOPE_IDENTITY()";
-                            if (parameters.ElementAt(0).Length > 0)
-                                command.Parameters.AddRange(parameters.ElementAt(0));
-                            var id = Convert.ToInt32(command.ExecuteScalar());
-                            command.Parameters.Clear();
-                            //第二条
-                            command.CommandText = sqls.ElementAt(1);
-                            if (parameters.ElementAt(1).Length > 0)
-                            {
-                                command.Parameters.AddRange(parameters.ElementAt(1));
-                                command.Parameters.Add(new SqlParameter("@schedulingId", id));
-                            }
-                            count = command.ExecuteNonQuery();
-                            transaction.Commit();
-                        }
-                        catch (Exception ex)
-                        {
-                            transaction.Rollback();
-                            throw ex;
-                        }
-                        return count;
-                    }
-                }
-            }
-        }
         public int UpdateScheduling(object obj, int schedulingId, IEnumerable<int> triggerIds)
         {
             var nodes = new List<string>() { "delete-mapping", "insert-mapping", "update" };

@@ -52,7 +52,7 @@
         }
     </code>
  </pre>
-<p class="fw-light">2. 操作</p>
+<p class="fw-light">调用示例</p>
 <pre data-language="C#">
 <code class="language-cs">
         var para = new List&lt;object>()
@@ -60,7 +60,7 @@
             new {Code="com05"},  //第一个语句的参数
             new {Code="com05",Name="name05",Description="desc05",CreateTime=DateTime.Now,Order=1}  //第二个语句的参数
         };
-        var count = company.DeleteAndInsert(para);  //返回最后一个语句受影响的行数
+        var count = company.DeleteAndInsert(para);  //返回受影响的行数
     </code>
  </pre>
 <p class="fw-bold">2. 复杂事务处理</p>
@@ -125,6 +125,14 @@
         }
     </code>
  </pre>
+<p class="fw-light">调用示例</p>
+<pre data-language="C#">
+<code class="language-cs">
+        var com1 = new {Code="com05",Name="name05",Description="desc05",CreateTime=DateTime.Now,Order=1};
+        var com2 = new {Code="com06",Name="name06",Description="desc06",CreateTime=DateTime.Now,Order=1};
+        var count = company.InsertRelation(com1,com2);  //返回受影响的行数
+    </code>
+ </pre>
 <p class="fw-bold">3. sql代码中的事务</p>
 <p class="fw-normal">以下案例与案例2的逻辑一致,是在sql语句中实现的</p>
 <p class="fw-light">company.xml</p>
@@ -184,5 +192,13 @@
                 return base.ExecuteNonQuery("insert-relation", new { com1, com2 });
             }
         }
+    </code>
+ </pre>
+<p class="fw-light">调用示例</p>
+<pre data-language="C#">
+<code class="language-cs">
+        var com1 = new {Code="com05",Name="name05",Description="desc05",CreateTime=DateTime.Now,Order=1};
+        var com2 = new {Code="com06",Name="name06",Description="desc06",CreateTime=DateTime.Now,Order=1};
+        var count = company.InsertRelation(com1,com2);  //返回最后一个语句受影响的行数
     </code>
  </pre>

@@ -31,10 +31,11 @@
     WHERE Id = @Id
   </update>
   <delete>
-    delete from Company where id in
-    <iterate property="Ids" conjunction="," open="(" close=")">
-      @Ids[index]
-    </iterate>
+    delete from Company where id in(
+    <iterate property="Ids" conjunction=",">
+		#[]#
+	</iterate>
+	)
   </delete>
   <count>
     select count(*) from Company

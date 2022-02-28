@@ -5,7 +5,7 @@
   </delete-many>
   <insert-many>
     insert into PermissionUserMapping(UserId,Permission)values
-    <iterate conjunction="," property="Permissions">(@UserId,@Permissions[index])</iterate>
+    <iterate conjunction="," property="Permissions">(@UserId,#[]#)</iterate>
   </insert-many>
   <update-user-count>
     update [User] set PermissionCount=@PermissionCount where UserId=@UserId

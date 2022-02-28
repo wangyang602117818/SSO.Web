@@ -7,8 +7,8 @@
   <insert-many>
     insert into [TaskSchedulingHistory]([SchedulingId], [SchedulingName],[RunTime],[EndTime], [RunResult])values
     <iterate conjunction="," property="runResults">
-      (@schedulingId, @schedulingName, @runTime, @endTime, @runResults[index])
-    </iterate>
+		(@schedulingId, @schedulingName, @runTime, @endTime, #[]#)
+	</iterate>
   </insert-many>
   <update-scheduling>
     update TaskScheduling set [UpdateTime]=GETDATE()

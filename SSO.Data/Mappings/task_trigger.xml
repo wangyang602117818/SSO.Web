@@ -63,19 +63,21 @@
     select distinct [type] from [TaskTrigger]
   </get-types>
   <delete>
-    delete from [TaskTrigger] where Id in
-    <iterate property="Ids" conjunction="," open="(" close=")">
-      @Ids[index]
-    </iterate>
+    delete from [TaskTrigger] where Id in(
+    <iterate property="Ids" conjunction=",">
+		#[]#
+	</iterate>
+	 )
   </delete>
   <get-by-id>
     select * from TaskTrigger where Id = @Id
   </get-by-id>
   <get-by-ids>
-    select * from [TaskTrigger] where Id in 
-    <iterate property="ids" conjunction="," open="(" close=")">
-      @ids[index]
-    </iterate>
+    select * from [TaskTrigger] where Id in(
+    <iterate property="ids" conjunction=",">
+		#[]#
+	</iterate>
+	)
   </get-by-ids>
   <get-by-scheduling-id>
     select tt.* from [dbo].[TaskTrigger] tt left join [dbo].[TaskSchedulingTriggerMapping] tstm on tt.Id=tstm.TriggerId
