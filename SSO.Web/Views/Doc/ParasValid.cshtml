@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewBag.Title = "参数验证";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">参数验证</h4>
+<p class="fw-normal">请确保项目已经安装Nuget包(SSO.Util.Client)</p>
+<p class="fw-normal">案例中使用的参数类</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public class Person
+        {
+            <mark>[Required]</mark>
+            public string Name { get; set; }
+            public int Age { get; set; }
+        }
+    </code>
+</pre>
+<p class="fw-bold">1. 参数验证标准化</p>
+<p class="fw-normal">该功能避免了代码中参数验证中if else语句过多的问题</p>
+<p class="fw-normal text-decoration-underline">案例一: 在Action上添加 [ValidateModelState] 验证特性</p>
+<p class="fw-light">asp.net</p>
+<pre>
+<code class="language-cs">
+    public class HomeController : Controller
+    {
+        <mark>[ValidateModelState]</mark>
+        public ActionResult Index(Person person)
+        {
+             return Content("ok");
+        }
+        ...
+    }
+    </code>
+ </pre>
+<p class="fw-light">asp.net core</p>
+<pre data-language="C#">
+<code class="language-cs">
+    public class HomeController : Controller
+    {
+        <mark>[ValidateModelState]</mark>
+        public ActionResult Index([FromBody]Person person)
+        {
+             return Content("ok");
+        }
+        ...
+    }
+    </code>
+ </pre>
+<p class="fw-normal">如果调用接口不提供Name属性,则返回以下错误</p>
+<pre data-language="js">
+<code class="language-js">
+{
+    "code": 106,
+    "message": "params_valid_fault",
+    "result": {
+        "Name": "The Name field is required."
+    },
+    "count": 0
+}
+    </code>
+</pre>
+<p class="fw-normal mt-4 text-decoration-underline">案例二: 全局添加 [ValidateModelState] 验证特性</p>
+<p class="fw-light">asp.net</p>
+<pre>
+<code class="language-cs">
+    public class FilterConfig
+    {
+        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        {
+            ...
+            filters.Add(new ValidateModelStateAttribute());
+        }
+    }
+    </code>
+ </pre>
+<pre>
+<code class="language-cs">
+    public class HomeController : Controller
+    {
+        public ActionResult Index(Person person)
+        {
+             return Content("ok");
+        }
+        ...
+    }
+    </code>
+ </pre>
+<p class="fw-light">asp.net core</p>
+<pre>
+<code class="language-cs">
+    builder.Services.AddControllersWithViews(options =>
+    {
+        options.Filters.Add(new ValidateModelStateAttribute());
+    });
+    </code>
+ </pre>
+<pre data-language="C#">
+<code class="language-cs">
+    public class HomeController : Controller
+    {
+        public ActionResult Index([FromBody]Person person)
+        {
+             return Content("ok");
+        }
+        ...
+    }
+    </code>
+ </pre>
+<p class="fw-normal">如果调用接口不提供Name属性,则返回以下错误</p>
+<pre data-language="js">
+<code class="language-js">
+{
+    "code": 106,
+    "message": "params_valid_fault",
+    "result": {
+        "Name": "The Name field is required."
+    },
+    "count": 0
+}
+    </code>
+</pre>
+<p class="fw-bold">2. 常用数据注解列表</p>
+<p class="fw-normal">Required - 必填字段验证</p>
+<p class="fw-normal">MinLength - 字符串最小长度验证</p>
+<p class="fw-normal">MaxLength - 字符串最大长度验证</p>
+<p class="fw-normal">StringLength - 字符串长度范围验证,默认是最大长度</p>
+<p class="fw-normal">Range - 数值范围验证</p>
+<p class="fw-normal">Phone - 手机号验证</p>
+<p class="fw-normal">EmailAddress - 邮箱地址验证</p>
+<p class="fw-normal">CreditCard - 信用卡号验证</p>
+<p class="fw-normal">Compare - 匹配验证,该字段应该和指定的字段匹配</p>
+<p class="fw-normal">Timestamp - 时间戳验证</p>
+<p class="fw-normal">RegularExpression - 正则表达式验证</p>
+
+

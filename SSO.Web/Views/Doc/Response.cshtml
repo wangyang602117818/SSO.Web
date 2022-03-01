@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "返回值";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">1. 返回值</h4>
+<p class="fw-normal">请确保项目已经安装Nuget包(SSO.Util.Client)</p>
+<p class="fw-normal">该功能统一了Action中返回值</p>
+<p class="fw-normal">Action中的返回值有3种形式</p>
+<p class="fw-light">返回简单信息</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        return new ResponseModel&lt;string>(ErrorCode.success, "");   //成功返回值
+        return new ResponseModel&lt;string>(ErrorCode.server_exception, "");  //异常返回值
+    </code>
+ </pre>
+<p class="fw-light">返回序列化好的json字符串</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        string json = JsonSerializerHelper.Serialize(obj);
+        return new ResponseModel&lt;string>(ErrorCode.success, json);
+    </code>
+ </pre>
+<p class="fw-light">返回可序列化的对象</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        return new ResponseModel&lt;string>(ErrorCode.success, obj);
+    </code>
+ </pre>
+<p class="fw-normal">返回案例</p>
+<pre data-language="js">
+<code class="language-js">
+{
+    "code": 0,
+    "message": "success",
+    "result": "",
+    "count": 0
+}
+    </code>
+</pre>
+<h4 class="bd-title mb-3" id="content">2. 反解析返回值</h4>
+<p class="fw-normal">对于从接口的返回值,可以使用ServiceModel来反解析</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var result = requestHelper.Post(baseUrl, model, null); //接口返回值
+        return JsonSerializerHelper.Deserialize&lt;ServiceModel&lt;List&lt;LogModel>>>(result);  //解析返回值
+    </code>
+ </pre>
+<p class="fw-normal">ErrorCode默认有以下值,也可以添加自己的ErrorCode</p>
+<p class="fw-light">ErrorCode</p>
+<pre data-language="C#">
+<code class="language-cs">
+    public enum ErrorCode
+    {
+        /// &lt;summary>
+        /// 成功
+        /// &lt;/summary>
+        success = 0,
+        /// &lt;summary>
+        /// 重定向
+        /// &lt;/summary>
+        redirect = 1,
+
+        authcode_is_null = 101,
+        app_not_exist = 102,
+        app_blocked = 103,
+        error_permission = 104,
+        invalid_params = 105,
+        params_valid_fault = 106,
+        owner_not_match = 107,
+        file_type_blocked = 108,
+        username_required = 109,
+        usercode_required = 110,
+        no_handler_available = 111,
+        api_not_available = 112,
+        url_not_available = 113,
+        old_password_error = 114,
+        /// &lt;summary>
+        /// 不存在
+        /// &lt;/summary>
+        record_not_exist = 200,
+        uri_not_found = 201,
+        usercode_exist = 202,
+        login_fault = 203,
+        task_not_completed = 204,
+        invalid_password = 205,
+        file_type_not_match = 206,
+        /// &lt;summary>
+        /// 请求已经超过次数
+        /// &lt;/summary>
+        requests_has_been_exceeded = 220,
+        /// &lt;summary>
+        /// 已存在
+        /// &lt;/summary>
+        record_exist = 400,
+        /// &lt;summary>
+        /// 权限不足
+        /// &lt;/summary>
+        authorize_fault = 401,
+        invalid_token = 402,
+        token_expired = 403,
+
+        /// &lt;summary>
+        /// 任务未完成
+        /// &lt;/summary>
+        task_not_complete = 300,
+        /// &lt;summary>
+        /// 配置文件缺失
+        /// &lt;/summary>
+        baseUrl_not_config = 600,
+        secretKey_not_config = 601,
+        cookieKey_not_config = 602,
+        cookieTime_not_config = 603,
+        messageBaseUrl_not_config = 604,
+        /// &lt;summary>
+        /// 记录已被使用
+        /// &lt;/summary>
+        record_has_been_used = 700,
+        task_is_running = 701,
+        /// &lt;summary>
+        /// 未知错误
+        /// &lt;/summary>
+        server_exception = -1000
+    }
+    </code>
+ </pre>
