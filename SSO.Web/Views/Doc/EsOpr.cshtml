@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Elasticsearch操作";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">Elasticsearch操作</h4>
+<p class="fw-normal">请确保项目已经安装Nuget包(SSO.Util.Client)</p>
+<p class="fw-normal">该功能是 Elasticsearch 操作的轻量版, 比起官方的工具更加灵活</p>
+<p class="fw-normal">1. 单个节点初始化</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var url = "http://localhost:9200/";
+        ElasticConnection elasticConnection = new ElasticConnection(url);
+    </code>
+ </pre>
+<p class="fw-normal">2. 多个节点初始化</p>
+<pre data-language="C#">
+<code class="language-cs">
+    List&lt;string> urls = new List&lt;string>(){ "http://localhost:9200/"};
+    ElasticConnection elasticConnection = new ElasticConnection(urls);
+    </code>
+ </pre>
+<p class="fw-normal">3. 判断 index 是否存在</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        bool exists = elasticConnection.Head(indexName);
+    </code>
+ </pre>

@@ -413,6 +413,7 @@
     <Content Include="Views\Doc\OrmOther.cshtml" />
     <Content Include="Views\Doc\ParasValid.cshtml" />
     <Content Include="Views\Doc\Response.cshtml" />
+    <Content Include="Views\Doc\EsOpr.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
