@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Elasticsearch搜索服务";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">Elasticsearch搜索服务</h4>
+<div class="row">
+    <div class="col-8">
+        <p class="fw-normal">请确保项目已经安装Nuget包(SSO.Util.Client)</p>
+        <p class="fw-bold">配置步骤</p>
+        <p class="fw-normal">在配置文件中添加以下节点</p>
+        <p class="fw-light">web.config(Asp.net)</p>
+        <pre data-language="Html">
+        <code class="language-markup">
+                &lt;!--日志服务器的地址-->
+                &lt;add key="messageBaseUrl" value="http://message.ssoutil.cn/" />
+            </code>
+        </pre>
+        <p class="fw-light">appsettings.json(Asp.net core)</p>
+        <pre data-language="js">
+        <code class="language-js">
+                //日志服务器的地址
+                "messageBaseUrl": "http://message.ssoutil.cn/"
+            </code>
+        </pre>
+        <p class="fw-normal text-decoration-underline">1. 初始化对象</p>
+        <pre data-language="C#">
+        <code class="language-cs">
+             SearchService searchService = new SearchService(AppSettings.GetValue("messageBaseUrl"));
+        </code>
+        </pre>
+        <p class="fw-normal text-decoration-underline">2. 添加/更新搜索数据</p>
+        <p class="fw-light">服务把 database+table+key 算出hash作为 Elasticsearch 的主键id</p>
+        <p class="fw-light">更新数据请传入相同的 database table key 组合</p>
+        <pre data-language="C#">
+        <code class="language-cs">
+                ServiceModel&lt;string> result = searchService.InsertSearchData(database, table, key, title, description, doc_time, extra)
+            </code>
+        </pre>
+        <p class="fw-normal"> 参数解释: </p>
+        <p class="fw-normal">database - 数据库类型</p>
+        <p class="fw-normal">table - 表名称(字符串)</p>
+        <p class="fw-normal">key - 表记录的唯一id</p>
+        <p class="fw-normal">title - 搜索的标题,作为搜索建议出现</p>
+        <p class="fw-normal">description - 搜索的内容</p>
+        <p class="fw-normal">doc_time - 文档的创建时间,注意不是当前时间</p>
+        <p class="fw-normal">extra - 文档的其他内容,作为字符串传入,搜索的时候带出</p>
+    </div>
+    <div class="col">
+        <img src="~/Content/images/search-0.gif" style="width:100%" />
+    </div>
+</div>
+<p class="fw-normal text-decoration-underline">3. 删除搜索数据</p>
+<p class="fw-normal">系统把 database+table+key 组合算出hash 来删除Elasticsearch的数据, 3个数据都是必填项</p>
+<pre data-language="C#">
+<code class="language-cs">
+        ServiceModel&lt;string> result = searchService.DeleteSearchData(database, table, key);
+    </code>
+</pre>
+<p class="fw-normal">参数解释: </p>
+<p class="fw-normal">database - 数据库类型</p>
+<p class="fw-normal">table - 表名称(字符串)</p>
+<p class="fw-normal">key - 表记录的唯一id</p>
+<p class="fw-normal text-decoration-underline">4. 搜索建议</p>
+<pre data-language="C#">
+<code class="language-cs">
+        var result = searchService.Suggest(word);
+    </code>
+</pre>
+<p class="fw-normal">参数解释: </p>
+<p class="fw-normal">word - 提供建议的关键词</p>
+<p class="fw-normal">database - 建议来自于哪个数据库</p>
+<p class="fw-normal">table -  建议来自于哪个数据表</p>
+<p class="fw-normal text-decoration-underline">5. 搜索</p>
+<pre data-language="C#">
+<code class="language-cs">
+        var result = searchService.Search(word, DataBaseType.none, "", highlight, pageIndex, pageSize)
+    </code>
+</pre>
+<p class="fw-normal">参数解释: </p>
+<p class="fw-normal">word - 搜索的关键词</p>
+<p class="fw-normal">database - 搜索来自于哪个数据库</p>
+<p class="fw-normal">table -  搜索来自于哪个数据表</p>
+<p class="fw-normal">highlight -  结果是否高亮(false)</p>

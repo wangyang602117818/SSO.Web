@@ -6,23 +6,59 @@
 <h4 class="bd-title mb-3" id="content">Elasticsearch操作</h4>
 <p class="fw-normal">请确保项目已经安装Nuget包(SSO.Util.Client)</p>
 <p class="fw-normal">该功能是 Elasticsearch 操作的轻量版, 比起官方的工具更加灵活</p>
-<p class="fw-normal">1. 单个节点初始化</p>
+<p class="fw-normal">1. 初始化(单个节点或者多个节点)</p>
 <pre data-language="C#">
     <code class="language-cs">
         var url = "http://localhost:9200/";
         ElasticConnection elasticConnection = new ElasticConnection(url);
     </code>
  </pre>
-<p class="fw-normal">2. 多个节点初始化</p>
 <pre data-language="C#">
 <code class="language-cs">
     List&lt;string> urls = new List&lt;string>(){ "http://localhost:9200/"};
     ElasticConnection elasticConnection = new ElasticConnection(urls);
     </code>
  </pre>
-<p class="fw-normal">3. 判断 index 是否存在</p>
+<p class="fw-normal">2. 判断 index 是否存在</p>
 <pre data-language="C#">
     <code class="language-cs">
         bool exists = elasticConnection.Head(indexName);
+    </code>
+ </pre>
+<p class="fw-normal">3. 创建 index 并设置 mapping</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var result = elasticConnection.Put(indexName, mapping);
+        if (result.Contains("\"acknowledged\":true")) return true;
+    </code>
+ </pre>
+<p class="fw-normal">4. 索引数据</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var result = elasticConnection.Post("person/doc/1", json);
+        if (result.Contains("\"successful\":1")) return true;
+    </code>
+ </pre>
+<p class="fw-normal">5. 删除数据</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var result = elasticConnection.Delete("person/doc/1");
+        if (result.Contains("\"successful\":1")) return true;
+    </code>
+ </pre>
+<p class="fw-normal">6. 搜索数据</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var result = elasticConnection.Post(indexName, json);
+        //或者只取需要的数据
+        var result = elasticConnection.Post(indexName+ "/_search?filter_path=hits.total,hits.hits._source,hits.hits._id,hits.hits.highlight", json);
+    </code>
+ </pre>
+<p class="fw-normal">7. 更新数据</p>
+<p class="fw-normal">确保id一致,使用 索引数据 接口</p>
+<pre data-language="C#">
+<code class="language-cs">
+        var result = elasticConnection.Post("person/doc/1", json);
+        if (result.Contains("\"successful\":1")) return true;
     </code>
  </pre>

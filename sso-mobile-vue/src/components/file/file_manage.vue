@@ -98,7 +98,7 @@
     <f7-list media-list>
       <f7-list-item
         v-for="(item, index) in datas"
-        :key="item._id"
+        :key="item.Id"
         :id="index"
         link="#"
         :title="item.FileName"
@@ -113,7 +113,7 @@
         "
         @click="itemClick(index)"
         swipeout
-        @swipeout:delete="delFile(item._id)"
+        @swipeout:delete="delFile(item.Id)"
       >
         <template #media>
           <img
@@ -121,7 +121,7 @@
               $axios.defaults.baseURL +
               $urls.file.downloadPic +
               '/' +
-              item._id +
+              item.Id +
               '/' +
               encodeURIComponent(item.FileName) +
               '?authorization=' +
@@ -215,7 +215,7 @@ export default {
           this.$axios.defaults.baseURL +
           this.$urls.file.downloadFile +
           "/" +
-          item._id +
+          item.Id +
           "/" +
           encodeURIComponent(item.FileName) +
           "?authorization=" +
@@ -239,7 +239,7 @@ export default {
               this.$axios.defaults.baseURL +
               this.$urls.file.downloadPic +
               "/" +
-              item._id +
+              item.Id +
               "/" +
               encodeURIComponent(item.FileName) +
               "?authorization=" +
@@ -277,7 +277,7 @@ export default {
     itemClick(index) {
       var item = this.datas[index];
       if (item.FileType == "pdf") {
-        this.f7router.navigate("/pdfviewer/" + item._id + "/" + item.FileName);
+        this.f7router.navigate("/pdfviewer/" + item.Id + "/" + item.FileName);
       } else {
         this.$refs.standaloneDark.open(index);
       }

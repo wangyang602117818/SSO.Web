@@ -69,8 +69,8 @@
     <Reference Include="Quartz, Version=3.3.3.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.3.3.3\lib\net472\Quartz.dll</HintPath>
     </Reference>
-    <Reference Include="SSO.Util.Client, Version=2.8.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSO.Util.Client.2.8.3\lib\net45\SSO.Util.Client.dll</HintPath>
+    <Reference Include="SSO.Util.Client, Version=2.8.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSO.Util.Client.2.8.4\lib\net45\SSO.Util.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -212,6 +212,7 @@
     <Content Include="Content\images\react-1.png" />
     <Content Include="Content\images\react-2.png" />
     <Content Include="Content\images\react-3.png" />
+    <Content Include="Content\images\search-0.gif" />
     <Content Include="Content\images\vue-1.png" />
     <Content Include="Content\images\vue-2.png" />
     <Content Include="Content\images\vue-3.png" />
@@ -414,6 +415,8 @@
     <Content Include="Views\Doc\ParasValid.cshtml" />
     <Content Include="Views\Doc\Response.cshtml" />
     <Content Include="Views\Doc\EsOpr.cshtml" />
+    <Content Include="Views\Doc\EsSearch.cshtml" />
+    <Content Include="Views\Doc\Task.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
