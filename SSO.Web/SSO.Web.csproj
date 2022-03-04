@@ -420,6 +420,7 @@
     <Content Include="Views\Doc\EsOpr.cshtml" />
     <Content Include="Views\Doc\EsSearch.cshtml" />
     <Content Include="Views\Doc\Task.cshtml" />
+    <Content Include="Views\Doc\Other.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">

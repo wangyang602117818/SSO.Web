@@ -7,21 +7,21 @@
 <p class="fw-normal">请确保项目已经安装Nuget包(SSO.Util.Client)</p>
 <p class="fw-normal">该功能统一了Action中返回值的写法,避免了接口中写法不统一,返回值不统一的问题</p>
 <p class="fw-normal">Action中的返回值有3种形式</p>
-<p class="fw-light">返回简单信息</p>
+<p class="fw-light text-decoration-underline">返回简单信息</p>
 <pre data-language="C#">
     <code class="language-cs">
         return new ResponseModel&lt;string>(ErrorCode.success, "");   //成功返回值
         return new ResponseModel&lt;string>(ErrorCode.server_exception, "");  //异常返回值
     </code>
  </pre>
-<p class="fw-light">返回序列化好的json字符串</p>
+<p class="fw-light text-decoration-underline">返回序列化好的json字符串</p>
 <pre data-language="C#">
     <code class="language-cs">
         string json = JsonSerializerHelper.Serialize(obj);
         return new ResponseModel&lt;string>(ErrorCode.success, json);
     </code>
  </pre>
-<p class="fw-light">返回可序列化的对象</p>
+<p class="fw-light text-decoration-underline">返回可序列化的对象</p>
 <pre data-language="C#">
     <code class="language-cs">
         return new ResponseModel&lt;string>(ErrorCode.success, obj);
@@ -47,7 +47,7 @@
     </code>
  </pre>
 <p class="fw-normal">ErrorCode默认有以下值,也可以添加自己的ErrorCode</p>
-<p class="fw-light">ErrorCode</p>
+<p class="fw-light">系统内置的ErrorCode</p>
 <pre data-language="C#">
 <code class="language-cs">
     public enum ErrorCode

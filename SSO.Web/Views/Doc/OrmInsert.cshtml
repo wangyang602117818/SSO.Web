@@ -70,7 +70,7 @@ var count = new Company().Insert(company);  //受影响的行数
 <p class="fw-normal">open - 迭代的前置符</p>
 <p class="fw-normal">close - 迭代的后置符</p>
 <p class="fw-normal">更多节点请参考 动态sql 部分</p>
-<p class="fw-bold">2.1 案例一: 传入集合类型</p>
+<p class="fw-normal text-decoration-underline">2.1 案例一: 传入集合类型</p>
 <p class="fw-light">company.xml</p>
 <pre data-language="xml">
 <code class="language-xml">
@@ -127,7 +127,7 @@ var count = new Company().Insert(company);  //受影响的行数
         var count = com1.InsertMany(new List&lt;Company>() { com1, com2 }); //受影响的行数
     </code>
  </pre>
-<p class="fw-bold">2.2 案例二: 传入对象类型,对象的属性为集合类型</p>
+<p class="fw-normal text-decoration-underline">2.2 案例二: 传入对象类型,对象的属性为集合类型</p>
 <p class="fw-light">company.xml</p>
 <pre data-language="xml">
 <code class="language-xml">

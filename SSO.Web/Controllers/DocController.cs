@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SSO.Util.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,7 +10,7 @@ namespace SSO.Web.Controllers
     [AllowAnonymous]
     public class DocController : Controller
     {
-        // GET: Doc
+
         public ActionResult Index(string id)
         {
             return View(id);

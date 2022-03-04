@@ -24,7 +24,8 @@ namespace SSO.TaskScheduling.Schedules
             {
                 string result = ExecuteJob();
                 DateTime endTime = DateTimeOffset.Now.LocalDateTime;
-                taskSchedulingHistory.InsertHistoryAndUpdateScheduling(data.Id, data.Name, runTime, endTime, nextRunTime, result);
+                if (!result.IsNullOrEmpty())
+                    taskSchedulingHistory.InsertHistoryAndUpdateScheduling(data.Id, data.Name, runTime, endTime, nextRunTime, result);
             }
             catch (Exception ex)
             {
