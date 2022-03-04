@@ -1,7 +1,48 @@
 ﻿
 @{
-    ViewBag.Title = "任务调度扩展";
+    ViewBag.Title = "任务调度";
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
 }
-<h4 class="bd-title mb-3" id="content">任务调度扩展</h4>
-
+<h4 class="bd-title mb-3" id="content">任务调度</h4>
+<p class="fw-normal">本节点介绍一个任务调度功能, 可以让写出的方法按照指定的时间和频率来运行</p>
+<p class="fw-normal">任务调度涉及到定时任务项目SSO.TaskScheduling,这是一个windows服务项目,在源码中可以看到</p>
+<p class="fw-normal text-decoration-underline">1. 在 SSO.TaskScheduling 项目中写一个继承自 BaseSchedule.cs 的类</p>
+<p class="fw-normal">任务获取当前时间戳,判断返回true还是false</p>
+<pre data-language="C#">
+<code class="language-cs">
+        public class DateLogger : BaseSchedule
+        {
+            public override string Name => "DataLogger";
+            public override string Description => "时间戳打印判断";
+            public override string ExecuteJob()
+            {
+                long ts = DateTime.Now.TimeStamp();
+                Log4Net.InfoLog(ts.ToString());
+                if (ts % 2 == 0) return "true";
+                return "false";
+            }
+        }
+    </code>
+</pre>
+<p class="fw-normal">参数解释: </p>
+<p class="fw-normal">Name: 任务的名称,是任务的唯一标记,将会显示在列表页面</p>
+<p class="fw-normal">Description: 任务的描述,将会显示在列表页面</p>
+<p class="fw-normal text-decoration-underline">2. 在调度列表中显示</p>
+<p class="fw-normal">重启 SSO.TaskScheduling 服务, 配置的任务会显示在调度列表中</p>
+<p class="fw-normal">系统以 Name 来决定是否添加调度,相同的Name系统会跳过,要修改Name 请在列表中删除,再重启服务</p>
+<p class="col pe-0">
+    <img src="~/Content/images/task-1.png" />
+</p>
+<p class="fw-normal text-decoration-underline">3. 配置触发器</p>
+<p class="fw-normal">在触发器列表中 添加 每分钟执行一次的触发器</p>
+<p class="col pe-0">
+    <img src="~/Content/images/task-2.png" style="width:600px;height:500px;border:1px solid #ccc" />
+</p>
+<p class="fw-normal text-decoration-underline">4. 给调度任务配置触发器</p>
+<p class="fw-normal">1) 编辑调度任务,设置触发器为 每分钟</p>
+<p class="fw-normal">2) 启动调度任务</p>
+<p class="col pe-0">
+    <img src="~/Content/images/task-3.png" />
+</p>
+<p class="fw-normal text-decoration-underline">5. 查看调度历史</p>
+<p class="fw-normal">在调度历史栏可以看到之前的调度历史</p>

@@ -213,6 +213,9 @@
     <Content Include="Content\images\react-2.png" />
     <Content Include="Content\images\react-3.png" />
     <Content Include="Content\images\search-0.gif" />
+    <Content Include="Content\images\task-1.png" />
+    <Content Include="Content\images\task-2.png" />
+    <Content Include="Content\images\task-3.png" />
     <Content Include="Content\images\vue-1.png" />
     <Content Include="Content\images\vue-2.png" />
     <Content Include="Content\images\vue-3.png" />

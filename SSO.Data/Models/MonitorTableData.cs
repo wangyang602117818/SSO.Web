@@ -13,12 +13,12 @@ namespace SSO.Data.Models
     public class MonitorTableData : ModelBase
     {
         /// <summary>
-        /// 监视并处理数据回调,一次可能处理多条,返回集合
+        /// 监视并处理数据回调
         /// </summary>
         /// <param name="table"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public IEnumerable<string> Monitor(string table, Func<object, string> action)
+        public string Monitor(string table, Func<object, string> action)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace SSO.Data.Models
                 }
                 //提交事务
                 session.CommitTransaction();
-                return result;
+                return string.Join(",", result);
             }
             catch
             {

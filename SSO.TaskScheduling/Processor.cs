@@ -64,7 +64,7 @@ namespace SSO.TaskScheduling
             List<BaseSchedule> result = new List<BaseSchedule>();
             foreach (var type in assembly.GetTypes())
             {
-                if (type.IsSubclassOf(typeof(BaseSchedule)))
+                if (type.IsSubclassOf(typeof(BaseSchedule)) && !type.IsAbstract)
                 {
                     BaseSchedule baseSchedule = (BaseSchedule)Activator.CreateInstance(type, true);
                     result.Add(baseSchedule);

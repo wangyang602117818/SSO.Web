@@ -120,11 +120,13 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="Schedules\CompanySchedule.cs" />
+    <Compile Include="Schedules\InnerSchedules\CompanySchedule.cs" />
     <Compile Include="Schedules\BaseSchedule.cs" />
-    <Compile Include="Schedules\DepartmentSchedule.cs" />
-    <Compile Include="Schedules\RoleSchedule.cs" />
-    <Compile Include="Schedules\UserSchedule.cs" />
+    <Compile Include="Schedules\DateLogger.cs" />
+    <Compile Include="Schedules\InnerSchedules\DepartmentSchedule.cs" />
+    <Compile Include="Schedules\InnerSchedules\TableScheduleBase.cs" />
+    <Compile Include="Schedules\InnerSchedules\RoleSchedule.cs" />
+    <Compile Include="Schedules\InnerSchedules\UserSchedule.cs" />
     <Compile Include="Service1.cs">
       <SubType>Component</SubType>
     </Compile>

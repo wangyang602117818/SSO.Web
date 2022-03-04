@@ -7,30 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SSO.TaskScheduling.Schedules
+namespace SSO.TaskScheduling.Schedules.InnerSchedules
 {
-    public class RoleSchedule : BaseSchedule
+    public class RoleSchedule : TableScheduleBase
     {
-        private string tableName = "Role";
-        private string name = "RoleSchedule";
-        private string description = "监视角色数据变化";
-        public override string Name => name;
-        public override string Description => description;
-        public override IEnumerable<string> ExecuteJob(Data.Models.TaskScheduling data)
+        public override string TableName => "Role";
+        public override string Name => "RoleSchedule";
+        public override string Description => "监视角色数据变化";
+        public override string ExecuteJob()
         {
             MonitorTableData monitorTableData = new MonitorTableData();
-            return monitorTableData.Monitor(tableName, ProcessTableData);
+            return monitorTableData.Monitor(TableName, ProcessTableData);
         }
         private string ProcessTableData(object arg)
         {
             JObject data = (JObject)arg;
             string type = data["opertion"].ToString(); //U I D
             string id = data["realId"].ToString();
-            if (type.ToLower() == "d") return DeleteData(DataBaseType.sqlserver, tableName, id);
+            if (type.ToLower() == "d") return DeleteData(DataBaseType.sqlserver, TableName, id);
             string title = data["Name"]?.ToString();
             string desc = data["Description"]?.ToString();
             DateTime createtime = DateTime.Parse(data["CreateTime"]?.ToString());
-            return AddData(DataBaseType.sqlserver, tableName, id, title, desc, createtime);
+            return AddData(DataBaseType.sqlserver, TableName, id, title, desc, createtime);
         }
     }
 }
