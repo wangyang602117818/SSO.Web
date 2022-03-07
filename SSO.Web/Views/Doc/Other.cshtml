@@ -79,11 +79,93 @@ public class Processor
 
 <p class="fw-bold">5. 对称加密解密</p>
 <p class="fw-bold">6. url安全的base64加密解密</p>
+<p class="fw-normal">base64编码的字符串变成可以通过url传输的安全模式</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        string str = "tvO3zPS9Fdc4EvF867Vjbc8ox0kRaH5DCihwOzYMbLQ=";
+        var encode = Base64SecureURL.Encode(str);  //编码
+        var source = Base64SecureURL.Decode(encode);  //解码
+    </code>
+</pre>
 <p class="fw-bold">7. JwtToken 生成</p>
 <p class="fw-bold">8. 散列算法</p>
+<p class="fw-normal">散列算法不可逆</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        string str = "abc";
+        var md5 = str.ToMD5();  //md5算法
+        var hash256 = str.GetSha256();  //hash256算法
+    </code>
+</pre>
 <p class="fw-bold">9. 时间戳</p>
+<p class="fw-normal">获取DateTime对象的时间戳</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        //当前时间
+        DateTime date = DateTime.Now;
+        //当前时间的时间戳(秒)
+        long stamp =  date.TimeStamp();
+        //当前时间的时间戳(毫秒)
+        long milstamp = date.MillisecondTimeStamp();
+        //时间戳转时间
+        DateTime time1 = stamp.TimeStampToDateTime();
+        //毫秒时间戳转时间
+        DateTime time2 = milstamp.TimeStampToDateTime();
+    </code>
+</pre>
 <p class="fw-bold">10. http请求</p>
+<p class="fw-normal">http发送文件</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        //初始化请求对象
+        HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+        public ActionResult Upload(IFormFile file)
+        {
+            UploadFileItem uploadFileItem = new UploadFileItem() { FileName = file.FileName, ContentType = file.ContentType, FileStream = file.OpenReadStream() };
+            var url = "";
+            //发送文件
+            var resp = httpRequestHelper.PostFile(url, uploadFileItem);
+            return Content(resp);
+        }
+    </code>
+</pre>
+<p class="fw-normal">http post 请求</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+        var res = httpRequestHelper.Post("", new { a = 123 }, null);
+    </code>
+</pre>
+<p class="fw-normal">http get 请求</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+        var res= httpRequestHelper.Get("",null);
+    </code>
+</pre>
+<p class="fw-normal">http 文件下载请求</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+        var res= httpRequestHelper.GetFile("",null);
+    </code>
+</pre>
 <p class="fw-bold">11. 随机数</p>
-
-
-
+<p class="fw-normal">获取长度为10的随机字符串</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var code = new Random().RandomCode(10);
+    </code>
+</pre>
+<p class="fw-normal">获取0到1000之内的10个随机数字</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var code = new Random().GetRandomCodes(1000, 10);
+    </code>
+</pre>
+<p class="fw-normal">获取随机10个16进制的字符串</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var code = new Random().RandomCodeHex(10);
+    </code>
+</pre>
