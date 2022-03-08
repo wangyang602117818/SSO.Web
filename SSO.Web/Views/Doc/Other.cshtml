@@ -76,8 +76,34 @@ public class Processor
     </code>
 </pre>
 <p class="fw-bold">4. 非对称加密解密</p>
-
+<pre data-language="C#">
+    <code class="language-cs">
+        //加密对象
+        var rsa = new RsaEncryptHelper();
+        //私钥
+        var pri = rsa.GetPrivateKey();
+        //公钥
+        var pub = rsa.GetPublicKey();
+        var source = "abcdefg";
+        //加密
+        var p = new RsaEncryptHelper().Encode(source, pub);
+        解密
+        var q = new RsaEncryptHelper().Decode(p, pri);
+    </code>
+</pre>
 <p class="fw-bold">5. 对称加密解密</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        //待加密字符串
+        string original = "abcdef";
+        //生成秘钥
+        string key = AesEncryptHelper.GenerateAESKey();
+        //加密字符串
+        string enc = AesEncryptHelper.Encode(original, key);
+        //解密字符串
+        string source = AesEncryptHelper.Decode(enc, key);
+    </code>
+</pre>
 <p class="fw-bold">6. url安全的base64加密解密</p>
 <p class="fw-normal">base64编码的字符串变成可以通过url传输的安全模式</p>
 <pre data-language="C#">
@@ -89,7 +115,6 @@ public class Processor
 </pre>
 <p class="fw-bold">7. JwtToken 生成</p>
 <p class="fw-bold">8. 散列算法</p>
-<p class="fw-normal">散列算法不可逆</p>
 <pre data-language="C#">
     <code class="language-cs">
         string str = "abc";
