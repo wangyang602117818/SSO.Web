@@ -5,11 +5,36 @@
 }
 <h4 class="bd-title mb-3" id="content">其他</h4>
 <p class="fw-normal">本节点介绍系统中集成的其他功能</p>
-<p class="fw-bold">1. 限流过滤器</p>
+<p class="fw-bold">1. AppSettings配置获取</p>
+<p class="fw-normal">1) 获取配置节点( asp.net 和 asp.netcore 通用 )</p>
+<pre data-language="C#">
+<code class="language-cs">
+        string str = AppSettings.GetValue("");
+    </code>
+</pre>
+<p class="fw-normal">2) 获取应用程序根路径( asp.net 和 asp.netcore 通用 )</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var basePath = AppSettings.GetApplicationUrl(Request);   //http://localhost:5132
+    </code>
+</pre>
+<p class="fw-normal">3) 获取应用程序根路径,去掉协议( asp.net 和 asp.netcore 通用 )</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var basePath = AppSettings.GetApplicationUrlTrimHttpPrefix(Request);   //localhost:5132
+    </code>
+</pre>
+<p class="fw-normal">4. 获取当前请求的绝对路径,包含请求参数</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        var basePath = AppSettings.GetAbsoluteUri(Request);  //http://localhost:5132/?a=2
+    </code>
+</pre>
+<p class="fw-bold">2. 限流过滤器</p>
 <p class="fw-normal">根据用户ip来限制用户每分钟访问的次数</p>
 <p class="fw-normal">设置每个用户每分钟只能访问10次</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         public class HomeController : Controller
         {
             <mark>[Throttling(10)]</mark>
@@ -20,12 +45,12 @@
         }
     </code>
 </pre>
-<p class="fw-bold">2. MSMQ队列</p>
+<p class="fw-bold">3. MSMQ队列</p>
 <p class="fw-normal">该功能只能在 windows 环境下使用</p>
 <p class="fw-normal">请提前安装好 MSMQ 队列</p>
 <p class="fw-normal">1) 初始化队列操作类</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         MsQueue&lt;object> logMsQueue = new MsQueue&lt;object>("msmq_name");
     </code>
 </pre>
@@ -33,13 +58,13 @@
 <p class="fw-normal">该方法只需执行一次,一般在项目启动时执行</p>
 <p class="fw-normal">创建事务性队列请使用第二参数 transactional</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         logMsQueue.CreateQueue();
     </code>
 </pre>
 <p class="fw-normal">3) 添加消息</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         logMsQueue.SendMessage(obj, "log");
     </code>
 </pre>
@@ -68,16 +93,9 @@ public class Processor
 }
     </code>
 </pre>
-<p class="fw-bold">3. 获取配置节点</p>
-<p class="fw-normal">asp.net 和 asp.netcore 通用</p>
-<pre data-language="C#">
-    <code class="language-cs">
-        string str = AppSettings.GetValue("");
-    </code>
-</pre>
 <p class="fw-bold">4. 非对称加密解密</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         //加密对象
         var rsa = new RsaEncryptHelper();
         //私钥
@@ -93,7 +111,7 @@ public class Processor
 </pre>
 <p class="fw-bold">5. 对称加密解密</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         //待加密字符串
         string original = "abcdef";
         //生成秘钥
@@ -107,7 +125,7 @@ public class Processor
 <p class="fw-bold">6. url安全的base64加密解密</p>
 <p class="fw-normal">base64编码的字符串变成可以通过url传输的安全模式</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         string str = "tvO3zPS9Fdc4EvF867Vjbc8ox0kRaH5DCihwOzYMbLQ=";
         var encode = Base64SecureURL.Encode(str);  //编码
         var source = Base64SecureURL.Decode(encode);  //解码
@@ -117,7 +135,7 @@ public class Processor
 <p class="fw-normal">待定</p>
 <p class="fw-bold">8. 散列算法</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         string str = "abc";
         var md5 = str.ToMD5();  //md5算法
         var hash256 = str.GetSha256();  //hash256算法
@@ -126,7 +144,7 @@ public class Processor
 <p class="fw-bold">9. 时间戳</p>
 <p class="fw-normal">获取DateTime对象的时间戳</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         //当前时间
         DateTime date = DateTime.Now;
         //当前时间的时间戳(秒)
@@ -142,7 +160,7 @@ public class Processor
 <p class="fw-bold">10. http请求</p>
 <p class="fw-normal">http发送文件</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         //初始化请求对象
         HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
         public ActionResult Upload(IFormFile file)
@@ -157,21 +175,21 @@ public class Processor
 </pre>
 <p class="fw-normal">http post 请求</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
         var res = httpRequestHelper.Post("", new { a = 123 }, null);
     </code>
 </pre>
 <p class="fw-normal">http get 请求</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
         var res= httpRequestHelper.Get("",null);
     </code>
 </pre>
 <p class="fw-normal">http 文件下载请求</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
         var res= httpRequestHelper.GetFile("",null);
     </code>
@@ -179,19 +197,19 @@ public class Processor
 <p class="fw-bold">11. 随机数</p>
 <p class="fw-normal">获取长度为10的随机字符串</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         var code = new Random().RandomCode(10);
     </code>
 </pre>
 <p class="fw-normal">获取0到1000之内的10个随机数字</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         var code = new Random().GetRandomCodes(1000, 10);
     </code>
 </pre>
 <p class="fw-normal">获取随机10个16进制的字符串</p>
 <pre data-language="C#">
-    <code class="language-cs">
+<code class="language-cs">
         var code = new Random().RandomCodeHex(10);
     </code>
 </pre>

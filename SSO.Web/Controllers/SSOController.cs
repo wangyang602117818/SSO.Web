@@ -24,12 +24,12 @@ namespace SSO.Web.Controllers
             return View();
         }
         [AllowAnonymous]
-        public ActionResult GetToken(string from, string ticket, string ip)
+        public ActionResult GetToken(string ticket, string audience)
         {
             string token = "";
             string userId = jwtManager.DecodeTicket(ticket);
             Dictionary<string, string> extra = new Dictionary<string, string>();
-            extra.Add("from", from.ReplaceHttpPrefix().ToLower());
+            audience = audience.ReplaceHttpPrefix().TrimEnd('/');
             if (!userId.IsNullOrEmpty())
             {
                 User u = user.GetUser(userId);
@@ -37,14 +37,14 @@ namespace SSO.Web.Controllers
                 {
                     if (userId == admin[0])
                     {
-                        token = jwtManager.GenerateToken(userId, userId, lang, ip ?? Request.UserHostAddress, 20, extra);
+                        token = jwtManager.GenerateToken(userId, userId, lang, audience);
                     }
                 }
                 else
                 {
                     Settings setting = settings.GetSetting(userId);
                     if (setting != null) lang = setting.Lang;
-                    token = jwtManager.GenerateToken(userId, u.UserName, lang, ip ?? Request.UserHostAddress, 20, extra);
+                    token = jwtManager.GenerateToken(userId, u.UserName, lang, audience);
                 }
             }
             return new ResponseModel<string>(ErrorCode.success, token);
@@ -134,9 +134,8 @@ namespace SSO.Web.Controllers
             }
             Settings setting = settings.GetSetting(User.Identity.Name);
             if (setting != null) lang = setting.Lang;
-            Dictionary<string, string> extra = new Dictionary<string, string>();
-            extra.Add("from", issuer.ReplaceHttpPrefix().ToLower());
-            string token = jwtManager.GenerateToken(u.UserId, u.UserName, lang, Request.UserHostAddress, 24 * 60, extra);
+            string audience = returnUrl.ReplaceReturnUrlToBaseUrl();
+            string token = jwtManager.GenerateToken(u.UserId, u.UserName, lang, audience);
             HttpCookie httpCookie = new HttpCookie(ssoCookieKey, token);
             if (ssoCookieTime != "session")
             {

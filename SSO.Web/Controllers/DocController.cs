@@ -10,9 +10,10 @@ namespace SSO.Web.Controllers
     [AllowAnonymous]
     public class DocController : Controller
     {
-
         public ActionResult Index(string id)
         {
+            
+            //HttpContext.Request
             return View(id);
         }
     }
