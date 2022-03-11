@@ -12,7 +12,7 @@ namespace SSO.Web.Controllers
         {
             if (settings.UpdateLang(User.Identity.Name, lang) >= 0)
             {
-                string token = jwtManager.ModifyTokenLang(HttpContext.Items["Authorization"].ToString(), lang, 24 * 60);
+                string token = jwtManager.ModifyTokenLang(HttpContext.Items["Authorization"].ToString(), lang);
                 return new ResponseModel<string>(ErrorCode.success, token);
             }
             else
@@ -24,7 +24,7 @@ namespace SSO.Web.Controllers
         {
             if (settings.UpdateLang(User.Identity.Name, lang) >= 0)
             {
-                string token = jwtManager.ModifyTokenLang(HttpContext.Items["Authorization"].ToString(), lang, 24 * 60);
+                string token = jwtManager.ModifyTokenLang(HttpContext.Items["Authorization"].ToString(), lang);
                 HttpCookie httpCookie = new HttpCookie(ssoCookieKey, token);
                 if (ssoCookieTime != "session")
                 {

@@ -24,11 +24,12 @@ namespace SSO.Web.Controllers
             return View();
         }
         [AllowAnonymous]
-        public ActionResult GetToken(string ticket, string audience)
+        public ActionResult GetToken(string ticket, string from, string audience)
         {
             string token = "";
             string userId = jwtManager.DecodeTicket(ticket);
             Dictionary<string, string> extra = new Dictionary<string, string>();
+            extra.Add("from", from);
             audience = audience.ReplaceHttpPrefix().TrimEnd('/');
             if (!userId.IsNullOrEmpty())
             {
@@ -37,20 +38,20 @@ namespace SSO.Web.Controllers
                 {
                     if (userId == admin[0])
                     {
-                        token = jwtManager.GenerateToken(userId, userId, lang, audience);
+                        token = jwtManager.GenerateToken(userId, userId, lang, audience, extra);
                     }
                 }
                 else
                 {
                     Settings setting = settings.GetSetting(userId);
                     if (setting != null) lang = setting.Lang;
-                    token = jwtManager.GenerateToken(userId, u.UserName, lang, audience);
+                    token = jwtManager.GenerateToken(userId, u.UserName, lang, audience, extra);
                 }
             }
             return new ResponseModel<string>(ErrorCode.success, token);
         }
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login(string returnUrl, string appPath = "")
         {
             if (!returnUrl.IsNullOrEmpty())
             {
@@ -82,7 +83,7 @@ namespace SSO.Web.Controllers
                     }
                     Response.Cookies.Add(authorization);
                     //sso退出用
-                    JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
+                    JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl, appPath);
                     if (!string.IsNullOrEmpty(returnUrl))
                         return Redirect(returnUrl);
                 }
@@ -96,7 +97,7 @@ namespace SSO.Web.Controllers
         [AllowAnonymous]
         [HttpPost]
         [LogRecord(true, false)]
-        public ActionResult Login(LoginModel loginModel, string returnUrl)
+        public ActionResult Login(LoginModel loginModel, string returnUrl, string appPath = "")
         {
             if (!returnUrl.IsNullOrEmpty())
             {
@@ -134,15 +135,17 @@ namespace SSO.Web.Controllers
             }
             Settings setting = settings.GetSetting(User.Identity.Name);
             if (setting != null) lang = setting.Lang;
-            string audience = returnUrl.ReplaceReturnUrlToBaseUrl();
-            string token = jwtManager.GenerateToken(u.UserId, u.UserName, lang, audience);
+            var audience = Request.Url.Host.ReplaceHttpPrefix();
+            Dictionary<string, string> extra = new Dictionary<string, string>();
+            extra.Add("from", audience);
+            string token = jwtManager.GenerateToken(u.UserId, u.UserName, lang, audience, extra);
             HttpCookie httpCookie = new HttpCookie(ssoCookieKey, token);
             if (ssoCookieTime != "session")
             {
                 httpCookie.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(ssoCookieTime));
             }
             Response.Cookies.Add(httpCookie);
-            JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
+            JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl, appPath);
             if (returnUrl.IsNullOrEmpty()) returnUrl = Request.Url.Scheme + "://" + Request.Url.Host + ":" + Request.Url.Port + Request.ApplicationPath;
             //登录成功,替换掉旧的ticket
             string ticket = jwtManager.GenerateTicket(u.UserId);

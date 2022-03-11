@@ -70,7 +70,7 @@ namespace SSO.Web.Filters
                 }
                 try
                 {
-                    var principal = JwtManager.ParseAuthorization(authorization, ssoSecretKey);
+                    var principal = JwtManager.ParseAuthorization(authorization, ssoSecretKey, true);
                     filterContext.HttpContext.User = principal;
                     if (!CheckPermission(permissionName, filterContext.HttpContext.User.Identity.Name)) filterContext.Result = new ResponseModel<string>(ErrorCode.error_permission, "");
                 }
@@ -109,14 +109,12 @@ namespace SSO.Web.Filters
             }
             return returnUrl;
         }
-        public static void AddUrlToCookie(HttpContextBase httpContext, string returnUrl)
+        public static void AddUrlToCookie(HttpContextBase httpContext, string returnUrl, string appPath)
         {
             if (returnUrl.IsNullOrEmpty()) return;
             HttpCookie ssoUrlCookie = httpContext.Request.Cookies["ssourls"];
             Uri uri = new Uri(returnUrl);
-            if (uri.Query.Length > 0)
-                returnUrl = returnUrl.Replace(uri.Query, "");
-            returnUrl = returnUrl.TrimEnd('/');
+            returnUrl = uri.Scheme + "://" + uri.Authority + "/" + appPath;
             if (ssoUrlCookie == null)
             {
                 string returnUrls = JsonConvert.SerializeObject(new List<string>() { returnUrl });

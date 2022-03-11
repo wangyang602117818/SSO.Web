@@ -39,7 +39,7 @@ namespace SSO.Web.Controllers
         [AllowAnonymous]
         public string SecretKey()
         {
-            return SymmetricEncryptHelper.GenerateAESKey;
+            return AesEncryptHelper.GenerateAESKey();
         }
     }
 
