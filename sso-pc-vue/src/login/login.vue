@@ -113,12 +113,14 @@ export default {
     handleLogin() {
       this.loading = true;
       if (this.userId.trim().length > 0 && this.passWord.trim().length > 0) {
-        var returnUrl = this.$funtools.getReturnUrl("returnUrl");
+        var returnUrl = this.$funtools.getQueryString("returnUrl");
+        var appPath = this.$funtools.getQueryString("appPath");
         this.$axios
           .post(this.$urls.login, {
             userId: this.userId,
             passWord: this.passWord,
             returnUrl: returnUrl,
+            appPath: appPath,
           })
           .then((response) => {
             if (response.code == 0) {
