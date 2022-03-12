@@ -53,27 +53,24 @@ namespace SSO.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl, string appPath = "")
         {
-            if (!returnUrl.IsNullOrEmpty())
-            {
-                //foreach (string key in Request.QueryString.Keys)
-                //{
-                //    if (key == "returnUrl") continue;
-                //    if (returnUrl.Contains("?"))
-                //    {
-                //        returnUrl += "&" + key + "=" + Request.QueryString[key];
-                //    }
-                //    else
-                //    {
-                //        returnUrl += "?" + key + "=" + Request.QueryString[key].ToString();
-                //    }
-                //}
-                returnUrl = returnUrl.Base64ToStr();
-            }
+            if (returnUrl.IsNullOrEmpty()) return View();
+            returnUrl = returnUrl.Base64ToStr();
             var authorization = Request.Cookies[ssoCookieKey];
             if (authorization != null)  //sso login
             {
                 try
                 {
+                    HttpCookie ssoUrlCookie = Request.Cookies["ssourls"];
+                    if (ssoUrlCookie != null)
+                    {
+                        List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlCookie.Value.Base64ToStr());
+                        Uri uri = new Uri(returnUrl);
+                        returnUrl = uri.Scheme + "://" + uri.Authority + "/" + appPath;
+                        foreach (var ssoUrl in ssoUrls)
+                        {
+                            if (ssoUrl == returnUrl) return View(); //之前登录过,cookie过期
+                        }
+                    }
                     var userId = JwtManager.ParseAuthorization(authorization.Value, ssoSecretKey).Identity.Name;
                     string ticket = jwtManager.GenerateTicket(userId);
                     returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
