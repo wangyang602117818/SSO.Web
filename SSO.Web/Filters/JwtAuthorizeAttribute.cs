@@ -113,7 +113,7 @@ namespace SSO.Web.Filters
         {
             if (returnUrl.IsNullOrEmpty()) return;
             HttpCookie ssoUrlCookie = httpContext.Request.Cookies["ssourls"];
-            Uri uri = new Uri(returnUrl);
+            Uri uri = new Uri(HttpUtility.UrlDecode(returnUrl));
             returnUrl = uri.Scheme + "://" + uri.Authority;
             if (ssoUrlCookie == null)
             {
