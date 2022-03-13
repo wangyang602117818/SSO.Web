@@ -51,10 +51,22 @@ namespace SSO.Web.Controllers
             return new ResponseModel<string>(ErrorCode.success, token);
         }
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl, string appPath = "")
+        public ActionResult Login(string returnUrl)
         {
             if (returnUrl.IsNullOrEmpty()) return View();
-            returnUrl = returnUrl.Base64ToStr();
+            foreach (string key in Request.QueryString.Keys)
+            {
+                if (key == "returnUrl") continue;
+                if (returnUrl.Contains("?"))
+                {
+                    returnUrl += "&" + key + "=" + Request.QueryString[key];
+                }
+                else
+                {
+                    returnUrl += "?" + key + "=" + Request.QueryString[key].ToString();
+                }
+            }
+            returnUrl = HttpUtility.UrlDecode(returnUrl);
             var authorization = Request.Cookies[ssoCookieKey];
             if (authorization != null)  //sso login
             {
@@ -65,7 +77,7 @@ namespace SSO.Web.Controllers
                     {
                         List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlCookie.Value.Base64ToStr());
                         Uri uri = new Uri(returnUrl);
-                        returnUrl = uri.Scheme + "://" + uri.Authority + "/" + appPath;
+                        returnUrl = uri.Scheme + "://" + uri.Authority;
                         foreach (var ssoUrl in ssoUrls)
                         {
                             if (ssoUrl == returnUrl) return View(); //之前登录过,cookie过期
@@ -80,7 +92,7 @@ namespace SSO.Web.Controllers
                     }
                     Response.Cookies.Add(authorization);
                     //sso退出用
-                    JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl, appPath);
+                    JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
                     if (!string.IsNullOrEmpty(returnUrl))
                         return Redirect(returnUrl);
                 }
@@ -94,23 +106,22 @@ namespace SSO.Web.Controllers
         [AllowAnonymous]
         [HttpPost]
         [LogRecord(true, false)]
-        public ActionResult Login(LoginModel loginModel, string returnUrl, string appPath = "")
+        public ActionResult Login(LoginModel loginModel, string returnUrl)
         {
             if (!returnUrl.IsNullOrEmpty())
             {
-                //foreach (string key in Request.QueryString.Keys)
-                //{
-                //    if (key == "returnUrl") continue;
-                //    if (returnUrl.Contains("?"))
-                //    {
-                //        returnUrl += "&" + key + "=" + Request.QueryString[key];
-                //    }
-                //    else
-                //    {
-                //        returnUrl += "?" + key + "=" + Request.QueryString[key].ToString();
-                //    }
-                //}
-                returnUrl = returnUrl.Base64ToStr();
+                foreach (string key in Request.QueryString.Keys)
+                {
+                    if (key == "returnUrl") continue;
+                    if (returnUrl.Contains("?"))
+                    {
+                        returnUrl += "&" + key + "=" + Request.QueryString[key];
+                    }
+                    else
+                    {
+                        returnUrl += "?" + key + "=" + Request.QueryString[key].ToString();
+                    }
+                }
             }
             User u = null;
             if (loginModel.UserId == admin[0] && loginModel.PassWord == admin[1])
@@ -142,7 +153,7 @@ namespace SSO.Web.Controllers
                 httpCookie.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(ssoCookieTime));
             }
             Response.Cookies.Add(httpCookie);
-            JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl, appPath);
+            JwtAuthorizeAttribute.AddUrlToCookie(HttpContext, returnUrl);
             if (returnUrl.IsNullOrEmpty()) returnUrl = Request.Url.Scheme + "://" + Request.Url.Host + ":" + Request.Url.Port + Request.ApplicationPath;
             //登录成功,替换掉旧的ticket
             string ticket = jwtManager.GenerateTicket(u.UserId);

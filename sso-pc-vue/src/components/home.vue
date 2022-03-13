@@ -153,7 +153,7 @@
             <a-col :span="12" style="text-align: right">
               <a-dropdown :trigger="['click']">
                 <a-button size="small">
-                  {{ this.user.StaffName }}
+                  {{ this.user.name }}
                   <a-icon type="down" />
                 </a-button>
                 <a-menu slot="overlay">
@@ -200,7 +200,7 @@ export default {
         "?returnUrl=" +
         window.location.href,
       user: window.token_jwt_data,
-      lang: window.token_jwt_data.Lang,
+      lang: window.token_jwt_data.lang,
     };
   },
   created() {

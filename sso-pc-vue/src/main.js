@@ -51,7 +51,7 @@ funtools.authorize(baseURL, cookieName);
 
 Vue.use(ssocomponent);
 const i18n = new VueI18n({
-  locale: window.token_jwt_data.Lang,
+  locale: window.token_jwt_data.lang,
   messages: {
     'zh-cn': require('./locales/zh-cn.json'),
     'en-us': require('./locales/en-us.json')
