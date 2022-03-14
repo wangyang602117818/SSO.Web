@@ -15,7 +15,7 @@ Framework7.use(Framework7Vue);
 
 funtools.authorize(baseURL, cookieName);
 const i18n = createI18n({
-  locale: window.token_jwt_data.Lang,
+  locale: window.token_jwt_data.lang,
   messages: {
     'zh-cn': require('./locales/zh-cn.json'),
     'en-us': require('./locales/en-us.json')

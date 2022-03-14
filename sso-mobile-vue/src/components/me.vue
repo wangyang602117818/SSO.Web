@@ -96,7 +96,7 @@ export default {
   name: "me",
   data() {
     return {
-      lang: window.token_jwt_data.Lang,
+      lang: window.token_jwt_data.lang,
       uploading: false,
       fileId: null,
     };
@@ -151,7 +151,7 @@ export default {
           if (response.code == 0) {
             this.$funtools.setCookie(this.$cookieName, response.result);
             this.$funtools.parseTokenSetMessage(response.result);
-            this.lang = window.token_jwt_data.Lang;
+            this.lang = window.token_jwt_data.lang;
             this.$i18n.locale = lang;
           }
         });
