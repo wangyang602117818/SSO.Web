@@ -37,11 +37,6 @@ namespace SSO.Web.Controllers
             return Content(result.Identity.Name);
         }
         [AllowAnonymous]
-        public ActionResult DecodeReturnUrl(string returnUrl)
-        {
-            return Content(returnUrl.Base64ToStr());
-        }
-        [AllowAnonymous]
         public string SecretKey()
         {
             return AesEncryptHelper.GenerateAESKey();

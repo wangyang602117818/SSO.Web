@@ -110,7 +110,7 @@ namespace SSO.Web.Controllers
             Model.UserData userData = user.GetUserUpdate(User.Identity.Name);
             if (userData == null)
             {
-                var userName = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "StaffName").Select(s => s.Value).FirstOrDefault();
+                var userName = ((ClaimsPrincipal)User).Claims.Where(w => w.Type == "name").Select(s => s.Value).FirstOrDefault();
                 userData = new Model.UserData()
                 {
                     UserId = User.Identity.Name,

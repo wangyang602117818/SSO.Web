@@ -16,28 +16,47 @@
 <p class="fw-normal">Asp.Net Core项目: 通过Nuget包(SSO.Util.Client) 来进行登录控制</p>
 <p class="fw-normal">Vue项目: 通过npm包(sso-util) 来进行登录控制</p>
 <p class="fw-normal">React项目: 通过npm包(sso-util) 来进行登录控制</p>
+<p class="fw-bold">3. 配置</p>
+<p class="fw-normal">ssoBaseUrl - SSO登录项目的基本地址</p>
+<p class="fw-normal">ssoSecretKey - JWTToken 加密解密的秘钥</p>
+<p class="fw-normal">ssoCookieKey - 登录成功之后生成的cookie的名称</p>
+<p class="fw-normal">ssoCookieTime - 生成的cookie的有效时间</p>
+<p class="fw-bold">4. cookie过期时间策略</p>
+<p class="fw-normal">ssoCookieTime 有以下两种值策略</p>
+<p class="fw-normal ms-3">session - cookie的有效时间和session同步,只到 浏览器关闭</p>
+<p class="fw-normal ms-3">数值(25) - cookie的有效时间25分钟, 过期就会失效</p>
+<p class="fw-normal">ssoCookieTime是滑动过期时间,如果设置成25,则从 最后一次访问 算起往后延长25分钟</p>
+<p class="fw-normal">步骤描述:</p>
+<p class="fw-light ms-3">登录第一个项目跳到登录界面,输入用户名密码,登录成功</p>
+<p class="fw-light ms-3">输入第二个项目地址自动登录</p>
+<p class="fw-light ms-3">过一段时间,第二个项目因cookie过期,再次刷新会跳到登录界面</p>
+<p class="fw-bold">5. token本身(JWT Token)过期时间策略</p>
+<p class="fw-normal">系统生成的token过期时间默认是第二天的02:00, 过了这个时间token就会失效</p>
+<p class="fw-normal">案例:</p>
+<p class="fw-light ms-3">在23:59:59生成的token,token有效期为2个小时</p>
+<p class="fw-light ms-3">在00:00:00生成的token,token有效期为24+2个小时 </p>
+<p class="fw-light ms-3">在其他时间点生成的token,token有效期为 生成时间 距离 23:59:59的时间 再加2个小时</p>
 <p class="fw-normal">token示例:</p>
-<pre class="line-numbers" data-language="js">
-<code class="language-js">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImNuMDEiLCJTdGFmZk5hbWUiOiJ5YW5nMDEiLCJMYW5nIjoiemgtY24iLCJmcm9tIjoic3NvdXRpbC5jbiIsIm5iZiI6MTY0Mzg1NjYyMywiZXhwIjoxNjQzODU3ODIzLCJpYXQiOjE2NDM4NTY2MjMsImlzcyI6ImFwaS5zc291dGlsLmNuIiwiYXVkIjoiMTAxLjM5LjEwNC4xODEifQ.hdOb8fHcPJT5znE5fq_9uI03cK7bIXmzb-nPbQ-nBDA
-        </code>
-    </pre>
+<textarea style="width:100%;height:100px;padding:10px;outline:none" id="jwt_token_text">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNOMDEiLCJuYW1lIjoiV2FuZzAxIiwibGFuZyI6InpoLWNuIiwiZnJvbSI6InNzb3BjLmNvbSIsIm5iZiI6MTY0NzI0NjAwMCwiZXhwIjoxNjQ3MjgwODAwLCJpYXQiOjE2NDcyNDYwMDAsImlzcyI6InNzb2FwaS5jb20iLCJhdWQiOiJzc29wYy5jb20ifQ.z-v3oyGwIB8WEGAQgoNHkEipbXTkEr9bJw1iSSAm84M</textarea>
+
 <p class="fw-normal">token解析:</p>
 <pre class="line-numbers" data-language="js">
-<code class="language-js">
+<code class="language-js" id="jwt_token">
             {
                 "alg": "HS256", //算法名称
                 "typ": "JWT"
             }
             {
-                "unique_name": "cn01",  //用户编号
-                "StaffName": "yang01",  //用户名称
-                "Lang": "zh-cn",        //用户语言
-                "from": "ssoutil.cn",   //token来源(请求过程中携带token方的地址)
-                "nbf": 1643856623,      //生效时间(在此之前不可用)
-                "exp": 1643857823,      //过期时间 
-                "iat": 1643856623,      //发布时间 
-                "iss": "api.ssoutil.cn", //发行者
-                "aud": "101.39.104.181"  //颁发给
+                "unique_name": "CN01",  //用户编号
+                "name": "Wang01",      //用户名称
+                "lang": "zh-cn",        //用户语言
+                "from": "ssopc.com",   //token来源(请求过程中携带token方的地址)
+                "nbf": 1647246000,      //生效时间(在此之前不可用)
+                "exp": 1647280800,      //过期时间 
+                "iat": 1647246000,      //发布时间 
+                "iss": "ssoapi.com", //发行者
+                "aud": "ssopc.com"  //颁发给
             }
 </code>
 </pre>
+
