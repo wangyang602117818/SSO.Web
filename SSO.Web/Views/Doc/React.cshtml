@@ -1,4 +1,4 @@
-﻿
+﻿@using SSO.Util.Client
 @{
     ViewBag.Title = "配置单点登录-React";
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
@@ -28,14 +28,14 @@
 <p class="fw-bold mt-4">2. 配置项目</p>
 <p class="fw-normal">1) 在入口 index.js 中添加以下代码,则项目已经具有登录功能</p>
 <pre class="line-numbers" data-language="js">
-<code class="language-js">
-    import ssoutil from 'sso-util'
+    <code class="language-js">
+        import ssoutil from 'sso-util'
 
-    const baseURL = "http://api.ssoutil.cn";
-    const cookieName = "appreact.web.auth";
+        const baseURL = "@AppSettings.GetApplicationUrl(Request)";
+        const cookieName = "appreact.web.auth";
 
-    ssoutil.authorize(baseURL, cookieName);
-</code>
+        ssoutil.authorize(baseURL, cookieName);
+    </code>
 </pre>
 <p class="col pe-0">
     <img src="~/Content/images/react-2.png" />
@@ -69,8 +69,8 @@
 <p class="fw-bold mt-4">4. SSO退出</p>
 <p class="fw-normal">在当前项目中放入以下链接或者用js的方式跳到该链接</p>
 <pre class="line-numbers" data-language="Html">
-<code class="language-markup">
+    <code class="language-markup">
         &lt;!--{baseUrl}为当前项目的基本地址-->
-        &lt;a href="http://api.ssoutil.cn/sso/logout?returnUrl={baseUrl}">sso退出&lt;/a>
+        &lt;a href="@AppSettings.GetApplicationUrl(Request)sso/logout?returnUrl={baseUrl}">sso退出&lt;/a>
     </code>
 </pre>

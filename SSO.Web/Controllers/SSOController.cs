@@ -160,6 +160,36 @@ namespace SSO.Web.Controllers
             returnUrl = JwtAuthorizeAttribute.AppendTicket(returnUrl, ticket);
             return new ResponseModel<string>(ErrorCode.success, returnUrl);
         }
+        [AllowAnonymous]
+        [HttpPost]
+        [LogRecord(true, false)]
+        public ActionResult LoginGetToken(LoginReturnTokenModel login)
+        {
+            User u = null;
+            if (login.UserId == admin[0] && login.PassWord == admin[1])
+            {
+                u = new User()
+                {
+                    UserId = login.UserId,
+                    UserName = login.UserId,
+                    RoleName = admin[2]
+                };
+            }
+            else
+            {
+                u = user.Login(login.UserId, login.PassWord.GetSha256());
+            }
+            if (u == null)
+            {
+                return new ResponseModel<string>(ErrorCode.login_fault, "");
+            }
+            Settings setting = settings.GetSetting(User.Identity.Name);
+            if (setting != null) lang = setting.Lang;
+            Dictionary<string, string> extra = new Dictionary<string, string>();
+            extra.Add("from", login.From);
+            string token = jwtManager.GenerateToken(u.UserId, u.UserName, lang, login.From, extra);
+            return new ResponseModel<string>(ErrorCode.success, token);
+        }
         /// <summary>
         /// 退出带上 returnUrl 方便再次登录进入当前页面
         /// </summary>

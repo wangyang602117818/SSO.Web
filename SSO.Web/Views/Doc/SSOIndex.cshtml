@@ -37,9 +37,8 @@
 <p class="fw-light ms-3">在00:00:00生成的token,token有效期为24+2个小时 </p>
 <p class="fw-light ms-3">在其他时间点生成的token,token有效期为 生成时间 距离 23:59:59的时间 再加2个小时</p>
 <p class="fw-normal">token示例:</p>
-<textarea style="width:100%;height:100px;padding:10px;outline:none" id="jwt_token_text">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNOMDEiLCJuYW1lIjoiV2FuZzAxIiwibGFuZyI6InpoLWNuIiwiZnJvbSI6InNzb3BjLmNvbSIsIm5iZiI6MTY0NzI0NjAwMCwiZXhwIjoxNjQ3MjgwODAwLCJpYXQiOjE2NDcyNDYwMDAsImlzcyI6InNzb2FwaS5jb20iLCJhdWQiOiJzc29wYy5jb20ifQ.z-v3oyGwIB8WEGAQgoNHkEipbXTkEr9bJw1iSSAm84M</textarea>
-
-<p class="fw-normal">token解析:</p>
+<textarea class="form-control" style="width:100%;height:100px;padding:10px;outline:none" id="jwt_token_text">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNOMDEiLCJuYW1lIjoiV2FuZzAxIiwibGFuZyI6InpoLWNuIiwiZnJvbSI6InNzb3BjLmNvbSIsIm5iZiI6MTY0NzI0NjAwMCwiZXhwIjoxNjQ3MjgwODAwLCJpYXQiOjE2NDcyNDYwMDAsImlzcyI6InNzb2FwaS5jb20iLCJhdWQiOiJzc29wYy5jb20ifQ.z-v3oyGwIB8WEGAQgoNHkEipbXTkEr9bJw1iSSAm84M</textarea>
+<p class="fw-normal mt-3">token解析:</p>
 <pre class="line-numbers" data-language="js">
 <code class="language-js" id="jwt_token">
             {

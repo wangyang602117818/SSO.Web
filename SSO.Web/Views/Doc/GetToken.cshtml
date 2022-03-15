@@ -1,0 +1,71 @@
+﻿@using SSO.Util.Client
+@{
+    ViewBag.Title = "获取登录凭证";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+    var baseUrl = AppSettings.GetApplicationUrl(Request) + "sso/LoginGetToken";
+}
+<h4 class="bd-title mb-3" id="content">获取登录凭证</h4>
+<p class="fw-normal">如果不希望通过页面跳转的方式来登录,也可以通过用户名和密码的方式来换取token,通过token访问系统的其他资源</p>
+<p class="fw-normal">通过这种方式生成的token 同样是 jwt token,内容和跳转登录生成的token内容是一致的</p>
+<p class="fw-bold">1. 获取登录凭证</p>
+<p class="fw-normal">地址 - @baseUrl</p>
+<p class="fw-normal">请求方式 - Post</p>
+<p class="fw-normal">数据格式 - Json</p>
+<p class="fw-light">请求样例</p>
+<pre class="line-numbers" data-language="js">
+<code class="language-js">
+        post @baseUrl
+        {
+            "UserId":"cn01",
+            "PassWord":"a123456",
+            "from":"www.sss.com"  //token的来源,一般填入自己站点的地址
+        }
+    </code>
+</pre>
+<p class="fw-light">响应样例</p>
+<pre class="line-numbers" data-language="js">
+<code class="language-js">
+        {
+        "code": 0,
+        "message": "success",
+        "result": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNOMDEiLCJuYW1lIjoiV2FuZzAxIiwibGFuZyI6InpoLWNuIiwiZnJvbSI6Ind3dy5zc3MuY29tIiwibmJmIjoxNjQ3MzI5MjA1LCJleHAiOjE2NDczNjcyMDAsImlhdCI6MTY0NzMyOTIwNSwiaXNzIjoic3NvYXBpLmNvbSIsImF1ZCI6Ind3dy5zc3MuY29tIn0.fErMzqT2v48RtNF4C9ovOuqeU3ugK9gvipBXnBS35ao",
+        "count": 0
+        }
+    </code>
+</pre>
+<p class="fw-bold mt-4">2. 获取token测试</p>
+<div class="row">
+    <form class="col-4">
+        <div class="col-auto">
+            <label for="userId" class="form-label">用户名:</label>
+            <input type="text" class="form-control" id="userId" placeholder="用户名" value="cn01">
+        </div>
+        <div class="col-auto mt-2">
+            <label for="password" class="form-label">密码:</label>
+            <input type="password" class="form-control" id="password" placeholder="密码" value="a123456">
+        </div>
+        <div class="col-auto mt-2">
+            <label for="from" class="form-label">来源:</label>
+            <input type="text" class="form-control" id="from" placeholder="密码" value="www.abc.com">
+        </div>
+        <div class="col-auto mt-4">
+            <button type="button" class="btn btn-primary mb-3" onclick="login()"> 发送请求 </button>
+        </div>
+    </form>
+    <div class="col-8">
+        <textarea class="form-control" style="width:100%;height:100%;padding:10px;outline:none" id="response" placeholder="返回内容"></textarea>
+    </div>
+</div>
+<style>
+   
+</style>
+<script>
+    function login() {
+        var userId = $("#userId").val();
+        var password = $("#password").val();
+        var from = $("#from").val();
+        $.post('@baseUrl', { userId, password, from }, function (data) {
+            $("#response").text(JSON.stringify(data));
+        })
+    }
+</script>

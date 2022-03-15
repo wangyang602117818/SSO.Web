@@ -12,7 +12,12 @@ namespace SSO.Web.Models
         [Required]
         public string PassWord { get; set; }
     }
-   
+    public class LoginReturnTokenModel : LoginModel
+    {
+        [Required]
+        public string From { get; set; }
+    }
+
     public class AddUserModel
     {
         private List<string> departments = new List<string>();
@@ -33,7 +38,7 @@ namespace SSO.Web.Models
         public string IdCard { get; set; }
         public List<string> Departments { get => departments; set => departments = value; }
         public List<string> Roles { get => roles; set => roles = value; }
-        
+
     }
     public class UpdateUserModel : AddUserModel
     {
