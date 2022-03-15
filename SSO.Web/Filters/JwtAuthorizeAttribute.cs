@@ -82,7 +82,15 @@ namespace SSO.Web.Filters
                 catch (SecurityTokenExpiredException ex) //expried token
                 {
                     Log4Net.ErrorLog(ex);
-                    filterContext.Result = new ResponseModel<string>(ErrorCode.token_expired, "");
+                    //用户点击了退出
+                    if (request.Path.IndexOf("/sso/logout") > -1)
+                    {
+                        DeleteCookie(filterContext);
+                    }
+                    else
+                    {
+                        filterContext.Result = new ResponseModel<string>(ErrorCode.token_expired, "");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -90,6 +98,17 @@ namespace SSO.Web.Filters
                     filterContext.Result = new ResponseModel<string>(ErrorCode.invalid_token, "");
                 }
             }
+        }
+        public static void DeleteCookie(AuthorizationContext filterContext)
+        {
+            var httpCookie = filterContext.HttpContext.Request.Cookies[ssoCookieKey];
+            //string returnUrl = filterContext.HttpContext.Request.QueryString["returnUrl"];
+            if (httpCookie != null)
+            {
+                httpCookie.Expires = DateTime.Now.AddYears(-1);
+                filterContext.HttpContext.Response.Cookies.Add(httpCookie);
+            }
+            //filterContext.Result = new RedirectResult();
         }
         public static string AppendTicket(string returnUrl, string ticket)
         {
