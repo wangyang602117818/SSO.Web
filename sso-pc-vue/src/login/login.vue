@@ -1,5 +1,6 @@
 <template>
   <div class="container" v-on:keyup.enter.stop="handleLogin">
+    <a class="help" href="doc/index" target="_blank">文档</a>
     <div class="login_wrap">
       <div class="login_title">登录</div>
       <div class="login_content">
@@ -63,6 +64,7 @@
       <a href="https://beian.miit.gov.cn" target="_blank"
         >冀ICP备2021023234号</a
       >
+      <a href="doc/index" target="_blank">文档中心</a>
     </div>
     <transition name="move">
       <div class="toast" v-show="mssage_show">
@@ -100,6 +102,9 @@ export default {
   },
   mounted() {},
   methods: {
+    help() {
+      window.open("doc/index");
+    },
     userChange(e) {
       var value = e.currentTarget.value;
       this.userIdExists = value == "" ? false : true;
@@ -118,7 +123,7 @@ export default {
           .post(this.$urls.login, {
             userId: this.userId,
             passWord: this.passWord,
-            returnUrl: returnUrl
+            returnUrl: returnUrl,
           })
           .then((response) => {
             if (response.code == 0) {
@@ -168,7 +173,25 @@ body {
   justify-content: center;
   align-items: center;
 }
-
+.help {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  right: 15px;
+  top: 15px;
+  background-color: #fff;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #096dd9;
+  color: #fff;
+  text-decoration: none;
+}
+.help:hover {
+  background-color: #40a9ff;
+  cursor: pointer;
+}
 .login_wrap {
   background-color: #fff;
   width: 315px;
@@ -296,7 +319,7 @@ body {
   cursor: default;
 }
 .footer {
-  height: 30px;
+  height: 35px;
   font-size: 12px;
   background-color: #fff;
   width: 100%;
@@ -310,6 +333,10 @@ body {
 .footer a {
   color: #bbb;
   text-decoration: none;
+  margin-right: 30px;
+}
+.footer a:hover {
+  color: #000;
 }
 .toast {
   position: absolute;
