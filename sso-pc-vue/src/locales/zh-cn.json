@@ -33,6 +33,7 @@
     "login": "登录",
     "logout": "退出",
     "home": "首页",
+    "doc": "文档",
     "companys": "公司总数",
     "departments": "部门总数",
     "roles": "角色总数",
@@ -273,8 +274,8 @@
         "StartScheduling": "启动调度",
         "StopScheduling": "停止调度",
         "GetSchedulingHistory": "获取调度历史",
-        "App01-About":"关于",
-        "App01-Me":"我的"
+        "App01-About": "关于",
+        "App01-Me": "我的"
     },
     "response": {
         "success": "操作成功!",

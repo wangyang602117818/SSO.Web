@@ -172,7 +172,9 @@
                 >{{ $t("lang") }}</a-button
               >&nbsp;
               <a-button size="small">
-                <a target="_self" :href="this.$baseUrl">{{ $t("home") }}</a>
+                <a target="_blank" :href="this.$baseUrl + 'doc/index'">{{
+                  $t("doc")
+                }}</a>
               </a-button>
             </a-col>
           </a-row>
