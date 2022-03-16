@@ -14,50 +14,70 @@
     <link href="~/Content/doc.css" rel="stylesheet" />
     <link rel=icon href="~/logo.ico">
     <style>
+        img {
+            border: 1px solid #d0d0d0;
+        }
     </style>
 </head>
 <body>
     @Html.Partial("_Header")
     <div class="container mb-5" style="margin-top:70px">
         <div class="row">
-            <div class="col-3 d-flex flex-column p-2" style="background-color: #f5f5f5;">
-                <h4 class="mt-2">一.SSO登录和退出</h4>
-                <div class="lead fs-6">
-                    <p class="font-monospace">1. 访问 <a href="http://www.ssoutil.cn" target="_blank">www.ssoutil.cn</a> </p>
-                    <p class="font-monospace">2. 访问 <a href="http://file.ssoutil.cn" target="_blank">file.ssoutil.cn</a> </p>
-                    <p class="fw-light" style="font-size:12px">登录任何一个站点(cn01,a123456),其他站点自动登录</p>
-                    <p class="fw-light" style="font-size:12px">退出任何一个站点,其他站点自动退出</p>
+            <h4 class="mt-4 mb-4">一. SSO登录和退出</h4>
+            <div class="row pe-0 me-0">
+                <div class="col-3 d-flex flex-column p-2" style="background-color: #f5f5f5;">
+                    <div class="lead fs-6">
+                        <p class="font-monospace">1. 访问 <a href="http://www.ssoutil.cn" target="_blank">www.ssoutil.cn</a> 因为未登录过, 界面跳到登录界面,  输入用户名(cn01)和密码(a123456), 成功之后跳回原站点</p>
+                        <p class="font-monospace">2. 访问 <a href="http://file.ssoutil.cn" target="_blank">file.ssoutil.cn</a> 因为前一个站点已经登录, 该站点不需要重复登录</p>
+                        <p class="font-monospace">3. 选择2个站点其中任何一个退出, 则其他登录过的站点也随之退出</p>
+                    </div>
+                </div>
+                <div class="col pe-0">
+                    <img src="~/Content/images/home-1.gif" style="width:100%" />
                 </div>
             </div>
-            <div class="col pe-0">
-                <img src="~/Content/images/home-1.gif" style="width:100%" />
+        </div>
+        <div class="row">
+            <h4 class="mt-4 mb-4">二. 文件存储和下载</h4>
+            <div class="row pe-0 me-0">
+                <div class="col-3 d-flex flex-column p-2" style="background-color: #f5f5f5;">
+                    <div class="lead fs-6">
+                        <h5 class="mt-2 mb-4">文件存储</h5>
+                        <p class="font-monospace">1. 配置好外部项目的后台部分</p>
+                        <p class="font-monospace">2. 在外部项目中上传文件,则文件被传入文件管理系统,返回文件基本信息,其中文件id和文件名用户随后访问文件</p>
+                    </div>
+                </div>
+                <div class="col pe-0">
+                    <img src="~/Content/images/home-2.gif" style="width:100%" />
+                </div>
+            </div>
+            <div class="row pe-0 mt-2 mb-2">
+                <div class="col-3 d-flex flex-column p-2" style="background-color: #f5f5f5;">
+                    <div class="lead fs-6">
+                        <h5 class="mt-2 mb-4">文件下载</h5>
+                        <p class="font-monospace">1. 配置好外部项目的后台部分</p>
+                        <p class="font-monospace">2. 用上传文件返回的文件id和文件名访问该文件</p>
+                    </div>
+                </div>
+                <div class="col pe-0">
+                    <img src="~/Content/images/home-3.gif" style="width:100%;" />
+                </div>
             </div>
         </div>
-        <div class="row mt-2">
-            <div class="col" style="background-color: #f5f5f5;">
-                <h4 class="mt-2">二.文件存储和下载</h4>
+        <div class="row">
+            <h4 class="mt-4 mb-4">三. 权限控制</h4>
+            <div class="row pe-0 me-0">
+                <div class="col-3 d-flex flex-column p-2" style="background-color: #f5f5f5;">
+                    <div class="lead fs-6">
+                        <p class="font-monospace">1. CN02是只读用户,尝试删除文件,系统显示权限不足</p>
+                        <p class="font-monospace">2. 把CN02的角色改成admin,因admin具有删除权限,此时CN02就能够删除文件了</p>
+                    </div>
+                </div>
+                <div class="col pe-0">
+                    <img src="~/Content/images/home-4.gif" style="width:100%" />
+                </div>
             </div>
         </div>
-        <div class="row mt-2">
-            <div class="col">
-                <img src="~/Content/images/home-2.gif" style="width:100%" />
-            </div>
-            <div class="col-5 pe-0 ">
-                <img src="~/Content/images/home-3.gif" style="width:100%" />
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col" style="background-color: #f5f5f5;">
-                <h4 class=" mt-2">三.权限控制</h4>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col pe-0 ps-0">
-                <img src="~/Content/images/home-4.gif" style="width:100%" />
-            </div>
-        </div>
-
-
     </div>
 
 </body>
