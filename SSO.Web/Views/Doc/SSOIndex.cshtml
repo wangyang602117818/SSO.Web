@@ -11,7 +11,7 @@
     JWT Token是目前最流行的跨域身份验证解决方案, Token分成3个部分:Header(包含算法),Payload(包含数据),Signature(包含签名,防止数据篡改)
 </p>
 <p class="fw-normal">在使用中token会保存以下信息:用户编号,用户名称,用户语言,token的颁发者,用户ip</p>
-<p class="fw-normal">JWT Token会贯穿在后序的多个流程中,主要包含在header或者cookie中参与验证</p>
+<p class="fw-normal">JWT Token会贯穿在后序的多个流程中,主要包含在header或者cookie中参与验证,如果使用header,请在header中添加 Authorization: jwt_token</p>
 <p class="fw-normal">Asp.Net项目: 通过Nuget包(SSO.Util.Client) 来进行登录控制</p>
 <p class="fw-normal">Asp.Net Core项目: 通过Nuget包(SSO.Util.Client) 来进行登录控制</p>
 <p class="fw-normal">Vue项目: 通过npm包(sso-util) 来进行登录控制</p>
