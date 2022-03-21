@@ -187,6 +187,7 @@ body {
   background-color: #096dd9;
   color: #fff;
   text-decoration: none;
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
 }
 .help:hover {
   background-color: #40a9ff;
