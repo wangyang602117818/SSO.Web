@@ -124,7 +124,6 @@
     </Compile>
     <Compile Include="Schedules\InnerSchedules\CompanySchedule.cs" />
     <Compile Include="Schedules\BaseSchedule.cs" />
-    <Compile Include="Schedules\DateLogger.cs" />
     <Compile Include="Schedules\InnerSchedules\DepartmentSchedule.cs" />
     <Compile Include="Schedules\InnerSchedules\TableScheduleBase.cs" />
     <Compile Include="Schedules\InnerSchedules\RoleSchedule.cs" />
