@@ -1,6 +1,6 @@
 <template>
   <div class="container" v-on:keyup.enter.stop="handleLogin">
-    <a class="help" href="doc/index" target="_blank">文档</a>
+    <a class="help" href="doc/index" target="_blank" v-if="isPc">文档</a>
     <div class="login_wrap">
       <div class="login_title">登录</div>
       <div class="login_content">
@@ -64,7 +64,7 @@
       <a href="https://beian.miit.gov.cn" target="_blank"
         >冀ICP备2021023234号</a
       >
-      <a href="doc/index" target="_blank">文档中心</a>
+      <a href="doc/index" target="_blank" v-if="isPc">文档中心</a>
     </div>
     <transition name="move">
       <div class="toast" v-show="mssage_show">
@@ -98,9 +98,11 @@ export default {
       userErrorLine: false,
       passWordErrorLine: false,
       mssage_show: false,
+      isPc: this.$funtools.getDeviceType(navigator.userAgent) == "pc",
     };
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {
     help() {
       window.open("doc/index");
@@ -187,7 +189,7 @@ body {
   background-color: #096dd9;
   color: #fff;
   text-decoration: none;
-  box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 .help:hover {
   background-color: #40a9ff;
