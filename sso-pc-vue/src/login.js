@@ -1,14 +1,15 @@
 import Vue from 'vue'
-import { axios } from './config/http';
+import { axios, baseURL } from './config/http';
 import funtools from 'sso-util'
 
 import Login from '@/login/login'
 
 Vue.prototype.$funtools = funtools
 Vue.prototype.$axios = axios
-axios.defaults.baseURL = "";
+axios.defaults.baseURL = baseURL;
 
-Vue.prototype.$baseUrl = axios.defaults.baseURL
+Vue.prototype.$baseUrl = baseURL;
+
 var urls = {
     login: '/sso/login'
 };

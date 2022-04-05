@@ -1,6 +1,6 @@
 <template>
   <div class="container" v-on:keyup.enter.stop="handleLogin">
-    <a class="help" href="doc/index" target="_blank" v-if="isPc">文档</a>
+    <a class="help" :href="helpUrl" target="_blank" v-if="isPc">文档</a>
     <div class="login_wrap">
       <div class="login_title">登录</div>
       <div class="login_content">
@@ -99,14 +99,12 @@ export default {
       passWordErrorLine: false,
       mssage_show: false,
       isPc: this.$funtools.getDeviceType(navigator.userAgent) == "pc",
+      helpUrl: this.$funtools.trimEndChar(this.$baseUrl, "/") + "/doc/index",
     };
   },
   mounted() {
   },
   methods: {
-    help() {
-      window.open("doc/index");
-    },
     userChange(e) {
       var value = e.currentTarget.value;
       this.userIdExists = value == "" ? false : true;
