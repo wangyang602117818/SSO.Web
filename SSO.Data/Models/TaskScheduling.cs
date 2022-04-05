@@ -34,8 +34,8 @@ namespace SSO.Data.Models
         }
         public int DeleteScheduling(IEnumerable<int> ids)
         {
-            var nodes = new List<string>() { "delete", "delete-mapping" };
-            var datas = new List<object>() { new { Ids = ids }, new { SchedulingIds = ids } };
+            var nodes = new List<string>() { "delete-mapping", "delete" };
+            var datas = new List<object>() { new { SchedulingIds = ids } ,new { Ids = ids }};
             return base.ExecuteTransaction(nodes, datas, null);
         }
         public object GetSchedulingById(int id)
