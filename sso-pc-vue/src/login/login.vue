@@ -64,7 +64,7 @@
       <a href="https://beian.miit.gov.cn" target="_blank"
         >冀ICP备2021023234号</a
       >
-      <a href="doc/index" target="_blank" v-if="isPc">文档中心</a>
+      <a :href="helpUrl" target="_blank" v-if="isPc">文档中心</a>
     </div>
     <transition name="move">
       <div class="toast" v-show="mssage_show">
@@ -102,8 +102,7 @@ export default {
       helpUrl: this.$funtools.trimEndChar(this.$baseUrl, "/") + "/doc/index",
     };
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     userChange(e) {
       var value = e.currentTarget.value;

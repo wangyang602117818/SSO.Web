@@ -57,7 +57,7 @@ export const urls = {
         stopScheduling: "taskscheduling/stopScheduling",
         enableScheduling: "taskscheduling/enableScheduling",
         getSchedulingNames: "taskscheduling/getSchedulingNames",
-        getSchedulingHistory:"taskscheduling/getSchedulingHistory"
+        getSchedulingHistory: "taskscheduling/getSchedulingHistory"
     },
     log: {
         getlist: 'log/getlist',
@@ -120,7 +120,7 @@ ax.interceptors.response.use(
             return;
         }
         if (response.data.code > 10) {
-            if (window.vue.$toast){
+            if (window.vue.$toast) {
                 window.vue.$toast("info", window.vue.$t("response." + response.data.message));
             }
         }
