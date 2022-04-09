@@ -24,7 +24,7 @@
         var basePath = AppSettings.GetApplicationUrlTrimHttpPrefix(Request);   //localhost:5132
     </code>
 </pre>
-<p class="fw-normal">4. 获取当前请求的绝对路径,包含请求参数</p>
+<p class="fw-normal">4. 获取当前请求的绝对路径,包含请求参数( asp.net 和 asp.netcore 通用 )</p>
 <pre data-language="C#">
     <code class="language-cs">
         var basePath = AppSettings.GetAbsoluteUri(Request);  //http://localhost:5132/?a=2
