@@ -424,6 +424,7 @@
     <Content Include="Views\Doc\Task.cshtml" />
     <Content Include="Views\Doc\Other.cshtml" />
     <Content Include="Views\Doc\GetToken.cshtml" />
+    <Content Include="Views\Doc\SSOPrinciple.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
