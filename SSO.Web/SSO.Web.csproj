@@ -424,13 +424,10 @@
     <Content Include="Views\Doc\Task.cshtml" />
     <Content Include="Views\Doc\Other.cshtml" />
     <Content Include="Views\Doc\GetToken.cshtml" />
-<<<<<<< HEAD
     <None Include="sbl.xsd">
       <SubType>Designer</SubType>
     </None>
-=======
     <Content Include="Views\Doc\SSOPrinciple.cshtml" />
->>>>>>> b74c5fda464a1e4360b92a1154a34a4c9ed5b07e
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">

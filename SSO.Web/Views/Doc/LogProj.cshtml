@@ -24,6 +24,7 @@
  </pre>
 <p class="fw-bold">2. 全局记录日志</p>
 <p class="fw-normal">使用 MyHandleErrorAttribute 替换项目的自动错误处理机制 HandleErrorAttribute ,则项目中出现错误会自动记录日志</p>
+<p class="fw-light">Asp.net</p>
 <pre data-language="C#">
 <code class="language-cs">
     public class FilterConfig
@@ -34,5 +35,15 @@
             ...
         }
     }
+    </code>
+ </pre>
+<p class="fw-light">Asp.net Core</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        services.AddControllersWithViews(options =>
+        {
+            <mark>options.Filters.Add(new MyHandleErrorAttribute());</mark>
+            ...
+        });
     </code>
  </pre>

@@ -19,7 +19,7 @@
 <p class="fw-bold">1. 参数验证标准化</p>
 <p class="fw-normal">该功能避免了代码中参数验证中if else语句过多的问题</p>
 <p class="fw-normal text-decoration-underline">案例一: 在Action上添加 [ValidateModelState] 验证特性</p>
-<p class="fw-light">asp.net</p>
+<p class="fw-light">Asp.net</p>
 <pre>
 <code class="language-cs">
     public class HomeController : Controller
@@ -33,7 +33,7 @@
     }
     </code>
  </pre>
-<p class="fw-light">asp.net core</p>
+<p class="fw-light">Asp.net Core</p>
 <pre data-language="C#">
 <code class="language-cs">
     public class HomeController : Controller
@@ -61,7 +61,7 @@
     </code>
 </pre>
 <p class="fw-normal mt-4 text-decoration-underline">案例二: 全局添加 [ValidateModelState] 验证特性</p>
-<p class="fw-light">asp.net</p>
+<p class="fw-light">Asp.net</p>
 <pre>
 <code class="language-cs">
     public class FilterConfig
@@ -69,7 +69,7 @@
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             ...
-            filters.Add(new ValidateModelStateAttribute());
+            <mark>filters.Add(new ValidateModelStateAttribute());</mark>
         }
     }
     </code>
@@ -86,12 +86,13 @@
     }
     </code>
  </pre>
-<p class="fw-light">asp.net core</p>
+<p class="fw-light">Asp.net Core</p>
 <pre>
 <code class="language-cs">
     builder.Services.AddControllersWithViews(options =>
     {
-        options.Filters.Add(new ValidateModelStateAttribute());
+        ...
+        <mark>options.Filters.Add(new ValidateModelStateAttribute());</mark>
     });
     </code>
  </pre>

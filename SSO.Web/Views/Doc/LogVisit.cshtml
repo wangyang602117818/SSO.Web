@@ -16,7 +16,7 @@
         &lt;add key="messageBaseUrl" value="http://message.ssoutil.cn/" />
     </code>
 </pre>
-<p class="fw-light">appsettings.json(Asp.net core)</p>
+<p class="fw-light">appsettings.json(Asp.net Core)</p>
 <pre data-language="js">
     <code class="language-js">
         //日志服务器的地址
@@ -44,6 +44,7 @@
     </code>
  </pre>
 <p class="fw-light">案例二: 在全局使用 [LogRecord] 特性,在Action上使用 [NoneLogRecord] 特性,则整个系统中具有 [NoneLogRecord] 特性的方法不记录日志,其他方法记录日志</p>
+<p class="fw-light">Asp.net</p>
 <pre data-language="C#">
 <code class="language-cs">
    public class FilterConfig
@@ -54,6 +55,16 @@
             <mark>filters.Add(new LogRecordAttribute());</mark>
         }
     }
+    </code>
+ </pre>
+<p class="fw-light">Asp.net Core</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        services.AddControllersWithViews(options =>
+        {
+            <mark>options.Filters.Add(new LogRecordAttribute());</mark>
+            ...
+        });
     </code>
  </pre>
 <p class="fw-bold">3. 其他参数</p>
