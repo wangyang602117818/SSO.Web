@@ -428,6 +428,8 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Doc\SSOPrinciple.cshtml" />
+    <Content Include="Views\Doc\ProjectIntro.cshtml" />
+    <Content Include="Views\Doc\FilePrinciple.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
