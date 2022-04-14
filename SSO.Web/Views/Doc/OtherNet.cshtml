@@ -1,10 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "其他";
+    ViewBag.Title = "工具-SSO.Util.Client";
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
 }
-<h4 class="bd-title mb-3" id="content">其他</h4>
-<p class="fw-normal">本节点介绍系统中集成的其他功能</p>
+<h4 class="bd-title mb-3" id="content">SSO.Util.Client 内置工具</h4>
+<p class="fw-normal">本节点介绍SSO.Util.Client中集成的功能</p>
 <p class="fw-bold">1. AppSettings配置获取</p>
 <p class="fw-normal">1) 获取配置节点( Asp.net 和 Asp.net Core 通用 )</p>
 <pre data-language="C#">
@@ -131,9 +131,7 @@ public class Processor
         var source = Base64SecureURL.Decode(encode);  //解码
     </code>
 </pre>
-<p class="fw-bold">7. JwtToken 生成</p>
-<p class="fw-normal">待定</p>
-<p class="fw-bold">8. 散列算法</p>
+<p class="fw-bold">7. 散列算法</p>
 <pre data-language="C#">
 <code class="language-cs">
         string str = "abc";
@@ -141,7 +139,7 @@ public class Processor
         var hash256 = str.GetSha256();  //hash256算法
     </code>
 </pre>
-<p class="fw-bold">9. 时间戳</p>
+<p class="fw-bold">8. 时间戳</p>
 <p class="fw-normal">获取DateTime对象的时间戳</p>
 <pre data-language="C#">
 <code class="language-cs">
@@ -157,7 +155,7 @@ public class Processor
         DateTime time2 = milstamp.TimeStampToDateTime();
     </code>
 </pre>
-<p class="fw-bold">10. http请求</p>
+<p class="fw-bold">9. http请求</p>
 <p class="fw-normal">http发送文件</p>
 <pre data-language="C#">
 <code class="language-cs">
@@ -194,7 +192,7 @@ public class Processor
         var res= httpRequestHelper.GetFile("",null);
     </code>
 </pre>
-<p class="fw-bold">11. 随机数</p>
+<p class="fw-bold">10. 随机数</p>
 <p class="fw-normal">获取长度为10的随机字符串</p>
 <pre data-language="C#">
 <code class="language-cs">

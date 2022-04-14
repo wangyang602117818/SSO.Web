@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewBag.Title = "工具-sso-util";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">sso-util 内置工具</h4>
+<p class="fw-normal">本节点介绍sso-util中集成的功能</p>
+<p class="fw-light">安装</p>
+<pre data-language="shell">
+<code class="language-shell">
+                npm install sso-util
+            </code>
+        </pre>
+<p class="fw-light">引用</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        import ssoutil from 'sso-util'
+    </code>
+</pre>
+<p class="fw-bold">1. SSO验证</p>
+<p class="fw-normal">该方法验证是否登录过,如果未登录则跳到登录界面</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        ssoutil.authorize(baseUrl, cookieName)
+    </code>
+</pre>
+<p class="fw-bold">2. 获取Authorization(jwt token)</p>
+<p class="fw-normal">该方法获取Jwt Token,实质是获取cookieName的值</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        //获取authorization
+        var authorization = ssoutil.getAuthorization(cookieName);
+    </code>
+</pre>
+<p class="fw-bold">3. 通过cookieName获取Authorization,然后解析出用户基本信息</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        //获取userData
+        var userData = ssoutil.getUserData(cookieName);
+    </code>
+</pre>
+<p class="fw-bold">4. cookie相关</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        //获取cookie
+        var value = ssoutil.getCookie(name);
+        //设置cookie
+        setCookie(name, value, exdays)
+    </code>
+</pre>
+<p class="fw-bold">5. base64相关</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        //把base64字符串转成url安全的编码
+        var base64Secure = ssoutil.base64SecureURLEncode(base64);
+        //把base64安全的编码解析成源码
+        var base64 = ssoutil.base64SecureURLDecode(base64Secure);
+        //字符串转base64编码
+        var base64 = ssoutil.base64EnCode(str)
+        //base64编码转字符串
+        var str = ssoutil.base64DeCode(base64)
+    </code>
+</pre>
+<p class="fw-bold">6. url参数解析</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        //获取获取url上面的参数
+        var value = ssoutil.getQueryString(name)
+        //获取url上面name参数之后所有部分,这和getQueryString有所不同,因为returnUrl后面可能还有参数
+        var returnUrl = ssoutil.getReturnUrl(name)
+    </code>
+</pre>
+<p class="fw-bold">7. 随机数</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        //随机字符串 min:最小位数,max:最大位数
+        var result = ssoutil.randomWord(min,max)
+        //随机数字 min:最小值,max:最大值
+        var result = ssoutil.randomNumber(min,max)
+    </code>
+</pre>
+<p class="fw-bold">8. 设备判断</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        //根据userAgent获取设备类型 返回 mobile|pc
+        var result = ssoutil.getDeviceType(userAgent)
+    </code>
+</pre>
+<p class="fw-bold">9. trim</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        //去除字符串首尾char字符串,不提供char,默认剔除空格
+        var result = ssoutil.trimChar(str,char)
+        //去除字符串首char字符串,不提供char,默认剔除空格
+        var result = ssoutil.trimStartChar(str,char)
+        //去除字符串尾char字符串,不提供char,默认剔除空格
+        var result = ssoutil.trimEndChar(str,char)
+    </code>
+</pre>
+<p class="fw-bold">10. 字符串</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        //格式化成2位的时间格式(2012-1-1 -> 2021-01-01)
+        var result = ssoutil.formatMonth(month)
+        //获取获取当前的日期(2022-04-01 12:02:03)
+        var date = ssoutil.getCurrentDateTime()
+        //把字节大小转成用户可识别的文件大小(10KB 10MB 10BG)
+        var size = ssoutil.convertFileSize(value)
+        //把秒转换成 00:00:00 格式
+        var str = ssoutil.convertTime(seconds)
+        //移除字符串中的html标签
+        var str = ssoutil.removeHTML(str)
+        //获取文件扩展名(小写)
+        var str = ssoutil.getFileExtension(str)
+    </code>
+</pre>

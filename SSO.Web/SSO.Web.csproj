@@ -420,7 +420,7 @@
     <Content Include="Views\Doc\EsOpr.cshtml" />
     <Content Include="Views\Doc\EsSearch.cshtml" />
     <Content Include="Views\Doc\Task.cshtml" />
-    <Content Include="Views\Doc\Other.cshtml" />
+    <Content Include="Views\Doc\OtherNet.cshtml" />
     <Content Include="Views\Doc\GetToken.cshtml" />
     <None Include="sbl.xsd">
       <SubType>Designer</SubType>
@@ -428,6 +428,7 @@
     <Content Include="Views\Doc\SSOPrinciple.cshtml" />
     <Content Include="Views\Doc\ProjectIntro.cshtml" />
     <Content Include="Views\Doc\FilePrinciple.cshtml" />
+    <Content Include="Views\Doc\OtherNpm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
