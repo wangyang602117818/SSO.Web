@@ -41,13 +41,20 @@
     <img src="~/Content/images/vue-2.png" />
 </p>
 <p class="fw-bold mt-4">3. 登录成功之后</p>
-<p class="fw-normal">可以在window.token_jwt_data中获取用户基本信息,结果如下:</p>
-<p class="fw-normal">可以在调试工具中查看cookie的键和值,键是appvue.web.auth,值是jwt token,过期时间和session同步</p>
-<p class="fw-normal">在调用服务端接口时取出cookie的值(jwtoken)添加在请求的header中(Authorization: jwtoken)</p>
+<p class="fw-normal">可以使用 ssoutil.getUserData(cookieName) 或者 window.token_jwt_data 获取用户基本信息</p>
+<p class="fw-normal">可以使用 ssoutil.getAuthorization(cookieName) 获取  authorization(jwt token)</p>
+<p class="fw-normal">可以在调试工具中查看cookie的键(appvue.web.auth)和值以及过期时间</p>
+<p class="fw-normal">调用服务端接口时需要将 authorization 添加在请求的header中(Authorization: authorization)</p>
 <div class="row">
-    <div class="col-5" style="background-color: #f5f5f5">
+    <div class="col-6" style="background-color: #f5f5f5">
         <pre class="line-numbers" data-language="js">
-        <code class="language-js">
+            <code class="language-js">
+                //获取authorization(jwt token)
+                var authorization = ssoutil.getAuthorization(cookieName);
+                //获取用户基本信息(2种方式)
+                var userData = ssoutil.getUserData(cookieName);
+                var userData = window.token_jwt_data;
+                //用户基本信息案例
                 {
                     lang: "zh-cn"       //语言
                     name: "yang01"    //用户名称
@@ -74,5 +81,59 @@
         &lt;a href="@AppSettings.GetApplicationUrl(Request)sso/logout?returnUrl={baseUrl}">sso退出&lt;/a>
     </code>
 </pre>
-
-
+<p class="fw-bold mt-4">5. 通过 userId 或者 authorization 获取系统的其他信息</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        //初始化SSOClientService
+        var clientService = new ssoutil.SSOClientService(baseURL, authorization);
+    </code>
+</pre>
+<p class="fw-normal">1. 获取所有公司列表</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        ssoClientService.getAllCompany().then(res => {
+            window.console.log(res);
+        })
+    </code>
+</pre>
+<p class="fw-normal">2. 获取部门列表</p>
+<pre class="line-numbers" data-language="js">
+    <code class="language-js">
+        //companyCode:公司列表中的公司code
+        ssoClientService.getAllDepartment(companyCode).then(res => {
+            window.console.log(res);
+        })
+    </code>
+</pre>
+<p class="fw-normal">3. 获取用户列表</p>
+<pre class="line-numbers" data-language="js">
+<code class="language-js">
+        //companyCode:公司列表中的公司code
+        //filter:搜索关键词(搜索UserName)
+        //pageIndex:第几页
+        //pageSize:每页几个
+        ssoClientService.getUserList(companyCode,filter,pageIndex,pageSize).then(res => {
+            window.console.log(res);
+        })
+    </code>
+</pre>
+<p class="fw-normal">4. 获取角色列表</p>
+<pre class="line-numbers" data-language="js">
+<code class="language-js">
+        //filter:搜索关键词(搜索Name)
+        //pageIndex:第几页
+        //pageSize:每页几个
+        ssoClientService.getRoleList(filter,pageIndex,pageSize).then(res => {
+            window.console.log(res);
+        })
+    </code>
+</pre>
+<p class="fw-normal">5. 获取用户详情</p>
+<pre class="line-numbers" data-language="js">
+<code class="language-js">
+        //userId:用户id
+        ssoClientService.getUserDetail(userData.unique_name).then(res => {
+            window.console.log(res);
+        })
+    </code>
+</pre>

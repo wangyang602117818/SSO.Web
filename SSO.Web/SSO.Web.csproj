@@ -194,7 +194,6 @@
     <Content Include="Content\images\aspnet-1.png" />
     <Content Include="Content\images\aspnet-2.gif" />
     <Content Include="Content\images\aspnet-3.gif" />
-    <Content Include="Content\images\aspnet-4.png" />
     <Content Include="Content\images\home-1.gif" />
     <Content Include="Content\images\home-2.gif" />
     <Content Include="Content\images\home-3.gif" />
@@ -202,7 +201,6 @@
     <Content Include="Content\images\netcore-1.png" />
     <Content Include="Content\images\netcore-2.gif" />
     <Content Include="Content\images\netcore-3.gif" />
-    <Content Include="Content\images\netcore-4.png" />
     <Content Include="Content\images\orm-1.png" />
     <Content Include="Content\images\orm-2.gif" />
     <Content Include="Content\images\perm-1.gif" />
