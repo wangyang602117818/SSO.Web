@@ -27,7 +27,7 @@
     [Order]=@Order
     <isNotEmpty property="Description" prepend=",">
       Description=@Description
-    </isNotEmpty>
+    </isNotEmpty> 
     WHERE Id = @Id
   </update>
   <delete>
@@ -39,6 +39,7 @@
   </delete>
   <count>
     select count(*) from Company
+	
   </count>
   <get-by-code>
     select * from Company where Code = @Code
