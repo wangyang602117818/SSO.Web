@@ -9,9 +9,10 @@
 <p class="fw-normal">2. IsEmpty - 属性为null或者为""</p>
 <p class="fw-normal">3. isNotNull - 属性不为null</p>
 <p class="fw-normal">4. IsNull - 属性为null</p>
+<p class="fw-light">节点共有的属性列表:</p>
 <p class="fw-light ms-3">property - 要对比的属性</p>
 <p class="fw-light ms-3">prepend - 前置语句</p>
-<p class="fw-normal">当 status==null 或者 status=="" 时追加该节点</p>
+<p class="fw-normal">案例: 当 status==null 或者 status=="" 时追加该节点</p>
 <pre data-language="xml">
 <code class="language-xml">
         ...
@@ -26,10 +27,11 @@
 
 <p class="fw-normal">5. isEquals - 属性值等于</p>
 <p class="fw-normal">6. isNotEquals - 属性值不等于</p>
+<p class="fw-light">节点共有的属性列表:</p>
 <p class="fw-light ms-3">property - 要对比的属性</p>
 <p class="fw-light ms-3">prepend - 前置语句</p>
 <p class="fw-light ms-3">value - 要对比的值</p>
-<p class="fw-normal">当 enable==false 时追加该节点</p>
+<p class="fw-normal">案例: 当 enable==false 时追加该节点</p>
 <pre data-language="xml">
 <code class="language-xml">
         ...
@@ -47,10 +49,11 @@
 <p class="fw-normal">8. IsGreaterEqual - 属性值大于等于</p>
 <p class="fw-normal">9. IsLessThan - 属性值小于</p>
 <p class="fw-normal">10. IsLessEqual - 属性值小于等于</p>
+<p class="fw-light">节点共有的属性列表:</p>
 <p class="fw-light ms-3">property - 要对比的属性</p>
 <p class="fw-light ms-3">prepend - 前置语句</p>
 <p class="fw-light ms-3">value - 要对比的值(需要是数值类型)</p>
-<p class="fw-normal">更新Company,当对象的 Order>9 时额外更新 UpdateTime=null</p>
+<p class="fw-normal">案例: 更新Company,当对象的 Order>9 时额外更新 UpdateTime=null</p>
 <pre data-language="xml">
 <code class="language-xml">
         ...
@@ -64,12 +67,13 @@
     </code>
 </pre>
 <p class="fw-normal">11. iterate - 迭代,批量操作添加或者删除</p>
+<p class="fw-light">节点的属性列表:</p>
 <p class="fw-light ms-3">property - 要迭代的属性</p>
 <p class="fw-light ms-3">prepend - 前置语句</p>
 <p class="fw-light ms-3">conjunction - 迭代之间的连接符</p>
 <p class="fw-light ms-3">open - 迭代的前置符</p>
 <p class="fw-light ms-3">close - 迭代的后置符</p>
-<p class="fw-normal">- 提供了property属性的批量插入和删除</p>
+<p class="fw-normal">- 案例1: 提供了property属性的批量插入和删除</p>
 <pre data-language="xml">
     <code class="language-xml">
         ...
@@ -98,7 +102,7 @@
         &lt;/delete-many>
     </code>
 </pre>
-<p class="fw-normal">- 未提供property属性的批量插入和删除</p>
+<p class="fw-normal">- 案例2: 未提供property属性的批量插入和删除</p>
 <pre data-language="xml">
 <code class="language-xml">
         ...
