@@ -45,7 +45,7 @@
         //获取cookie
         var value = ssoutil.getCookie(name);
         //设置cookie
-        setCookie(name, value, exdays)
+        ssoutil.setCookie(name, value, exdays)
     </code>
 </pre>
 <p class="fw-bold">5. base64相关</p>
@@ -124,7 +124,7 @@
 <p class="fw-normal">发送post请求</p>
 <pre class="line-numbers" data-language="js">
 <code class="language-js">
-    httpRequest.post(url, { }, header).then(res => {
+    ssoutil.httpRequest.post(url, { }, header).then(res => {
             window.console.log(res)
         }).catch(err => {
             alert(err);
@@ -136,7 +136,7 @@
 <p class="fw-normal">发送get请求</p>
 <pre class="line-numbers" data-language="js">
 <code class="language-js">
-   httpRequest.get(url, header).then(res => {
+   ssoutil.httpRequest.get(url, header).then(res => {
              window.console.log(res)
          }).catch(err => {
              alert(err);
@@ -152,7 +152,7 @@
     var formData = new FormData();
     formData.append("files", file);
     formData.append("roles", JSON.stringify(["manage"]));
-    httpRequest.postFile(url, formData, header).then(res => {
+    ssoutil.httpRequest.postFile(url, formData, header).then(res => {
         window.console.log(res)
     }).catch(err => {
         alert(err);
@@ -168,7 +168,7 @@
     var formData = new FormData();
     formData.append("files", file);
     formData.append("roles", JSON.stringify(["manage"]));
-    httpRequest.postFileProgress(url, formData, header,
+    ssoutil.httpRequest.postFileProgress(url, formData, header,
     function (data) {
         window.console.log(data);
     },
@@ -184,7 +184,7 @@
 <pre class="line-numbers" data-language="js">
     <code class="language-js">
         //其中filename是可选项,如果不提供,则使用服务器返回的文件默认文件名
-        httpRequest.downloadFile(url, null, header,filename);
+        ssoutil.httpRequest.downloadFile(url, null, header,filename);
     </code>
 </pre>
 <p class="fw-bold">12. 组件</p>
