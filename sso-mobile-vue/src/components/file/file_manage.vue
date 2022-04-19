@@ -35,8 +35,8 @@
         <f7-block-title>{{ $t("common.from") }}</f7-block-title>
         <f7-block strong>
           <f7-chip
-            :color="item == from ? 'blue' : ''"
-            :text="item"
+            :color="item.From == from ? 'blue' : ''"
+            :text="item.From"
             v-for="(item, index) in froms"
             :key="index"
             @click="fromClick"

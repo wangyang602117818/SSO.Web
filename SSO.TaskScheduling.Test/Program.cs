@@ -24,8 +24,10 @@ namespace SSO.TaskScheduling.Test
         static void Main(string[] args)
         {
 
+            Business.User user = new Business.User();
 
-            processor.StartWork();
+            var res = user.Login("cn01", "a123456".GetSha256());
+            //processor.StartWork();
 
 
 
