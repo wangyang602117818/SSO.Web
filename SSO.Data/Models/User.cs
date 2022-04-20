@@ -78,6 +78,10 @@ namespace SSO.Data.Models
         {
             return base.QueryObject<User>("get-by-userId", new { UserId = userId }, null);
         }
+        public IEnumerable<Models.Permission> GetPermissions(string userId)
+        {
+            return base.QueryList<Models.Permission>("get-permission", new { UserId = userId });
+        }
         public int RemoveUser(IEnumerable<string> userIds)
         {
             return base.ExecuteNonQuery("remove-user", new { UserIds = userIds, DeleteTime = DateTime.Now });

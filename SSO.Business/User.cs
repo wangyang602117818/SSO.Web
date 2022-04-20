@@ -176,5 +176,10 @@ namespace SSO.Business
         {
             return instance.GroupByCompany();
         }
+        public IEnumerable<string> GetPermissions(string userId)
+        {
+            var res = instance.GetPermissions(userId).ToList();
+            return res.Select(s => s.Name);
+        }
     }
 }

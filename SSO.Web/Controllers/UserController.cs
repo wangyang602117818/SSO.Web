@@ -131,5 +131,10 @@ namespace SSO.Web.Controllers
         {
             return new ResponseModel<SSO.Data.Models.User>(ErrorCode.success, user.GetById(id));
         }
+        [JwtAuthorize("GetUser")]
+        public ActionResult GetPermission()
+        {
+            return new ResponseModel<IEnumerable<string>>(ErrorCode.success, user.GetPermissions(User.Identity.Name));
+        }
     }
 }
