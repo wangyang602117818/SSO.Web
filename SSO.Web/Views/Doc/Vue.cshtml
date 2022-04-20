@@ -28,7 +28,7 @@
 <p class="fw-bold mt-4">2. 配置项目</p>
 <p class="fw-normal">1) 在入口 main.js 中添加以下代码,则项目已经具有登录功能</p>
 <pre class="line-numbers" data-language="js">
-    <code class="language-js">
+<code class="language-js">
         import ssoutil from 'sso-util'
 
         const baseURL = "@AppSettings.GetApplicationUrl(Request)";
@@ -48,7 +48,7 @@
 <div class="row">
     <div class="col-6" style="background-color: #f5f5f5">
         <pre class="line-numbers" data-language="js">
-            <code class="language-js">
+        <code class="language-js">
                 //获取authorization(jwt token)
                 var authorization = ssoutil.getAuthorization(cookieName);
                 //获取用户基本信息(2种方式)
@@ -76,21 +76,21 @@
 <p class="fw-bold mt-4">4. SSO退出</p>
 <p class="fw-normal">在当前项目中放入以下链接或者用js的方式跳到该链接</p>
 <pre class="line-numbers" data-language="Html">
-    <code class="language-markup">
+<code class="language-markup">
         &lt;!--{baseUrl}为当前项目的基本地址-->
         &lt;a href="@AppSettings.GetApplicationUrl(Request)sso/logout?returnUrl={baseUrl}">sso退出&lt;/a>
     </code>
 </pre>
 <p class="fw-bold mt-4">5. 通过 userId 或者 authorization 获取系统的其他信息</p>
 <pre class="line-numbers" data-language="js">
-    <code class="language-js">
+<code class="language-js">
         //初始化SSOClientService
         var clientService = new ssoutil.SSOClientService(baseURL, authorization);
     </code>
 </pre>
 <p class="fw-normal">1. 获取所有公司列表</p>
 <pre class="line-numbers" data-language="js">
-    <code class="language-js">
+<code class="language-js">
         ssoClientService.getAllCompany().then(res => {
             window.console.log(res);
         })
@@ -98,7 +98,7 @@
 </pre>
 <p class="fw-normal">2. 获取部门列表</p>
 <pre class="line-numbers" data-language="js">
-    <code class="language-js">
+<code class="language-js">
         //companyCode:公司列表中的公司code
         ssoClientService.getAllDepartment(companyCode).then(res => {
             window.console.log(res);
@@ -133,6 +133,15 @@
 <code class="language-js">
         //userId:用户id
         ssoClientService.getUserDetail(userData.unique_name).then(res => {
+            window.console.log(res);
+        })
+    </code>
+</pre>
+<p class="fw-normal">6. 获取当前用户的权限项列表</p>
+<pre class="line-numbers" data-language="js">
+<code class="language-js">
+        //userId:用户id
+        ssoClientService.getUserPermissions().then(res => {
             window.console.log(res);
         })
     </code>
