@@ -165,7 +165,7 @@ export default {
               this.$axios.defaults.baseURL +
               this.$urls.file.downloadFile +
               "/" +
-              item._id +
+              item.Id +
               "/" +
               item.FileName;
             if (item.FileType == "image") {
