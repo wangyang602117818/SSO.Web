@@ -69,13 +69,13 @@
  </pre>
 <p class="fw-bold">3. 其他参数</p>
 <p class="fw-normal">recordQuerystring(true): 是否记录查询参数</p>
-<p class="fw-normal">recordRequestContent(true): 是否记录请求体</p>
-<p class="fw-normal">recordResponseContent(true): 是否记录响应体</p>
+<p class="fw-normal">recordRequestContent(true): 是否记录请求体(如果请求体是文件类型,则只会记录文件名)</p>
+<p class="fw-normal">recordResponseContent(true): 是否记录响应体(如果响应体是文件类型,则只会记录文件名)</p>
 <p class="fw-normal">使用 [LogRecord] 默认记录的信息是整个请求的所有参数,包括 查询参数,请求体,响应体,响应时间,每分钟次数,接口是否有错误,具体记录可以在 sso管理界面(http://www.ssoutil.cn/) 查看</p>
 <p class="fw-normal">
     <img src="~/Content/images/logvisit-1.png" />
 </p>
-<p class="fw-bold">4. 日志字段的取值方式</p>
+<p class="fw-bold">4. 日志字段的取值逻辑</p>
 <p class="fw-normal">来源: 取的是JwtToken中的from字段,如果没有登录过,则来源为空</p>
 <p class="fw-normal">提高吞吐量: 日记发送到日志服务器会暂时存到 msmq 中,再由后台服务插入数据库</p>
 <p class="fw-normal">调用次数: 后台的服务在记录日志时会延迟1分钟,这样同一个用户在一分钟之内访问同一个接口只会增加次数,不会产生新记录</p>
