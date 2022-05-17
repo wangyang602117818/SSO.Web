@@ -3,6 +3,47 @@
     ViewBag.Title = "项目简介";
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
 }
-
-<h2>项目简介</h2>
-
+<h4 class="bd-title mb-3" id="content">项目简介</h4>
+<p class="fw-normal">本节点介绍每一个解决方案和其中的项目在整个系统中所扮演的角色和实现的功能</p>
+<p class="fw-bold">1. SSO.Web</p>
+<p class="fw-normal">地址 - https://github.com/wangyang602117818/SSO.Web.git</p>
+<p class="fw-normal">功能 - SSO登录, SSO退出, 任务调度接口, 基础数据接口</p>
+<p class="fw-bold">2. SSO.TaskScheduling</p>
+<p class="fw-normal">功能</p>
+<p class="fw-normal">- 监视公司、部门、角色、用户的数据变化,并且把变化的数据发送到消息服务项目</p>
+<p class="fw-normal">- 监视由前端发送过来的任务调度命令(启用调度,停止调度),执行调度任务</p>
+<p class="fw-bold">3. sso-pc-vue(管理页面)</p>
+<p class="fw-normal">功能 - 管理SSO项目的基础数据,展示系统的各项日志,发送/暂停任务调度</p>
+<p class="fw-bold">4. sso-mobile-vue(管理页面)</p>
+<p class="fw-normal">功能 - 管理SSO项目的基础数据,展示系统的各项日志,管理上传的文件</p>
+<p class="fw-bold">5. MessageCenter.Web</p>
+<p class="fw-normal">地址 - https://github.com/wangyang602117818/MessageCenter.Web.git</p>
+<p class="fw-normal">功能 - 提供日志服务接口,异步的消息服务(MSMQ),解耦其他项目与MSMQ的关联</p>
+<p class="fw-normal">简介: </p>
+<p class="fw-normal">- 接收日志数据,然后直接插入对应的MSMQ,提供日志列表和统计功能 </p>
+<p class="fw-normal">- 接收搜索数据,然后插入对应的MSMQ,提供搜索建议和搜索结果 </p>
+<p class="fw-normal">- 接收任务调度消息和文件转换消息</p>
+<p class="fw-bold">6. LogService</p>
+<p class="fw-normal">功能 - 处理MSMQ中的日志和搜索数据</p>
+<p class="fw-normal">简介</p>
+<p class="fw-normal">- 取出MSMQ中的日志数据,然后延迟1分钟,此时如果有相同的日志数据(相同的用户持续刷新),则在该日志的数量上+1,1分钟过后插入数据库</p>
+<p class="fw-normal">- 取出搜索数据,算出Elasticsearch 的主键id,然后插入Elasticsearch</p>
+<p class="fw-bold">7. FileService.Api</p>
+<p class="fw-normal">地址 - https://gitee.com/yangxwang/FileService.Api.git</p>
+<p class="fw-normal">功能 - 提供文件存储、下载、统计和预览服务</p>
+<p class="fw-bold">8. FileService.Converter</p>
+<p class="fw-normal">功能 - 接收MSMQ中的消息,然后取出文件进行重复校验和转换服务,完成之后插入数据库</p>
+<p class="fw-bold">9. FileServiceTransfor.Api</p>
+<p class="fw-normal">简介: 如果FileService.Api和FileService.Converter部署在同一台机器上,则由FileService.Api直接把文件存在磁盘,然后由FileService.Converter去读取,不需要部署FileServiceTransfor.Api项目,如果FileService.Api和FileService.Converter部署在不同的机器上,则由该项目负责接收FileService.Api传过来的文件,存在磁盘上,FileService.Converter再去读取</p>
+<p class="fw-bold">10. fileserver-pc-vue(管理页面)</p>
+<p class="fw-normal">功能 - 上传文件,管理上传的文件,预览文件,文件转换的配置</p>
+<p class="fw-bold">11. SSO.Util.Client</p>
+<p class="fw-normal">地址 - https://github.com/wangyang602117818/SSO.Util.Client.git</p>
+<p class="fw-normal">功能 - 是服务端的工具项目,是sso登录退出、权限验证、日志、搜索和各个工具的集合</p>
+<p class="fw-bold">12. sso-util</p>
+<p class="fw-normal">地址 - https://github.com/wangyang602117818/sso-util.git</p>
+<p class="fw-normal">功能 - 是前端端的工具项目,是sso登录退出和各个工具的集合</p>
+<p class="fw-bold">13. 项目架构图</p>
+<p class="col pe-0">
+    <img src="~/Content/images/projectIntro.png" />
+</p>

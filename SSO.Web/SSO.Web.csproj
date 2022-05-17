@@ -208,10 +208,13 @@
     <Content Include="Content\images\perm-3.gif" />
     <Content Include="Content\images\perm-4.gif" />
     <Content Include="Content\images\play.gif" />
+    <Content Include="Content\images\projectIntro.png" />
     <Content Include="Content\images\react-1.png" />
     <Content Include="Content\images\react-2.png" />
     <Content Include="Content\images\react-3.png" />
     <Content Include="Content\images\search-0.gif" />
+    <Content Include="Content\images\sso-login.png" />
+    <Content Include="Content\images\sso-logout.png" />
     <Content Include="Content\images\task-1.png" />
     <Content Include="Content\images\task-2.png" />
     <Content Include="Content\images\task-3.png" />

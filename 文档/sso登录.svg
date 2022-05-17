@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- 由 Microsoft Visio, SVG Export 生成 sso登录.svg 页-1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="10.2708in" height="7.84491in"
+		viewBox="0 0 739.5 564.833" xml:space="preserve" color-interpolation-filters="sRGB" class="st15">
+	<v:documentProperties v:langID="1033" v:viewMarkup="false"/>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#ffffff;stroke:#4672c4;stroke-width:0.75}
+		.st2 {fill:#4672c4;font-family:Calibri;font-size:0.833336em}
+		.st3 {font-family:微软雅黑;font-size:1em}
+		.st4 {fill:url(#grad0-11);stroke:#386288;stroke-width:0.75}
+		.st5 {fill:#386288;font-family:微软雅黑;font-size:0.833336em}
+		.st6 {fill:#386288;font-family:Calibri;font-size:0.833336em}
+		.st7 {stroke:#bdd0e9;stroke-dasharray:3,3;stroke-linecap:round;stroke-linejoin:round;stroke-width:1}
+		.st8 {marker-end:url(#mrkr4-29);stroke:#759fcc;stroke-linecap:round;stroke-linejoin:round;stroke-width:1}
+		.st9 {fill:#759fcc;fill-opacity:1;stroke:#759fcc;stroke-opacity:1;stroke-width:0.28409090909091}
+		.st10 {fill:#ffffff;stroke:none;stroke-linecap:butt;stroke-width:7.2}
+		.st11 {fill:#668bb3;font-family:Calibri;font-size:0.666664em}
+		.st12 {fill:#386288;font-family:微软雅黑;font-size:0.499992em}
+		.st13 {font-family:Calibri;font-size:1em}
+		.st14 {fill:#ffffff;stroke:none;stroke-linecap:butt}
+		.st15 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<defs id="Patterns_And_Gradients">
+		<linearGradient id="grad0-11" x1="0" y1="0" x2="1" y2="0" gradientTransform="rotate(60 0.5 0.5)">
+			<stop offset="0" stop-color="#e8ebef" stop-opacity="1"/>
+			<stop offset="0.24" stop-color="#f4f5f7" stop-opacity="1"/>
+			<stop offset="0.54" stop-color="#feffff" stop-opacity="1"/>
+		</linearGradient>
+	</defs>
+	<defs id="Markers">
+		<g id="lend4">
+			<path d="M 2 1 L 0 0 L 2 -1 L 2 1 " style="stroke:none"/>
+		</g>
+		<marker id="mrkr4-29" class="st9" v:arrowType="4" v:arrowSize="2" v:setback="7.04" refX="-7.04" orient="auto"
+				markerUnits="strokeWidth" overflow="visible">
+			<use xlink:href="#lend4" transform="scale(-3.52,-3.52) "/>
+		</marker>
+	</defs>
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<title>页-1</title>
+		<v:pageProperties v:drawingScale="1" v:pageScale="1" v:drawingUnits="0" v:shadowOffsetX="9" v:shadowOffsetY="-9"/>
+		<v:layer v:name="Connector" v:index="0"/>
+		<g id="group47-1" transform="translate(0.75,-0.75)" v:mID="47" v:groupContext="group">
+			<title>工作表.47</title>
+			<g id="shape1-2" v:mID="1" v:groupContext="shape">
+				<title>Rectangle</title>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<rect x="0" y="1.5" width="738" height="563.333" class="st1"/>
+			</g>
+			<g id="shape3-4" v:mID="3" v:groupContext="shape" transform="translate(-7.51399E-13,-535.167)">
+				<title>Rectangle.3</title>
+				<desc>SSO认证</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="58.0833" cy="550.75" width="116.17" height="28.1667"/>
+				<rect x="0" y="536.667" width="116.167" height="28.1667" class="st1"/>
+				<text x="40.18" y="553.79" class="st2" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>SSO<tspan
+							class="st3">认证</tspan></text>			</g>
+			<g id="shape4-8" v:mID="4" v:groupContext="shape" transform="translate(17.0833,-471.792)">
+				<title>Rectangle.4</title>
+				<desc>浏览器</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="58.0833" cy="541.141" width="116.17" height="47.3845"/>
+				<rect x="0" y="517.449" width="116.167" height="47.3845" class="st4"/>
+				<text x="43.08" y="544.18" class="st5" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>浏览器</text>			</g>
+			<g id="shape5-13" v:mID="5" v:groupContext="shape" transform="translate(203.861,-471.792)">
+				<title>Rectangle.5</title>
+				<desc>A站点</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="58.0833" cy="541.141" width="116.17" height="47.3845"/>
+				<rect x="0" y="517.449" width="116.167" height="47.3845" class="st4"/>
+				<text x="45.19" y="544.18" class="st6" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>A<tspan
+							class="st3">站点</tspan></text>			</g>
+			<g id="shape9-18" v:mID="9" v:groupContext="shape" transform="translate(640,93.0417) rotate(90)">
+				<title>工作表.9</title>
+				<path d="M0 564.83 L471.79 564.83" class="st7"/>
+			</g>
+			<g id="shape10-21" v:mID="10" v:groupContext="shape" transform="translate(826.778,93.0417) rotate(90)">
+				<title>工作表.10</title>
+				<path d="M0 564.83 L470.38 564.83" class="st7"/>
+			</g>
+			<g id="shape15-24" v:mID="15" v:groupContext="shape" v:layerMember="0" transform="translate(75.1667,-427.583)">
+				<title>Dynamic connector.15</title>
+				<desc>1.第一次登陆</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="92.5917" cy="569.333" width="55.89" height="18.6536"/>
+				<path d="M0 555.83 L0 569.33 L185.18 569.33 L185.18 562.87" class="st8"/>
+				<rect v:rectContext="textBkgnd" x="69.5547" y="564.475" width="46.0742" height="9.71658" class="st10"/>
+				<text x="69.55" y="571.76" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>1.<tspan
+							class="st3">第一次登陆</tspan></text>			</g>
+			<g id="shape20-33" v:mID="20" v:groupContext="shape" v:layerMember="0" transform="translate(259.667,-399.417)">
+				<title>Dynamic connector</title>
+				<desc>2.重定向到SSO系统</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="-92.25" cy="555.833" width="76.54" height="18.6536"/>
+				<path d="M0 555.83 L-177.46 555.83" class="st8"/>
+				<rect v:rectContext="textBkgnd" x="-125.611" y="550.975" width="66.7224" height="9.71658" class="st10"/>
+				<text x="-125.61" y="558.26" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>2.<tspan
+							class="st3">重定向到</tspan>SSO<tspan class="st3">系统</tspan></text>			</g>
+			<g id="shape24-42" v:mID="24" v:groupContext="shape" transform="translate(263.083,-415.458)">
+				<title>工作表.24</title>
+				<desc>未登录</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="20.5" cy="557.289" width="41" height="15.0893"/>
+				<rect x="0" y="549.744" width="41" height="15.0893" class="st4"/>
+				<text x="11.5" y="559.11" class="st12" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>未登录</text>			</g>
+			<g id="shape6-46" v:mID="6" v:groupContext="shape" transform="translate(577.417,-471.792)">
+				<title>Rectangle.6</title>
+				<desc>SSO系统</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="58.0833" cy="541.141" width="116.17" height="47.3845"/>
+				<rect x="0" y="517.449" width="116.167" height="47.3845" class="st4"/>
+				<text x="40.18" y="544.18" class="st6" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>SSO<tspan
+							class="st3">系统</tspan></text>			</g>
+			<g id="shape11-51" v:mID="11" v:groupContext="shape" transform="translate(1200.33,93.0417) rotate(90)">
+				<title>工作表.11</title>
+				<path d="M0 564.83 L467.57 564.83" class="st7"/>
+			</g>
+			<g id="shape27-54" v:mID="27" v:groupContext="shape" transform="translate(635.5,-340.515)">
+				<title>Rectangle.27</title>
+				<desc>设置cookie</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="29.0417" cy="557.289" width="58.09" height="15.0893"/>
+				<rect x="0" y="549.744" width="58.0834" height="15.0893" class="st4"/>
+				<text x="15.06" y="559.11" class="st12" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>设置<tspan
+							class="st13">cookie</tspan></text>			</g>
+			<g id="shape33-59" v:mID="33" v:groupContext="shape" transform="translate(390.639,-471.792)">
+				<title>Rectangle.33</title>
+				<desc>B站点</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="58.0833" cy="541.141" width="116.17" height="47.3845"/>
+				<rect x="0" y="517.449" width="116.167" height="47.3845" class="st4"/>
+				<text x="45.36" y="544.18" class="st6" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>B<tspan
+							class="st3">站点</tspan></text>			</g>
+			<g id="shape34-64" v:mID="34" v:groupContext="shape" transform="translate(1013.56,93.0417) rotate(90)">
+				<title>工作表.34</title>
+				<path d="M0 564.83 L467.57 564.83" class="st7"/>
+			</g>
+			<g id="shape35-67" v:mID="35" v:groupContext="shape" v:layerMember="0" transform="translate(75.1667,-360.688)">
+				<title>Dynamic connector.35</title>
+				<desc>3.输入账号密码,登录</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="280.167" cy="555.833" width="81.89" height="18.6536"/>
+				<path d="M0 555.83 L553.29 555.83" class="st8"/>
+				<rect v:rectContext="textBkgnd" x="244.132" y="550.975" width="72.0703" height="9.71658" class="st10"/>
+				<text x="244.13" y="558.26" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>3.<tspan
+							class="st3">输入账号密码</tspan>,<tspan class="st3">登录</tspan></text>			</g>
+			<g id="shape36-76" v:mID="36" v:groupContext="shape" v:layerMember="0" transform="translate(635.5,-321.958)">
+				<title>Dynamic connector.36</title>
+				<desc>4.登录成功,设置cookie</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="-280.167" cy="555.833" width="87.16" height="18.6536"/>
+				<path d="M0 555.83 L-553.29 555.83" class="st8"/>
+				<rect v:rectContext="textBkgnd" x="-318.838" y="550.975" width="77.3435" height="9.71658" class="st10"/>
+				<text x="-318.84" y="558.26" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>4.<tspan
+							class="st3">登录成功</tspan>,<tspan class="st3">设置</tspan>cookie</text>			</g>
+			<g id="shape37-85" v:mID="37" v:groupContext="shape" v:layerMember="0" transform="translate(75.1667,-279.708)">
+				<title>Dynamic connector.37</title>
+				<desc>5.下次访问A站点,带上cookie</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="93.3889" cy="555.833" width="107.79" height="18.6536"/>
+				<path d="M0 555.83 L179.74 555.83" class="st8"/>
+				<rect v:rectContext="textBkgnd" x="44.4029" y="550.975" width="97.9722" height="9.71658" class="st10"/>
+				<text x="44.4" y="558.26" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>5.<tspan
+							class="st3">下次访问</tspan>A<tspan class="st3">站点</tspan>,<tspan class="st3">带上</tspan>cookie</text>			</g>
+			<g id="shape39-95" v:mID="39" v:groupContext="shape" v:layerMember="0" transform="translate(75.1667,-233.938)">
+				<title>Dynamic connector.39</title>
+				<desc>6.登录B站点</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="186.778" cy="555.833" width="52.24" height="18.6536"/>
+				<path d="M0 555.83 L366.52 555.83" class="st8"/>
+				<rect v:rectContext="textBkgnd" x="165.565" y="550.975" width="42.4256" height="9.71658" class="st14"/>
+				<text x="165.57" y="558.26" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>6.<tspan
+							class="st3">登录</tspan>B<tspan class="st3">站点</tspan></text>			</g>
+			<g id="shape40-104" v:mID="40" v:groupContext="shape" transform="translate(451,-214.771)">
+				<title>工作表.40</title>
+				<desc>未登录</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="20.5" cy="557.289" width="41" height="15.0893"/>
+				<rect x="0" y="549.744" width="41" height="15.0893" class="st4"/>
+				<text x="11.5" y="559.11" class="st12" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>未登录</text>			</g>
+			<g id="shape41-108" v:mID="41" v:groupContext="shape" v:layerMember="0" transform="translate(448.722,-191.688)">
+				<title>Dynamic connector.41</title>
+				<desc>7.重定向到SSO系统</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="-186.778" cy="555.833" width="76.54" height="18.6536"/>
+				<path d="M0 555.83 L-366.52 555.83" class="st8"/>
+				<rect v:rectContext="textBkgnd" x="-220.139" y="550.975" width="66.7224" height="9.71658" class="st14"/>
+				<text x="-220.14" y="558.26" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>7.<tspan
+							class="st3">重定向到</tspan>SSO<tspan class="st3">系统</tspan></text>			</g>
+			<g id="shape42-117" v:mID="42" v:groupContext="shape" v:layerMember="0" transform="translate(75.1667,-142.396)">
+				<title>Dynamic connector.42</title>
+				<desc>8.登录,带上了SSO系统的cookie</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="280.167" cy="555.833" width="115.81" height="18.6536"/>
+				<path d="M0 555.83 L553.29 555.83" class="st8"/>
+				<rect v:rectContext="textBkgnd" x="227.171" y="550.975" width="105.992" height="9.71658" class="st10"/>
+				<text x="227.17" y="558.26" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>8.<tspan
+							class="st3">登录</tspan>,<tspan class="st3">带上了</tspan>SSO<tspan class="st3">系统的</tspan>cookie</text>			</g>
+			<g id="shape43-127" v:mID="43" v:groupContext="shape" transform="translate(585.958,-116.188)">
+				<title>Rectangle.43</title>
+				<desc>发现有cookie,登录成功</desc>
+				<v:userDefs>
+					<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				</v:userDefs>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="55.5208" cy="557.289" width="111.05" height="15.0893"/>
+				<rect x="0" y="549.744" width="111.042" height="15.0893" class="st4"/>
+				<text x="25.8" y="559.11" class="st12" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>发现有<tspan
+							class="st13">cookie,</tspan>登录成功</text>			</g>
+			<g id="shape44-132" v:mID="44" v:groupContext="shape" v:layerMember="0" transform="translate(635.5,-86.0625)">
+				<title>Dynamic connector.44</title>
+				<desc>9.登录成功,设置cookie</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="-280.167" cy="555.833" width="87.16" height="18.6536"/>
+				<path d="M0 555.83 L-553.29 555.83" class="st8"/>
+				<rect v:rectContext="textBkgnd" x="-318.838" y="550.975" width="77.3435" height="9.71658" class="st10"/>
+				<text x="-318.84" y="558.26" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>9.<tspan
+							class="st3">登录成功</tspan>,<tspan class="st3">设置</tspan>cookie</text>			</g>
+			<g id="shape45-141" v:mID="45" v:groupContext="shape" v:layerMember="0" transform="translate(75.1667,-36.7708)">
+				<title>Dynamic connector.45</title>
+				<desc>10.下次访问B站点,带上cookie</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)"/>
+				<v:textRect cx="186.778" cy="555.833" width="111.57" height="18.6536"/>
+				<path d="M0 555.83 L366.52 555.83" class="st8"/>
+				<rect v:rectContext="textBkgnd" x="135.903" y="550.975" width="101.75" height="9.71658" class="st10"/>
+				<text x="135.9" y="558.26" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>10.<tspan
+							class="st3">下次访问</tspan>B<tspan class="st3">站点</tspan>,<tspan class="st3">带上</tspan>cookie</text>			</g>
+		</g>
+	</g>
+</svg>
