@@ -194,6 +194,7 @@
     <Content Include="Content\images\aspnet-1.png" />
     <Content Include="Content\images\aspnet-2.gif" />
     <Content Include="Content\images\aspnet-3.gif" />
+    <Content Include="Content\images\download.png" />
     <Content Include="Content\images\home-1.gif" />
     <Content Include="Content\images\home-2.gif" />
     <Content Include="Content\images\home-3.gif" />
@@ -219,6 +220,7 @@
     <Content Include="Content\images\task-2.png" />
     <Content Include="Content\images\task-3.png" />
     <Content Include="Content\images\thumb.gif" />
+    <Content Include="Content\images\upload.png" />
     <Content Include="Content\images\vue-1.png" />
     <Content Include="Content\images\vue-2.png" />
     <Content Include="Content\images\vue-3.png" />

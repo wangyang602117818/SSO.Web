@@ -3,6 +3,25 @@
     ViewBag.Title = "文件存储实现原理";
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
 }
-
-<h2>文件存储实现原理</h2>
-
+<h4 class="bd-title mb-3" id="content">SSO实现原理</h4>
+<p class="fw-bold">1. MongoDB的GridFS系统</p>
+<p class="fw-normal">相对于使用磁盘的方式来存储文件,使用GridFS来存储文件具有以下优势</p>
+<p class="fw-light">- 没有文件个数限制</p>
+<p class="fw-light">- 单个文件的权限可控</p>
+<p class="fw-light">- 异地存储和读取(一个地点写文件,可以由另外一个地点读取)</p>
+<p class="fw-light">- 数据安全性(可以控制每个文件的权限)</p>
+<p class="fw-light">- 查找和统计快捷性(可以更快的查找出相应的文件)</p>
+<p class="fw-bold">2. 上传文件的流程</p>
+<p class="fw-normal">通过 Web界面或者API 上传的文件,系统会判断转换程序的位置,进行以下操作:</p>
+<p class="fw-light">- 如果转换程序就在本机,则直接把文件写入到转换程序指定的临时目录中</p>
+<p class="fw-light">- 如果转换程序不在本机,则通过TransforApi(和转换程序部署在同一台机器)来接收文件,由TransforApi把该文件写入到转换程序指定的临时目录中</p>
+<p class="col pe-0">
+    <img src="~/Content/images/upload.png" style="width:70%" />
+</p>
+<p class="fw-bold">3. 下载文件的流程</p>
+<p class="fw-normal">通过 Web界面或者API 获取的文件,会首先从MongoDB中查询，进行以下操作:</p>
+<p class="fw-light">- 如果MongoDB中存在该文件，则从MongoDB中查询文件立即返回</p>
+<p class="fw-light">- 如果MongoDB中不存在该文件，则从临时目录中获取文件返回, 一般情况下如果转换程序暂时挂掉了 或者 转换任务过重，文件还没来得及存入数据库，就会从临时目录中获取文件返回</p>
+<p class="col pe-0">
+    <img src="~/Content/images/download.png" style="width:70%" />
+</p>
