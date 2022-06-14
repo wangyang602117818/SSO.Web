@@ -202,6 +202,8 @@
     <Content Include="Content\images\netcore-1.png" />
     <Content Include="Content\images\netcore-2.gif" />
     <Content Include="Content\images\netcore-3.gif" />
+    <Content Include="Content\images\netwebpage-1.png" />
+    <Content Include="Content\images\netwebpage-2.gif" />
     <Content Include="Content\images\orm-1.png" />
     <Content Include="Content\images\orm-2.gif" />
     <Content Include="Content\images\perm-1.gif" />
@@ -434,6 +436,7 @@
     <Content Include="Views\Doc\ProjectIntro.cshtml" />
     <Content Include="Views\Doc\FilePrinciple.cshtml" />
     <Content Include="Views\Doc\OtherNpm.cshtml" />
+    <Content Include="Views\Doc\AspnetWebForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
