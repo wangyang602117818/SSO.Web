@@ -24,10 +24,11 @@ namespace SSO.Web.Controllers
             return View();
         }
         [AllowAnonymous]
-        public ActionResult GetToken(string ticket, string from, string audience)
+        public ActionResult GetToken(string ticket, string from, string audience = null)
         {
             string token = "";
             string userId = jwtManager.DecodeTicket(ticket);
+            if (audience.IsNullOrEmpty()) audience = SSOAuthorizeAttribute.GetRemoteIp(Request);
             if (!userId.IsNullOrEmpty())
             {
                 User u = user.GetUser(userId);
