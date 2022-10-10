@@ -14,7 +14,6 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    [NoneLogRecord]
     public class SSOController : BaseController
     {
         Business.User user = new Business.User();
