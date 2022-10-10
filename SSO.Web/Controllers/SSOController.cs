@@ -14,6 +14,7 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
+    [NoneLogRecord]
     public class SSOController : BaseController
     {
         Business.User user = new Business.User();
@@ -28,9 +29,6 @@ namespace SSO.Web.Controllers
         {
             string token = "";
             string userId = jwtManager.DecodeTicket(ticket);
-            Dictionary<string, string> extra = new Dictionary<string, string>();
-            extra.Add("from", from);
-            audience = audience.ReplaceHttpPrefix().TrimEnd('/');
             if (!userId.IsNullOrEmpty())
             {
                 User u = user.GetUser(userId);
@@ -38,14 +36,14 @@ namespace SSO.Web.Controllers
                 {
                     if (userId == admin[0])
                     {
-                        token = jwtManager.GenerateToken(userId, userId, lang, audience, extra);
+                        token = jwtManager.GenerateToken(userId, userId, lang, audience, from, null);
                     }
                 }
                 else
                 {
                     Settings setting = settings.GetSetting(userId);
                     if (setting != null) lang = setting.Lang;
-                    token = jwtManager.GenerateToken(userId, u.UserName, lang, audience, extra);
+                    token = jwtManager.GenerateToken(userId, u.UserName, lang, audience, from, null);
                 }
             }
             return new ResponseModel<string>(ErrorCode.success, token);
@@ -108,6 +106,7 @@ namespace SSO.Web.Controllers
         [LogRecord(true, false)]
         public ActionResult Login(LoginModel loginModel, string returnUrl)
         {
+            string from = "";
             if (!returnUrl.IsNullOrEmpty())
             {
                 foreach (string key in Request.QueryString.Keys)
@@ -122,6 +121,8 @@ namespace SSO.Web.Controllers
                         returnUrl += "?" + key + "=" + Request.QueryString[key].ToString();
                     }
                 }
+                Uri uri = new Uri(HttpUtility.UrlDecode(returnUrl));
+                from = (uri.Scheme + "://" + uri.Authority).ReplaceHttpPrefix().TrimEnd('/');
             }
             User u = null;
             if (loginModel.UserId == admin[0] && loginModel.PassWord == admin[1])
@@ -143,10 +144,8 @@ namespace SSO.Web.Controllers
             }
             Settings setting = settings.GetSetting(User.Identity.Name);
             if (setting != null) lang = setting.Lang;
-            var audience = Request.Url.Host.ReplaceHttpPrefix();
-            Dictionary<string, string> extra = new Dictionary<string, string>();
-            extra.Add("from", audience);
-            string token = jwtManager.GenerateToken(u.UserId, u.UserName, lang, audience, extra);
+            string audience = SSOAuthorizeAttribute.GetRemoteIp(Request);
+            string token = jwtManager.GenerateToken(u.UserId, u.UserName, lang, audience, from, null);
             HttpCookie httpCookie = new HttpCookie(ssoCookieKey, token);
             if (ssoCookieTime != "session")
             {
@@ -185,9 +184,8 @@ namespace SSO.Web.Controllers
             }
             Settings setting = settings.GetSetting(User.Identity.Name);
             if (setting != null) lang = setting.Lang;
-            Dictionary<string, string> extra = new Dictionary<string, string>();
-            extra.Add("from", login.From);
-            string token = jwtManager.GenerateToken(u.UserId, u.UserName, lang, login.From, extra);
+            string audience = SSOAuthorizeAttribute.GetRemoteIp(Request);
+            string token = jwtManager.GenerateToken(u.UserId, u.UserName, lang, audience, login.From, null);
             return new ResponseModel<string>(ErrorCode.success, token);
         }
         /// <summary>

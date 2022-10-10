@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
+    [NoneLogRecord]
     public class HomeController : BaseController
     {
         Permission permission = new Permission();
@@ -21,6 +22,7 @@ namespace SSO.Web.Controllers
             permission.DeleteAndInsertMany("ssoapi", actions);
             return Json(actions, JsonRequestBehavior.AllowGet);
         }
+        [AllowAnonymous]
         public ActionResult Ticket()
         {
             return Content(jwtManager.GenerateTicket("CN445379"));

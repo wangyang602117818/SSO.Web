@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SSO.Util.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
@@ -12,6 +13,7 @@ using System.Web.WebSockets;
 namespace SSO.Web.Controllers
 {
     [AllowAnonymous]
+    [NoneLogRecord]
     public class WebSocketDemoController : Controller
     {
         private static Dictionary<string, WebSocket> CONNECT_POOL = new Dictionary<string, WebSocket>();//用户连接池
