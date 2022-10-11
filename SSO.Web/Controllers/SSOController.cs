@@ -52,6 +52,7 @@ namespace SSO.Web.Controllers
         public ActionResult Login(string returnUrl)
         {
             if (returnUrl.IsNullOrEmpty()) return View();
+            returnUrl = returnUrl.TrimEnd('/', '#');
             foreach (string key in Request.QueryString.Keys)
             {
                 if (key == "returnUrl") continue;
@@ -75,10 +76,9 @@ namespace SSO.Web.Controllers
                     {
                         List<string> ssoUrls = JsonConvert.DeserializeObject<List<string>>(ssoUrlCookie.Value.Base64ToStr());
                         Uri uri = new Uri(returnUrl);
-                        returnUrl = uri.Scheme + "://" + uri.Authority;
                         foreach (var ssoUrl in ssoUrls)
                         {
-                            if (ssoUrl == returnUrl) return View(); //之前登录过,cookie过期
+                            if (ssoUrl == uri.Scheme + "://" + uri.Authority) return View(); //之前登录过,cookie过期
                         }
                     }
                     var userId = JwtManager.ParseAuthorization(authorization.Value, ssoSecretKey).Identity.Name;
@@ -109,6 +109,7 @@ namespace SSO.Web.Controllers
             string from = "";
             if (!returnUrl.IsNullOrEmpty())
             {
+                returnUrl = returnUrl.TrimEnd('/', '#');
                 foreach (string key in Request.QueryString.Keys)
                 {
                     if (key == "returnUrl") continue;
