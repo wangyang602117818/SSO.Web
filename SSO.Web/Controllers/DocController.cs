@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace SSO.Web.Controllers
 {
-    [NoneLogRecord]
+    [AllowAnonymous]
     public class DocController : Controller
     {
         public ActionResult Index(string id)
