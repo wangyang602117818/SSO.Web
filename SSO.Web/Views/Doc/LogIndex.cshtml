@@ -4,8 +4,8 @@
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
 }
 <h4 class="bd-title mb-3" id="content">日志概览</h4>
-<p class="fw-bold">1. 简介</p>
-<p class="fw-normal">本节点介绍的是: 统一日志记录解决方案, 包含项目日志和接口调用日志</p>
 <p class="fw-normal">请确保项目已经安装Nuget包(SSO.Util.Client)</p>
+<p class="fw-bold">1. 简介</p>
+<p class="fw-normal">本节点介绍的是: 统一日志记录解决方案, 包含项目日志和访问日志 , 其中访问日志对吞吐量要求较高,项目中使用了中间件(MSMQ)处理</p>
 <p class="fw-normal">项目日志: 主要记录项目异常日志</p>
-<p class="fw-normal">接口调用日志: 统计接口的调用频率和响应时间,该功能对吞吐量要求较高,项目中使用了MSMQ来作为中间件</p>
+<p class="fw-normal">访问日志: 统计接口的调用频率和响应时间, 解决了在高访问量下 记录接口调用 的效率问题 , 还能定位到慢接口和出错的接口</p>

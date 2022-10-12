@@ -438,6 +438,7 @@
     <Content Include="Views\Doc\OtherNpm.cshtml" />
     <Content Include="Views\Doc\AspnetWebForm.cshtml" />
     <Content Include="Views\Doc\_GetOther.cshtml" />
+    <Content Include="Views\Doc\ServiceIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
