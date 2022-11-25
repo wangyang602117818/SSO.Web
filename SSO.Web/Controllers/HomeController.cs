@@ -1,6 +1,7 @@
 ﻿using SSO.Business;
 using SSO.Util.Client;
 using SSO.Web.Filters;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
@@ -42,6 +43,14 @@ namespace SSO.Web.Controllers
         public string SecretKey()
         {
             return AesEncryptHelper.GenerateAESKey();
+        }
+        public ActionResult User()
+        {
+            var authorization = JwtManager.GetAuthorization();
+            SSOClientService clientService = new SSOClientService("http://api.ssoutil.cn", authorization);
+            var list = clientService.GetAllDepartment("ilAd9UmRsIBm");
+
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
     }
 

@@ -216,6 +216,8 @@
     <Content Include="Content\images\react-2.png" />
     <Content Include="Content\images\react-3.png" />
     <Content Include="Content\images\search-0.gif" />
+    <Content Include="Content\images\springboot-1.gif" />
+    <Content Include="Content\images\springboot-2.gif" />
     <Content Include="Content\images\sso-login.png" />
     <Content Include="Content\images\sso-logout.png" />
     <Content Include="Content\images\task-1.png" />
@@ -384,6 +386,7 @@
     <Content Include="Content\libs\scss\mixins\_visually-hidden.scss" />
     <Content Include="Content\libs\scss\utilities\_api.scss" />
     <Content Include="Content\libs\scss\vendor\_rfs.scss" />
+    <Content Include="Content\sso.util.client.zip" />
     <None Include="packages.config" />
     <Content Include="Views\SSO\Index.cshtml" />
     <Content Include="Views\SSO\Login.cshtml" />
@@ -439,6 +442,7 @@
     <Content Include="Views\Doc\AspnetWebForm.cshtml" />
     <Content Include="Views\Doc\_GetOther.cshtml" />
     <Content Include="Views\Doc\ServiceIndex.cshtml" />
+    <Content Include="Views\Doc\springboot.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
