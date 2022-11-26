@@ -3,7 +3,7 @@
     <div class="total_con">
       <div class="total_item total_item_80">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{$t('companys')}}</div>
+          <div class="total_item_txt">{{ $t('companys') }}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getData" />
@@ -11,12 +11,12 @@
         </div>
         <div class="total_item_numb">
           <a-spin size="small" v-if="total_loading" />
-          <span v-else>{{total.Companys}}</span>
+          <span v-else>{{ total.Companys }}</span>
         </div>
       </div>
       <div class="total_item total_item_80">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{$t('departments')}}</div>
+          <div class="total_item_txt">{{ $t('departments') }}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getData" />
@@ -24,12 +24,12 @@
         </div>
         <div class="total_item_numb">
           <a-spin size="small" v-if="total_loading" />
-          <span v-else>{{total.Departments}}</span>
+          <span v-else>{{ total.Departments }}</span>
         </div>
       </div>
       <div class="total_item total_item_80">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{$t('roles')}}</div>
+          <div class="total_item_txt">{{ $t('roles') }}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getData" />
@@ -37,12 +37,12 @@
         </div>
         <div class="total_item_numb">
           <a-spin size="small" v-if="total_loading" />
-          <span v-else>{{total.Roles}}</span>
+          <span v-else>{{ total.Roles }}</span>
         </div>
       </div>
       <div class="total_item total_item_80">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{$t('users')}}</div>
+          <div class="total_item_txt">{{ $t('users') }}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getData" />
@@ -50,14 +50,14 @@
         </div>
         <div class="total_item_numb">
           <a-spin size="small" v-if="total_loading" />
-          <span v-else>{{total.Users}}</span>
+          <span v-else>{{ total.Users }}</span>
         </div>
       </div>
     </div>
     <div class="total_con">
       <div class="total_item total_item_240">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{$t('op_record')}}</div>
+          <div class="total_item_txt">{{ $t('op_record') }}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getOpRecord" />
@@ -68,12 +68,12 @@
       </div>
       <div class="total_item total_item_240">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{$t('user_record')}}</div>
+          <div class="total_item_txt">{{ $t('user_record') }}</div>
           <div class="total_item_title">
             <span class="line line_0053FE"></span>
-            {{$t('input')}}
+            {{ $t('input') }}
             <span class="line line_00C782"></span>
-            {{$t('delete')}}
+            {{ $t('delete') }}
           </div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getUserRecord" />
@@ -86,7 +86,7 @@
     <div class="total_con">
       <div class="total_item total_item_260">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{$t('sex_ratio')}}</div>
+          <div class="total_item_txt">{{ $t('sex_ratio') }}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getUserRatio" />
@@ -97,7 +97,7 @@
       </div>
       <div class="total_item total_item_260">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{$t('company_ratio')}}</div>
+          <div class="total_item_txt">{{ $t('company_ratio') }}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getUserCompanyRatio" />
@@ -108,7 +108,7 @@
       </div>
       <div class="total_item total_item_260">
         <div class="total_item_wrap">
-          <div class="total_item_txt">{{$t('department_ratio')}}</div>
+          <div class="total_item_txt">{{ $t('department_ratio') }}</div>
           <div class="total_item_title"></div>
           <div class="total_item_op">
             <a-icon type="sync" size="small" @click="getUserDepartmentRatio" />
@@ -140,7 +140,7 @@ export default {
       userDepartmentChart: null
     };
   },
-  created() {},
+  created() { },
   mounted() {
     this.getData();
     this.getOpRecord();
@@ -222,10 +222,10 @@ export default {
           this.opRecordChart = echarts.init(this.$refs.op_record);
         }
         if (response.code == 0) {
-          var dateList = response.result.map(function(item) {
+          var dateList = response.result.map(function (item) {
             return item["date"];
           });
-          var countList = response.result.map(function(item) {
+          var countList = response.result.map(function (item) {
             return item["count"];
           });
           // 绘制图表。
@@ -255,14 +255,14 @@ export default {
         if (response.code == 0) {
           var dateList = Array.from(
             new Set(
-              response.result.map(function(item) {
+              response.result.map(function (item) {
                 return item["date"];
               })
             )
           );
           var addList = [];
           var delList = [];
-          response.result.forEach(function(currentValue) {
+          response.result.forEach(function (currentValue) {
             if (currentValue["type"] == "insert")
               addList.push([currentValue["date"], currentValue["count"]]);
             if (currentValue["type"] == "delete")
@@ -305,7 +305,7 @@ export default {
           var options = this.getEchartOptionsPie();
           var data = [];
           var that = this;
-          response.result.forEach(function(currentValue) {
+          response.result.forEach(function (currentValue) {
             if (currentValue["type"] == "M") {
               data.push({ value: currentValue.count, name: that.$t("male") });
             } else {
@@ -333,7 +333,7 @@ export default {
         if (response.code == 0) {
           var options = this.getEchartOptionsPie();
           var data = [];
-          response.result.forEach(function(currentValue) {
+          response.result.forEach(function (currentValue) {
             data.push({ value: currentValue.count, name: currentValue.type });
           });
           options.series = [
@@ -359,7 +359,7 @@ export default {
         if (response.code == 0) {
           var options = this.getEchartOptionsPie();
           var data = [];
-          response.result.forEach(function(currentValue) {
+          response.result.forEach(function (currentValue) {
             data.push({ value: currentValue.count, name: currentValue.type });
           });
           options.series = [
@@ -380,11 +380,13 @@ export default {
 .overview {
   margin-bottom: 50px;
 }
+
 .total_con {
   display: flex;
   margin-top: 10px;
   margin-left: -10px;
 }
+
 .total_item {
   flex: 1;
   /* background-color: #fff; */
@@ -395,19 +397,23 @@ export default {
   border: 1px solid #eff2f5;
   overflow: hidden;
 }
+
 .total_item_80 {
   height: 80px;
   flex-direction: column;
 }
+
 .total_item_240 {
   height: 240px;
   flex-direction: column;
   position: relative;
 }
+
 .total_item_260 {
   height: 260px;
   flex-direction: column;
 }
+
 .total_item_wrap {
   height: 30px;
   font-size: 14px;
@@ -419,26 +425,32 @@ export default {
   padding-right: 10px;
   background-color: #f0f2f5;
 }
+
 .total_item_wrap .total_item_txt {
   flex: 1;
 }
+
 .total_item_wrap .total_item_title {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 11px;
 }
+
 .total_item_wrap .total_item_op {
   flex: 1;
   text-align: right;
 }
+
 .anticon {
   font-size: 12px;
 }
+
 .anticon:hover {
   cursor: pointer;
   color: #000;
 }
+
 .line {
   display: inline-block;
   border: 0;
@@ -447,12 +459,15 @@ export default {
   margin-left: 5px;
   margin-right: 2px;
 }
+
 .line_0053FE {
   background-color: #0053fe;
 }
+
 .line_00C782 {
   background-color: #00c782;
 }
+
 .total_item_numb {
   flex: 1;
   font-size: 16px;
@@ -460,6 +475,7 @@ export default {
   display: flex;
   align-items: center;
 }
+
 .total_item_data {
   flex: 1;
   width: 100%;
@@ -467,6 +483,7 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
 .ant-spin-spinning {
   position: absolute;
 }

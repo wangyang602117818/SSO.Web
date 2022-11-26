@@ -1,9 +1,6 @@
 <template>
   <f7-page name="department_add">
-    <f7-navbar
-      :title="$t('manage.update_department')"
-      :back-link="$t('common.back')"
-    >
+    <f7-navbar :title="$t('manage.update_department')" :back-link="$t('common.back')">
       <f7-nav-right>
         <f7-link @click="saveDepartment">{{ $t("common.save") }}</f7-link>
       </f7-nav-right>
@@ -63,8 +60,8 @@ export default {
           if (response.code === 0) {
             this.department = {
               id: response.result.Id,
-              code: response.result.key,
-              name: response.result.title,
+              code: response.result.Code,
+              name: response.result.Name,
               companyCode: companyCode,
               description: response.result.Description || "",
               order: response.result.Order,
@@ -78,4 +75,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

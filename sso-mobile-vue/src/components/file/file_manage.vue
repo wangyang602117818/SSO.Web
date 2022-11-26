@@ -1,30 +1,16 @@
 <template>
-  <f7-page
-    name="file_manage"
-    ptr
-    @ptr:refresh="refresh"
-    infinite
-    :infinite-distance="50"
-    :infinite-preloader="loading"
-    @infinite="loadMore"
-    class="filemanage"
-  >
-    <f7-navbar
-      :title="$t('navigator.file_manage')"
-      :back-link="$t('common.back')"
-    >
+  <f7-page name="file_manage" ptr @ptr:refresh="refresh" infinite :infinite-distance="50" :infinite-preloader="loading"
+    @infinite="loadMore" class="filemanage">
+    <f7-navbar :title="$t('navigator.file_manage')" :back-link="$t('common.back')">
       <f7-nav-right>
-        <f7-link
-          icon-f7="hourglass_tophalf_fill"
-          sheet-open=".sheet-top"
-        ></f7-link>
+        <f7-link icon-f7="hourglass_tophalf_fill" sheet-open=".sheet-top"></f7-link>
       </f7-nav-right>
     </f7-navbar>
     <f7-sheet top backdrop class="sheet-top">
       <f7-toolbar bottom>
         <div class="left">
           <f7-link sheet-close @click="onClear">{{
-            $t("common.clear")
+              $t("common.clear")
           }}</f7-link>
         </div>
         <div class="right">
@@ -34,109 +20,59 @@
       <f7-page-content>
         <f7-block-title>{{ $t("common.from") }}</f7-block-title>
         <f7-block strong>
-          <f7-chip
-            :color="item.From == from ? 'blue' : ''"
-            :text="item.From"
-            v-for="(item, index) in froms"
-            :key="index"
-            @click="fromClick"
-          ></f7-chip>
+          <f7-chip :color="item.From == from ? 'blue' : ''" :text="item.From" v-for="(item, index) in froms"
+            :key="index" @click="fromClick"></f7-chip>
         </f7-block>
         <f7-block-title>{{ $t("navigator.file_type") }}</f7-block-title>
         <f7-block strong>
-          <f7-chip
-            :color="item.value == filterFileType ? 'blue' : ''"
-            :text="item.text"
-            v-for="(item, index) in fileTypes"
-            :key="index"
-            :data-value="item.value"
-            @click="fileTypeClick"
-          ></f7-chip>
+          <f7-chip :color="item.value == filterFileType ? 'blue' : ''" :text="item.text"
+            v-for="(item, index) in fileTypes" :key="index" :data-value="item.value" @click="fileTypeClick"></f7-chip>
         </f7-block>
         <f7-block-title>{{ $t("common.order") }}</f7-block-title>
         <f7-block strong>
-          <f7-chip
-            :color="orderBy == 'CreateTime' ? 'blue' : ''"
-            :text="$t('navigator.upload_time') + getOrderSymbol('CreateTime')"
-            data-orderby="CreateTime"
-            @click="orderChange"
-          ></f7-chip>
-          <f7-chip
-            :color="orderBy == 'FileName' ? 'blue' : ''"
-            :text="$t('navigator.file_name') + getOrderSymbol('FileName')"
-            data-orderby="FileName"
-            @click="orderChange"
-          ></f7-chip>
-          <f7-chip
-            :color="orderBy == 'Length' ? 'blue' : ''"
-            :text="$t('navigator.file_size') + getOrderSymbol('Length')"
-            data-orderby="Length"
-            @click="orderChange"
-          ></f7-chip>
-          <f7-chip
-            :color="orderBy == 'Download' ? 'blue' : ''"
-            :text="$t('navigator.download_count') + getOrderSymbol('Download')"
-            data-orderby="Download"
-            @click="orderChange"
-          ></f7-chip>
+          <f7-chip :color="orderBy == 'CreateTime' ? 'blue' : ''"
+            :text="$t('navigator.upload_time') + getOrderSymbol('CreateTime')" data-orderby="CreateTime"
+            @click="orderChange"></f7-chip>
+          <f7-chip :color="orderBy == 'FileName' ? 'blue' : ''"
+            :text="$t('navigator.file_name') + getOrderSymbol('FileName')" data-orderby="FileName" @click="orderChange">
+          </f7-chip>
+          <f7-chip :color="orderBy == 'Length' ? 'blue' : ''"
+            :text="$t('navigator.file_size') + getOrderSymbol('Length')" data-orderby="Length" @click="orderChange">
+          </f7-chip>
+          <f7-chip :color="orderBy == 'Download' ? 'blue' : ''"
+            :text="$t('navigator.download_count') + getOrderSymbol('Download')" data-orderby="Download"
+            @click="orderChange"></f7-chip>
         </f7-block>
       </f7-page-content>
     </f7-sheet>
-    <f7-searchbar
-      disable-button-text
-      :placeholder="$t('common.search')"
-      :clear-button="true"
-      @change="onSearch"
-    ></f7-searchbar>
-    <f7-photo-browser
-      :photos="photos"
-      theme="dark"
-      type="page"
-      :swiper="{ preloadImages: true, lazy: { enabled: false } }"
-      ref="standaloneDark"
-    ></f7-photo-browser>
+    <f7-searchbar disable-button-text :placeholder="$t('common.search')" :clear-button="true" @change="onSearch">
+    </f7-searchbar>
+    <f7-photo-browser :photos="photos" theme="dark" type="page"
+      :swiper="{ preloadImages: true, lazy: { enabled: false } }" ref="standaloneDark"></f7-photo-browser>
     <f7-list media-list>
-      <f7-list-item
-        v-for="(item, index) in datas"
-        :key="item.Id"
-        :id="index"
-        link="#"
-        :title="item.FileName"
-        :after="''"
-        :subtitle="item.CreateTime + ' | ' + item.Percent + '%'"
-        :text="
+      <f7-list-item v-for="(item, index) in datas" :key="item.Id" :id="index" link="#" :title="item.FileName"
+        :after="''" :subtitle="item.CreateTime + ' | ' + item.Percent + '%'" :text="
           $funtools.convertFileSize(item.Length) +
           ' | ' +
           item.Download +
           ' | ' +
           item.From
-        "
-        @click="itemClick(index)"
-        swipeout
-        @swipeout:delete="delFile(item.Id)"
-      >
+        " @click="itemClick(index)" swipeout @swipeout:delete="delFile(item.Id)">
         <template #media>
-          <img
-            :src="
-              $axios.defaults.baseURL +
-              $urls.file.downloadPic +
-              '/' +
-              item.Id +
-              '/' +
-              encodeURIComponent(item.FileName) +
-              '?authorization=' +
-              $funtools.getCookie($cookieName)
-            "
-          />
+          <img :src="
+            $axios.defaults.baseURL +
+            $urls.file.downloadPic +
+            '/' +
+            item.Id +
+            '/' +
+            encodeURIComponent(item.FileName) +
+            '?authorization=' +
+            $funtools.getCookie($cookieName)
+          " />
         </template>
         <f7-swipeout-actions right>
-          <f7-swipeout-button
-            delete
-            color="red"
-            :confirm-title="$t('common.tips')"
-            :confirm-text="$t('confirm.sure_delete')"
-            >{{ $t("common.delete") }}</f7-swipeout-button
-          >
+          <f7-swipeout-button delete color="red" :confirm-title="$t('common.tips')"
+            :confirm-text="$t('confirm.sure_delete')">{{ $t("common.delete") }}</f7-swipeout-button>
         </f7-swipeout-actions>
       </f7-list-item>
       <f7-block-footer v-if="datas.length === 0 && isEnd">
@@ -253,7 +189,7 @@ export default {
   },
   created() {
     this.getFroms();
-    this.$eventbus.on("fileadd", this.fileAdd);
+    this.$eventbus.off("fileadd").on("fileadd", this.fileAdd);
   },
   methods: {
     getQuerystring() {
@@ -348,12 +284,15 @@ export default {
 .block-title {
   margin-top: 5px;
 }
+
 .sheet-modal {
   min-height: 50%;
 }
+
 .chip {
   margin-left: 5px;
 }
+
 .filemanage .list .item-media {
   height: 80px;
   width: 80px;

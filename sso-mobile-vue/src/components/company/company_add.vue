@@ -2,7 +2,7 @@
   <f7-page name="role_add">
     <f7-navbar :title="$t('manage.add_company')" :back-link="$t('common.back')">
       <f7-nav-right>
-      <f7-link @click="saveCompany">{{ $t("common.save") }}</f7-link>
+        <f7-link @click="saveCompany">{{ $t("common.save") }}</f7-link>
       </f7-nav-right>
     </f7-navbar>
     <CompanyBase :company="company" />
@@ -34,7 +34,7 @@ export default {
         .post(this.$urls.company.add, this.company)
         .then((response) => {
           if (response.code == 0) {
-            this.$eventbus.emit('companyadd',response.result);
+            this.$eventbus.off("companyadd").emit('companyadd', response.result);
             this.f7router.back();
             this.showSuccess();
           }
@@ -45,4 +45,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

@@ -69,8 +69,8 @@
     <Reference Include="Quartz, Version=3.3.3.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.3.3.3\lib\net472\Quartz.dll</HintPath>
     </Reference>
-    <Reference Include="SSO.Util.Client, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSO.Util.Client.3.0.1\lib\net45\SSO.Util.Client.dll</HintPath>
+    <Reference Include="SSO.Util.Client, Version=3.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSO.Util.Client.3.0.2\lib\net45\SSO.Util.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -254,9 +254,9 @@
     <Content Include="Content\libs\js\bootstrap.esm.min.js" />
     <Content Include="Content\libs\js\bootstrap.js" />
     <Content Include="Content\libs\js\bootstrap.min.js" />
-    <Content Include="Content\login\chunk-vendors.ba8da78d.js" />
-    <Content Include="Content\login\index.d0a08f6e.css" />
-    <Content Include="Content\login\index.ef24e4c6.js" />
+    <Content Include="Content\login\chunk-vendors.e3d869df.js" />
+    <Content Include="Content\login\index.72b2e6ed.js" />
+    <Content Include="Content\login\index.b6f42557.css" />
     <Content Include="Content\prism\prism.css" />
     <Content Include="Content\prism\prism.js" />
     <Content Include="Content\doc.css" />
