@@ -28,7 +28,7 @@
 <p class="fw-normal">请求方式一:通过url查询的方式</p>
 <pre data-language="Html">
 <code class="language-markup">
-        &lt;a href="http://localhost:64074/home/download?id=61b1cef9d15029d3721e887c&filename=11111.jpg">11111.jpg&lt;/a>
+        &lt;a href="http://localhost:11133/home/download?id=61b1cef9d15029d3721e887c&filename=11111.jpg">11111.jpg&lt;/a>
 </code>
 </pre>
 <p class="fw-normal">请求方式二:使用特性路由,和 请求网络文件 一致的方式</p>
@@ -36,7 +36,7 @@
 <pre data-language="Html">
 <code class="language-markup">
 &lt;system.webServer>
-    <mark>&lt;modules runAllManagedModulesForAllRequests="true">&lt;/modules></mark>
+<mark>&lt;modules runAllManagedModulesForAllRequests="true">&lt;/modules></mark>
 &lt;/system.webServer>
 </code>
 </pre>
@@ -63,7 +63,7 @@ public ActionResult Download(string id,string filename)
 <p class="fw-light">4. 访问文件</p>
 <pre data-language="Html">
 <code class="language-markup">
-        &lt;a href="http://localhost:64074/home/download/61b1cef9d15029d3721e887c/11111.jpg">11111.jpg&lt;/a>
+        &lt;a href="http://localhost:11133/home/download/61b1cef9d15029d3721e887c/11111.jpg">11111.jpg&lt;/a>
 </code>
 </pre>
 <p class="fw-bold">2.2 下载文件 - Asp.Net Core</p>
@@ -85,7 +85,7 @@ public ActionResult Download(string id,string filename)
 <p class="fw-normal">请求方式一:通过url查询的方式</p>
 <pre data-language="Html">
 <code class="language-markup">
-        &lt;a href="http://localhost:64074/home/download?id=61b1cef9d15029d3721e887c&filename=11111.jpg">11111.jpg&lt;/a>
+        &lt;a href="http://localhost:11133/home/download?id=61b1cef9d15029d3721e887c&filename=11111.jpg">11111.jpg&lt;/a>
 </code>
 </pre>
 <p class="fw-normal">请求方式二:使用特性路由,和 请求网络文件 一致的方式</p>
@@ -102,12 +102,61 @@ public ActionResult Download(string id,string filename)
 <p class="fw-light">2. 访问文件</p>
 <pre data-language="Html">
 <code class="language-markup">
-        &lt;a href="http://localhost:64074/home/download/61b1cef9d15029d3721e887c/11111.jpg">11111.jpg&lt;/a>
+        &lt;a href="http://localhost:11133/home/download/61b1cef9d15029d3721e887c/11111.jpg">11111.jpg&lt;/a>
 </code>
 </pre>
-<p class="fw-light">3. 效果预览</p>
+<p class="fw-bold">2.3 下载文件 - Java SpringBoot</p>
+<p class="fw-normal">服务端端代码:</p>
+<pre data-language="Java">
+<code class="language-java">
+        @@Controller
+        @@RequestMapping("/home")
+        public class HomeController {
+            @@Value("${fileUrl}")
+            private String fileUrl;
+
+            @@GetMapping(value = "/download/{id}/{filename}")
+            public void Download(HttpServletRequest request, HttpServletResponse response, @@PathVariable String id,
+            @@PathVariable String filename) throws Exception {
+                FileClientService fileClientService = new FileClientService(fileUrl, JwtManager.GetAuthorization(request));
+                DownloadFileItem file = fileClientService.DownloadFile(id, filename);
+                OutputStream outputStream = response.getOutputStream();
+                //下载文件
+                //response.setHeader("Content-Disposition", "attachment; filename=" + file.getFileName());
+                response.setHeader("Content-Disposition", "inline; filename=" + file.getFileName());
+                response.setContentType(file.getContentType());
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = file.getFileStream().read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, len);
+                }
+                file.getFileStream().close();
+            }
+
+            @@GetMapping(value = "/download")
+            public void DownloadFile(HttpServletRequest request, HttpServletResponse response, String id, String filename)
+            throws Exception {
+                Download(request, response, id, filename);
+            }
+        }
+    </code>
+ </pre>
+<p class="fw-normal">请求方式一:通过url查询的方式</p>
+<pre data-language="Html">
+    <code class="language-markup">
+        &lt;a href="http://localhost:11133/home/download?id=61b1cef9d15029d3721e887c&filename=11111.jpg">11111.jpg&lt;/a>
+    </code>
+</pre>
+<p class="fw-normal">请求方式二:和 请求网络文件 一致的方式</p>
+<pre data-language="Html">
+<code class="language-markup">
+        &lt;a href="http://localhost:11133/home/download/61b1cef9d15029d3721e887c/11111.jpg">11111.jpg&lt;/a>
+</code>
+</pre>
+<p class="fw-bold">2.4 效果预览</p>
 <p class="col pe-0">
     <img src="~/Content/images/home-3.gif" />
 </p>
-<p class="fw-bold">4. 其他方法</p>
+
+<p class="fw-bold">3. 其他方法</p>
 <p class="fw-normal">fileClientService.DownloadFileIcon: 下载文件小图标, 为了在文件列表中快速加载出文件的预览图所使用的方法,用法和下载文件一样</p>

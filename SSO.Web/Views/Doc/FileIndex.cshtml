@@ -21,13 +21,25 @@
 <pre data-language="Html">
 <code class="language-markup">
         &lt;!--文件服务器的地址-->
-        &lt;add key="fileServiceUrl" value="http://file.ssoutil.cn/" />
+        &lt;add key="fileServiceUrl" value="http://file.ssoutil.cn" />
     </code>
 </pre>
 <p class="fw-light">appsettings.json(Asp.net Core)</p>
 <pre data-language="js">
 <code class="language-js">
         //文件服务器的地址
-        "fileServiceUrl": "http://file.ssoutil.cn/"
+        "fileServiceUrl": "http://file.ssoutil.cn"
+    </code>
+</pre>
+<p class="fw-light">application.properties(Java SpringBoot)</p>
+<pre data-language="Properties">
+    <code class="language-properties">
+        #文件服务器的地址
+        fileUrl = http://file.ssoutil.cn
+        #设置单个文件大小
+        spring.servlet.multipart.max-file-size=100MB
+        #设置总上传文件大小
+        spring.servlet.multipart.max-request-size=500MB
+
     </code>
 </pre>

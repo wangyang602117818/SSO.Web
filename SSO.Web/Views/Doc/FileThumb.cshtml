@@ -43,6 +43,41 @@
         }
     </code>
  </pre>
+<p class="fw-light">Java SpringBoot</p>
+<pre data-language="Java">
+<code class="language-java">
+        @@Controller
+        @@RequestMapping("/home")
+        public class HomeController {
+            @@Value("${fileUrl}")
+            private String fileUrl;
+
+            @@GetMapping(value = "/download/{id}/{filename}")
+            public void Download(HttpServletRequest request, HttpServletResponse response, @@PathVariable String id,
+            @@PathVariable String filename, <mark>String flag</mark>) throws Exception {
+                FileClientService fileClientService = new FileClientService(fileUrl, JwtManager.GetAuthorization(request));
+                DownloadFileItem file = fileClientService.DownloadFile(id, filename, flag);
+                OutputStream outputStream = response.getOutputStream();
+                //下载文件
+                //response.setHeader("Content-Disposition", "attachment; filename=" + file.getFileName());
+                response.setHeader("Content-Disposition", "inline; filename=" + file.getFileName());
+                response.setContentType(file.getContentType());
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = file.getFileStream().read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, len);
+                }
+                file.getFileStream().close();
+            }
+
+            @@GetMapping(value = "/download")
+            public void DownloadFile(HttpServletRequest request, HttpServletResponse response, String id, String filename, <mark>String flag</mark>)
+            throws Exception {
+                Download(request, response, id, filename, flag);
+            }
+        }
+    </code>
+ </pre>
 <p class="fw-light">访问缩略图</p>
 <pre data-language="Html">
     <code class="language-markup">

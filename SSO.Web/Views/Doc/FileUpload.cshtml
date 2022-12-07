@@ -57,6 +57,24 @@
         }
     </code>
  </pre>
+<p class="fw-light">上传文件服务端代码(Java SpringBoot)</p>
+<pre data-language="Java">
+    <code class="language-java">
+        @@Controller
+        @@RequestMapping("/home")
+        public class HomeController {
+            @@Value("${fileUrl}")
+            private String fileUrl;
+            @@PostMapping(value = "/upload")
+            @@ResponseBody
+            public ServiceModel&lt;FileResponse> Upload(@@RequestParam("file") MultipartFile file, HttpServletRequest request) 
+                   throws IOException, Exception {
+                FileClientService fileClientService = new FileClientService(fileUrl, JwtManager.GetAuthorization(request));
+                return fileClientService.Upload(file.getOriginalFilename(), file.getContentType(), file.getInputStream(), null, null);
+            }
+        }
+    </code>
+ </pre>
 <p class="fw-light">上传文件返回结果</p>
 <pre data-language="js">
 <code class="language-js">

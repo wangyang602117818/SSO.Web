@@ -1,6 +1,6 @@
 ﻿@using SSO.Util.Client
 @{
-    ViewBag.Title = "配置单点登录-SpringBoot";
+    ViewBag.Title = "配置单点登录-Java SpringBoot";
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
 }
 <h4 class="bd-title mb-3" id="content">配置单点登录(SpringBoot)</h4>
@@ -12,16 +12,27 @@
         <p class="fw-normal">3) 添加以下pom依赖(版本号可以不一致)</p>
         <pre class="line-numbers" data-language="Html">
         <code class="language-markup">
-                &lt;dependency>
+                &lt;parent>
                     &lt;groupId>org.springframework.boot&lt;/groupId>
-                    &lt;artifactId>spring-boot-starter-web&lt;/artifactId>
+                    &lt;artifactId>spring-boot-starter-parent&lt;/artifactId>
                     &lt;version>2.5.0&lt;/version>
-                &lt;/dependency>
-                &lt;dependency>
-                    &lt;groupId>com.auth0&lt;/groupId>
-                    &lt;artifactId>java-jwt&lt;/artifactId>
-                    &lt;version>4.0.0&lt;/version>
-                &lt;/dependency>
+                &lt;/parent>
+                &lt;dependencies>
+                    &lt;dependency>
+                        &lt;groupId>org.springframework.boot&lt;/groupId>
+                        &lt;artifactId>spring-boot-starter-web&lt;/artifactId>
+                    &lt;/dependency>
+                    &lt;dependency>
+                        &lt;groupId>com.auth0&lt;/groupId>
+                        &lt;artifactId>java-jwt&lt;/artifactId>
+                        &lt;version>4.0.0&lt;/version>
+                    &lt;/dependency>
+                    &lt;dependency>
+                        &lt;groupId>org.projectlombok&lt;/groupId>
+                        &lt;artifactId>lombok&lt;/artifactId>
+                        &lt;scope>provided&lt;/scope>
+                    &lt;/dependency>
+                &lt;/dependencies>
             </code>
         </pre>
         <p class="fw-normal">4) 设置好启动类,确保项目可以正常运行</p>
@@ -98,8 +109,47 @@
     </code>
 </pre>
 <p class="fw-normal">1. 获取所有公司列表</p>
-<pre class="line-numbers" data-language="C#">
-<code class="language-cs">
+<pre class="line-numbers" data-language="Java">
+<code class="language-java">
         var list = clientService.GetAllCompany();
+    </code>
+</pre>
+<p class="fw-normal">2. 获取部门列表</p>
+<pre class="line-numbers" data-language="Java">
+<code class="language-java">
+        //companyCode:公司列表中的公司code
+        var list = clientService.GetAllDepartment(companyCode);
+    </code>
+</pre>
+<p class="fw-normal">3. 获取用户列表</p>
+<pre class="line-numbers" data-language="Java">
+<code class="language-java">
+        //companyCode:公司列表中的公司code
+        //filter:搜索关键词(搜索UserName)
+        //pageIndex:第几页
+        //pageSize:每页几个
+        var list = clientService.GetUserList(companyCode,filter,pageIndex,pageSize);
+    </code>
+</pre>
+<p class="fw-normal">4. 获取角色列表</p>
+<pre class="line-numbers" data-language="Java">
+<code class="language-java">
+        //filter:搜索关键词(搜索Name)
+        //pageIndex:第几页
+        //pageSize:每页几个
+        var list = clientService.GetRoleList(filter,pageIndex,pageSize);
+    </code>
+</pre>
+<p class="fw-normal">5. 获取用户详情</p>
+<pre class="line-numbers" data-language="Java">
+<code class="language-java">
+        //userId:用户id
+        var detail = clientService.GetUserDetail(userId);
+    </code>
+</pre>
+<p class="fw-normal">6. 获取当前用户的权限项列表</p>
+<pre class="line-numbers" data-language="Java">
+<code class="language-java">
+        var permissions = clientService.GetUserPermissions();
     </code>
 </pre>

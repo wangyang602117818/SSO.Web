@@ -442,7 +442,7 @@
     <Content Include="Views\Doc\AspnetWebForm.cshtml" />
     <Content Include="Views\Doc\_GetOther.cshtml" />
     <Content Include="Views\Doc\ServiceIndex.cshtml" />
-    <Content Include="Views\Doc\springboot.cshtml" />
+    <Content Include="Views\Doc\JavaSpringboot.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">
