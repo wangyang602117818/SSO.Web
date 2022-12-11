@@ -112,17 +112,16 @@ public ActionResult Download(string id,string filename)
         @@Controller
         @@RequestMapping("/home")
         public class HomeController {
-            @@Value("${fileUrl}")
-            private String fileUrl;
 
             @@GetMapping(value = "/download/{id}/{filename}")
             public void Download(HttpServletRequest request, HttpServletResponse response, @@PathVariable String id,
             @@PathVariable String filename) throws Exception {
-                FileClientService fileClientService = new FileClientService(fileUrl, JwtManager.GetAuthorization(request));
+                FileClientService fileClientService = new FileClientService(JwtManager.GetAuthorization(request));
                 DownloadFileItem file = fileClientService.DownloadFile(id, filename);
                 OutputStream outputStream = response.getOutputStream();
                 //下载文件
                 //response.setHeader("Content-Disposition", "attachment; filename=" + file.getFileName());
+                //预览文件(如果浏览器支持预览)
                 response.setHeader("Content-Disposition", "inline; filename=" + file.getFileName());
                 response.setContentType(file.getContentType());
                 byte[] buffer = new byte[1024];
@@ -131,6 +130,28 @@ public ActionResult Download(string id,string filename)
                     outputStream.write(buffer, 0, len);
                 }
                 file.getFileStream().close();
+            }
+
+            @@GetMapping(value = "/download")
+            public void DownloadFile(HttpServletRequest request, HttpServletResponse response, String id, String filename)
+            throws Exception {
+                Download(request, response, id, filename);
+            }
+        }
+    </code>
+ </pre>
+<p class="fw-normal">或者使用简单的方法:</p>
+<pre data-language="Java">
+<code class="language-java">
+        @@Controller
+        @@RequestMapping("/home")
+        public class HomeController {
+
+            @@GetMapping(value = "/download/{id}/{filename}")
+            public void Download(HttpServletRequest request, HttpServletResponse response, @@PathVariable String id,
+            @@PathVariable String filename) throws Exception {
+                FileClientService fileClientService = new FileClientService(JwtManager.GetAuthorization(request));
+                fileClientService.DownloadFilePreview(response, id, filename);
             }
 
             @@GetMapping(value = "/download")

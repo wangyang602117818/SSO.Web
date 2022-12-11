@@ -49,13 +49,11 @@
         @@Controller
         @@RequestMapping("/home")
         public class HomeController {
-            @@Value("${fileUrl}")
-            private String fileUrl;
 
             @@GetMapping(value = "/download/{id}/{filename}")
             public void Download(HttpServletRequest request, HttpServletResponse response, @@PathVariable String id,
             @@PathVariable String filename, <mark>String flag</mark>) throws Exception {
-                FileClientService fileClientService = new FileClientService(fileUrl, JwtManager.GetAuthorization(request));
+                FileClientService fileClientService = new FileClientService(JwtManager.GetAuthorization(request));
                 DownloadFileItem file = fileClientService.DownloadFile(id, filename, flag);
                 OutputStream outputStream = response.getOutputStream();
                 //下载文件

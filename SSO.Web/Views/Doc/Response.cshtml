@@ -6,25 +6,60 @@
 <h4 class="bd-title mb-3" id="content">1. 返回值</h4>
 <p class="fw-normal">请确保项目已经安装Nuget包(SSO.Util.Client)</p>
 <p class="fw-normal">该功能统一了Action中返回值的写法,避免了接口中写法不统一,返回值不统一的问题</p>
-<p class="fw-normal">Action中的返回值有3种形式</p>
-<p class="fw-light text-decoration-underline">返回简单信息</p>
+<p class="fw-normal">Action中的返回值有4种形式</p>
+<p class="fw-bold">1. 返回简单信息</p>
+<p class="fw-light">Asp.net | Asp.net Core</p>
 <pre data-language="C#">
     <code class="language-cs">
         return new ResponseModel&lt;string>(ErrorCode.success, "");   //成功返回值
         return new ResponseModel&lt;string>(ErrorCode.server_exception, "");  //异常返回值
     </code>
  </pre>
-<p class="fw-light text-decoration-underline">返回序列化好的json字符串</p>
+<p class="fw-light">Java SpringBoot</p>
+<pre data-language="Java">
+    <code class="language-java">
+        return new ResponseModel&lt;String>(ErrorCode.success, "");   //成功返回值
+        return new ResponseModel&lt;String>(ErrorCode.server_exception, "");  //异常返回值
+    </code>
+ </pre>
+<p class="fw-bold">2. 返回序列化好的json字符串</p>
+<p class="fw-light">Asp.net | Asp.net Core</p>
 <pre data-language="C#">
     <code class="language-cs">
         string json = JsonSerializerHelper.Serialize(obj);
         return new ResponseModel&lt;string>(ErrorCode.success, json);
     </code>
  </pre>
-<p class="fw-light text-decoration-underline">返回可序列化的对象</p>
+<p class="fw-light">Java SpringBoot</p>
+<pre data-language="Java">
+<code class="language-java">
+        //不适用
+    </code>
+ </pre>
+<p class="fw-bold">3. 返回可序列化的对象</p>
+<p class="fw-light">Asp.net | Asp.net Core</p>
 <pre data-language="C#">
     <code class="language-cs">
         return new ResponseModel&lt;object>(ErrorCode.success, obj);
+    </code>
+ </pre>
+<p class="fw-light">Java SpringBoot</p>
+<pre data-language="Java">
+    <code class="language-java">
+        return new ResponseModel&lt;Object>(ErrorCode.success, obj);
+    </code>
+ </pre>
+<p class="fw-bold">4. 返回自定义的code和message</p>
+<p class="fw-light">Asp.net | Asp.net Core</p>
+<pre data-language="C#">
+    <code class="language-cs">
+        return new ResponseModel&lt;string>(999, "系统繁忙", "");
+    </code>
+ </pre>
+<p class="fw-light">Java SpringBoot</p>
+<pre data-language="Java">
+    <code class="language-java">
+        return new ResponseModel&lt;String>(999, "系统繁忙", "");
     </code>
  </pre>
 <p class="fw-normal">返回案例</p>
@@ -40,14 +75,21 @@
 </pre>
 <h4 class="bd-title mb-3" id="content">2. 反解析返回值</h4>
 <p class="fw-normal">对于从接口的返回值,可以使用ServiceModel来反解析</p>
+<p class="fw-light">Asp.net | Asp.net Core</p>
 <pre data-language="C#">
     <code class="language-cs">
         var result = requestHelper.Post(baseUrl, model, null); //接口返回值
         return JsonSerializerHelper.Deserialize&lt;ServiceModel&lt;List&lt;LogModel>>>(result);  //解析返回值
     </code>
  </pre>
-<p class="fw-normal">ErrorCode默认有以下值,也可以添加自己的ErrorCode</p>
-<p class="fw-light">系统内置的ErrorCode</p>
+<p class="fw-light">Java SpringBoot</p>
+<pre data-language="Java">
+    <code class="language-java">
+        String result = requestHelper.Post(baseUrl, model, null); //接口返回值
+        return JsonSerializerHelper.Deserialize(result, new TypeReference&lt;ServiceModel&lt;List&lt;LogModel>>>() {}); //解析返回值
+    </code>
+ </pre>
+<p class="fw-normal">系统内置的ErrorCode</p>
 <pre data-language="C#">
 <code class="language-cs">
     public enum ErrorCode
@@ -122,5 +164,30 @@
         /// &lt;/summary>
         server_exception = -1000
     }
+    </code>
+ </pre>
+<pre data-language="Java">
+<code class="language-java">
+public enum ErrorCode {
+    success(0), redirect(1), authcode_is_null(101), app_not_exist(102), app_blocked(103), error_permission(104),
+    invalid_params(105), params_valid_fault(106), owner_not_match(107), file_type_blocked(108), username_required(109),
+    usercode_required(110), no_handler_available(111), api_not_available(112), url_not_available(113),
+    old_password_error(114), record_not_exist(200), uri_not_found(201), usercode_exist(202), login_fault(203),
+    task_not_completed(204), invalid_password(205), file_type_not_match(206), requests_has_been_exceeded(220),
+    task_not_complete(300), record_exist(400), authorize_fault(401), invalid_token(402), token_expired(403),
+    page_not_found(404), ssoUrl_not_config(600), ssoSecret_not_config(601), ssoCookieKey_not_config(602),
+    ssoCookieTime_not_config(603), messageUrl_not_config(604), record_has_been_used(700), task_is_running(701),
+    server_exception(-1000);
+
+    private final int id;
+
+    ErrorCode(int id) {
+        this.id = id;
+    }
+
+    public int getValue() {
+        return id;
+    }
+}
     </code>
  </pre>

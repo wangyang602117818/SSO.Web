@@ -18,9 +18,10 @@ namespace SSO.Web.Controllers
         [JwtAuthorize("AddPermission")]
         public ActionResult Add(PermissionModel permissionModel)
         {
-            if (permission.DeleteAndInsertMany(permissionModel.Origin, permissionModel.Names) > 0)
+            int count = permission.DeleteAndInsertMany(permissionModel.Origin, permissionModel.Names);
+            if (count > 0)
             {
-                return new ResponseModel<string>(ErrorCode.success, "");
+                return new ResponseModel<string>(ErrorCode.success, count.ToString());
             }
             else
             {

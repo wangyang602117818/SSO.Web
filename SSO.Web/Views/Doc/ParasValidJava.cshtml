@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "参数绑定和验证";
+    Layout = "~/Views/Doc/_LayoutPage.cshtml";
+}
+<h4 class="bd-title mb-3" id="content">参数绑定和验证 - Java</h4>
+<p class="fw-normal">请确保项目已经添加sso.util.client</p>
+<p class="fw-normal">案例中使用的参数类</p>
+<pre data-language="Java">
+<code class="language-java">
+    @@Data
+    public class Person
+    {
+        @@NotBlank
+        private String name;
+        private int age;
+    }
+    </code>
+</pre>
+<p class="fw-bold">1. 参数绑定</p>
+<p class="fw-normal">Get方法中参数的绑定</p>
+<p class="fw-light">1) 自动绑定(/m1?a=123)</p>
+<pre data-language="Java">
+<code class="language-java">
+    @@GetMapping("/m1")
+    public String M1(String a) {
+        return a;
+    }
+    </code>
+ </pre>
+<p class="fw-light">2) 使用 @@PathVariable 来映射url中匹配的部分参数</p>
+<pre data-language="Java">
+<code class="language-java">
+    @@GetMapping("/m1/{a}")
+    public String hello(@@PathVariable String a) {
+         return a;
+    }
+    </code>
+ </pre>
+<p class="fw-normal">Post方法中参数的绑定</p>
+<pre data-language="Java">
+<code class="language-java">
+    @@PostMapping("/m2")
+    public Person M2(@@RequestBody Person p) {
+        return p;
+    }
+    </code>
+ </pre>
+<p class="fw-bold">2. 参数验证</p>
+<p class="fw-normal">1) 参数验证需要添加以下pom包引用</p>
+<pre data-language="Xml">
+<code class="language-xml">
+        &lt;dependency>
+            &lt;groupId>org.springframework.boot&lt;/groupId>
+            &lt;artifactId>spring-boot-starter-validation&lt;/artifactId>
+        &lt;/dependency>
+    </code>
+</pre>
+<p class="fw-normal">2) 添加错误处理类来定制化验证失败的返回值(在 日志记录->项目日志 已经介绍)</p>
+<pre data-language="Java">
+<code class="language-java">
+    @@ControllerAdvice
+    public class MyExceptionHandler {
+        @@ResponseBody
+        @@ExceptionHandler
+        public ResponseModel&lt;String> handerException(HttpServletRequest request, HttpServletResponse response, Exception ex) {
+            ResponseModel&lt;String> responseModel = new ResponseModel&lt;String>(ErrorCode.server_exception, ex.getMessage());
+            return responseModel;
+        }
+
+        @@ResponseBody
+        @@ExceptionHandler(ConstraintViolationException.class)
+        public ResponseModel&lt;HashMap&lt;String, String>> handerParamsException(HttpServletRequest request, HttpServletResponse response, ConstraintViolationException ex) {
+            HashMap&lt;String, String> dictionary = new HashMap&lt;String, String>();
+            for (ConstraintViolation&lt;?> oe : ex.getConstraintViolations()) {
+                String propertyPath = oe.getPropertyPath().toString();
+                dictionary.put(propertyPath.substring(propertyPath.indexOf(".") + 1), oe.getMessage());
+            }
+            ResponseModel&lt;HashMap&lt;String, String>> responseModel = new ResponseModel&lt;HashMap&lt;String, String>>(ErrorCode.invalid_params, dictionary);
+            return responseModel;
+        }
+
+        @@ResponseBody
+        @@ExceptionHandler(MethodArgumentNotValidException.class)
+        public ResponseModel&lt;HashMap&lt;String, String>> handerParamsException(HttpServletRequest request, HttpServletResponse response, MethodArgumentNotValidException ex) {
+            HashMap&lt;String, String> dictionary = new HashMap&lt;String, String>();
+            for (ObjectError oe : ex.getAllErrors()) {
+                DefaultMessageSourceResolvable messageSourceResolvable = (DefaultMessageSourceResolvable) oe.getArguments()[0];
+                dictionary.put(messageSourceResolvable.getDefaultMessage(), oe.getDefaultMessage());
+            }
+            ResponseModel&lt;HashMap&lt;String, String>> responseModel = new ResponseModel&lt;HashMap&lt;String, String>>(ErrorCode.params_valid_fault, dictionary);
+            return responseModel;
+        }
+    }
+    </code>
+</pre>
+<p class="fw-normal">3) Get方法中参数的验证</p>
+<pre data-language="Java">
+<code class="language-java">
+<mark>@@Validated</mark>
+@@Controller
+public class HomeController {
+    @@GetMapping("/m1")
+    public String M1(<mark>@@NotEmpty</mark> String a) {
+        return a;
+    }
+}
+    </code>
+ </pre>
+<p class="fw-normal">4) Post方法中参数的验证</p>
+<pre data-language="Java">
+<code class="language-java">
+    @@Controller
+    public class HomeController {
+        @@GetMapping("/m2")
+        public Person M1(<mark>@@Valid @@RequestBody</mark> Person p) {
+            return p;
+        }
+    }
+    </code>
+ </pre>
+<p class="fw-normal">如果调用接口不提供Name属性,则返回以下错误</p>
+<pre data-language="js">
+<code class="language-js">
+{
+    "code": 106,
+    "message": "params_valid_fault",
+    "result": {
+        "name": "name不能为空"
+    },
+    "count": 0
+}
+    </code>
+</pre>
+<p class="fw-bold">3. 常用的注解列表</p>
+<p class="fw-normal">@@NotNull - 参数要存在,可以为""</p>
+<p class="fw-normal">@@NotEmpty - 参数不能为空,但是可以为" "</p>
+<p class="fw-normal">@@NotBlank - 参数不能为空,并且不能是" "</p>
+<p class="fw-normal">@@Email - 邮箱验证</p>
+<p class="fw-normal">@@Size(min = 3,max = 5) - 字符串长度</p>
+<p class="fw-normal">@@PositiveOrZero - 必须是正数或者0</p>
+<p class="fw-normal">@@Positive - 必须是正数</p>
+<p class="fw-normal">@@NegativeOrZero - 必须是负数或者0</p>
+<p class="fw-normal">@@Negative - 必须是负数</p>
+<p class="fw-normal">@@Past - 不能大于当前时间</p>
+<p class="fw-normal">@@Future - 不能小于当前时间</p>
+<p class="fw-normal">@@Range(min = 1, max = 150) - 数字范围</p>
+<p class="fw-normal">@@Min(value = 1) - 不能小于1</p>
+<p class="fw-normal">@@Max(value = 150) - 不能大于100</p>
+<p class="fw-normal">@@Digits(integer = 3, fraction = 2) - 金额的整数不能超过3位，小数部分不能超过2位</p>
+<p class="fw-normal">@@DecimalMin(value = "0.99") - 金额不能小于0.99</p>
+<p class="fw-normal">@@DecimalMax(value = "99.99") - 金额不能大于99.99</p>
+<p class="fw-normal">@@Pattern(regexp = "^[A-Za-z0-9-]*") - 只能是数字字母</p>
+
+
+

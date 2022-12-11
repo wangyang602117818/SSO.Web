@@ -44,15 +44,15 @@
 <p class="fw-bold mt-4">2. 配置项目</p>
 <p class="fw-normal">1) 在 application.properties 中配置以下节点</p>
 <pre class="line-numbers" data-language="Properties">
-<code class="language-properties">
+    <code class="language-properties">
         #sso地址,用于 跳转 和 验证role权限
-        ssoUrl = http://api.ssoutil.cn
+        sso.base.url = http://api.ssoutil.cn
         #jwt token的解密秘钥
-        ssoSecret = tvO3zPS9Fdc4EvF867Vjbc8ox0kRaH5DCihwOzYMbLQ=
+        sso.secret.key = tvO3zPS9Fdc4EvF867Vjbc8ox0kRaH5DCihwOzYMbLQ=
         #cookie保存的名称
-        ssoCookieKey = sso.java.springboot
+        sso.cookie.key = sso.java.springboot
         #cookie保存的时间(分钟)
-        ssoCookieTime = session
+        sso.cookie.time = session
     </code>
 </pre>
 <p class="fw-normal">2) 添加全局拦截器</p>

@@ -425,7 +425,7 @@
     <Content Include="Views\Doc\OrmDynamic.cshtml" />
     <Content Include="Views\Doc\MultDatasource.cshtml" />
     <Content Include="Views\Doc\OrmOther.cshtml" />
-    <Content Include="Views\Doc\ParasValid.cshtml" />
+    <Content Include="Views\Doc\ParasValidNet.cshtml" />
     <Content Include="Views\Doc\Response.cshtml" />
     <Content Include="Views\Doc\EsOpr.cshtml" />
     <Content Include="Views\Doc\EsSearch.cshtml" />
@@ -443,6 +443,7 @@
     <Content Include="Views\Doc\_GetOther.cshtml" />
     <Content Include="Views\Doc\ServiceIndex.cshtml" />
     <Content Include="Views\Doc\JavaSpringboot.cshtml" />
+    <Content Include="Views\Doc\ParasValidJava.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SSO.Business\SSO.Business.csproj">

@@ -23,7 +23,14 @@
         "messageBaseUrl": "http://message.ssoutil.cn/"
     </code>
 </pre>
-<p class="fw-bold">2. 记录访问日志</p>
+<p class="fw-light">application.properties(Java SpringBoot)</p>
+<pre data-language="properties">
+    <code class="language-properties">
+        //日志服务器的地址
+        message.base.url = http://message.ssoutil.cn
+    </code>
+</pre>
+<p class="fw-bold">2. 记录访问日志 - Asp.net | Asp.net Core</p>
 <p class="fw-normal">合理的使用 [LogRecord] 特性和 [NoneLogRecord] 特性来进行 记录日志 和 不记录日志</p>
 <p class="fw-light">案例一: 在Controller上使用 [LogRecord] 特性,在Action上使用 [NoneLogRecord] 特性,则该Controller中具有 [NoneLogRecord] 特性的方法不记录日志,其他方法记录日志</p>
 <pre data-language="C#">
@@ -52,7 +59,7 @@
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             ...
-            <mark>filters.Add(new LogRecordAttribute());</mark>
+            filters.Add(new LogRecordAttribute());
         }
     }
     </code>
@@ -62,12 +69,26 @@
     <code class="language-cs">
         services.AddControllersWithViews(options =>
         {
-            <mark>options.Filters.Add(new LogRecordAttribute());</mark>
             ...
+            options.Filters.Add(new LogRecordAttribute());
         });
     </code>
  </pre>
-<p class="fw-bold">3. 其他参数</p>
+<p class="fw-bold">3. 记录访问日志 - Java SpringBoot</p>
+<p class="fw-light">在全局使用LogInterceptor拦截器, 则整个系统中除了标记为@@AllowAnonymous特性的方法之外,其他方法都会记录日志</p>
+<pre data-language="Java">
+    <code class="language-java">
+        @@Configuration
+        public class ApplicationInterceptor implements WebMvcConfigurer{
+            @@Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                ...
+                registry.addInterceptor(new LogInterceptor());
+            }
+        }
+    </code>
+ </pre>
+<p class="fw-bold">4. 其他参数</p>
 <p class="fw-normal">recordQuerystring(true): 是否记录查询参数</p>
 <p class="fw-normal">recordRequestContent(true): 是否记录请求体(如果请求体是文件类型,则只会记录文件名)</p>
 <p class="fw-normal">recordResponseContent(true): 是否记录响应体(如果响应体是文件类型,则只会记录文件名)</p>
@@ -75,7 +96,7 @@
 <p class="fw-normal">
     <img src="~/Content/images/logvisit-1.png" />
 </p>
-<p class="fw-bold">4. 日志字段的取值逻辑</p>
+<p class="fw-bold">5. 日志字段的取值逻辑</p>
 <p class="fw-normal">来源: 取的是JwtToken中的from字段,如果没有登录过,则来源为空</p>
 <p class="fw-normal">提高吞吐量: 日记发送到日志服务器会暂时存到 msmq 中,再由后台服务插入数据库</p>
 <p class="fw-normal">调用次数: 后台的服务在记录日志时会延迟1分钟,这样同一个用户在一分钟之内访问同一个接口只会增加次数,不会产生新记录</p>

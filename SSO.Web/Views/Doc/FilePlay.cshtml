@@ -106,6 +106,33 @@
     }
     </code>
  </pre>
+<p class="fw-light">Java SpringBoot</p>
+<pre data-language="Java">
+    <code class="language-java">
+        @@Controller
+        @@RequestMapping("/home")
+        public class HomeController {
+            @@ResponseBody
+            @@GetMapping(value = "/M3u8MultiStream/{id}/{filename}")
+            public void M3u8MultiStream(HttpServletRequest request, HttpServletResponse response, @@PathVariable String id, @@PathVariable String filename) throws Exception {
+                FileClientService fileClientService = new FileClientService(JwtManager.GetAuthorization(request));
+                fileClientService.DownloadM3u8MultiStream(response, id, filename);
+            }
+            @@ResponseBody
+            @@GetMapping(value = "/m3u8/{id}/{filename}")
+            public void M3u8(HttpServletRequest request, HttpServletResponse response, @@PathVariable String id, @@PathVariable String filename)throws Exception {
+                FileClientService fileClientService = new FileClientService(JwtManager.GetAuthorization(request));
+                fileClientService.DownloadM3u8(response, id, filename);
+            }
+            @@ResponseBody
+            @@GetMapping(value = "/ts/{id}/{filename}")
+            public void Ts(HttpServletRequest request, HttpServletResponse response, @@PathVariable String id, @@PathVariable String filename) throws Exception {
+                FileClientService fileClientService = new FileClientService(JwtManager.GetAuthorization(request));
+                fileClientService.DownloadTs(response, id, filename);	
+            }
+        }
+    </code>
+ </pre>
 <p class="fw-bold">3. 播放方式</p>
 <p class="fw-normal">1) 引入 <a href="http://file.ssoutil.cn/js/hlsplayer.min.js" target="_blank">hlsplayer.min.js</a></p>
 <p class="fw-normal">2) 添加video标签的hlsplayer样式</p>
@@ -180,6 +207,26 @@
             var result = fileClientService.M3u8(id, filename, time);
             return File(result.FileStream, result.ContentType);
         }
+    </code>
+ </pre>
+<p class="fw-light">Java SpringBoot</p>
+<pre data-language="Java">
+<code class="language-java">
+    @@ResponseBody
+    @@GetMapping(value = "/M3u8MultiStream/{id}/{filename}")
+    public void M3u8MultiStream(HttpServletRequest request, HttpServletResponse response, @@PathVariable String id, @@PathVariable String filename) throws Exception {
+        FileClientService fileClientService = new FileClientService(JwtManager.GetAuthorization(request));
+        <mark>int time = Integer.parseInt(request.getHeader("time") == null ? "0" : request.getHeader("time"));</mark>
+        fileClientService.DownloadM3u8MultiStream(response, id, filename, time);
+    }
+
+    @@ResponseBody
+    @@GetMapping(value = "/m3u8/{id}/{filename}")
+    public void M3u8(HttpServletRequest request, HttpServletResponse response, @@PathVariable String id, @@PathVariable String filename) throws Exception {
+        FileClientService fileClientService = new FileClientService(JwtManager.GetAuthorization(request));
+        <mark>int time = Integer.parseInt(request.getHeader("time") == null ? "0" : request.getHeader("time"));</mark>
+        fileClientService.DownloadM3u8(response, id, filename, time);
+    }
     </code>
  </pre>
 <p class="fw-light">效果预览</p>

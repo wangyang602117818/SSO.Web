@@ -9,6 +9,7 @@
 <p class="fw-normal">给每一个需要控制权限的接口加上 SSOAuthorize 特性,并给出name描述(权限项)</p>
 <p class="fw-normal">权限项在同一个项目中可以相同,代表同一种权限</p>
 <p class="fw-normal">权限项在不同的项目中必须唯一,否则会影响权限判断(接口已有验证,相同无法提交)</p>
+<p class="fw-light">Asp.net | Asp.net Core</p>
 <pre data-language="C#">
 <code class="language-cs">
     public class HomeController : Controller
@@ -27,11 +28,33 @@
     }
     </code>
  </pre>
+<p class="fw-light">Java SpringBoot</p>
+<pre data-language="Java">
+<code class="language-java">
+    @@Controller
+    @@RequestMapping("/home")
+    public class HomeController
+    {
+        ...
+        <mark>@@SSOAuthorize("javaweb01-about")</mark>
+        @@GetMapping(value = "/about")
+        public String About() {
+            return "about";
+        }
+        <mark>@@SSOAuthorize("javaweb01-file")</mark>
+        @@GetMapping(value = "/file")
+        public String File() {
+            return "file";
+        }
+    }
+    </code>
+ </pre>
 <p class="fw-bold">2. 初始化权限</p>
 <p class="fw-normal">获取项目中所有SSOAuthorize中的权限项,并通过接口插入数据库</p>
 <p class="fw-normal">WebApplication1.Controllers 是Controllers的程序集名称,需要修改成自己的</p>
 <p class="fw-normal">app01 是权限分类的名称,不同的项目具有不同的名称</p>
 <p class="fw-normal">ReplacePermissions方法可以重复使用,当有权限变动时调用该方法</p>
+<p class="fw-light">Asp.net | Asp.net Core</p>
 <pre data-language="C#">
 <code class="language-cs">
     public class HomeController : Controller
@@ -50,6 +73,33 @@
             return Json(result,JsonRequestBehavior.AllowGet);
         }
         ...
+    }
+    </code>
+ </pre>
+<p class="fw-light">Java SpringBoot</p>
+<pre data-language="Java">
+<code class="language-java">
+    @@Controller
+    @@RequestMapping("/home")
+    public class HomeController {
+        @@Autowired
+        ApplicationContext applicationContext;
+        @@GetMapping(value = "/index")
+        @@ResponseBody
+        public ServiceModel&lt;String> Index(HttpServletRequest request) throws Exception {
+            List&lt;String> list = new ArrayList&lt;String>();
+            RequestMappingHandlerMapping requestMappingHandlerMapping = applicationContext.getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class);
+            Map&lt;RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
+            for (RequestMappingInfo key : map.keySet()) {
+                HandlerMethod value = map.get(key);
+                SSOAuthorize authNameAnnotation = value.getMethod().getAnnotation(SSOAuthorize.class);
+                if (authNameAnnotation != null && !list.contains(authNameAnnotation.value()))
+                  list.add(authNameAnnotation.value());
+            }
+            SSOClientService sSOClientService = new SSOClientService(JwtManager.GetAuthorization(request));
+            //初始化权限
+            return sSOClientService.ReplacePermissions(<mark>"javaweb01"</mark>, list);
+        }
     }
     </code>
  </pre>

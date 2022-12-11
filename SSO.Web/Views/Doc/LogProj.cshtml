@@ -15,8 +15,8 @@
     {
         public ActionResult Index()
         {
-            <mark>Log4Net.InfoLog("info");
-            Log4Net.ErrorLog("error");</mark>
+            Log4Net.InfoLog("info");
+            Log4Net.ErrorLog("error");
             return View();
         }
     }
@@ -31,7 +31,7 @@
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            <mark>filters.Add(new MyHandleErrorAttribute());</mark>
+            filters.Add(new MyHandleErrorAttribute());
             ...
         }
     }
@@ -42,8 +42,103 @@
     <code class="language-cs">
         services.AddControllersWithViews(options =>
         {
-            <mark>options.Filters.Add(new MyHandleErrorAttribute());</mark>
+            options.Filters.Add(new MyHandleErrorAttribute());
             ...
         });
     </code>
  </pre>
+<p class="fw-bold">3.Java SpringBoot中的日志记录</p>
+<p class="fw-normal">1) 在项目中添加以下配置文件(/resources/logback.xml),则项目中的所有日志都会存入配置的路径</p>
+<pre data-language="Xml">
+    <code class="language-xml">
+        &lt;?xml version="1.0" encoding="UTF-8" ?>
+        &lt;configuration debug="true" scan="true" scanPeriod="30 seconds">
+            &lt;property name="log.path" value="<mark>C:/JavaWorkspace/springwebmvc02/logs/springweb01.log</mark>" />
+            &lt;appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+                &lt;layout class="ch.qos.logback.classic.PatternLayout">
+                    &lt;pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} %line - %msg%n&lt;/pattern>
+                &lt;/layout>
+            &lt;/appender>
+            &lt;appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                &lt;file>${log.path}&lt;/file>
+                &lt;encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                    &lt;Pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} %line : %msg%n&lt;/Pattern>
+                    &lt;charset>UTF-8&lt;/charset>
+                &lt;/encoder>
+                &lt;rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    &lt;fileNamePattern>${LOG_PATH}/archived/${LOG_FILE_NAME}-%d{yyyy-MM-dd}.%i.log&lt;/fileNamePattern>
+                    &lt;MaxHistory>30&lt;/MaxHistory>
+                    &lt;timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                        &lt;maxFileSize>10MB&lt;/maxFileSize>
+                    &lt;/timeBasedFileNamingAndTriggeringPolicy>
+                &lt;/rollingPolicy>
+            &lt;/appender>
+            &lt;root level="info">
+                &lt;appender-ref ref="console" />
+                &lt;appender-ref ref="file" />
+            &lt;/root>
+        &lt;/configuration>
+    </code>
+ </pre>
+<p class="fw-normal">2) 添加全局错误处理类来定制化项目中错误的返回值</p>
+<p class="fw-light">handerParamsException - 分别用来处理get参数验证无效的异常和post参数验证无效的异常</p>
+<p class="fw-light">其中ConstraintViolationException类来自于以下pom包</p>
+<pre data-language="Xml">
+    <code class="language-xml">
+        &lt;dependency>
+            &lt;groupId>org.springframework.boot&lt;/groupId>
+            &lt;artifactId>spring-boot-starter-validation&lt;/artifactId>
+        &lt;/dependency>
+    </code>
+</pre>
+<pre data-language="Java">
+<code class="language-java">
+    @@ControllerAdvice
+    public class MyExceptionHandler {
+        @@ResponseBody
+        @@ExceptionHandler
+        public ResponseModel&lt;String> handerException(HttpServletRequest request, HttpServletResponse response, Exception ex) {
+            ResponseModel&lt;String> responseModel = new ResponseModel&lt;String>(ErrorCode.server_exception, ex.getMessage());
+            return responseModel;
+        }
+
+        @@ResponseBody
+        @@ExceptionHandler(ConstraintViolationException.class)
+        public ResponseModel&lt;HashMap&lt;String, String>> handerParamsException(HttpServletRequest request, HttpServletResponse response, ConstraintViolationException ex) {
+            HashMap&lt;String, String> dictionary = new HashMap&lt;String, String>();
+            for (ConstraintViolation&lt;?> oe : ex.getConstraintViolations()) {
+                String propertyPath = oe.getPropertyPath().toString();
+                dictionary.put(propertyPath.substring(propertyPath.indexOf(".") + 1), oe.getMessage());
+            }
+            ResponseModel&lt;HashMap&lt;String, String>> responseModel = new ResponseModel&lt;HashMap&lt;String, String>>(ErrorCode.invalid_params, dictionary);
+            return responseModel;
+        }
+
+        @@ResponseBody
+        @@ExceptionHandler(MethodArgumentNotValidException.class)
+        public ResponseModel&lt;HashMap&lt;String, String>> handerParamsException(HttpServletRequest request, HttpServletResponse response, MethodArgumentNotValidException ex) {
+            HashMap&lt;String, String> dictionary = new HashMap&lt;String, String>();
+            for (ObjectError oe : ex.getAllErrors()) {
+                DefaultMessageSourceResolvable messageSourceResolvable = (DefaultMessageSourceResolvable) oe.getArguments()[0];
+                dictionary.put(messageSourceResolvable.getDefaultMessage(), oe.getDefaultMessage());
+            }
+            ResponseModel&lt;HashMap&lt;String, String>> responseModel = new ResponseModel&lt;HashMap&lt;String, String>>(ErrorCode.params_valid_fault, dictionary);
+            return responseModel;
+        }
+    }
+    </code>
+</pre>
+<p class="fw-normal">3) 请求不存在的路径错误处理</p>
+<pre data-language="Java">
+<code class="language-java">
+    @@RestController
+    public class NotFoundException implements ErrorController {
+        @@RequestMapping(value = {"/error"})
+        @@ResponseBody
+        public Object error(HttpServletRequest request) {
+            ResponseModel&lt;String> responseModel = new ResponseModel&lt;String>(ErrorCode.page_not_found,"");
+            return responseModel;
+        }
+    }
+    </code>
+</pre>
