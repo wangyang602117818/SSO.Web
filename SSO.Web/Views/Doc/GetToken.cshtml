@@ -35,7 +35,7 @@
 </pre>
 <p class="fw-bold mt-4">2. 获取token测试</p>
 <div class="row">
-    <form class="col-4">
+    <form class="col-3">
         <div class="col-auto">
             <label for="userId" class="form-label">用户名:</label>
             <input type="text" class="form-control" id="userId" placeholder="用户名" value="cn01">
@@ -52,12 +52,11 @@
             <button type="button" class="btn btn-primary mb-3" onclick="login()"> 发送请求 </button>
         </div>
     </form>
-    <div class="col-8">
-        <textarea class="form-control" style="width:100%;height:100%;padding:10px;outline:none" id="response" placeholder="返回内容"></textarea>
+    <div class="col-9">
+        <textarea class="form-control" style="width:100%;height:100%;padding:10px;outline:none" id="jwt_token_response" placeholder="返回内容"></textarea>
     </div>
 </div>
 <style>
-   
 </style>
 <script>
     function login() {
@@ -65,8 +64,9 @@
         var password = $("#password").val();
         var from = $("#from").val();
         $.post('@baseUrl', { userId, password, from }, function (data) {
-            $("#response").text(JSON.stringify(data));
+            var formatedJson = js_beautify(JSON.stringify(data), { indent_size: 6, space_in_empty_paren: true });
+            $("#jwt_token_response").html(formatedJson);
         })
     }
-    
+
 </script>

@@ -151,6 +151,7 @@
 <script src="~/Content/libs/jquery.min.js"></script>
 <script src="~/Content/libs/js/bootstrap.bundle.min.js"></script>
 <script src="~/Content/prism/prism.js"></script>
+<script src="~/Content/beautify.min.js"></script>
 <script>
     $(function () {
         var path = '@Context.Request.Path';
@@ -167,29 +168,6 @@
                     $("#" + name + "-button").attr("aria-expanded", true);
                 }
             }
-        });
-        var htmlTemplate = $("#jwt_token").html();
-        $("#jwt_token_text").on("input propertychange", function () {
-            var token = $("#jwt_token_text").val();
-            var datas = token.split('.');
-            if (datas.length == 3) {
-                var data0 = JSON.parse(base64DeCode(datas[0]));
-                var data1 = JSON.parse(base64DeCode(datas[1]));
-                var html = htmlTemplate;
-                html = html.replace("HS256", data0.alg);
-                html = html.replace("JWT", data0.typ);
-                html = html.replace("CN01", data1.unique_name);
-                html = html.replace("Wang01", data1.name);
-                html = html.replace("zh-cn", data1.lang);
-                html = html.replace("ssopc.com", data1.from);
-                html = html.replace("1647246000", data1.nbf);
-                html = html.replace("1647280800", data1.exp);
-                html = html.replace("1647246000", data1.iat);
-                html = html.replace("ssoapi.com", data1.iss);
-                html = html.replace("ssopc.com", data1.aud);
-                $("#jwt_token").html(html);
-            }
-
         });
 
         var tooltipTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
