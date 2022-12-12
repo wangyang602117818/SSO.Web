@@ -41,8 +41,8 @@
 <p class="fw-normal">token示例:</p>
 <textarea class="form-control" style="width:100%;height:100px;padding:10px;outline:none" id="jwt_token_text">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNOMDEiLCJuYW1lIjoiV2FuZzAxIiwibGFuZyI6InpoLWNuIiwiZnJvbSI6InNzb3BjLmNvbSIsIm5iZiI6MTY0NzI0NjAwMCwiZXhwIjoxNjQ3MjgwODAwLCJpYXQiOjE2NDcyNDYwMDAsImlzcyI6InNzb2FwaS5jb20iLCJhdWQiOiJzc29wYy5jb20ifQ.z-v3oyGwIB8WEGAQgoNHkEipbXTkEr9bJw1iSSAm84M</textarea>
 <button type="button" class="btn btn-primary mb-3 mt-3" onclick="parseToken()">token解析</button>
-<div id="jwt_token"></div>
-@*<pre class="line-numbers" data-language="js">
+
+<pre class="line-numbers" data-language="js">
 <code class="language-js" id="jwt_token">
 {
     "alg": "HS256", //算法名称
@@ -60,19 +60,25 @@
     "aud": "ssopc.com"  //颁发给
 }
 </code>
-</pre>*@
+</pre>
 <script>
     function parseToken() {
         var token = $("#jwt_token_text").val();
         var datas = token.split('.');
+        var NEW_LINE_EXP = /\n(?!$)/g;
+        var lineNumbersWrapper;
+        var format = { indent_size: 4, space_in_empty_paren: true };
+        Prism.hooks.add('after-tokenize', function (env) {
+            var match = env.code.match(NEW_LINE_EXP);
+            var linesNum = match ? match.length + 1 : 1;
+            var lines = new Array(linesNum + 1).join('<span></span>');
+
+            lineNumbersWrapper = `<span aria-hidden="true" class="line-numbers-rows">${lines}</span>`;
+        });
         if (datas.length == 3) {
-            var data0 = JSON.parse(base64DeCode(datas[0]));
-            var data1 = JSON.parse(base64DeCode(datas[1]));
-            var data0Beautify = js_beautify(JSON.stringify(data0), { indent_size: 6, space_in_empty_paren: true });
-            var data1Beautify = js_beautify(JSON.stringify(data1), { indent_size: 6, space_in_empty_paren: true });
-            const html1 = Prism.highlight(data0Beautify, Prism.languages.javascript, 'javascript');
-            const html2 = Prism.highlight(data1Beautify, Prism.languages.javascript, 'javascript');
-            $("#jwt_token").html("<pre class='prettyprint linenums'>" + html1 + "\n" + html2 +"</pre>");
+            var dataBeautify = js_beautify(base64DeCode(datas[0]), format) + "\n" + js_beautify(base64DeCode(datas[1]), format);
+            const html = Prism.highlight(dataBeautify, Prism.languages.javascript, 'javascript');
+            $("#jwt_token").html(html + lineNumbersWrapper);
         }
     }
 </script>
