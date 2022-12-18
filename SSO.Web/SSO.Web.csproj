@@ -15,7 +15,7 @@
     <AssemblyName>SSO.Web</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -255,9 +255,9 @@
     <Content Include="Content\libs\js\bootstrap.esm.min.js" />
     <Content Include="Content\libs\js\bootstrap.js" />
     <Content Include="Content\libs\js\bootstrap.min.js" />
-    <Content Include="Content\login\chunk-vendors.e3d869df.js" />
-    <Content Include="Content\login\index.72b2e6ed.js" />
+    <Content Include="Content\login\chunk-vendors.ba8da78d.js" />
     <Content Include="Content\login\index.b6f42557.css" />
+    <Content Include="Content\login\index.c7a32e03.js" />
     <Content Include="Content\prism\prism.css" />
     <Content Include="Content\prism\prism.js" />
     <Content Include="Content\doc.css" />
@@ -476,9 +476,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>8662</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:61600/</IISUrl>
+          <IISUrl>http://www.ssoapi.com</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

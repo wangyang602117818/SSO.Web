@@ -1,7 +1,7 @@
 import ax from 'axios';
 import funtools from 'sso-util';
-// export const baseURL = "http://localhost:61600/";
-export const baseURL = "http://api.ssoutil.cn/";
+export const baseURL = "http://www.ssoapi.com";
+// export const baseURL = "http://api.ssoutil.cn/";
 export const cookieName = "sso.pc.auth";
 export const urls = {
     role: {
