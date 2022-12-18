@@ -13,7 +13,7 @@
     JWT Token是目前最流行的跨域身份验证解决方案, Token分成3个部分:Header(包含算法),Payload(包含数据),Signature(包含签名,防止数据篡改)
 </p>
 <p class="fw-normal">在本项目中JWT Token会保存以下基本信息:用户编号,用户名称,用户语言,token的颁发者,用户ip</p>
-<p class="fw-normal">JWT Token会贯穿在后序的多个验证流程中(主要包含在header,querystring,form,或者cookie中参与验证)</p>
+<p class="fw-normal">JWT Token会贯穿在后序的多个验证流程中(主要包含在header,querystring,或者cookie中参与验证)</p>
 <p class="fw-normal">如果使用header,则格式如下</p>
 <pre class="line-numbers" data-language="js">
 <code class="language-js">
@@ -24,7 +24,6 @@
 <pre class="line-numbers" data-language="js">
 <code class="language-js">
         get @baseUrl?authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNOMDEiLCJuYW1lIjoiV2FuZzAxIiwibGFuZyI6InpoLWNuIiwiZnJvbSI6InNzb3BjLmNvbSIsIm5iZiI6MTY0NzI0NjAwMCwiZXhwIjoxNjQ3MjgwODAwLCJpYXQiOjE2NDcyNDYwMDAsImlzcyI6InNzb2FwaS5jb20iLCJhdWQiOiJzc29wYy5jb20ifQ.z-v3oyGwIB8WEGAQgoNHkEipbXTkEr9bJw1iSSAm84M
-
     </code>
 </pre>
 <p class="fw-normal">如果使用cookie,则格式如下(sso.pc.auth是cookie是键)</p>
