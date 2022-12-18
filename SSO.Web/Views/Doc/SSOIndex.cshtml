@@ -1,7 +1,8 @@
-﻿
+﻿@using SSO.Util.Client
 @{
     ViewBag.Title = "SSO概览";
     Layout = "~/Views/Doc/_LayoutPage.cshtml";
+    var baseUrl = AppSettings.GetApplicationUrl(Request);
 }
 <h4 class="bd-title mb-3" id="content">SSO概览</h4>
 <p class="fw-normal">请确保项目已经安装Nuget包(SSO.Util.Client)</p>
@@ -11,8 +12,27 @@
 <p class="fw-normal">
     JWT Token是目前最流行的跨域身份验证解决方案, Token分成3个部分:Header(包含算法),Payload(包含数据),Signature(包含签名,防止数据篡改)
 </p>
-<p class="fw-normal">在本项目中的JWT Token会保存以下信息:用户编号,用户名称,用户语言,token的颁发者,用户ip</p>
-<p class="fw-normal">JWT Token会贯穿在后序的多个验证流程中,主要包含在header或者cookie中参与验证,如果使用header,请在header中添加 Authorization: jwt_token</p>
+<p class="fw-normal">在本项目中JWT Token会保存以下基本信息:用户编号,用户名称,用户语言,token的颁发者,用户ip</p>
+<p class="fw-normal">JWT Token会贯穿在后序的多个验证流程中(主要包含在header,querystring,form,或者cookie中参与验证)</p>
+<p class="fw-normal">如果使用header,则格式如下</p>
+<pre class="line-numbers" data-language="js">
+<code class="language-js">
+        Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNOMDEiLCJuYW1lIjoiV2FuZzAxIiwibGFuZyI6InpoLWNuIiwiZnJvbSI6InNzb3BjLmNvbSIsIm5iZiI6MTY0NzI0NjAwMCwiZXhwIjoxNjQ3MjgwODAwLCJpYXQiOjE2NDcyNDYwMDAsImlzcyI6InNzb2FwaS5jb20iLCJhdWQiOiJzc29wYy5jb20ifQ.z-v3oyGwIB8WEGAQgoNHkEipbXTkEr9bJw1iSSAm84M
+    </code>
+</pre>
+<p class="fw-normal">如果使用querystring,则格式如下</p>
+<pre class="line-numbers" data-language="js">
+<code class="language-js">
+        get @baseUrl?authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNOMDEiLCJuYW1lIjoiV2FuZzAxIiwibGFuZyI6InpoLWNuIiwiZnJvbSI6InNzb3BjLmNvbSIsIm5iZiI6MTY0NzI0NjAwMCwiZXhwIjoxNjQ3MjgwODAwLCJpYXQiOjE2NDcyNDYwMDAsImlzcyI6InNzb2FwaS5jb20iLCJhdWQiOiJzc29wYy5jb20ifQ.z-v3oyGwIB8WEGAQgoNHkEipbXTkEr9bJw1iSSAm84M
+
+    </code>
+</pre>
+<p class="fw-normal">如果使用cookie,则格式如下(sso.pc.auth是cookie是键)</p>
+<pre class="line-numbers" data-language="js">
+<code class="language-js">
+        Cookie: sso.pc.auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNOMDEiLCJuYW1lIjoiV2FuZzAxIiwibGFuZyI6InpoLWNuIiwiZnJvbSI6InNzb3BjLmNvbSIsIm5iZiI6MTY0NzI0NjAwMCwiZXhwIjoxNjQ3MjgwODAwLCJpYXQiOjE2NDcyNDYwMDAsImlzcyI6InNzb2FwaS5jb20iLCJhdWQiOiJzc29wYy5jb20ifQ.z-v3oyGwIB8WEGAQgoNHkEipbXTkEr9bJw1iSSAm84M
+    </code>
+</pre>
 <p class="fw-normal">Asp.Net项目: 通过Nuget包(SSO.Util.Client) 来进行登录控制</p>
 <p class="fw-normal">Asp.Net Core项目: 通过Nuget包(SSO.Util.Client) 来进行登录控制</p>
 <p class="fw-normal">Asp.Net WebForm项目: 通过Nuget包(SSO.Util.Client) 来进行登录控制</p>
