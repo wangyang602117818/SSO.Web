@@ -24,6 +24,16 @@
         <div class="flex-shrink-0 overflow-auto bg-white position-fixed" style="width: 220px;height:650px;">
             <ul class="list-unstyled ps-0">
                 <li class="mb-1">
+                    <button class="btn btn-toggle rounded collapsed p-0" data-bs-toggle="collapse" data-bs-target="#ov-collapse" aria-expanded="false" id="sso-button">
+                        文档
+                    </button>
+                    <div class="collapse" id="ov-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="/doc/index/overview" class="link-dark rounded" data-name="ov">文档简介</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="mb-1">
                     <button class="btn btn-toggle rounded collapsed p-0" data-bs-toggle="collapse" data-bs-target="#sso-collapse" aria-expanded="false" id="sso-button">
                         SSO登录
                     </button>
@@ -135,13 +145,13 @@
             @RenderBody()
         </main>
         @*<div class="overflow-auto  bg-white position-fixed pa-2" style="width: 150px; right:0">
-            <ul class="btn-toggle-nav list-unstyled fw-light pb-1 small">
-                <li><a href="#">概览</a></li>
-                <li><a href="#">配置(Asp.Net)</a></li>
-                <li><a href="#">配置(Asp.Net Core)</a></li>
-                <li><a href="#">配置(Asp.Net WebForm)</a></li>
-            </ul>
-        </div>*@
+                <ul class="btn-toggle-nav list-unstyled fw-light pb-1 small">
+                    <li><a href="#">概览</a></li>
+                    <li><a href="#">配置(Asp.Net)</a></li>
+                    <li><a href="#">配置(Asp.Net Core)</a></li>
+                    <li><a href="#">配置(Asp.Net WebForm)</a></li>
+                </ul>
+            </div>*@
     </div>
     <div class="container d-flex justify-content-center align-items-center" style="height:100px">
         &copy; 2022 -  <a href="https://beian.miit.gov.cn" target="_blank" class="text-decoration-none">冀ICP备2021023234号</a>
