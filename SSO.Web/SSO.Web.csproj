@@ -387,7 +387,8 @@
     <Content Include="Content\libs\scss\mixins\_visually-hidden.scss" />
     <Content Include="Content\libs\scss\utilities\_api.scss" />
     <Content Include="Content\libs\scss\vendor\_rfs.scss" />
-    <Content Include="Content\sso.util.client.zip" />
+    <Content Include="Content\sso.util.client-3.0.0.zip" />
+    <Content Include="Content\sso.util.client-2.5.0.zip" />
     <None Include="packages.config" />
     <Content Include="Views\SSO\Index.cshtml" />
     <Content Include="Views\SSO\Login.cshtml" />
